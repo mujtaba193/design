@@ -129,7 +129,7 @@ class _SvggState extends State<Svgg> {
                     ],
                   ),
                 ),
-                child: Center(child: Text('Подписаться за 1990 ₽ / год ')),
+                child: Center(child: Text('Подписаться за 1990 ₽ / год.')),
               ),
             ),
           ],
