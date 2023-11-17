@@ -6,26 +6,16 @@ class Hompage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Home page',
-        ),
-        centerTitle: true,
-      ),
-      drawer: Drawer(),
-      body: Center(
-        child: ElevatedButton(
-          child: Text('go to second'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const Second(),
-              ),
-            );
-          },
-        ),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: RadialGradient(colors: [
+          //Color(0xFF8942BC),
+          Color(0xFF5831F7),
+          // Color(0xFF5731F8),
+          Color(0xFF000000),
+          Color(0xFF000000),
+          Color(0xFF000000),
+        ], focal: Alignment.topLeft, radius: 1.4),
       ),
     );
   }

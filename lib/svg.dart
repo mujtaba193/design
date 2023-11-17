@@ -13,29 +13,36 @@ class _SvggState extends State<Svgg> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       backgroundColor: Colors.transparent,
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            //transform: GradientRotation(15),
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF8942BC),
-              Color(0xFF5831F7),
-              Color(0xFF5731F8),
-              Color(0xFF5731F8),
-            ],
-          ),
+          gradient: RadialGradient(colors: [
+            //Color(0xFF8942BC),
+            Color(0xFF5831F7),
+            // Color(0xFF5731F8),
+            Color(0xFF000000),
+            Color(0xFF000000),
+            Color(0xFF000000),
+          ], focal: Alignment.topLeft, radius: 1.4),
         ),
         child: SingleChildScrollView(
           child: Column(
             children: [
+              Container(
+                margin: EdgeInsets.only(top: 30),
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                  onPressed: () {},
+                  icon: SvgPicture.asset(
+                    'lib/image/Frame 117.svg',
+                    height: 50,
+                  ),
+                ),
+              ),
               Center(
                 child: Container(
                   child: SvgPicture.asset('lib/image/icons (1).svg'),
-                  margin: EdgeInsets.only(top: 30),
+                  margin: EdgeInsets.only(top: 10),
                 ),
               ),
               Container(
@@ -45,7 +52,7 @@ class _SvggState extends State<Svgg> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.fromLTRB(30, 10, 30, 5),
+                margin: EdgeInsets.fromLTRB(30, 10, 30, 15),
                 child: Text(
                   'Увеличьте лимиты и получите максимум преимуществ с подпиской Loovr Elite!',
                   textAlign: TextAlign.center,

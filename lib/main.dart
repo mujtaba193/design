@@ -10,6 +10,7 @@ import 'package:design/model2.dart';
 import 'package:design/futureProvider.dart';
 import 'package:design/streamProvider.dart';
 import 'package:design/svg.dart';
+import 'package:design/third.dart';
 
 final stnprovider = StateNotifierProvider<Ddd, int>((ref) => Ddd());
 final nameProvider = StateProvider<int>((ref) => 0);
