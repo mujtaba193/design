@@ -122,7 +122,7 @@ class _SvggState extends State<Svgg> {
                               leading:
                                   SvgPicture.asset('lib/image/Group 139.svg'),
                               title: Text('Организация встреч'),
-                              subtitle: Text(
+                              subtitle: const Text(
                                   'Расскажите о планах на вечер и выберите, с кем хотите их провести'),
                             ),
                             ListTile(
@@ -157,7 +157,7 @@ class _SvggState extends State<Svgg> {
                       ),
                       Container(
                         padding: EdgeInsets.all(20),
-                        child: Text(
+                        child: const Text(
                           'Оформляя подписку на Loovr EliteВы соглашаетесь с правилами использования и Политикой конфиденциальности',
                           textAlign: TextAlign.center,
                         ),
@@ -171,7 +171,7 @@ class _SvggState extends State<Svgg> {
                           decoration: BoxDecoration(
                             border: Border.all(),
                             borderRadius: BorderRadius.circular(30),
-                            gradient: LinearGradient(
+                            gradient: const LinearGradient(
                               colors: [
                                 Color(0xFF8942BC),
                                 Color(0xFF5831F7),
@@ -180,7 +180,7 @@ class _SvggState extends State<Svgg> {
                               ],
                             ),
                           ),
-                          child: Center(
+                          child: const Center(
                               child: Text('Подписаться за 1990 ₽ / год.')),
                         ),
                       ),

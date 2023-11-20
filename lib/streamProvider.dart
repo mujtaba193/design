@@ -17,7 +17,11 @@ class StrProvid extends ConsumerWidget {
         centerTitle: true,
       ),
       body: value.when(
-        data: (TT) => Center(child: Text(TT.toString())),
+        data: (TT) => Center(
+          child: Text(
+            TT.toString(),
+          ),
+        ),
         error: (error, StackTrace) => Text('error'),
         loading: () => Center(child: CircularProgressIndicator()),
       ),

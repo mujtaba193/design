@@ -11,6 +11,7 @@ import 'package:design/futureProvider.dart';
 import 'package:design/streamProvider.dart';
 import 'package:design/svg.dart';
 import 'package:design/third.dart';
+import 'package:go_router/go_router.dart';
 
 final stnprovider = StateNotifierProvider<Ddd, int>((ref) => Ddd());
 final nameProvider = StateProvider<int>((ref) => 0);
@@ -20,7 +21,9 @@ final userProvider = FutureProvider<List<UserModel>>((ref) {
 });
 final strmProvider = StreamProvider<int>((ref) {
   return Stream.periodic(
-      Duration(seconds: 3), (((computationCount) => computationCount)));
+    Duration(seconds: 3),
+    (((computationCount) => computationCount)),
+  );
 });
 void main() {
   runApp(
