@@ -1,3 +1,8 @@
+import 'package:design/hompage.dart';
+import 'package:design/main.dart';
+import 'package:design/model2.dart';
+import 'package:design/provider.dart';
+import 'package:design/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -6,6 +11,40 @@ class Go extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return MaterialApp.router(
+      theme: ThemeData.dark(),
+      debugShowCheckedModeBanner: false,
+      //home:ProviderScope(
+      //child: Prov(),
+      routerConfig: router,
+    );
   }
 }
+
+final GoRouter router = GoRouter(
+  /*redirect: (context, state) {
+    if (isUserLoggedIn) {
+      return "/";
+    } else {
+      return "/model2";
+    }
+  },*/
+  routes: [
+    GoRoute(
+      path: '/',
+      builder: (context, state) => Hompage(
+        isUserLoggedIn: isUserLoggedIn,
+      ),
+      routes: [
+        GoRoute(
+          path: 'provoider',
+          builder: (context, state) => Prov(),
+        ),
+        GoRoute(
+          path: 'model2',
+          builder: (context, state) => UseresModel(),
+        )
+      ],
+    ),
+  ],
+);

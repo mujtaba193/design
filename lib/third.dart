@@ -94,17 +94,5 @@ class Third extends StatelessWidget {
         ],
       ),
     );
-    backgroundColor:
-    Colors.grey[600];
-    floatingActionButton:
-    FloatingActionButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Hompage()),
-        );
-      },
-      child: Text('Back to home page'),
-    );
   }
 }

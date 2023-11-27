@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
+
+String tt = "Подписаться за 1990 ₽ / год";
 
 class Svgg extends StatefulWidget {
   const Svgg({super.key});
@@ -10,6 +13,7 @@ class Svgg extends StatefulWidget {
 
 class _SvggState extends State<Svgg> {
   String? count;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -18,7 +22,10 @@ class _SvggState extends State<Svgg> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          onPressed: () {},
+          onPressed: () {
+            //GoRouter.of(context).go("/");
+            //context.go("/");
+          },
           child: SvgPicture.asset(
             'lib/image/Frame 117.svg',
           ),
@@ -44,14 +51,14 @@ class _SvggState extends State<Svgg> {
                   ),
                 ),
                 Container(
-                  child: Text(
+                  child: SelectableText(
                     'Loovr Elite',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.fromLTRB(30, 10, 30, 15),
-                  child: Text(
+                  child: SelectableText(
                     'Увеличьте лимиты и получите максимум преимуществ с подпиской Loovr Elite!',
                     textAlign: TextAlign.center,
                   ),
@@ -78,38 +85,46 @@ class _SvggState extends State<Svgg> {
                             RadioListTile(
                               contentPadding:
                                   EdgeInsets.only(left: 0, right: 10),
-                              title: Text('Годовая'),
-                              secondary: Text(
+                              title: SelectableText('Годовая'),
+                              secondary: SelectableText(
                                 '199,00 ₽ / мес',
                                 style: TextStyle(
                                   color: Color(0xFFC3C3C3),
                                 ),
                               ),
-                              value: "199,00",
+                              value: "199,00 ₽ / мес",
                               groupValue: count,
                               onChanged: (val) {
                                 setState(() {
                                   count = val;
+                                  if (count == "199,00 ₽ / мес") {
+                                    tt = count.toString();
+                                  }
                                 });
                               },
                             ),
                             RadioListTile(
                                 contentPadding:
                                     EdgeInsets.only(left: 0, right: 10),
-                                title: Text('Ежемесячная'),
-                                secondary: Text(
+                                title: SelectableText('Ежемесячная'),
+                                secondary: SelectableText(
                                   '236,92 ₽ / мес',
                                   style: TextStyle(
                                     color: Color(0xFFC3C3C3),
                                   ),
                                 ),
-                                value: "236,92",
+                                value: "236,92 ₽ / мес",
                                 groupValue: count,
                                 onChanged: (val) {
-                                  setState(() {
-                                    count = val;
-                                    if (count == "236,92 ₽ / мес") {}
-                                  });
+                                  setState(
+                                    () {
+                                      count = val;
+
+                                      if (count == "236,92 ₽ / мес") {
+                                        tt = count.toString();
+                                      }
+                                    },
+                                  );
                                 }),
                           ],
                         ),
@@ -121,49 +136,51 @@ class _SvggState extends State<Svgg> {
                             ListTile(
                               leading:
                                   SvgPicture.asset('lib/image/Group 139.svg'),
-                              title: Text('Организация встреч'),
-                              subtitle: const Text(
+                              title: SelectableText('Организация встреч'),
+                              subtitle: const SelectableText(
                                   'Расскажите о планах на вечер и выберите, с кем хотите их провести'),
                             ),
                             ListTile(
                               leading: SvgPicture.asset(
                                   'lib/image/Group 139 (2).svg'),
-                              title: Text('Двойные свайпы'),
-                              subtitle: Text('50 → 100 / день'),
+                              title: SelectableText('Двойные свайпы'),
+                              subtitle: SelectableText('50 → 100 / день'),
                             ),
                             ListTile(
                               leading: SvgPicture.asset(
                                   'lib/image/Group 139 (3).svg'),
-                              title: Text('Суперлайки'),
-                              subtitle:
-                                  Text('Ставьте до 50 суперлайков в день'),
+                              title: SelectableText('Суперлайки'),
+                              subtitle: SelectableText(
+                                  'Ставьте до 50 суперлайков в день'),
                             ),
                             ListTile(
                               leading: SvgPicture.asset(
                                   'lib/image/Group 139 (4).svg'),
-                              title: Text('Ранний доступ'),
-                              subtitle: Text(
+                              title: SelectableText('Ранний доступ'),
+                              subtitle: SelectableText(
                                   'Опробуйте новые функции приложения первым!'),
                             ),
                             ListTile(
                               leading: SvgPicture.asset(
                                   'lib/image/Group 139 (5).svg'),
-                              title: Text('Приоритетная поддержка'),
-                              subtitle:
-                                  Text('Ответим на любой вопрос вне очереди'),
+                              title: SelectableText('Приоритетная поддержка'),
+                              subtitle: SelectableText(
+                                  'Ответим на любой вопрос вне очереди'),
                             ),
                           ],
                         ),
                       ),
                       Container(
                         padding: EdgeInsets.all(20),
-                        child: const Text(
+                        child: const SelectableText(
                           'Оформляя подписку на Loovr EliteВы соглашаетесь с правилами использования и Политикой конфиденциальности',
                           textAlign: TextAlign.center,
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          GoRouter.of(context).go("/value");
+                        },
                         child: Container(
                           width: 250,
                           margin: EdgeInsets.all(5),
@@ -180,8 +197,7 @@ class _SvggState extends State<Svgg> {
                               ],
                             ),
                           ),
-                          child: const Center(
-                              child: Text('Подписаться за 1990 ₽ / год.')),
+                          child: Center(child: SelectableText('${tt}')),
                         ),
                       ),
                     ],
@@ -195,3 +211,4 @@ class _SvggState extends State<Svgg> {
     );
   }
 }
+// 'Подписаться за 1990 ₽ / год.'

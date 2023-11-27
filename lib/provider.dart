@@ -29,7 +29,6 @@ class _ProvState extends ConsumerState<Prov> {
           icon: Icon(Icons.refresh),
         ),
       ]),
-      drawer: Drawer(),
       body: Center(
         child: Text(
           value2.toString(),

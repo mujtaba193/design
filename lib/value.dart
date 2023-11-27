@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:design/second.dart';
 import 'package:go_router/go_router.dart';
-import 'package:design/model2.dart';
+import 'package:design/svg.dart';
 
-class Hompage extends StatefulWidget {
-  bool isUserLoggedIn;
-  Hompage({super.key, required this.isUserLoggedIn});
+class Val extends StatefulWidget {
+  const Val({super.key});
 
   @override
-  State<Hompage> createState() => _HompageState();
+  State<Val> createState() => _ValState();
 }
 
-class _HompageState extends State<Hompage> {
+class _ValState extends State<Val> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home page'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(),
       body: Container(
         decoration: BoxDecoration(
           gradient: RadialGradient(colors: [
@@ -31,12 +26,7 @@ class _HompageState extends State<Hompage> {
           ], focal: Alignment.topLeft, radius: 1.4),
         ),
         child: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              GoRouter.of(context).push("/provoider");
-            },
-            child: Text('go to provoider'),
-          ),
+          child: Text('${tt}'),
         ),
       ),
     );
