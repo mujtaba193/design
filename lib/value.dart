@@ -26,7 +26,24 @@ class _ValState extends State<Val> {
           ], focal: Alignment.topLeft, radius: 1.4),
         ),
         child: Center(
-          child: Text('${tt}'),
+          child: Container(
+            width: 200,
+            margin: EdgeInsets.all(5),
+            height: 200,
+            decoration: BoxDecoration(
+              border: Border.all(),
+              borderRadius: BorderRadius.circular(120),
+              gradient: const LinearGradient(
+                colors: [
+                  Color(0xFF8942BC),
+                  Color(0xFF5831F7),
+                  Color(0xFF5731F8),
+                  Color(0xFF00C2C2),
+                ],
+              ),
+            ),
+            child: Center(child: Text('${tt}')),
+          ),
         ),
       ),
     );

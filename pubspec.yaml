@@ -43,6 +43,7 @@ dependencies:
   go_router: ^12.1.1
   flutter_svg: ^2.0.9
   equatable: ^2.0.5
+  gradient_borders: ^1.0.0
   
 
 dev_dependencies:

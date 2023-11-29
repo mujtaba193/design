@@ -41,7 +41,7 @@ final GoRouter router = GoRouter(
           builder: (context, state) => Prov(),
         ),
         GoRoute(
-          path: 'model2',
+          path: 'futureProvider',
           builder: (context, state) => UseresModel(),
         )
       ],

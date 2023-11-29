@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:design/second.dart';
+import 'package:design/loovr.dart';
 import 'package:go_router/go_router.dart';
 import 'package:design/model2.dart';
 
@@ -33,7 +33,7 @@ class _HompageState extends State<Hompage> {
         child: Center(
           child: ElevatedButton(
             onPressed: () {
-              GoRouter.of(context).push("/provoider");
+              GoRouter.of(context).push("/futureProvider");
             },
             child: Text('go to provoider'),
           ),

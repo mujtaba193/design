@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:design/goRouter.dart';
 import 'package:design/hompage.dart';
+import 'package:design/loover2.dart';
 import 'package:design/router.dart';
 import 'package:design/svg.dart';
 import 'package:design/value.dart';
 import 'package:flutter/material.dart';
-import 'package:design/second.dart';
+import 'package:design/loovr.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod/riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -45,18 +46,14 @@ final strmProvider = StreamProvider<int>((ref) {
 });
 void main() {
   runApp(
+    /*MaterialApp(
+        theme: ThemeData.dark(),
+        debugShowCheckedModeBanner: false,
+        home: Loovr2()*/
     ProviderScope(
       child: Myapp(),
-    ),
-
-    /*MaterialApp(
-    theme: ThemeData.dark(),
-    debugShowCheckedModeBanner: false,
-    home: ProviderScope(
-      child: Svgg(),
       //routerConfig: router,
     ),
-  )*/
   );
 }
 
@@ -71,8 +68,12 @@ final GoRouter router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => Svgg(),
+      builder: (context, state) => Loovr(),
       routes: [
+        GoRoute(
+          path: 'loover2',
+          builder: (context, state) => Loovr2(),
+        ),
         GoRoute(
           path: 'value',
           builder: (context, state) => Val(),
