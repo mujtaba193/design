@@ -79,7 +79,11 @@ class _Loovr2State extends State<Loovr2> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        setState(() {
+                          GoRouter.of(context).go("/");
+                        });
+                      },
                       child: Container(
                         width: 100,
                         margin: EdgeInsets.all(5),

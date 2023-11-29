@@ -65,11 +65,7 @@ class _SecondState extends State<Loovr> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   InkWell(
-                    onTap: () {
-                      setState(() {
-                        GoRouter.of(context).go("/");
-                      });
-                    },
+                    onTap: () {},
                     child: Container(
                       width: 100,
                       margin: EdgeInsets.all(5),
