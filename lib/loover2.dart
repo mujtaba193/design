@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gradient_borders/gradient_borders.dart';
+import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 class Loovr2 extends StatefulWidget {
   const Loovr2({super.key});
@@ -13,9 +15,12 @@ class Loovr2 extends StatefulWidget {
   State<Loovr2> createState() => _Loovr2State();
 }
 
-class _Loovr2State extends State<Loovr2> {
+class _Loovr2State extends State<Loovr2> with TickerProviderStateMixin {
+  List<bool> isSelected = [true, false];
+  //List.generate(2, (index) => false); // 'Еженедельно', 'Ежемесячно'
   @override
   Widget build(BuildContext context) {
+    TabController tabController = TabController(length: 2, vsync: this);
     return SafeArea(
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
@@ -100,7 +105,7 @@ class _Loovr2State extends State<Loovr2> {
                             ],
                           ),
                         ),
-                        child: Center(child: SelectableText('Бесплатная')),
+                        child: Center(child: Text('Бесплатная')),
                       ),
                     ),
                     InkWell(
@@ -121,7 +126,7 @@ class _Loovr2State extends State<Loovr2> {
                             ],
                           ),
                         ),
-                        child: Center(child: SelectableText('Loovr Elite')),
+                        child: Center(child: Text('Loovr Elite')),
                       ),
                     ),
                   ],
@@ -162,14 +167,14 @@ class _Loovr2State extends State<Loovr2> {
                             SvgPicture.asset('lib/image/Group 140 (2).svg'),
                         title: SelectableText('Суперлайки'),
                         subtitle: SelectableText(
-                            'Ставьте до 5 суперлайков  каждые 12 часов'),
+                            'Ставьте до 5 суперлайков каждые 12 часов'),
                       ),
                       ListTile(
                         leading:
                             SvgPicture.asset('lib/image/Group 139 (11).svg'),
                         title: SelectableText('Повышенная популярность'),
                         subtitle: SelectableText(
-                            'Ваша анкета будет попадаться  в 3 раза чаще'),
+                            'Ваша анкета будет попадаться в 3 раза чаще'),
                       ),
                       ListTile(
                         leading:
@@ -204,6 +209,114 @@ class _Loovr2State extends State<Loovr2> {
                     border: Border.all(),
                     borderRadius: BorderRadius.circular(30),
                     color: Color.fromARGB(255, 49, 45, 45),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Color(0xFF696868),
+                            ),
+                            color: Color(0xFF000000),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: TabBar(
+                              indicator: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: Color(0xFF714BD8).withOpacity(0.25),
+                              ),
+                              controller: tabController,
+                              isScrollable: true,
+                              labelPadding:
+                                  EdgeInsets.symmetric(horizontal: 30),
+                              labelColor: Color(0xFF714BD8),
+                              unselectedLabelColor: Color(0xFF696868),
+                              tabs: [
+                                Tab(
+                                    child: Text(
+                                  'Еженедельно',
+                                )),
+                                Tab(
+                                    child: Text(
+                                  'Еженедельно',
+                                ))
+                              ]),
+                        ),
+                        /* ToggleButtons(
+                          direction: Axis.horizontal,
+                          constraints: BoxConstraints.tight(Size(165, 50)),
+                          verticalDirection: VerticalDirection.up,
+                          color: Color(0xFF000000),
+                          borderWidth: 1,
+                          borderRadius: BorderRadius.circular(999),
+                          fillColor: Color(0xFF714BD8).withOpacity(0.25),
+                          selectedColor: Color(0xFF000000),
+                          borderColor: Color(0xFF714BD8),
+                          children: [
+                            Text(
+                              'Еженедельно',
+                              style: TextStyle(
+                                color: Color(0xFF696868),
+                              ),
+                            ),
+                            Text(
+                              'Ежемесячно',
+                              style: TextStyle(
+                                color: Color(0xFF696868),
+                              ),
+                            ),
+                          ],
+                          isSelected: isSelected,
+                          onPressed: (int index) {
+                            setState(() {
+                              for (int i = 0; i < isSelected.length; i++) {
+                                if (i == index) {
+                                  isSelected[i] = true;
+                                } else {
+                                  isSelected[i] = false;
+                                }
+                              }
+                            });
+                          },
+                        ),*/
+                        SizedBox(height: 10),
+                        InkWell(
+                          onTap: () {},
+                          child: Container(
+                            margin: EdgeInsets.all(
+                                5), // 'Еженедельно', 'Ежемесячно'
+                            height: 50,
+                            decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(30),
+                              gradient: const LinearGradient(
+                                colors: [
+                                  Color(0xFF8942BC),
+                                  Color(0xFF5831F7),
+                                  Color(0xFF5731F8),
+                                  Color(0xFF00C2C2),
+                                ],
+                              ),
+                            ),
+                            child: Center(
+                              child: Text('Подписаться за 499,00 ₽ / месяц'),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 40),
+                        Container(
+                          child: SelectableText(
+                            'Оформляя подписку на Loovr EliteВы соглашаетесь с правилами использования и Политикой конфиденциальности',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Color(0xFFFFFFFF),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 )
               ],

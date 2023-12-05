@@ -44,6 +44,9 @@ dependencies:
   flutter_svg: ^2.0.9
   equatable: ^2.0.5
   gradient_borders: ^1.0.0
+  flutter_toggle_tab: ^1.4.1
+  toggle_switch: ^2.1.0 
+  
   
 
 dev_dependencies:

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-int val = 1;
+bool vall = true;
 
 class Loovr extends StatefulWidget {
   const Loovr({super.key});
@@ -84,7 +84,7 @@ class _SecondState extends State<Loovr> {
                           ),
                         ),
                         child: Center(
-                          child: SelectableText('Бесплатная'),
+                          child: Text('Бесплатная'),
                         ),
                       ),
                     ),
@@ -92,6 +92,7 @@ class _SecondState extends State<Loovr> {
                       onTap: () {
                         setState(() {
                           GoRouter.of(context).go("/loover2");
+                          vall = !vall;
                         });
                       },
                       child: Container(
@@ -101,16 +102,22 @@ class _SecondState extends State<Loovr> {
                         decoration: BoxDecoration(
                           border: Border.all(),
                           borderRadius: BorderRadius.circular(30),
-                          gradient: const LinearGradient(
-                            colors: [
-                              Color(0xFF8942BC),
-                              Color(0xFF5831F7),
-                              Color(0xFF5731F8),
-                              Color(0xFF00C2C2),
-                            ],
-                          ),
+                          gradient: vall
+                              ? const LinearGradient(
+                                  colors: [
+                                    Color(0xFF8942BC),
+                                    Color(0xFF5831F7),
+                                    Color(0xFF5731F8),
+                                    Color(0xFF00C2C2),
+                                  ],
+                                )
+                              : LinearGradient(
+                                  colors: [
+                                    Color.fromARGB(255, 228, 151, 151),
+                                  ],
+                                ),
                         ),
-                        child: Center(child: SelectableText('Loovr Elite')),
+                        child: Center(child: Text('Loovr Elite')),
                       ),
                     ),
                   ],
@@ -179,42 +186,48 @@ class _SecondState extends State<Loovr> {
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Container(
-                        margin: EdgeInsets.all(5),
-                        height: 50,
-                        decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(30),
-                          gradient: const LinearGradient(
-                            colors: [
-                              Color(0xFF8942BC),
-                              Color(0xFF5831F7),
-                              Color(0xFF5731F8),
-                              Color(0xFF00C2C2),
-                            ],
+                      InkWell(
+                        onTap: () {},
+                        child: Container(
+                          margin: EdgeInsets.all(5),
+                          height: 50,
+                          decoration: BoxDecoration(
+                            border: Border.all(),
+                            borderRadius: BorderRadius.circular(30),
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xFF8942BC),
+                                Color(0xFF5831F7),
+                                Color(0xFF5731F8),
+                                Color(0xFF00C2C2),
+                              ],
+                            ),
                           ),
-                        ),
-                        child: Center(
-                          child: SelectableText('У вас бесплатный доступ'),
+                          child: Center(
+                            child: SelectableText('У вас бесплатный доступ'),
+                          ),
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.all(5),
-                        height: 50,
-                        decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(30),
-                          gradient: const LinearGradient(
-                            colors: [
-                              Color(0xFF8942BC),
-                              Color(0xFF5831F7),
-                              Color(0xFF5731F8),
-                              Color(0xFF00C2C2),
-                            ],
+                      InkWell(
+                        onTap: () {},
+                        child: Container(
+                          margin: EdgeInsets.all(5),
+                          height: 50,
+                          decoration: BoxDecoration(
+                            border: Border.all(),
+                            borderRadius: BorderRadius.circular(30),
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xFF8942BC),
+                                Color(0xFF5831F7),
+                                Color(0xFF5731F8),
+                                Color(0xFF00C2C2),
+                              ],
+                            ),
                           ),
-                        ),
-                        child: Center(
-                          child: SelectableText('Перейти на Elite'),
+                          child: Center(
+                            child: SelectableText('Перейти на Elite'),
+                          ),
                         ),
                       ),
                     ],

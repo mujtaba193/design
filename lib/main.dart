@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:design/goRouter.dart';
 import 'package:design/hompage.dart';
 import 'package:design/loover2.dart';
+import 'package:design/loover3.dart';
 import 'package:design/router.dart';
 import 'package:design/svg.dart';
 import 'package:design/value.dart';
@@ -68,7 +69,7 @@ final GoRouter router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => Loovr(),
+      builder: (context, state) => Loovr3(),
       routes: [
         GoRoute(
           path: 'loover2',
