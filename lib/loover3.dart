@@ -61,7 +61,7 @@ class _Loovr3State extends State<Loovr3> {
                   children: [
                     ListTile(
                       title: SelectableText(
-                        'Политика конфиденциальности',
+                        'Политикаконфиденциальности',
                         style: TextStyle(color: Color(0xFFC3C3C3)),
                       ),
                       leading: SvgPicture.asset('lib/image/icons (3).svg'),

@@ -4,6 +4,10 @@ import 'package:design/goRouter.dart';
 import 'package:design/hompage.dart';
 import 'package:design/loover2.dart';
 import 'package:design/loover3.dart';
+import 'package:design/loovr4.dart';
+import 'package:design/register%20-%20finish.dart';
+import 'package:design/register%20-%20interests.dart';
+import 'package:design/register%20-%20location.dart';
 import 'package:design/router.dart';
 import 'package:design/svg.dart';
 import 'package:design/value.dart';
@@ -69,7 +73,7 @@ final GoRouter router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => Loovr3(),
+      builder: (context, state) => Loovr(),
       routes: [
         GoRoute(
           path: 'loover2',

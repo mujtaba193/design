@@ -239,47 +239,10 @@ class _Loovr2State extends State<Loovr2> with TickerProviderStateMixin {
                                 )),
                                 Tab(
                                     child: Text(
-                                  'Еженедельно',
+                                  'Ежемесячно',
                                 ))
                               ]),
                         ),
-                        /* ToggleButtons(
-                          direction: Axis.horizontal,
-                          constraints: BoxConstraints.tight(Size(165, 50)),
-                          verticalDirection: VerticalDirection.up,
-                          color: Color(0xFF000000),
-                          borderWidth: 1,
-                          borderRadius: BorderRadius.circular(999),
-                          fillColor: Color(0xFF714BD8).withOpacity(0.25),
-                          selectedColor: Color(0xFF000000),
-                          borderColor: Color(0xFF714BD8),
-                          children: [
-                            Text(
-                              'Еженедельно',
-                              style: TextStyle(
-                                color: Color(0xFF696868),
-                              ),
-                            ),
-                            Text(
-                              'Ежемесячно',
-                              style: TextStyle(
-                                color: Color(0xFF696868),
-                              ),
-                            ),
-                          ],
-                          isSelected: isSelected,
-                          onPressed: (int index) {
-                            setState(() {
-                              for (int i = 0; i < isSelected.length; i++) {
-                                if (i == index) {
-                                  isSelected[i] = true;
-                                } else {
-                                  isSelected[i] = false;
-                                }
-                              }
-                            });
-                          },
-                        ),*/
                         SizedBox(height: 10),
                         InkWell(
                           onTap: () {},
@@ -318,7 +281,7 @@ class _Loovr2State extends State<Loovr2> with TickerProviderStateMixin {
                       ],
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
