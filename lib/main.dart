@@ -1,29 +1,14 @@
 import 'dart:async';
 
-import 'package:design/goRouter.dart';
-import 'package:design/hompage.dart';
+import 'package:design/futureProvider.dart';
 import 'package:design/loover2.dart';
-import 'package:design/loover3.dart';
-import 'package:design/loovr4.dart';
-import 'package:design/register%20-%20finish.dart';
-import 'package:design/register%20-%20interests.dart';
-import 'package:design/register%20-%20location.dart';
-import 'package:design/router.dart';
-import 'package:design/svg.dart';
+import 'package:design/match.dart';
+import 'package:design/model2.dart';
+import 'package:design/provider.dart';
 import 'package:design/value.dart';
 import 'package:flutter/material.dart';
-import 'package:design/loovr.dart';
-import 'package:http/http.dart' as http;
-import 'package:riverpod/riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:design/provider.dart';
-import 'package:design/model2.dart';
-import 'package:design/futureProvider.dart';
-import 'package:design/streamProvider.dart';
-import 'package:design/svg.dart';
-import 'package:design/third.dart';
 import 'package:go_router/go_router.dart';
-import 'package:design/themeProvder.dart';
 
 //import 'package:design/router.dart';
 final themeProvid = StateProvider<bool>((ref) => true);
@@ -73,7 +58,7 @@ final GoRouter router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => Loovr(),
+      builder: (context, state) => Match(),
       routes: [
         GoRoute(
           path: 'loover2',
