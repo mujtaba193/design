@@ -1,12 +1,6 @@
-import 'dart:ui';
 
-import 'package:design/third.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
-import 'package:gradient_borders/gradient_borders.dart';
-import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 
 class Loovr3 extends StatefulWidget {
   const Loovr3({super.key});
@@ -27,7 +21,7 @@ class _Loovr3State extends State<Loovr3> {
           child: SvgPicture.asset('lib/image/Frame 117.svg'),
         ),
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: RadialGradient(colors: [
               Color(0xFF006767),
               Color(0xFF000000),
@@ -41,62 +35,62 @@ class _Loovr3State extends State<Loovr3> {
                 child: Column(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(top: 50),
+                      margin: const EdgeInsets.only(top: 50),
                       child: SvgPicture.asset('lib/image/logo.svg'),
                     ),
                     SelectableText(
                       'знакомства для тех, кто ценит качество',
                       style: TextStyle(
-                        color: Color(0xFFFFFFFF).withOpacity(0.50),
+                        color: const Color(0xFFFFFFFF).withOpacity(0.50),
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
                 child: Column(
                   children: [
                     ListTile(
-                      title: SelectableText(
+                      title: const SelectableText(
                         'Политикаконфиденциальности',
                         style: TextStyle(color: Color(0xFFC3C3C3)),
                       ),
                       leading: SvgPicture.asset('lib/image/icons (3).svg'),
-                      trailing: Icon(Icons.arrow_forward_ios),
+                      trailing: const Icon(Icons.arrow_forward_ios),
                     ),
                     ListTile(
-                      title: SelectableText(
+                      title: const SelectableText(
                         'FAQ',
                         style: TextStyle(color: Color(0xFFC3C3C3)),
                       ),
                       leading: SvgPicture.asset('lib/image/icons (4).svg'),
-                      trailing: Icon(Icons.arrow_forward_ios),
+                      trailing: const Icon(Icons.arrow_forward_ios),
                     ),
                     ListTile(
-                      title: SelectableText(
+                      title: const SelectableText(
                         'Связаться с нами',
                         style: TextStyle(color: Color(0xFFC3C3C3)),
                       ),
                       leading: SvgPicture.asset('lib/image/icons (5).svg'),
-                      trailing: Icon(Icons.arrow_forward_ios),
+                      trailing: const Icon(Icons.arrow_forward_ios),
                     ),
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 390,
               ),
               SelectableText(
                 'Loovr App © 2023. All Rights Reserved.',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Color(0xFFFFFFFF).withOpacity(0.50)),
+                style: TextStyle(color: const Color(0xFFFFFFFF).withOpacity(0.50)),
               ),
               SelectableText('Version 0.9.321',
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Color(0xFFFFFFFF).withOpacity(0.50)))
+                  style: TextStyle(color: const Color(0xFFFFFFFF).withOpacity(0.50)))
             ],
           ),
         ),

@@ -1,13 +1,6 @@
-import 'dart:ui';
 
-import 'package:design/third.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
-import 'package:gradient_borders/gradient_borders.dart';
-import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 
 class Register1 extends StatefulWidget {
   const Register1({super.key});
@@ -22,8 +15,8 @@ class _Register1State extends State<Register1> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF000000),
-          title: Text(
+          backgroundColor: const Color(0xFF000000),
+          title: const Text(
             'Регистрация',
             style: TextStyle(
               fontSize: 16,
@@ -32,14 +25,14 @@ class _Register1State extends State<Register1> {
             ),
           ),
           leading: BackButton(
-            style: ButtonStyle(),
+            style: const ButtonStyle(),
             onPressed: () {},
           ),
         ),
         body: Stack(
           children: [
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: RadialGradient(colors: [
                   Color(0xFF9744D8),
                   Color(0xFF000000),
@@ -51,29 +44,29 @@ class _Register1State extends State<Register1> {
             Container(
               decoration: BoxDecoration(
                 gradient: RadialGradient(colors: [
-                  Color(0xFF006767),
-                  Color(0xFF000000).withOpacity(0),
-                  Color(0xFF000000).withOpacity(0),
+                  const Color(0xFF006767),
+                  const Color(0xFF000000).withOpacity(0),
+                  const Color(0xFF000000).withOpacity(0),
                 ], focal: Alignment.bottomLeft, radius: 1.4),
               ),
             ),
             Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: 25, top: 30),
+                  padding: const EdgeInsets.only(left: 25, top: 30),
                   child: LinearPercentIndicator(
                     width: 360,
                     percent: 0.1,
                     lineHeight: 8.0,
-                    backgroundColor: Color(0xFFFFFFFF).withOpacity(0.20),
-                    barRadius: Radius.circular(30),
-                    progressColor: Color(0xFF9744D8),
+                    backgroundColor: const Color(0xFFFFFFFF).withOpacity(0.20),
+                    barRadius: const Radius.circular(30),
+                    progressColor: const Color(0xFF9744D8),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
-                Text(
+                const Text(
                   'Шаг 8 из 8',
                   style: TextStyle(
                       fontSize: 13,
@@ -81,10 +74,10 @@ class _Register1State extends State<Register1> {
                       fontWeight: FontWeight.w400),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
-                Text(
+                const Text(
                   'Купите премиум',
                   style: TextStyle(
                       fontSize: 20,
@@ -92,10 +85,10 @@ class _Register1State extends State<Register1> {
                       fontWeight: FontWeight.w700),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
-                Text(
+                const Text(
                   'Ну пожалуйста',
                   style: TextStyle(
                       fontSize: 12,
@@ -103,7 +96,7 @@ class _Register1State extends State<Register1> {
                       fontWeight: FontWeight.w400),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 400,
                 ),
                 InkWell(
@@ -112,7 +105,7 @@ class _Register1State extends State<Register1> {
                   },
                   child: Container(
                     width: 290,
-                    margin: EdgeInsets.all(5),
+                    margin: const EdgeInsets.all(5),
                     height: 50,
                     decoration: BoxDecoration(
                       border: Border.all(),
@@ -126,7 +119,7 @@ class _Register1State extends State<Register1> {
                         ],
                       ),
                     ),
-                    child: Center(
+                    child: const Center(
                         child: Text(
                       'Купить за 1 990 ₽ / мес',
                       style: TextStyle(
@@ -135,14 +128,14 @@ class _Register1State extends State<Register1> {
                     )),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 InkWell(
                   onTap: () {
                     setState(() {});
                   },
                   child: Container(
                     width: 290,
-                    margin: EdgeInsets.all(5),
+                    margin: const EdgeInsets.all(5),
                     height: 50,
                     decoration: BoxDecoration(
                       border: Border.all(),
@@ -156,7 +149,7 @@ class _Register1State extends State<Register1> {
                         ],
                       ),
                     ),
-                    child: Center(
+                    child: const Center(
                         child: Text(
                       'Продолжить',
                       style: TextStyle(

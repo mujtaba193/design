@@ -2,7 +2,6 @@ import 'package:design/hompage.dart';
 import 'package:design/main.dart';
 import 'package:design/model2.dart';
 import 'package:design/provider.dart';
-import 'package:design/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -38,11 +37,11 @@ final GoRouter router = GoRouter(
       routes: [
         GoRoute(
           path: 'provoider',
-          builder: (context, state) => Prov(),
+          builder: (context, state) => const Prov(),
         ),
         GoRoute(
           path: 'futureProvider',
-          builder: (context, state) => UseresModel(),
+          builder: (context, state) => const UseresModel(),
         )
       ],
     ),

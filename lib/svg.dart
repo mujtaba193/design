@@ -31,7 +31,7 @@ class _SvggState extends State<Svgg> {
           ),
         ),
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: RadialGradient(colors: [
               //Color(0xFF8942BC),
               Color(0xFF5831F7),
@@ -46,25 +46,25 @@ class _SvggState extends State<Svgg> {
               children: [
                 Center(
                   child: Container(
+                    margin: const EdgeInsets.only(top: 10),
                     child: SvgPicture.asset('lib/image/icons (1).svg'),
-                    margin: EdgeInsets.only(top: 10),
                   ),
                 ),
                 Container(
-                  child: SelectableText(
+                  child: const SelectableText(
                     'Loovr Elite',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(30, 10, 30, 15),
-                  child: SelectableText(
+                  margin: const EdgeInsets.fromLTRB(30, 10, 30, 15),
+                  child: const SelectableText(
                     'Увеличьте лимиты и получите максимум преимуществ с подпиской Loovr Elite!',
                     textAlign: TextAlign.center,
                   ),
                 ),
                 Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 49, 45, 45),
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
@@ -79,14 +79,14 @@ class _SvggState extends State<Svgg> {
                               color: const Color.fromARGB(255, 134, 133, 133),
                             ),
                             borderRadius: BorderRadius.circular(10)),
-                        margin: EdgeInsets.all(15),
+                        margin: const EdgeInsets.all(15),
                         child: Column(
                           children: [
                             RadioListTile(
                               contentPadding:
-                                  EdgeInsets.only(left: 0, right: 10),
-                              title: SelectableText('Годовая'),
-                              secondary: SelectableText(
+                                  const EdgeInsets.only(left: 0, right: 10),
+                              title: const SelectableText('Годовая'),
+                              secondary: const SelectableText(
                                 '199,00 ₽ / мес',
                                 style: TextStyle(
                                   color: Color(0xFFC3C3C3),
@@ -105,9 +105,9 @@ class _SvggState extends State<Svgg> {
                             ),
                             RadioListTile(
                                 contentPadding:
-                                    EdgeInsets.only(left: 0, right: 10),
-                                title: SelectableText('Ежемесячная'),
-                                secondary: SelectableText(
+                                    const EdgeInsets.only(left: 0, right: 10),
+                                title: const SelectableText('Ежемесячная'),
+                                secondary: const SelectableText(
                                   '236,92 ₽ / мес',
                                   style: TextStyle(
                                     color: Color(0xFFC3C3C3),
@@ -130,48 +130,48 @@ class _SvggState extends State<Svgg> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.fromLTRB(0, 10, 40, 10),
+                        margin: const EdgeInsets.fromLTRB(0, 10, 40, 10),
                         child: Column(
                           children: [
                             ListTile(
                               leading:
                                   SvgPicture.asset('lib/image/Group 139.svg'),
-                              title: SelectableText('Организация встреч'),
+                              title: const SelectableText('Организация встреч'),
                               subtitle: const SelectableText(
                                   'Расскажите о планах на вечер и выберите, с кем хотите их провести'),
                             ),
                             ListTile(
                               leading: SvgPicture.asset(
                                   'lib/image/Group 139 (2).svg'),
-                              title: SelectableText('Двойные свайпы'),
-                              subtitle: SelectableText('50 → 100 / день'),
+                              title: const SelectableText('Двойные свайпы'),
+                              subtitle: const SelectableText('50 → 100 / день'),
                             ),
                             ListTile(
                               leading: SvgPicture.asset(
                                   'lib/image/Group 139 (3).svg'),
-                              title: SelectableText('Суперлайки'),
-                              subtitle: SelectableText(
+                              title: const SelectableText('Суперлайки'),
+                              subtitle: const SelectableText(
                                   'Ставьте до 50 суперлайков в день'),
                             ),
                             ListTile(
                               leading: SvgPicture.asset(
                                   'lib/image/Group 139 (4).svg'),
-                              title: SelectableText('Ранний доступ'),
-                              subtitle: SelectableText(
+                              title: const SelectableText('Ранний доступ'),
+                              subtitle: const SelectableText(
                                   'Опробуйте новые функции приложения первым!'),
                             ),
                             ListTile(
                               leading: SvgPicture.asset(
                                   'lib/image/Group 139 (5).svg'),
-                              title: SelectableText('Приоритетная поддержка'),
-                              subtitle: SelectableText(
+                              title: const SelectableText('Приоритетная поддержка'),
+                              subtitle: const SelectableText(
                                   'Ответим на любой вопрос вне очереди'),
                             ),
                           ],
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
                         child: const SelectableText(
                           'Оформляя подписку на Loovr EliteВы соглашаетесь с правилами использования и Политикой конфиденциальности',
                           textAlign: TextAlign.center,
@@ -183,7 +183,7 @@ class _SvggState extends State<Svgg> {
                         },
                         child: Container(
                           width: 250,
-                          margin: EdgeInsets.all(5),
+                          margin: const EdgeInsets.all(5),
                           height: 40,
                           decoration: BoxDecoration(
                             border: Border.all(),
@@ -197,7 +197,7 @@ class _SvggState extends State<Svgg> {
                               ],
                             ),
                           ),
-                          child: Center(child: SelectableText('${tt}')),
+                          child: Center(child: SelectableText(tt)),
                         ),
                       ),
                     ],

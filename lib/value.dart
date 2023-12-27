@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:design/svg.dart';
 
 class Val extends StatefulWidget {
@@ -15,7 +14,7 @@ class _ValState extends State<Val> {
     return Scaffold(
       appBar: AppBar(),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: RadialGradient(colors: [
             //Color(0xFF8942BC),
             Color(0xFF5831F7),
@@ -28,7 +27,7 @@ class _ValState extends State<Val> {
         child: Center(
           child: Container(
             width: 200,
-            margin: EdgeInsets.all(5),
+            margin: const EdgeInsets.all(5),
             height: 200,
             decoration: BoxDecoration(
               border: Border.all(),
@@ -42,7 +41,7 @@ class _ValState extends State<Val> {
                 ],
               ),
             ),
-            child: Center(child: Text('${tt}')),
+            child: Center(child: Text(tt)),
           ),
         ),
       ),

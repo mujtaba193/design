@@ -8,53 +8,53 @@ class Fourth extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Fourth page'),
+        title: const Text('Fourth page'),
       ),
       body: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: GridView(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, mainAxisSpacing: 10, crossAxisSpacing: 10),
           children: [
             Container(
               height: 200,
               color: Colors.red,
-              child: Center(
+              child: const Center(
                 child: Text('firsr'),
               ),
             ),
             Container(
               height: 200,
               color: Colors.blue,
-              child: Center(
+              child: const Center(
                 child: Text('second'),
               ),
             ),
             Container(
               height: 200,
               color: Colors.yellow,
-              child: Center(
+              child: const Center(
                 child: Text('third'),
               ),
             ),
             Container(
               height: 200,
               color: Colors.green,
-              child: Center(
+              child: const Center(
                 child: Text('fourth'),
               ),
             ),
             Container(
               height: 200,
               color: Colors.grey,
-              child: Center(
+              child: const Center(
                 child: Text('fifth'),
               ),
             ),
             Container(
               height: 200,
               color: Colors.purple,
-              child: Center(
+              child: const Center(
                 child: Text('firsr'),
               ),
             ),
@@ -64,11 +64,11 @@ class Fourth extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => model(),
+                      builder: (context) => const model(),
                     ),
                   );
                 },
-                child: Text('go to model'),
+                child: const Text('go to model'),
               ),
             ),
           ],

@@ -1,15 +1,10 @@
 import 'dart:io';
-import 'dart:ui';
 
-import 'package:design/third.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:gradient_borders/gradient_borders.dart';
-import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
-import 'package:percent_indicator/percent_indicator.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class Register3 extends StatefulWidget {
   const Register3({super.key});
@@ -81,8 +76,8 @@ class _Register3State extends State<Register3> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF000000),
-          title: Text(
+          backgroundColor: const Color(0xFF000000),
+          title: const Text(
             'Регистрация',
             style: TextStyle(
               fontSize: 16,
@@ -91,14 +86,14 @@ class _Register3State extends State<Register3> {
             ),
           ),
           leading: BackButton(
-            style: ButtonStyle(),
+            style: const ButtonStyle(),
             onPressed: () {},
           ),
         ),
         body: Stack(
           children: [
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: RadialGradient(colors: [
                   Color(0xFF9744D8),
                   Color(0xFF000000),
@@ -110,29 +105,29 @@ class _Register3State extends State<Register3> {
             Container(
               decoration: BoxDecoration(
                 gradient: RadialGradient(colors: [
-                  Color(0xFF006767),
-                  Color(0xFF000000).withOpacity(0),
-                  Color(0xFF000000).withOpacity(0),
+                  const Color(0xFF006767),
+                  const Color(0xFF000000).withOpacity(0),
+                  const Color(0xFF000000).withOpacity(0),
                 ], focal: Alignment.bottomLeft, radius: 1.4),
               ),
             ),
             Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: 25, top: 30),
+                  padding: const EdgeInsets.only(left: 25, top: 30),
                   child: LinearPercentIndicator(
                     width: 360,
                     percent: 0.1,
                     lineHeight: 8.0,
-                    backgroundColor: Color(0xFFFFFFFF).withOpacity(0.20),
-                    barRadius: Radius.circular(30),
-                    progressColor: Color(0xFF9744D8),
+                    backgroundColor: const Color(0xFFFFFFFF).withOpacity(0.20),
+                    barRadius: const Radius.circular(30),
+                    progressColor: const Color(0xFF9744D8),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
-                Text(
+                const Text(
                   'Шаг 8 из 8',
                   style: TextStyle(
                       fontSize: 13,
@@ -140,10 +135,10 @@ class _Register3State extends State<Register3> {
                       fontWeight: FontWeight.w400),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
-                Text(
+                const Text(
                   'Добавьте ещё фото!',
                   style: TextStyle(
                       fontSize: 20,
@@ -151,10 +146,10 @@ class _Register3State extends State<Register3> {
                       fontWeight: FontWeight.w700),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
-                Text(
+                const Text(
                   'Повысьте шансы получить больше ',
                   style: TextStyle(
                       fontSize: 12,
@@ -162,7 +157,7 @@ class _Register3State extends State<Register3> {
                       fontWeight: FontWeight.w400),
                   textAlign: TextAlign.center,
                 ),
-                Text(
+                const Text(
                   'внимания! Загрузите свои фотографии',
                   style: TextStyle(
                       fontSize: 12,
@@ -170,17 +165,15 @@ class _Register3State extends State<Register3> {
                       fontWeight: FontWeight.w400),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 3, color: Colors.red)),
                   height: 320,
                   width: 310,
-                  padding: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
                   child: GridView(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       childAspectRatio: 0.63,
                       crossAxisCount: 3,
                       mainAxisSpacing: 6,
@@ -191,7 +184,7 @@ class _Register3State extends State<Register3> {
                         child: Container(
                           // padding: EdgeInsets.fromLTRB(14, 24, 14, 24),
 
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             border: GradientBoxBorder(
                               gradient: LinearGradient(
                                 colors: [
@@ -223,7 +216,7 @@ class _Register3State extends State<Register3> {
                                                     takeFromCamera(context);
                                                   });
                                                 },
-                                                child: Text(
+                                                child: const Text(
                                                   'choose Image from camera',
                                                   style: TextStyle(
                                                     color: Color(0xFFC3C3C3),
@@ -238,7 +231,7 @@ class _Register3State extends State<Register3> {
                                                     takeFromGallary(context);
                                                   });
                                                 },
-                                                child: Text(
+                                                child: const Text(
                                                   'choose Image from Gallery',
                                                   style: TextStyle(
                                                     color: Color(0xFFC3C3C3),
@@ -250,7 +243,7 @@ class _Register3State extends State<Register3> {
                                         },
                                       );
                                     },
-                                    icon: Icon(Icons.add),
+                                    icon: const Icon(Icons.add),
                                   )
                                 : Stack(
                                     alignment: Alignment.center,
@@ -283,7 +276,7 @@ class _Register3State extends State<Register3> {
                         // padding: EdgeInsets.fromLTRB(14, 24, 14, 24),
                         width: 8,
                         height: 130,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border: GradientBoxBorder(
                             gradient: LinearGradient(
                               colors: [
@@ -315,7 +308,7 @@ class _Register3State extends State<Register3> {
                                                   takeFromCamera(context);
                                                 });
                                               },
-                                              child: Text(
+                                              child: const Text(
                                                   'choose Image from camera'),
                                             ),
                                             TextButton(
@@ -326,7 +319,7 @@ class _Register3State extends State<Register3> {
                                                   takeFromGallary(context);
                                                 });
                                               },
-                                              child: Text(
+                                              child: const Text(
                                                   'choose Image from Gallery'),
                                             ),
                                           ],
@@ -334,7 +327,7 @@ class _Register3State extends State<Register3> {
                                       },
                                     );
                                   },
-                                  icon: Icon(Icons.add),
+                                  icon: const Icon(Icons.add),
                                 )
                               : Stack(
                                   children: [
@@ -364,7 +357,7 @@ class _Register3State extends State<Register3> {
                         // padding: EdgeInsets.fromLTRB(14, 24, 14, 24),
                         width: 8,
                         height: 130,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border: GradientBoxBorder(
                             gradient: LinearGradient(
                               colors: [
@@ -396,7 +389,7 @@ class _Register3State extends State<Register3> {
                                                   takeFromCamera(context);
                                                 });
                                               },
-                                              child: Text(
+                                              child: const Text(
                                                   'choose Image from camera'),
                                             ),
                                             TextButton(
@@ -407,7 +400,7 @@ class _Register3State extends State<Register3> {
                                                   takeFromGallary(context);
                                                 });
                                               },
-                                              child: Text(
+                                              child: const Text(
                                                   'choose Image from Gallery'),
                                             ),
                                           ],
@@ -415,7 +408,7 @@ class _Register3State extends State<Register3> {
                                       },
                                     );
                                   },
-                                  icon: Icon(Icons.add),
+                                  icon: const Icon(Icons.add),
                                 )
                               : Stack(
                                   children: [
@@ -449,7 +442,7 @@ class _Register3State extends State<Register3> {
                         // padding: EdgeInsets.fromLTRB(14, 24, 14, 24),
                         width: 8,
                         height: 130,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border: GradientBoxBorder(
                             gradient: LinearGradient(
                               colors: [
@@ -481,7 +474,7 @@ class _Register3State extends State<Register3> {
                                                   takeFromCamera(context);
                                                 });
                                               },
-                                              child: Text(
+                                              child: const Text(
                                                   'choose Image from camera'),
                                             ),
                                             TextButton(
@@ -492,7 +485,7 @@ class _Register3State extends State<Register3> {
                                                   takeFromGallary(context);
                                                 });
                                               },
-                                              child: Text(
+                                              child: const Text(
                                                   'choose Image from Gallery'),
                                             ),
                                           ],
@@ -500,7 +493,7 @@ class _Register3State extends State<Register3> {
                                       },
                                     );
                                   },
-                                  icon: Icon(Icons.add),
+                                  icon: const Icon(Icons.add),
                                 )
                               : Stack(
                                   children: [
@@ -534,7 +527,7 @@ class _Register3State extends State<Register3> {
                         // padding: EdgeInsets.fromLTRB(14, 24, 14, 24),
                         width: 8,
                         height: 130,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border: GradientBoxBorder(
                             gradient: LinearGradient(
                               colors: [
@@ -566,7 +559,7 @@ class _Register3State extends State<Register3> {
                                                   takeFromCamera(context);
                                                 });
                                               },
-                                              child: Text(
+                                              child: const Text(
                                                   'choose Image from camera'),
                                             ),
                                             TextButton(
@@ -577,7 +570,7 @@ class _Register3State extends State<Register3> {
                                                   takeFromGallary(context);
                                                 });
                                               },
-                                              child: Text(
+                                              child: const Text(
                                                   'choose Image from Gallery'),
                                             ),
                                           ],
@@ -585,7 +578,7 @@ class _Register3State extends State<Register3> {
                                       },
                                     );
                                   },
-                                  icon: Icon(Icons.add),
+                                  icon: const Icon(Icons.add),
                                 )
                               : Stack(
                                   children: [
@@ -619,7 +612,7 @@ class _Register3State extends State<Register3> {
                         // padding: EdgeInsets.fromLTRB(14, 24, 14, 24),
                         width: 8,
                         height: 130,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border: GradientBoxBorder(
                             gradient: LinearGradient(
                               colors: [
@@ -651,7 +644,7 @@ class _Register3State extends State<Register3> {
                                                   takeFromCamera(context);
                                                 });
                                               },
-                                              child: Text(
+                                              child: const Text(
                                                   'choose Image from camera'),
                                             ),
                                             TextButton(
@@ -662,7 +655,7 @@ class _Register3State extends State<Register3> {
                                                   takeFromGallary(context);
                                                 });
                                               },
-                                              child: Text(
+                                              child: const Text(
                                                   'choose Image from Gallery'),
                                             ),
                                           ],
@@ -670,7 +663,7 @@ class _Register3State extends State<Register3> {
                                       },
                                     );
                                   },
-                                  icon: Icon(Icons.add),
+                                  icon: const Icon(Icons.add),
                                 )
                               : Stack(
                                   children: [
@@ -697,27 +690,27 @@ class _Register3State extends State<Register3> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                Text(
+                const Text(
                   'Загружено 1 из 6 фотографий',
                   style: TextStyle(
                       color: Color(0xFF696868),
                       fontWeight: FontWeight.w500,
                       fontSize: 13),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
-                Text(
+                const Text(
                   'Вы сможете загрузить фотографии позже.',
                   style: TextStyle(
                       color: Color(0xFFC3C3C3),
                       fontWeight: FontWeight.w400,
                       fontSize: 13),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 70,
                 ),
                 InkWell(
@@ -726,7 +719,7 @@ class _Register3State extends State<Register3> {
                   },
                   child: Container(
                     width: 290,
-                    margin: EdgeInsets.all(5),
+                    margin: const EdgeInsets.all(5),
                     height: 50,
                     decoration: BoxDecoration(
                       border: Border.all(),
@@ -740,7 +733,7 @@ class _Register3State extends State<Register3> {
                         ],
                       ),
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         'Продолжить',
                         style: TextStyle(

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Prov extends ConsumerStatefulWidget {
-  Prov({super.key});
+  const Prov({super.key});
 
   @override
   _ProvState createState() => _ProvState();
@@ -21,19 +21,19 @@ class _ProvState extends ConsumerState<Prov> {
       }
     });
     return Scaffold(
-      appBar: AppBar(title: Text('The Provider'), actions: [
+      appBar: AppBar(title: const Text('The Provider'), actions: [
         IconButton(
           onPressed: () {
             ref.invalidate(nameProvider);
           },
-          icon: Icon(Icons.refresh),
+          icon: const Icon(Icons.refresh),
         ),
       ]),
       body: Center(
         child: Text(
           value2.toString(),
-          style: TextStyle(
-              color: const Color.fromARGB(255, 231, 226, 226), fontSize: 22),
+          style: const TextStyle(
+              color: Color.fromARGB(255, 231, 226, 226), fontSize: 22),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -42,7 +42,7 @@ class _ProvState extends ConsumerState<Prov> {
           //ref.read(nameProvider.notifier).update((state) => state + 2);
           ref.read(stnprovider.notifier).incremant();
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
 
       /*floatingActionButton: Padding(

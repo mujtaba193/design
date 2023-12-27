@@ -47,7 +47,7 @@ class FutureProvide extends ConsumerWidget {
     final value = ref.watch(userProvider);
     return Scaffold(
         appBar: AppBar(
-          title: Text('FutureProvider'),
+          title: const Text('FutureProvider'),
           centerTitle: true,
         ),
         body: value.when(
@@ -57,7 +57,7 @@ class FutureProvide extends ConsumerWidget {
               itemBuilder: ((context, index) {
                 return ListTile(
                   title: Text('${mm[index].first_name} ${mm[index].last_name}'),
-                  subtitle: Text('${mm[index].email}'),
+                  subtitle: Text(mm[index].email),
                   leading: CircleAvatar(
                     child: Image.network(mm[index].avatar),
                   ),
@@ -65,7 +65,7 @@ class FutureProvide extends ConsumerWidget {
               }),
             );
           },
-          error: ((error, StackTrace) => Text('error')),
+          error: ((error, StackTrace) => const Text('error')),
           loading: (() {
             return const Center(child: CircularProgressIndicator());
           }),

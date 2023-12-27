@@ -1,6 +1,5 @@
 import 'package:design/main.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Themee extends ConsumerWidget {
@@ -13,13 +12,13 @@ class Themee extends ConsumerWidget {
       theme: themeVal ? ThemeData.light() : ThemeData.dark(),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Theme'),
+          title: const Text('Theme'),
           centerTitle: true,
         ),
         body: Center(
           child: Row(
             children: [
-              Text('Change to dark mode'),
+              const Text('Change to dark mode'),
               Switch(
                 value: themeVal,
                 onChanged: (value) =>

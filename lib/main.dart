@@ -12,10 +12,10 @@ import 'package:go_router/go_router.dart';
 
 //import 'package:design/router.dart';
 final themeProvid = StateProvider<bool>((ref) => true);
-final isUserLoggedIn = true;
+const isUserLoggedIn = true;
 final stnprovider = StateNotifierProvider.autoDispose<Ddd, int>((ref) {
   final l = ref.keepAlive();
-  final timer = Timer(Duration(seconds: 10), () {
+  final timer = Timer(const Duration(seconds: 10), () {
     l.close();
   });
   /* ref.onDispose(
@@ -30,7 +30,7 @@ final userProvider = FutureProvider<List<UserModel>>((ref) {
 });
 final strmProvider = StreamProvider<int>((ref) {
   return Stream.periodic(
-    Duration(seconds: 3),
+    const Duration(seconds: 3),
     (((computationCount) => computationCount)),
   );
 });
@@ -40,7 +40,7 @@ void main() {
         theme: ThemeData.dark(),
         debugShowCheckedModeBanner: false,
         home: Loovr2()*/
-    ProviderScope(
+    const ProviderScope(
       child: Myapp(),
       //routerConfig: router,
     ),
@@ -62,15 +62,15 @@ final GoRouter router = GoRouter(
       routes: [
         GoRoute(
           path: 'loover2',
-          builder: (context, state) => Loovr2(),
+          builder: (context, state) => const Loovr2(),
         ),
         GoRoute(
           path: 'value',
-          builder: (context, state) => Val(),
+          builder: (context, state) => const Val(),
         ),
         GoRoute(
           path: 'model2',
-          builder: (context, state) => UseresModel(),
+          builder: (context, state) => const UseresModel(),
         )
       ],
     ),

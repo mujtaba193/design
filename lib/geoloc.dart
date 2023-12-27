@@ -1,13 +1,10 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'dart:ffi';
-import 'package:design/model2.dart';
+
 import 'package:design/model.dart';
+import 'package:design/model2.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
-import 'package:design/geoloc.dart';
-import 'package:riverpod/riverpod.dart';
 
 class model extends StatefulWidget {
   const model({super.key});
@@ -22,7 +19,7 @@ class _modelState extends State<model> {
   Test? ttt;
   Future getData() async {
     print('at first');
-    await Future.delayed(Duration(seconds: 4), () {
+    await Future.delayed(const Duration(seconds: 4), () {
       print('hi Toby');
     });
     print('then');
@@ -49,9 +46,8 @@ class _modelState extends State<model> {
     print('==========================');
   }
 
-  Future<Position> getLatAndLong() async {
-    return cl = await Geolocator.getCurrentPosition().then((value) => value)
-        as Position;
+  Future<Position?> getLatAndLong() async {
+    return cl = await Geolocator.getCurrentPosition().then((value) => value);
   }
 
   Future getdataJson() async {
@@ -90,7 +86,7 @@ class _modelState extends State<model> {
                 getPermetion();
                 getLatAndLong();
               },
-              child: Text('show'),
+              child: const Text('show'),
             ),
           ),
           Container(
@@ -100,7 +96,7 @@ class _modelState extends State<model> {
                   getdataJson();
                 });
               },
-              child: Text('show the model2 '),
+              child: const Text('show the model2 '),
             ),
           ),
           Container(

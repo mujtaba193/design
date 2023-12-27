@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class Match extends StatefulWidget {
   const Match({super.key});
@@ -17,7 +16,7 @@ class _MatchState extends State<Match> {
           alignment: Alignment.center,
           children: [
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: RadialGradient(colors: [
                   Color(0xFF006767),
                   Color(0xFF000000),
@@ -29,9 +28,9 @@ class _MatchState extends State<Match> {
             Container(
               decoration: BoxDecoration(
                 gradient: RadialGradient(colors: [
-                  Color(0xFF9744D8),
-                  Color(0xFF000000).withOpacity(0),
-                  Color(0xFF000000).withOpacity(0),
+                  const Color(0xFF9744D8),
+                  const Color(0xFF000000).withOpacity(0),
+                  const Color(0xFF000000).withOpacity(0),
                 ], focal: Alignment.bottomLeft, radius: 1.4),
               ),
             ),
@@ -47,10 +46,8 @@ class _MatchState extends State<Match> {
               child: Image.asset('lib/image/photo.png'),
             ),
             Positioned(
-              top: 240,
-              child: SvgPicture.asset('lib/image/Group 87.svg'),
-            ),
-            Text(
+                top: 240, child: Image.asset('lib/image/Mask group.png')),
+            const Text(
               'Вы и Кристина лайкнули друг друга!',
               style: TextStyle(
                 fontSize: 15,
@@ -67,7 +64,7 @@ class _MatchState extends State<Match> {
                 },
                 child: Container(
                   width: 290,
-                  margin: EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(5),
                   height: 50,
                   decoration: BoxDecoration(
                     border: Border.all(),
@@ -81,7 +78,7 @@ class _MatchState extends State<Match> {
                       ],
                     ),
                   ),
-                  child: Center(
+                  child: const Center(
                       child: Text(
                     'Написать сообщение',
                     style: TextStyle(
@@ -99,7 +96,7 @@ class _MatchState extends State<Match> {
                 },
                 child: Container(
                   width: 290,
-                  margin: EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(5),
                   height: 50,
                   decoration: BoxDecoration(
                       border: Border.all(),
@@ -112,8 +109,8 @@ class _MatchState extends State<Match> {
                         Color(0xFF00C2C2),
                       ],
                     ),*/
-                      color: Color(0xFF714BD8).withOpacity(0.25)),
-                  child: Center(
+                      color: const Color(0xFF714BD8).withOpacity(0.25)),
+                  child: const Center(
                       child: Text(
                     'Продолжить',
                     style: TextStyle(

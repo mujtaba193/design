@@ -29,9 +29,9 @@ class _UseresModelState extends State<UseresModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Information'),
+        title: const Text('Information'),
         centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 19, 18, 18),
+        backgroundColor: const Color.fromARGB(255, 19, 18, 18),
       ),
       body: Container(
         child: FutureBuilder(
@@ -39,7 +39,7 @@ class _UseresModelState extends State<UseresModel> {
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
               return Container(
-                child: Center(
+                child: const Center(
                   child: Text('downloading...'),
                 ),
               );
@@ -67,7 +67,7 @@ class _UseresModelState extends State<UseresModel> {
         ),
       ),
       backgroundColor: const Color.fromARGB(255, 54, 52, 52),
-      drawer: Drawer(),
+      drawer: const Drawer(),
     );
   }
 }
