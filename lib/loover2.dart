@@ -15,7 +15,10 @@ class _Loovr2State extends State<Loovr2> with TickerProviderStateMixin {
   //List.generate(2, (index) => false); // 'Еженедельно', 'Ежемесячно'
   @override
   Widget build(BuildContext context) {
-    TabController tabController = TabController(length: 2, vsync: this);
+    TabController tabController = TabController(
+      length: 2,
+      vsync: this,
+    );
     return SafeArea(
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
@@ -219,7 +222,8 @@ class _Loovr2State extends State<Loovr2> with TickerProviderStateMixin {
                           child: TabBar(
                               indicator: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
-                                color: const Color(0xFF714BD8).withOpacity(0.25),
+                                color:
+                                    const Color(0xFF714BD8).withOpacity(0.25),
                               ),
                               controller: tabController,
                               isScrollable: true,

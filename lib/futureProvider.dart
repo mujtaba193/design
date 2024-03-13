@@ -1,9 +1,10 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:design/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'dart:async';
 
 class UserModel {
   final int id;

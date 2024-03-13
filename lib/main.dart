@@ -1,11 +1,8 @@
 import 'dart:async';
 
 import 'package:design/futureProvider.dart';
-import 'package:design/loover2.dart';
-import 'package:design/match.dart';
-import 'package:design/model2.dart';
 import 'package:design/provider.dart';
-import 'package:design/value.dart';
+import 'package:design/where%20to%20design/user_main2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -58,11 +55,25 @@ final GoRouter router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => Match(),
+      builder: (context, state) => UsersMainPage2(
+          //isUserLoggedIn: true,
+          ),
+    ),
+    GoRoute(
+      path: '/futureProvider',
+      builder: (context, state) => FutureProvide(),
+    ),
+
+    /*GoRoute(
+      path: '/',
+      builder: (context, state) => Hompage(
+        isUserLoggedIn: true,
+      ),
       routes: [
+        
         GoRoute(
-          path: 'loover2',
-          builder: (context, state) => const Loovr2(),
+          path: 'futureProvider',
+          builder: (context, state) => const FutureProvide(),
         ),
         GoRoute(
           path: 'value',
@@ -73,7 +84,7 @@ final GoRouter router = GoRouter(
           builder: (context, state) => const UseresModel(),
         )
       ],
-    ),
+    ),*/
   ],
 );
 
