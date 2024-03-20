@@ -45,8 +45,13 @@ class _Review2State extends State<Review2> {
               } else {
                 return ListView.builder(
                   itemCount: boatList!.length,
-                  itemBuilder: (_, index) => CardItemView(
-                    items: boatList![index].imageList,
+                  itemBuilder: (_, index) => GestureDetector(
+                    onTap: () {
+                      return;
+                    },
+                    child: CardItemView(
+                      items: boatList![index].imageList,
+                    ),
                   ),
                 );
               }
@@ -66,14 +71,31 @@ class CardItemView extends StatelessWidget {
       child: Column(
         children: [
           //imagePArt here
-          ImageSliderView(
-            imagesPath: items,
+          Container(
+            padding: EdgeInsets.all(MediaQuery.of(context).size.height / 48),
+            margin: EdgeInsets.only(
+              left: MediaQuery.of(context).size.height / 48,
+              top: MediaQuery.of(context).size.height / 10,
+              right: MediaQuery.of(context).size.height / 48,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  blurRadius: 10,
+                  spreadRadius: 2,
+                ),
+              ],
+            ),
+            width: MediaQuery.of(context).size.width / 1.1,
+            height: MediaQuery.of(context).size.height / 2.5,
+            child: ImageSliderView(
+              imagesPath: items,
+            ),
           ),
           const SizedBox(height: 10),
-          Container(
-            height: 100,
-            color: Colors.red,
-          )
         ],
       ),
     );
