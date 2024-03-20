@@ -1,0 +1,82 @@
+[
+    {
+        "boatName": "Naveen Boat",
+        "imageList": [
+            "https://thumbs.dreamstime.com/z/speed-boat-5750774.jpg?ct=jpeg",
+            "https://thumbs.dreamstime.com/z/luxury-yacht-mediteranean-sea-sardinia-26104031.jpg?ct=jpeg"
+        ],
+        "reviews": [
+            "4",
+            "5",
+            "3"
+        ],
+        "userIds": [
+            "4",
+            "5",
+            "3"
+        ],
+        "minimumPrice": 3000.0,
+        "finalPrice": 4450.0
+    },
+    {
+        "boatName": "Sergei Boat",
+        "imageList": [
+            "https://thumbs.dreamstime.com/z/luxury-yacht-mediteranean-sea-sardinia-26104031.jpg?ct=jpeg",
+            "https://thumbs.dreamstime.com/z/luxury-yacht-sea-26613003.jpg?ct=jpeg",
+            "https://thumbs.dreamstime.com/z/speed-boat-5750774.jpg?ct=jpeg"
+        ],
+        "reviews": [
+            "3",
+            "4",
+            "3"
+        ],
+        "userIds": [
+            "4",
+            "23",
+            "3"
+        ],
+        "minimumPrice": 5000.0,
+        "finalPrice": 5550.0
+    },
+    {
+        "boatName": "Vitaly Boat",
+        "imageList": [
+            "https://thumbs.dreamstime.com/z/luxury-yacht-sea-26613003.jpg?ct=jpeg",
+            "https://thumbs.dreamstime.com/z/speed-boat-5750774.jpg?ct=jpeg",
+            "https://thumbs.dreamstime.com/z/luxury-yacht-mediteranean-sea-sardinia-26104031.jpg?ct=jpeg",
+            "https://images.unsplash.com/photo-1586953983027-d7508a64f4bb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"
+        ],
+        "reviews": [
+            "3",
+            "4",
+            "3"
+        ],
+        "userIds": [
+            "4",
+            "22",
+            "3"
+        ],
+        "minimumPrice": 5500.0,
+        "finalPrice": 5550.0
+    },
+    {
+        "boatName": "Vitaly Boat 2",
+        "imageList": [
+            "https://thumbs.dreamstime.com/z/luxury-yacht-sea-26613003.jpg?ct=jpeg",
+            "https://thumbs.dreamstime.com/z/speed-boat-5750774.jpg?ct=jpeg",
+            "https://thumbs.dreamstime.com/z/luxury-yacht-mediteranean-sea-sardinia-26104031.jpg?ct=jpeg"
+        ],
+        "reviews": [
+            "3",
+            "4",
+            "3"
+        ],
+        "userIds": [
+            "4",
+            "5",
+            "3"
+        ],
+        "minimumPrice": 6500.0,
+        "finalPrice": 6550.0
+    }
+]
