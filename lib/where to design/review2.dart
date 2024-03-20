@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:design/where%20to%20design/users_model/boat_model.dart';
 import 'package:flutter/material.dart';
 
@@ -139,10 +138,11 @@ class _ImageSliderViewState extends State<ImageSliderView> {
         children: [
           Positioned.fill(
             child: PageView.builder(
-              controller: _pageController,
-              itemBuilder: (context, index) =>
-                  CachedNetworkImage(imageUrl: widget.imagesPath.toString()),
-            ),
+                controller: _pageController,
+                itemBuilder: (context, index) =>
+                    Image.network(widget.imagesPath[index])
+                // CachedNetworkImage(imageUrl: widget.imagesPath.toString()),
+                ),
           ),
           Positioned(
             bottom: 8,
