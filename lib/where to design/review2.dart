@@ -138,6 +138,7 @@ class _ImageSliderViewState extends State<ImageSliderView> {
         children: [
           Positioned.fill(
             child: PageView.builder(
+                itemCount: widget.imagesPath.length,
                 controller: _pageController,
                 itemBuilder: (context, index) =>
                     Image.network(widget.imagesPath[index])
