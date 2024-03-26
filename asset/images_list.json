@@ -2,7 +2,7 @@
     {
         "boatName": "Naveen Boat",
         "imageList": [
-            "https://thumbs.dreamstime.com/z/speed-boat-5750774.jpg?ct=jpeg",
+            "https://wallpapers.com/images/high/beautiful-japanese-girl-portrait-gw865vkie5ekfimm.webp",
             "https://thumbs.dreamstime.com/z/luxury-yacht-mediteranean-sea-sardinia-26104031.jpg?ct=jpeg"
         ],
         "reviews": [
@@ -16,12 +16,28 @@
             "3"
         ],
         "minimumPrice": 3000.0,
-        "finalPrice": 4450.0
+        "finalPrice": 4450.0,
+        "booked_start_time": "2024-03-07T10:00:00",
+        "booked_finish_time": "2024-03-07T12:00:00",
+        "guests": 10,
+        "description": "Naveen Boat offers a luxurious cruising experience with stunning views and top-notch amenities. Perfect for intimate gatherings or leisurely trips.Naveen Boat offers a luxurious cruising experience with stunning views and top-notch amenities. Perfect for intimate gatherings or leisurely trips.Naveen Boat offers a luxurious cruising experience with stunning views and top-notch amenities. Perfect for intimate gatherings or leisurely trips.Naveen Boat offers a luxurious cruising experience with stunning views and top-notch amenities. Perfect for intimate gatherings or leisurely trips.Naveen Boat offers a luxurious cruising experience with stunning views and top-notch amenities. Perfect for intimate gatherings or leisurely trips.",
+        "options": ["Toilet", "Bar"],
+        "characteristics": {
+            "shipyard": "Naveen Shipyard",
+            "model": "Luxury Cruiser",
+            "year": 2023,
+            "length": 50,
+            "width": 12,
+            "power": "Diesel Engine",
+            "walking_speed": "10 knots",
+            "cabins": 5,
+            "sleeping_places": 10
+        }
     },
     {
         "boatName": "Sergei Boat",
         "imageList": [
-            "https://thumbs.dreamstime.com/z/luxury-yacht-mediteranean-sea-sardinia-26104031.jpg?ct=jpeg",
+            "https://wallpapers.com/images/high/japanese-stylish-women-kr382mrwldkpqxx2.webp",
             "https://thumbs.dreamstime.com/z/luxury-yacht-sea-26613003.jpg?ct=jpeg",
             "https://thumbs.dreamstime.com/z/speed-boat-5750774.jpg?ct=jpeg"
         ],
@@ -36,12 +52,28 @@
             "3"
         ],
         "minimumPrice": 5000.0,
-        "finalPrice": 5550.0
+        "finalPrice": 5550.0,
+        "booked_start_time": "2024-03-08T14:00:00",
+        "booked_finish_time": "2024-03-08T16:00:00",
+        "guests": 15,
+        "description": "Sergei Boat offers an exhilarating experience with sleek design and ample space. Ideal for adventurous outings or corporate events.",
+        "options": ["Toilet", "Raincoat"],
+        "characteristics": {
+            "shipyard": "Sergei Shipyard",
+            "model": "Speed Yacht",
+            "year": 2022,
+            "length": 60,
+            "width": 15,
+            "power": "Gasoline Engine",
+            "walking_speed": "20 knots",
+            "cabins": 3,
+            "sleeping_places": 6
+        }
     },
     {
         "boatName": "Vitaly Boat",
         "imageList": [
-            "https://thumbs.dreamstime.com/z/luxury-yacht-sea-26613003.jpg?ct=jpeg",
+            "https://wallpapers.com/images/high/japanese-simple-women-ji7obbnd5iujolp7.webp",
             "https://thumbs.dreamstime.com/z/speed-boat-5750774.jpg?ct=jpeg",
             "https://thumbs.dreamstime.com/z/luxury-yacht-mediteranean-sea-sardinia-26104031.jpg?ct=jpeg",
             "https://images.unsplash.com/photo-1586953983027-d7508a64f4bb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"
@@ -57,12 +89,28 @@
             "3"
         ],
         "minimumPrice": 5500.0,
-        "finalPrice": 5550.0
+        "finalPrice": 5550.0,
+        "booked_start_time": "2024-03-10T11:00:00",
+        "booked_finish_time": "2024-03-10T13:00:00",
+        "guests": 24,
+        "description": "Vitaly Boat offers a blend of luxury and comfort for an unforgettable voyage. Perfect for family gatherings or romantic escapades.",
+        "options": ["Toilet", "Bar"],
+        "characteristics": {
+            "shipyard": "Vitaly Shipyard",
+            "model": "Luxury Yacht",
+            "year": 2024,
+            "length": 70,
+            "width": 18,
+            "power": "Diesel Engine",
+            "walking_speed": "15 knots",
+            "cabins": 4,
+            "sleeping_places": 8
+        }
     },
     {
         "boatName": "Vitaly Boat 2",
         "imageList": [
-            "https://thumbs.dreamstime.com/z/luxury-yacht-sea-26613003.jpg?ct=jpeg",
+            "https://wallpapers.com/images/high/japanese-girl-with-braids-ik2x10rlphfda10l.webp",
             "https://thumbs.dreamstime.com/z/speed-boat-5750774.jpg?ct=jpeg",
             "https://thumbs.dreamstime.com/z/luxury-yacht-mediteranean-sea-sardinia-26104031.jpg?ct=jpeg"
         ],
@@ -77,6 +125,59 @@
             "3"
         ],
         "minimumPrice": 6500.0,
-        "finalPrice": 6550.0
+        "finalPrice": 6550.0,
+        "booked_start_time": "2024-03-13T14:00:00",
+        "booked_finish_time": "2024-03-13T16:00:00",
+        "guests": 30,
+        "description": "Vitaly Boat 2 offers a premium sailing experience with modern amenities and spacious decks. Ideal for large gatherings or special occasions.",
+        "options": ["Toilet", "Raincoat", "Bar"],
+        "characteristics": {
+            "shipyard": "Vitaly Shipyard",
+            "model": "Luxury Yacht",
+            "year": 2024,
+            "length": 80,
+            "width": 20,
+            "power": "Diesel Engine",
+            "walking_speed": "18 knots",
+            "cabins": 6,
+            "sleeping_places": 12
+        }
+    },
+    {
+        "boatName": "Vitaly Boat 2",
+        "imageList": [
+            "https://wallpapers.com/images/high/japanese-girl-with-curly-hair-1lrz7u580q69uehw.webp",
+            "https://thumbs.dreamstime.com/z/speed-boat-5750774.jpg?ct=jpeg",
+            "https://thumbs.dreamstime.com/z/luxury-yacht-mediteranean-sea-sardinia-26104031.jpg?ct=jpeg"
+        ],
+        "reviews": [
+            "3",
+            "4",
+            "3"
+        ],
+        "userIds": [
+            "4",
+            "5",
+            "3"
+        ],
+        "minimumPrice": 6500.0,
+        "finalPrice": 6550.0,
+        "booked_start_time": "2024-03-13T14:00:00",
+        "booked_finish_time": "2024-03-13T16:00:00",
+        "guests": 30,
+        "description": "Vitaly Boat 2 offers a premium sailing experience with modern amenities and spacious decks. Ideal for large gatherings or special occasions.",
+        "options": ["Toilet", "Raincoat", "Bar"],
+        "characteristics": {
+            "shipyard": "Vitaly Shipyard",
+            "model": "Luxury Yacht",
+            "year": 2024,
+            "length": 80,
+            "width": 20,
+            "power": "Diesel Engine",
+            "walking_speed": "18 knots",
+            "cabins": 6,
+            "sleeping_places": 12
+        }
     }
 ]
+

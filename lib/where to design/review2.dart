@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:design/where%20to%20design/show_information.dart';
 import 'package:design/where%20to%20design/users_model/boat_model.dart';
 import 'package:flutter/material.dart';
 
@@ -35,28 +36,29 @@ class _Review2State extends State<Review2> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: FutureBuilder(
-            future: readJsondata(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              } else {
-                return ListView.builder(
-                  itemCount: boatList!.length,
-                  itemBuilder: (_, index) => GestureDetector(
-                    onTap: () {
-                      return;
-                    },
-                    child: CardItemView(
-                      items: boatList![index].imageList,
-                    ),
+    return Scaffold(
+      body: FutureBuilder(
+          future: readJsondata(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            } else {
+              return ListView.builder(
+                itemCount: boatList!.length,
+                itemBuilder: (_, index) => GestureDetector(
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return ShowInformation(boatList: boatList![index]);
+                    }));
+                  },
+                  child: CardItemView(
+                    items: boatList![index].imageList,
                   ),
-                );
-              }
-            }),
-      ),
+                ),
+              );
+            }
+          }),
     );
   }
 }
@@ -72,14 +74,8 @@ class CardItemView extends StatelessWidget {
         children: [
           //imagePArt here
           Container(
-            padding: EdgeInsets.all(MediaQuery.of(context).size.height / 48),
-            margin: EdgeInsets.only(
-              left: MediaQuery.of(context).size.height / 48,
-              top: MediaQuery.of(context).size.height / 10,
-              right: MediaQuery.of(context).size.height / 48,
-            ),
             decoration: BoxDecoration(
-              color: Colors.white,
+              // color: Colors.white,
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
@@ -89,8 +85,8 @@ class CardItemView extends StatelessWidget {
                 ),
               ],
             ),
-            width: MediaQuery.of(context).size.width / 1.1,
-            height: MediaQuery.of(context).size.height / 2.5,
+            width: MediaQuery.of(context).size.width * 0.97,
+            //height: MediaQuery.of(context).size.height / 2.5,
             child: ImageSliderView(
               imagesPath: items,
             ),
@@ -156,14 +152,21 @@ class _ImageSliderViewState extends State<ImageSliderView> {
     );
     return SizedBox(
       height: widget.imageHeight,
+      width: MediaQuery.of(context).size.width * 0.8,
       child: Stack(
         children: [
           Positioned.fill(
             child: PageView.builder(
                 itemCount: widget.imagesPath.length,
                 controller: _pageController,
-                itemBuilder: (context, index) =>
-                    Image.network(widget.imagesPath[index])
+                itemBuilder: (context, index) => ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.network(
+                        widget.imagesPath[index],
+                        fit: BoxFit.cover,
+                        alignment: Alignment.topCenter,
+                      ),
+                    )
                 // CachedNetworkImage(imageUrl: widget.imagesPath.toString()),
                 ),
           ),
@@ -172,7 +175,7 @@ class _ImageSliderViewState extends State<ImageSliderView> {
             left: 0,
             right: 0,
             child: counterView,
-          )
+          ),
         ],
       ),
     );
