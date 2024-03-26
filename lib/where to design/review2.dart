@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:design/where%20to%20design/show_information.dart';
 import 'package:design/where%20to%20design/users_model/boat_model.dart';
 import 'package:flutter/material.dart';
+import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 class Review2 extends StatefulWidget {
   const Review2({super.key});
@@ -77,13 +78,18 @@ class CardItemView extends StatelessWidget {
             decoration: BoxDecoration(
               // color: Colors.white,
               borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  blurRadius: 10,
-                  spreadRadius: 2,
+
+              border: GradientBoxBorder(
+                width: 2,
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xFF8942BC),
+                    Color(0xFF5831F7),
+                    Color(0xFF5731F8),
+                    Color(0xFF00C2C2),
+                  ],
                 ),
-              ],
+              ),
             ),
             width: MediaQuery.of(context).size.width * 0.97,
             //height: MediaQuery.of(context).size.height / 2.5,

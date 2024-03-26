@@ -1,3 +1,4 @@
+import 'package:design/where%20to%20design/list_image_view.dart';
 import 'package:design/where%20to%20design/review2.dart';
 import 'package:design/where%20to%20design/users_model/boat_model.dart';
 import 'package:flutter/material.dart';
@@ -73,8 +74,18 @@ class _ShowInformationState extends State<ShowInformation> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: CardItemView(
-                items: widget.boatList.imageList,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return ImageListView(
+                      imageListed: widget.boatList.imageList,
+                    );
+                  }));
+                },
+                child: CardItemView(
+                  items: widget.boatList.imageList,
+                ),
               ),
             ),
             Container(

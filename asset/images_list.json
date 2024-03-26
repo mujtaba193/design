@@ -178,6 +178,41 @@
             "cabins": 6,
             "sleeping_places": 12
         }
+    },
+    {
+        "boatName": "Toby Boat ",
+        "imageList": [
+            "https://pics.craiyon.com/2023-07-24/1b0def093a3c4a5aa0cfb900b30aa299.webp"
+            
+        ],
+        "reviews": [
+            "3",
+            "4",
+            "3"
+        ],
+        "userIds": [
+            "4",
+            "5",
+            "3"
+        ],
+        "minimumPrice": 6500.0,
+        "finalPrice": 6550.0,
+        "booked_start_time": "2024-03-13T14:00:00",
+        "booked_finish_time": "2024-03-13T16:00:00",
+        "guests": 30,
+        "description": "Vitaly Boat 2 offers a premium sailing experience with modern amenities and spacious decks. Ideal for large gatherings or special occasions.",
+        "options": ["Toilet", "Raincoat", "Bar", "Shower"],
+        "characteristics": {
+            "shipyard": "Vitaly Shipyard",
+            "model": "Luxury Yacht",
+            "year": 2024,
+            "length": 80,
+            "width": 20,
+            "power": "Diesel Engine",
+            "walking_speed": "18 knots",
+            "cabins": 6,
+            "sleeping_places": 12
+        }
     }
 ]
 
