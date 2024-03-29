@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:design/where%20to%20design/show_information.dart';
 import 'package:design/where%20to%20design/users_model/boat_model.dart';
+import 'package:design/where%20to%20design/where_to.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 class Review2 extends StatefulWidget {
-  const Review2({super.key});
+  List<BoatModel>? newBoatList;
+  Review2({super.key, this.newBoatList});
 
   @override
   State<Review2> createState() => _Review2State();
@@ -38,24 +40,76 @@ class _Review2State extends State<Review2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: FutureBuilder(
           future: readJsondata(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator();
             } else {
-              return ListView.builder(
-                itemCount: boatList!.length,
-                itemBuilder: (_, index) => GestureDetector(
-                  onTap: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
-                      return ShowInformation(boatList: boatList![index]);
-                    }));
-                  },
-                  child: CardItemView(
-                    items: boatList![index].imageList,
-                  ),
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).size.height * 0.010,
+                      ),
+                      width: MediaQuery.of(context).size.width * 0.95,
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0xFF8942BC),
+                            Color(0xFF5831F7),
+                            Color(0xFF5731F8),
+                            Color(0xFF00C2C2),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) {
+                                return WhereTo(boatList: boatList);
+                              }),
+                            );
+                          },
+                          child: Text('Search')),
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: widget.newBoatList == null
+                          ? boatList!.length
+                          : widget.newBoatList!
+                              .length, // here it was boatList!.length
+                      itemBuilder: (_, index) => GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                if (widget.newBoatList == null) {
+                                  return ShowInformation(
+                                      boatList: boatList![index]);
+                                } else {
+                                  return ShowInformation(
+                                      boatList: widget.newBoatList![index]);
+                                }
+                                /* return ShowInformation(
+                                    boatList: widget.newBoatList![
+                                        index]); */ // here it was boatList![index]
+                              },
+                            ),
+                          );
+                        },
+                        child: CardItemView(
+                          items: widget.newBoatList == null
+                              ? boatList![index].imageList
+                              : widget.newBoatList![index].imageList,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               );
             }
@@ -78,8 +132,7 @@ class CardItemView extends StatelessWidget {
             decoration: BoxDecoration(
               // color: Colors.white,
               borderRadius: BorderRadius.circular(20),
-
-              border: GradientBoxBorder(
+              border: const GradientBoxBorder(
                 width: 2,
                 gradient: LinearGradient(
                   colors: [

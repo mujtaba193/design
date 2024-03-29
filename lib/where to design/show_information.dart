@@ -171,6 +171,29 @@ class _ShowInformationState extends State<ShowInformation> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.01,
                   ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.location_city),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.01,
+                      ),
+                      Text(
+                        'City',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      Spacer(),
+                      Text(
+                        '${widget.boatList.city}',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
+                  ),
                   Row(
                     children: [
                       Icon(Icons.sell),

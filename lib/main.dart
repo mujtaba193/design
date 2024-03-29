@@ -56,6 +56,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/',
       builder: (context, state) => Review2(
+          // newBoatList: const [],
           //isUserLoggedIn: true,
           ),
     ),

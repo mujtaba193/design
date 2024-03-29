@@ -10,6 +10,7 @@ class BoatModel {
   DateTime bookedStartTime;
   DateTime bookedFinishTime;
   final int guests;
+  final String city;
   final String description;
   final List<String> options;
   final CharModel characteristics;
@@ -24,6 +25,7 @@ class BoatModel {
       required this.bookedFinishTime,
       required this.bookedStartTime,
       required this.guests,
+      required this.city,
       required this.description,
       required this.options,
       required this.characteristics});
@@ -39,6 +41,7 @@ class BoatModel {
         bookedStartTime: DateTime.parse(json['booked_start_time']),
         bookedFinishTime: DateTime.parse(json['booked_finish_time']),
         guests: json['guests'],
+        city: json['city'],
         description: json['description'],
         options: List<String>.from(json['options']),
         characteristics: CharModel.fromJson(json['characteristics']));
@@ -55,6 +58,7 @@ class BoatModel {
       'booked_start_time': bookedStartTime.toIso8601String(),
       'booked_finish_time': bookedFinishTime.toIso8601String(),
       'guests': guests,
+      'city': city,
       'description': description,
       'options': options,
       'characteristics': characteristics

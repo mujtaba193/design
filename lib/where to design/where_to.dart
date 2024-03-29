@@ -1,12 +1,16 @@
-import 'package:design/where%20to%20design/user_main2.dart';
+import 'package:design/where%20to%20design/review2.dart';
+import 'package:design/where%20to%20design/users_model/boat_model.dart';
 import 'package:design/where%20to%20design/users_model/user_model.dart';
 import 'package:flutter/material.dart';
+import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 class WhereTo extends StatefulWidget {
-  late List<UsersModel>? usersd;
+  // late List<UsersModel>? usersd;
+  List<BoatModel>? boatList;
   WhereTo({
     Key? key,
-    this.usersd,
+    required this.boatList,
+    //this.usersd,
   }) : super(key: key);
 
   @override
@@ -19,31 +23,15 @@ class _WhereToState extends State<WhereTo> {
   double timeValue = 1.0;
   double timeValue2 = 1.0;
   List<UsersModel> newUsersd = [];
+  List<BoatModel> newBoatList = [];
 
   DateTime userTimeNow1 = DateTime.now().toLocal();
   DateTime userTimeNow2 = DateTime.now().toLocal();
+  /////////////////////////city///////////////////////////
+  List<String> cityList = [];
+  String? selectedCity;
 
   DateTime date = DateTime.now().toLocal();
-  TimeOfDay userTime = TimeOfDay.now();
-  TimeOfDay userTime1 = TimeOfDay.now();
-  Future datePicker() async {
-    DateTime? dateTime = await showDatePicker(
-        context: context,
-        initialDate: date,
-        firstDate: DateTime.now(),
-        lastDate: DateTime(3030));
-    if (dateTime == null) return;
-    setState(() {
-      date = dateTime;
-    });
-    final TimeOfDay? timeOfDay =
-        await showTimePicker(context: context, initialTime: TimeOfDay.now());
-    if (timeOfDay != null) {
-      setState(() {
-        userTime = timeOfDay;
-      });
-    }
-  }
 
   // new =======================================>
   dateTimePicker() async {
@@ -70,7 +58,7 @@ class _WhereToState extends State<WhereTo> {
     }
   }
 
-  filterUsers() {
+  /* filterUsers() {
     if (widget.usersd != null) {
       for (var variable in widget.usersd!) {
         if ((userTimeNow2.isBefore(variable.bookedStartTime) ||
@@ -79,37 +67,102 @@ class _WhereToState extends State<WhereTo> {
         }
       }
     }
-  }
+  } */
+  // List<BoatModel>? boatList;
 
   @override
   void initState() {
-    userTime1 = userTime1.replacing(hour: userTime1.hour + 1);
     userTimeNow2 = userTimeNow1.add(Duration(hours: 1));
+    filterCities();
     super.initState();
   }
+
+  filterCities() {
+    if (widget.boatList != null) {
+      for (var varr in widget.boatList!) {
+        String city = varr.city;
+        cityList.add(city);
+      }
+      print(cityList);
+    }
+  }
+
+  filterBoat() {
+    if (widget.boatList != null && selectedCity != null) {
+      for (var varia in widget.boatList!) {
+        if ((userTimeNow2.isBefore(varia.bookedStartTime) ||
+            userTimeNow1.isAfter(varia.bookedFinishTime))) {
+          if (varia.city == selectedCity) {
+            newBoatList.add(varia);
+          }
+        }
+      }
+    }
+  }
+
+/* if (selectedCity != null) {
+            newBoatList.add(varia);
+          }*/
+  //////////////////////////function to show the list of cities ////////////////
+  void _showCityPicker(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 200,
+          child: ListView.builder(
+            itemCount: cityList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                title: Text(cityList[index]),
+                onTap: () {
+                  setState(() {
+                    selectedCity = cityList[index];
+                    print(selectedCity);
+                  });
+                  Navigator.pop(context);
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  /*
+  "booked_start_time": "2024-04-13T14:00:00",
+        "booked_finish_time": "2024-04-13T16:00:00",
+  */
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        //backgroundColor: Colors.white,
         floatingActionButton: Container(
           margin: EdgeInsets.only(top: 10),
           decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(width: 0.1),
+            border: GradientBoxBorder(
+              width: 2,
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF8942BC),
+                  Color(0xFF5831F7),
+                  Color(0xFF5731F8),
+                  Color(0xFF00C2C2),
+                ],
+              ),
+            ),
+            //color: Colors.white,
+            //border: Border.all(width: 0.1),
             borderRadius: BorderRadius.circular(50),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  // offset: Offset(4.0, 4.0),
-                  blurRadius: 10,
-                  spreadRadius: 2),
-            ],
           ),
           child: CloseButton(
-            color: Colors.black,
-            onPressed: () {},
+            //color: Colors.black,
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
@@ -124,197 +177,116 @@ class _WhereToState extends State<WhereTo> {
                     top: MediaQuery.of(context).size.height / 10,
                     right: MediaQuery.of(context).size.height / 48),
                 decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          // offset: Offset(4.0, 4.0),
-                          blurRadius: 10,
-                          spreadRadius: 2),
-                    ]),
+                  border: GradientBoxBorder(
+                    width: 2,
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xFF8942BC),
+                        Color(0xFF5831F7),
+                        Color(0xFF5731F8),
+                        Color(0xFF00C2C2),
+                      ],
+                    ),
+                  ),
+                  //color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 width: MediaQuery.of(context).size.width / 1.1,
                 height: MediaQuery.of(context).size.height / 2.5,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: const Text(
-                        'Where to?',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 25,
-                          fontWeight: FontWeight.w700,
+                    InkWell(
+                      onTap: () {
+                        _showCityPicker(context);
+                      },
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: const Text(
+                          'Where to?',
+                          style: TextStyle(
+                            //color: Colors.black,
+                            fontSize: 25,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          textAlign: TextAlign.left,
                         ),
-                        textAlign: TextAlign.left,
                       ),
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 70,
                     ),
-                    Form(
+                    /* Form(
                       child: Container(
+                        decoration: BoxDecoration(
+                          border: GradientBoxBorder(
+                            width: 2,
+                            gradient: LinearGradient(
+                              colors: [
+                                Color(0xFF8942BC),
+                                Color(0xFF5831F7),
+                                Color(0xFF5731F8),
+                                Color(0xFF00C2C2),
+                              ],
+                            ),
+                          ),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
                         height: 50,
                         child: TextField(
                           key: _formKey,
                           textAlign: TextAlign.start,
                           style: TextStyle(
-                              color: Colors.black.withOpacity(0.6),
+                              //color: Colors.black.withOpacity(0.6),
                               fontWeight: FontWeight.w700,
                               fontSize: 18),
                           decoration: InputDecoration(
                             hintText: 'Search destinations',
                             hintStyle: TextStyle(
-                                color: Colors.black.withOpacity(0.6),
-                                fontWeight: FontWeight.w700),
+                                //color: Colors.black.withOpacity(0.6),
+                                //fontWeight: FontWeight.w700,
+                                ),
                             filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
+                            //fillColor: Colors.white,
                           ),
                           controller: _controller,
                         ),
                       ),
-                    )
-                  ],
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  datePicker();
-                },
-                child: Container(
-                  margin:
-                      EdgeInsets.all(MediaQuery.of(context).size.height / 48),
-                  padding:
-                      EdgeInsets.all(MediaQuery.of(context).size.width / 30),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.grey.withOpacity(0.7),
+                    ),*/
+                    Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.width / 1.1,
+                      decoration: BoxDecoration(
+                        color: Color(0xFF714BD8).withOpacity(0.3),
+                        //Colors.grey.withOpacity(0.5),
+                        border: GradientBoxBorder(
+                          width: 2,
+                          gradient: LinearGradient(
+                            colors: [
+                              Color(0xFF8942BC),
+                              Color(0xFF5831F7),
+                              Color(0xFF5731F8),
+                              Color(0xFF00C2C2),
+                            ],
+                          ),
+                        ),
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      borderRadius: BorderRadius.circular(8)),
-                  height: 50,
-                  child: Row(
-                    children: [
-                      Text(
-                        'when',
-                        style: TextStyle(
-                          color: Colors.black.withOpacity(0.6),
+                      child: Center(
+                        child: Text(
+                          '${selectedCity == null ? 'Chose destination ' : selectedCity}',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white60.withOpacity(0.6),
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
-                      Spacer(),
-                      Text(
-                        "${date.day}-${date.month}-${date.year} (${userTime.hour}:${userTime.minute})",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.all(MediaQuery.of(context).size.height / 48),
-                padding: EdgeInsets.all(MediaQuery.of(context).size.width / 30),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey.withOpacity(0.7),
-                    ),
-                    borderRadius: BorderRadius.circular(8)),
-                height: 50,
-                child: Row(
-                  children: [
-                    Text(
-                      'Duration',
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(0.6),
-                      ),
-                    ),
-                    Spacer(),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          int hour = userTime1.hour;
-                          int minute = userTime1.minute;
-                          if (timeValue > 1.0) {
-                            timeValue = timeValue - 0.5;
-                            if (userTime1.minute >= 30) {
-                              userTime1 = userTime1.replacing(
-                                  minute: userTime1.minute - 30);
-                            } else {
-                              if (hour < 1 && minute < 30) {
-                                hour = 24;
-                              }
-                              userTime1 = userTime1.replacing(
-                                  hour: hour - 1,
-                                  minute: userTime1.minute + 30);
-                            }
-                          }
-                        });
-                      },
-                      child: Icon(
-                        Icons.remove,
-                        color: Colors.black,
-                      ),
-                    ),
-                    Text(
-                      " $timeValue ",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          int hour = userTime1.hour;
-                          timeValue = timeValue + 0.5;
-                          if (userTime1.minute + 30 < 60) {
-                            userTime1 = userTime1.replacing(
-                                minute: userTime1.minute + 30);
-                          } else {
-                            int x = 60 - userTime1.minute;
-                            int i = 30 - x;
-                            if (hour < 23) {
-                              hour = hour;
-                              userTime1 = userTime1.replacing(
-                                  hour: hour + 1, minute: i);
-                            } else {
-                              hour = -1;
-                              userTime1 = userTime1.replacing(
-                                  hour: hour + 1, minute: i);
-                            }
-                          }
-                        });
-                      },
-                      child: Icon(
-                        Icons.add,
-                        color: Colors.black,
-                      ),
                     )
                   ],
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '${userTime.hour}:${userTime.minute}',
-                    style: TextStyle(color: Colors.black, fontSize: 26),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 20,
-                  ),
-                  Text(
-                    'to',
-                    style: TextStyle(color: Colors.black, fontSize: 26),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 20,
-                  ),
-                  Text(
-                    '${userTime1.hour < 10 ? '0${userTime1.hour}' : userTime1.hour}:${userTime1.minute < 10 ? '0${userTime1.minute}' : userTime1.minute}',
-                    style: TextStyle(color: Colors.black, fontSize: 26),
-                  )
-                ],
-              ),
+
               // ********************************************************************************************
               // Here is the new task ***********************************************************************
 
@@ -328,8 +300,16 @@ class _WhereToState extends State<WhereTo> {
                   padding:
                       EdgeInsets.all(MediaQuery.of(context).size.width / 30),
                   decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.grey.withOpacity(0.7),
+                      border: GradientBoxBorder(
+                        width: 2,
+                        gradient: LinearGradient(
+                          colors: [
+                            Color(0xFF8942BC),
+                            Color(0xFF5831F7),
+                            Color(0xFF5731F8),
+                            Color(0xFF00C2C2),
+                          ],
+                        ),
                       ),
                       borderRadius: BorderRadius.circular(8)),
                   height: 50,
@@ -338,13 +318,14 @@ class _WhereToState extends State<WhereTo> {
                       Text(
                         'when',
                         style: TextStyle(
-                          color: Colors.black.withOpacity(0.6),
-                        ),
+                            // color: Colors.black.withOpacity(0.6),
+                            ),
                       ),
                       Spacer(),
                       Text(
                         "${userTimeNow1.day}-${userTimeNow1.month}-${userTimeNow1.year} (${userTimeNow1.hour}:${userTimeNow1.minute})",
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(//color: Colors.black,
+                            ),
                       ),
                     ],
                   ),
@@ -354,8 +335,16 @@ class _WhereToState extends State<WhereTo> {
                 margin: EdgeInsets.all(MediaQuery.of(context).size.height / 48),
                 padding: EdgeInsets.all(MediaQuery.of(context).size.width / 30),
                 decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey.withOpacity(0.7),
+                    border: GradientBoxBorder(
+                      width: 2,
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xFF8942BC),
+                          Color(0xFF5831F7),
+                          Color(0xFF5731F8),
+                          Color(0xFF00C2C2),
+                        ],
+                      ),
                     ),
                     borderRadius: BorderRadius.circular(8)),
                 height: 50,
@@ -364,8 +353,8 @@ class _WhereToState extends State<WhereTo> {
                     Text(
                       'Duration',
                       style: TextStyle(
-                        color: Colors.black.withOpacity(0.6),
-                      ),
+                          //color: Colors.black.withOpacity(0.6),
+                          ),
                     ),
                     Spacer(),
                     InkWell(
@@ -381,12 +370,13 @@ class _WhereToState extends State<WhereTo> {
                       },
                       child: Icon(
                         Icons.remove,
-                        color: Colors.black,
+                        //color: Colors.black,
                       ),
                     ),
                     Text(
                       " $timeValue2 ",
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(//color: Colors.black,
+                          ),
                     ),
                     InkWell(
                       onTap: () {
@@ -399,7 +389,7 @@ class _WhereToState extends State<WhereTo> {
                       },
                       child: Icon(
                         Icons.add,
-                        color: Colors.black,
+                        //color: Colors.black,
                       ),
                     )
                   ],
@@ -410,34 +400,68 @@ class _WhereToState extends State<WhereTo> {
                 children: [
                   Text(
                     '${userTimeNow1.hour < 10 ? '0${userTimeNow1.hour}' : userTimeNow1.hour}:${userTimeNow1.minute < 10 ? '0${userTimeNow1.minute}' : userTimeNow1.minute}',
-                    style: TextStyle(color: Colors.black, fontSize: 26),
+                    style: TextStyle(
+                      //color: Colors.black,
+                      fontSize: 26,
+                    ),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 20,
                   ),
                   Text(
                     'to',
-                    style: TextStyle(color: Colors.black, fontSize: 26),
+                    style: TextStyle(
+                        //color: Colors.black,
+                        fontSize: 26),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 20,
                   ),
                   Text(
                     '${userTimeNow2.hour < 10 ? '0${userTimeNow2.hour}' : userTimeNow2.hour}:${userTimeNow2.minute < 10 ? '0${userTimeNow2.minute}' : userTimeNow2.minute}',
-                    style: TextStyle(color: Colors.black, fontSize: 26),
+                    style: TextStyle(
+                        //color: Colors.black,
+                        fontSize: 26),
                   )
                 ],
               ),
+              /*  DropdownButton<String>(
+                dropdownColor: Colors.purple.withOpacity(0.8),
+                borderRadius: BorderRadius.circular(10),
+                hint: Text('Select a city'),
+                value: selectedCity,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedCity = newValue;
+                  });
+                },
+                items: cityList.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),*/
               InkWell(
                 onTap: () async {
-                  await filterUsers();
+                  await filterBoat();
                   Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) {
+                      return Review2(
+                        newBoatList: newBoatList,
+                      );
+                    }),
+                  );
+
+                  print('newBoatList =  $newBoatList');
+                  //  await filterUsers();
+                  /* Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) {
                       return UsersMainPage2(
                         newUsersd: newUsersd,
                       );
                     }),
-                  );
+                  );*/
                 },
                 child: Container(
                   margin:
@@ -445,18 +469,34 @@ class _WhereToState extends State<WhereTo> {
                   height: 50,
                   width: MediaQuery.of(context).size.width / 1.1,
                   decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.5),
-                    border: Border.all(
-                      color: Colors.grey.withOpacity(0.7),
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color(0xFF8942BC),
+                        Color(0xFF5831F7),
+                        Color(0xFF5731F8),
+                        Color(0xFF00C2C2),
+                      ],
+                    ),
+                    //color: Colors.grey.withOpacity(0.5),
+                    border: GradientBoxBorder(
+                      width: 2,
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xFF8942BC),
+                          Color(0xFF5831F7),
+                          Color(0xFF5731F8),
+                          Color(0xFF00C2C2),
+                        ],
+                      ),
                     ),
                     borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
+                    /* boxShadow: [
                       BoxShadow(
                           color: Colors.grey.withOpacity(0.5),
                           // offset: Offset(4.0, 4.0),
                           blurRadius: 10,
                           spreadRadius: 2),
-                    ],
+                    ],*/
                   ),
                   child: Center(
                       child: Text(

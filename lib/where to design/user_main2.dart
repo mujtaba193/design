@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:design/where%20to%20design/users_model/user_model.dart';
-import 'package:design/where%20to%20design/where_to.dart';
 import 'package:flutter/material.dart';
 
 class UsersMainPage2 extends StatefulWidget {
@@ -49,11 +48,11 @@ class _UsersMainPageState extends State<UsersMainPage2> {
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.of(context).push(
+                  /* Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) {
                       return WhereTo(usersd: usersd);
                     }),
-                  );
+                  );*/
                 },
                 child: Container(
                   margin:
@@ -93,6 +92,7 @@ class _UsersMainPageState extends State<UsersMainPage2> {
                         } else {
                           return ListView.builder(
                               shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
                               itemCount: widget.newUsersd == null
                                   ? usersd!.length
                                   : widget.newUsersd!.length,

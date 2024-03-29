@@ -52,6 +52,8 @@ dependencies:
   cached_network_image: ^3.3.1
   share_plus: ^7.2.2
   readmore: ^2.2.0
+  csc_picker: ^0.2.7
+  country_picker: ^2.0.25
   
   
 
