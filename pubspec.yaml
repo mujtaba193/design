@@ -54,6 +54,8 @@ dependencies:
   readmore: ^2.2.0
   csc_picker: ^0.2.7
   country_picker: ^2.0.25
+  yandex_mapkit: ^4.0.1
+  
   
   
 
@@ -83,7 +85,9 @@ flutter:
   assets:
       - asset/user_booking.json
       - asset/images_list.json
+      - asset/h3.jpeg
       - lib/image/
+      - asset/location.png
   
   
 

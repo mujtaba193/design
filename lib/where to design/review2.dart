@@ -79,7 +79,8 @@ class _Review2State extends State<Review2> {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: widget.newBoatList == null
+                      itemCount: (widget.newBoatList == null ||
+                              widget.newBoatList!.isEmpty)
                           ? boatList!.length
                           : widget.newBoatList!
                               .length, // here it was boatList!.length
@@ -103,10 +104,10 @@ class _Review2State extends State<Review2> {
                           );
                         },
                         child: CardItemView(
-                          items: widget.newBoatList == null
-                              ? boatList![index].imageList
-                              : widget.newBoatList![index].imageList,
-                        ),
+                            items: (widget.newBoatList == null ||
+                                    widget.newBoatList!.isEmpty)
+                                ? boatList![index].imageList
+                                : widget.newBoatList![index].imageList),
                       ),
                     ),
                   ],

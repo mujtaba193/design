@@ -33,6 +33,10 @@
             "walking_speed": "10 knots",
             "cabins": 5,
             "sleeping_places": 10
+        },
+        "address": {
+            "latitude": 59.9343,
+            "longitude": 30.3351
         }
     },
     {
@@ -70,6 +74,10 @@
             "walking_speed": "20 knots",
             "cabins": 3,
             "sleeping_places": 6
+        },
+        "address": {
+            "latitude": 55.7558,
+            "longitude": 37.6176
         }
     },
     {
@@ -108,6 +116,10 @@
             "walking_speed": "15 knots",
             "cabins": 4,
             "sleeping_places": 8
+        },
+        "address": {
+            "latitude": 55.0084,
+            "longitude": 82.9357
         }
     },
     {
@@ -145,6 +157,10 @@
             "walking_speed": "18 knots",
             "cabins": 6,
             "sleeping_places": 12
+        },
+        "address": {
+            "latitude": 56.8389,
+            "longitude": 60.6057
         }
     },
     {
@@ -182,6 +198,10 @@
             "walking_speed": "18 knots",
             "cabins": 6,
             "sleeping_places": 12
+        },
+        "address": {
+            "latitude": 48.7080,
+            "longitude": 44.5133
         }
     },
     {
@@ -218,6 +238,10 @@
             "walking_speed": "18 knots",
             "cabins": 6,
             "sleeping_places": 12
+        },
+        "address": {
+            "latitude": 55.8304,
+            "longitude": 49.0661
         }
     }
 ]

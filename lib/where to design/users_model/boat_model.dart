@@ -1,4 +1,5 @@
 import 'package:design/where%20to%20design/users_model/Characteristics_model.dart';
+import 'package:design/where%20to%20design/users_model/address_model.dart';
 
 class BoatModel {
   final String boatName;
@@ -14,6 +15,7 @@ class BoatModel {
   final String description;
   final List<String> options;
   final CharModel characteristics;
+  final AddressModel address;
 
   BoatModel(
       {required this.boatName,
@@ -28,7 +30,8 @@ class BoatModel {
       required this.city,
       required this.description,
       required this.options,
-      required this.characteristics});
+      required this.characteristics,
+      required this.address});
 
   factory BoatModel.fromJson(Map<String, dynamic> json) {
     return BoatModel(
@@ -44,7 +47,8 @@ class BoatModel {
         city: json['city'],
         description: json['description'],
         options: List<String>.from(json['options']),
-        characteristics: CharModel.fromJson(json['characteristics']));
+        characteristics: CharModel.fromJson(json['characteristics']),
+        address: AddressModel.fromJson(json['address']));
   }
 
   Map<String, dynamic> toJson() {
@@ -61,7 +65,8 @@ class BoatModel {
       'city': city,
       'description': description,
       'options': options,
-      'characteristics': characteristics
+      'characteristics': characteristics,
+      'address': address
     };
   }
 }

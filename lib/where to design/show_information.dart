@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:readmore/readmore.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 
+// API Yandex key   c29e3f51-6ad9-47eb-85d2-d90aec454225
 class ShowInformation extends StatefulWidget {
   final BoatModel boatList;
   const ShowInformation({super.key, required this.boatList});
@@ -212,6 +214,54 @@ class _ShowInformationState extends State<ShowInformation> {
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(
+                      MediaQuery.of(context).size.width * 0.01,
+                    ),
+                    //padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.01),
+                    decoration: const BoxDecoration(
+                      border: GradientBoxBorder(
+                        width: 2,
+                        gradient: LinearGradient(
+                          colors: [
+                            Color(0xFF8942BC),
+                            Color(0xFF5831F7),
+                            Color(0xFF5731F8),
+                            Color(0xFF00C2C2),
+                          ],
+                        ),
+                      ),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                    ),
+                    height: 300,
+                    width: 500,
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(18.0),
+                        child: YandexMap(
+                          mapObjects: [
+                            PlacemarkMapObject(
+                              icon: PlacemarkIcon.single(PlacemarkIconStyle(
+                                  scale: 0.2,
+                                  image: BitmapDescriptor.fromAssetImage(
+                                      'asset/location.png'))),
+                              mapId: MapObjectId('placemark_3'),
+                              point: Point(
+                                  latitude: widget.boatList.address.latitude,
+                                  longitude: widget.boatList.address.longitude),
+                            )
+                          ],
+                          onMapCreated: (YandexMapController controller) {
+                            controller.moveCamera(
+                                CameraUpdate.newCameraPosition(CameraPosition(
+                              target: Point(
+                                  latitude: widget.boatList.address.latitude,
+                                  longitude: widget.boatList.address.longitude),
+                            )));
+                          },
+                        )),
                   ),
                   Row(
                     children: [

@@ -77,33 +77,7 @@ class _WhereToState extends State<WhereTo> {
     super.initState();
   }
 
-  filterCities() {
-    if (widget.boatList != null) {
-      for (var varr in widget.boatList!) {
-        String city = varr.city;
-        cityList.add(city);
-      }
-      print(cityList);
-    }
-  }
-
-  filterBoat() {
-    if (widget.boatList != null && selectedCity != null) {
-      for (var varia in widget.boatList!) {
-        if ((userTimeNow2.isBefore(varia.bookedStartTime) ||
-            userTimeNow1.isAfter(varia.bookedFinishTime))) {
-          if (varia.city == selectedCity) {
-            newBoatList.add(varia);
-          }
-        }
-      }
-    }
-  }
-
-/* if (selectedCity != null) {
-            newBoatList.add(varia);
-          }*/
-  //////////////////////////function to show the list of cities ////////////////
+//////////////////////////function to show the list of cities ////////////////
   void _showCityPicker(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -130,10 +104,33 @@ class _WhereToState extends State<WhereTo> {
     );
   }
 
-  /*
-  "booked_start_time": "2024-04-13T14:00:00",
-        "booked_finish_time": "2024-04-13T16:00:00",
-  */
+  filterCities() {
+    if (widget.boatList != null) {
+      for (var varr in widget.boatList!) {
+        String city = varr.city;
+        cityList.add(city);
+      }
+      print(cityList);
+    }
+  }
+
+  filterBoat() {
+    if (widget.boatList != null) {
+      for (var varia in widget.boatList!) {
+        if ((userTimeNow2.isBefore(varia.bookedStartTime) ||
+                userTimeNow1.isAfter(varia.bookedFinishTime)) &&
+            varia.city == selectedCity) {
+          newBoatList.add(varia);
+        }
+      }
+    }
+  }
+
+/* if (varia.city == selectedCity) {
+            newBoatList.add(varia);
+          }
+          && selectedCity != null
+          */
 
   @override
   Widget build(BuildContext context) {
@@ -196,21 +193,16 @@ class _WhereToState extends State<WhereTo> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    InkWell(
-                      onTap: () {
-                        _showCityPicker(context);
-                      },
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: const Text(
-                          'Where to?',
-                          style: TextStyle(
-                            //color: Colors.black,
-                            fontSize: 25,
-                            fontWeight: FontWeight.w700,
-                          ),
-                          textAlign: TextAlign.left,
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: const Text(
+                        'Where to?',
+                        style: TextStyle(
+                          //color: Colors.black,
+                          fontSize: 25,
+                          fontWeight: FontWeight.w700,
                         ),
+                        textAlign: TextAlign.left,
                       ),
                     ),
                     SizedBox(
@@ -253,32 +245,37 @@ class _WhereToState extends State<WhereTo> {
                         ),
                       ),
                     ),*/
-                    Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width / 1.1,
-                      decoration: BoxDecoration(
-                        color: Color(0xFF714BD8).withOpacity(0.3),
-                        //Colors.grey.withOpacity(0.5),
-                        border: GradientBoxBorder(
-                          width: 2,
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0xFF8942BC),
-                              Color(0xFF5831F7),
-                              Color(0xFF5731F8),
-                              Color(0xFF00C2C2),
-                            ],
+                    InkWell(
+                      onTap: () {
+                        _showCityPicker(context);
+                      },
+                      child: Container(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width / 1.1,
+                        decoration: BoxDecoration(
+                          color: Color(0xFF714BD8).withOpacity(0.3),
+                          //Colors.grey.withOpacity(0.5),
+                          border: GradientBoxBorder(
+                            width: 2,
+                            gradient: LinearGradient(
+                              colors: [
+                                Color(0xFF8942BC),
+                                Color(0xFF5831F7),
+                                Color(0xFF5731F8),
+                                Color(0xFF00C2C2),
+                              ],
+                            ),
                           ),
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: Text(
-                          '${selectedCity == null ? 'Chose destination ' : selectedCity}',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white60.withOpacity(0.6),
-                            fontWeight: FontWeight.w700,
+                        child: Center(
+                          child: Text(
+                            '${selectedCity == null ? 'Chose destination ' : selectedCity}',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white60.withOpacity(0.6),
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                       ),
@@ -452,8 +449,6 @@ class _WhereToState extends State<WhereTo> {
                       );
                     }),
                   );
-
-                  print('newBoatList =  $newBoatList');
                   //  await filterUsers();
                   /* Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) {
