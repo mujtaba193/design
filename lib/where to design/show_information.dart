@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:readmore/readmore.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 // API Yandex key   c29e3f51-6ad9-47eb-85d2-d90aec454225
@@ -31,6 +32,20 @@ class _ShowInformationState extends State<ShowInformation> {
     Share.share(massage);
     // Share.shareUri(widget.boatList.imageList.toString());
     Share;
+  }
+
+  Future<void> openMap(
+    longitude,
+    latitude,
+  ) async {
+    Uri url = Uri.parse(
+      "yandexmaps://maps.yandex.ru/?pt=$longitude,$latitude&z=20&l=map",
+    );
+    if (await launchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'could not open';
+    }
   }
 
   @override
@@ -262,6 +277,13 @@ class _ShowInformationState extends State<ShowInformation> {
                             )));
                           },
                         )),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      openMap(widget.boatList.address.longitude,
+                          widget.boatList.address.latitude);
+                    },
+                    child: Text('Go to app'),
                   ),
                   Row(
                     children: [

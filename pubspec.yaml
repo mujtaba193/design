@@ -55,6 +55,7 @@ dependencies:
   csc_picker: ^0.2.7
   country_picker: ^2.0.25
   yandex_mapkit: ^4.0.1
+  url_launcher: ^6.2.5
   
   
   
