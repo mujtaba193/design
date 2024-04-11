@@ -173,7 +173,8 @@ class _Register3State extends State<Register3> {
                   width: 310,
                   padding: const EdgeInsets.all(5),
                   child: GridView(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       childAspectRatio: 0.63,
                       crossAxisCount: 3,
                       mainAxisSpacing: 6,
@@ -183,7 +184,6 @@ class _Register3State extends State<Register3> {
                       Expanded(
                         child: Container(
                           // padding: EdgeInsets.fromLTRB(14, 24, 14, 24),
-
                           decoration: const BoxDecoration(
                             border: GradientBoxBorder(
                               gradient: LinearGradient(

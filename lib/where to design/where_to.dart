@@ -1,4 +1,5 @@
 import 'package:design/where%20to%20design/review2.dart';
+import 'package:design/where%20to%20design/show_information.dart';
 import 'package:design/where%20to%20design/users_model/boat_model.dart';
 import 'package:design/where%20to%20design/users_model/user_model.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +8,13 @@ import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 class WhereTo extends StatefulWidget {
   // late List<UsersModel>? usersd;
   List<BoatModel>? boatList;
+  final BoatModel? boatinfo;
+  bool? isSearch;
   WhereTo({
     Key? key,
-    required this.boatList,
+    this.boatList,
+    this.isSearch,
+    this.boatinfo,
     //this.usersd,
   }) : super(key: key);
 
@@ -55,6 +60,9 @@ class _WhereToState extends State<WhereTo> {
             .add(Duration(hours: timeOfDay.hour, minutes: timeOfDay.minute));
         userTimeNow2 = userTimeNow1.add(Duration(hours: 1));
       });
+    }
+    if (widget.isSearch == false) {
+      cheackBookTime();
     }
   }
 
@@ -111,6 +119,22 @@ class _WhereToState extends State<WhereTo> {
         cityList.add(city);
       }
       print(cityList);
+    }
+  }
+
+  cheackBookTime() {
+    if (userTimeNow2.isBefore(widget.boatinfo!.bookedStartTime) == false &&
+        userTimeNow1.isAfter(widget.boatinfo!.bookedFinishTime) == false) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return Dialog(
+              child: Container(
+                  height: 50,
+                  child: Center(
+                      child: Text('Already booked pls select another time'))),
+            );
+          });
     }
   }
 
@@ -270,7 +294,7 @@ class _WhereToState extends State<WhereTo> {
                         ),
                         child: Center(
                           child: Text(
-                            '${selectedCity == null ? 'Chose destination ' : selectedCity}',
+                            '${widget.isSearch == false ? widget.boatinfo!.city : selectedCity == null ? 'Chose destination ' : selectedCity}',
                             style: TextStyle(
                               fontSize: 20,
                               color: Colors.white60.withOpacity(0.6),
@@ -441,14 +465,26 @@ class _WhereToState extends State<WhereTo> {
               ),*/
               InkWell(
                 onTap: () async {
-                  await filterBoat();
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) {
-                      return Review2(
-                        newBoatList: newBoatList,
-                      );
-                    }),
-                  );
+                  if (widget.isSearch == false) {
+                    cheackBookTime();
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return ShowInformation(
+                          boatinfo: widget.boatinfo,
+                          userTimeNow1: userTimeNow1,
+                          userTimeNow2: userTimeNow2,
+                          isBooked: false);
+                    }));
+                  } else {
+                    await filterBoat();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) {
+                        return Review2(
+                          newBoatList: newBoatList,
+                        );
+                      }),
+                    );
+                  }
                   //  await filterUsers();
                   /* Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) {

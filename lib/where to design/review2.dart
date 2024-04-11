@@ -40,7 +40,9 @@ class _Review2State extends State<Review2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+      ),
       body: FutureBuilder(
           future: readJsondata(),
           builder: (context, snapshot) {
@@ -66,15 +68,39 @@ class _Review2State extends State<Review2> {
                         ),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: TextButton(
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) {
-                                return WhereTo(boatList: boatList);
-                              }),
-                            );
-                          },
-                          child: Text('Search')),
+                      child: widget.newBoatList == null ||
+                              widget.newBoatList!.isEmpty
+                          ? TextButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) {
+                                    return WhereTo(boatList: boatList);
+                                  }),
+                                );
+                              },
+                              child: Text('Search'))
+                          : Row(
+                              children: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(builder: (context) {
+                                          return WhereTo(boatList: boatList);
+                                        }),
+                                      );
+                                    },
+                                    child: Text('Search')),
+                                Spacer(),
+                                TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        widget.newBoatList = null;
+                                        widget.newBoatList = [];
+                                      });
+                                    },
+                                    child: Text('Rreset')),
+                              ],
+                            ),
                     ),
                     ListView.builder(
                       shrinkWrap: true,
@@ -89,12 +115,13 @@ class _Review2State extends State<Review2> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {
-                                if (widget.newBoatList == null) {
+                                if (widget.newBoatList == null ||
+                                    widget.newBoatList!.isEmpty) {
                                   return ShowInformation(
-                                      boatList: boatList![index]);
+                                      boatinfo: boatList![index]);
                                 } else {
                                   return ShowInformation(
-                                      boatList: widget.newBoatList![index]);
+                                      boatinfo: widget.newBoatList![index]);
                                 }
                                 /* return ShowInformation(
                                     boatList: widget.newBoatList![
