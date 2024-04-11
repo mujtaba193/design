@@ -209,7 +209,6 @@ class _WhereToState extends State<WhereTo> {
                       ],
                     ),
                   ),
-                  //color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 width: MediaQuery.of(context).size.width / 1.1,
@@ -232,43 +231,6 @@ class _WhereToState extends State<WhereTo> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 70,
                     ),
-                    /* Form(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: GradientBoxBorder(
-                            width: 2,
-                            gradient: LinearGradient(
-                              colors: [
-                                Color(0xFF8942BC),
-                                Color(0xFF5831F7),
-                                Color(0xFF5731F8),
-                                Color(0xFF00C2C2),
-                              ],
-                            ),
-                          ),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        height: 50,
-                        child: TextField(
-                          key: _formKey,
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              //color: Colors.black.withOpacity(0.6),
-                              fontWeight: FontWeight.w700,
-                              fontSize: 18),
-                          decoration: InputDecoration(
-                            hintText: 'Search destinations',
-                            hintStyle: TextStyle(
-                                //color: Colors.black.withOpacity(0.6),
-                                //fontWeight: FontWeight.w700,
-                                ),
-                            filled: true,
-                            //fillColor: Colors.white,
-                          ),
-                          controller: _controller,
-                        ),
-                      ),
-                    ),*/
                     InkWell(
                       onTap: () {
                         _showCityPicker(context);
@@ -466,15 +428,33 @@ class _WhereToState extends State<WhereTo> {
               InkWell(
                 onTap: () async {
                   if (widget.isSearch == false) {
-                    cheackBookTime();
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
-                      return ShowInformation(
-                          boatinfo: widget.boatinfo,
-                          userTimeNow1: userTimeNow1,
-                          userTimeNow2: userTimeNow2,
-                          isBooked: false);
-                    }));
+                    if ((userTimeNow2
+                                .isBefore(widget.boatinfo!.bookedStartTime) ==
+                            false &&
+                        userTimeNow1
+                                .isAfter(widget.boatinfo!.bookedFinishTime) ==
+                            false)) {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Dialog(
+                              child: Container(
+                                  height: 50,
+                                  child: const Center(
+                                      child: Text(
+                                          'Already booked pls select another time'))),
+                            );
+                          });
+                    } else {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return ShowInformation(
+                            boatinfo: widget.boatinfo,
+                            userTimeNow1: userTimeNow1,
+                            userTimeNow2: userTimeNow2,
+                            isBooked: false);
+                      }));
+                    }
                   } else {
                     await filterBoat();
                     Navigator.of(context).push(
@@ -485,14 +465,6 @@ class _WhereToState extends State<WhereTo> {
                       }),
                     );
                   }
-                  //  await filterUsers();
-                  /* Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) {
-                      return UsersMainPage2(
-                        newUsersd: newUsersd,
-                      );
-                    }),
-                  );*/
                 },
                 child: Container(
                   margin:
