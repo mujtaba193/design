@@ -1,14 +1,13 @@
-import 'package:design/where%20to%20design/home_page.dart';
-import 'package:design/where%20to%20design/show_information.dart';
-import 'package:design/where%20to%20design/users_model/boat_model.dart';
-import 'package:design/where%20to%20design/users_model/user_model.dart';
+import 'package:design/where%20to%20design%20riverpod/home_page.dart';
+import 'package:design/where%20to%20design%20riverpod/show_information.dart';
+import 'package:design/where%20to%20design%20riverpod/users_model/boat_model.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 class WhereTo extends StatefulWidget {
   // late List<UsersModel>? usersd;
-  List<BoatModel>? boatList;
-  final BoatModel? boatinfo;
+  List<BoatModelRiverPod>? boatList;
+  final BoatModelRiverPod? boatinfo;
   bool? isSearch;
   WhereTo({
     Key? key,
@@ -28,8 +27,8 @@ class _WhereToState extends State<WhereTo> {
   final _formKey = GlobalKey<FormState>();
   double timeValue = 1.0;
   double timeValue2 = 1.0;
-  List<UsersModel> newUsersd = [];
-  List<BoatModel> newBoatList = [];
+  List<BoatModelRiverPod> newUsersd = [];
+  List<BoatModelRiverPod> newBoatList = [];
 
   DateTime userTimeNow1 = DateTime.now().toLocal();
   DateTime userTimeNow2 = DateTime.now().toLocal();
@@ -142,11 +141,11 @@ class _WhereToState extends State<WhereTo> {
 
   filterBoat() {
     if (widget.boatList != null) {
-      for (var varia in widget.boatList!) {
-        if ((userTimeNow2.isBefore(varia.bookedStartTime) ||
-                userTimeNow1.isAfter(varia.bookedFinishTime)) &&
-            varia.city == selectedCity) {
-          newBoatList.add(varia);
+      for (var variablee in widget.boatList!) {
+        if ((userTimeNow2.isBefore(variablee.bookedStartTime) ||
+                userTimeNow1.isAfter(variablee.bookedFinishTime)) &&
+            variablee.city == selectedCity) {
+          newBoatList.add(variablee);
         }
       }
     }
@@ -430,7 +429,7 @@ class _WhereToState extends State<WhereTo> {
                     await filterBoat();
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) {
-                        return HomePage(
+                        return HomePageProv(
                           newBoatList: newBoatList,
                           userTimeNow1: userTimeNow1,
                           userTimeNow2: userTimeNow2,

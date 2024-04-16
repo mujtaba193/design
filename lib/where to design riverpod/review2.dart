@@ -1,51 +1,85 @@
-import 'dart:convert';
-
-import 'package:design/where%20to%20design/show_information.dart';
-import 'package:design/where%20to%20design/users_model/boat_model.dart';
-import 'package:design/where%20to%20design/where_to.dart';
+import 'package:design/where%20to%20design%20riverpod/show_information.dart';
+import 'package:design/where%20to%20design%20riverpod/user_provider/boat_list_provider.dart';
+import 'package:design/where%20to%20design%20riverpod/users_model/boat_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
-class Review2 extends StatefulWidget {
-  List<BoatModel>? newBoatList;
+class Review2River extends ConsumerStatefulWidget {
+  List<BoatModelRiverPod>? newBoatList;
   DateTime? userTimeNow1;
   DateTime? userTimeNow2;
-  Review2({super.key, this.newBoatList, this.userTimeNow1, this.userTimeNow2});
+  Review2River(
+      {super.key, this.newBoatList, this.userTimeNow1, this.userTimeNow2});
 
   @override
-  State<Review2> createState() => _Review2State();
+  ConsumerState<Review2River> createState() => _Review2State();
 }
 
-class _Review2State extends State<Review2> {
-  List<BoatModel>? boatList;
-
+class _Review2State extends ConsumerState<Review2River> {
   @override
   void initState() {
-    readJsondata();
     super.initState();
-  }
-
-  readJsondata() async {
-    //   File file = await File('assets/images/boat.json');
-    var jsonStr = await DefaultAssetBundle.of(context)
-        .loadString('asset/images_list.json');
-    //   String contents = await file.readAsString();
-
-    // Parse the JSON data
-    //  List<dynamic> jsonData = jsonDecode(contents);
-    List<dynamic> jsonData = jsonDecode(jsonStr);
-
-    // Convert JSON data to List<BoatModel>
-    boatList = jsonData.map((json) => BoatModel.fromJson(json)).toList();
   }
 
   @override
   Widget build(BuildContext context) {
+    final imageListProvider = ref.read(boatProvider);
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
         ),
-        body: FutureBuilder(
+        body: imageListProvider.when(
+          data: (data) {
+            return ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: (widget.newBoatList == null ||
+                      widget.newBoatList!.isEmpty)
+                  ? data!.length
+                  : widget.newBoatList!.length, // here it was boatList!.length
+              itemBuilder: (_, index) {
+                data.map(
+                  (e) => GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            if (widget.newBoatList == null ||
+                                widget.newBoatList!.isEmpty) {
+                              return ShowInformation(
+                                boatinfo: e,
+                                userTimeNow1: widget.userTimeNow1,
+                                userTimeNow2: widget.userTimeNow2,
+                              );
+                            } else {
+                              return ShowInformation(
+                                boatinfo: widget.newBoatList![index],
+                                userTimeNow1: widget.userTimeNow1,
+                                userTimeNow2: widget.userTimeNow2,
+                              );
+                            }
+                            /* return ShowInformation(
+                                    boatList: widget.newBoatList![
+                                        index]); */ // here it was boatList![index]
+                          },
+                        ),
+                      );
+                    },
+                    child: CardItemView(
+                        items: (widget.newBoatList == null ||
+                                widget.newBoatList!.isEmpty)
+                            ? e.imageList
+                            : widget.newBoatList![index].imageList),
+                  ),
+                );
+              },
+            );
+          },
+          error: (_, __) => SizedBox(),
+          loading: () => SizedBox(),
+        )
+        /* FutureBuilder(
             future: readJsondata(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -144,12 +178,9 @@ class _Review2State extends State<Review2> {
                                   ? boatList![index].imageList
                                   : widget.newBoatList![index].imageList),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              }
-            }));
+                      ),*/
+
+        );
   }
 }
 

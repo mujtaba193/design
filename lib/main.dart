@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:design/futureProvider.dart';
 import 'package:design/provider.dart';
-import 'package:design/where%20to%20design/review2.dart';
+import 'package:design/where%20to%20design/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -58,7 +58,7 @@ final GoRouter router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => Review2(
+      builder: (context, state) => HomePage(
           // newBoatList: const [],
           //isUserLoggedIn: true,
           ),

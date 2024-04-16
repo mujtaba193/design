@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Match extends StatefulWidget {
-  const Match({super.key});
+  Match({super.key});
 
   @override
   State<Match> createState() => _MatchState();

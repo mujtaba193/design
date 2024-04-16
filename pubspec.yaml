@@ -54,8 +54,9 @@ dependencies:
   readmore: ^2.2.0
   csc_picker: ^0.2.7
   country_picker: ^2.0.25
-  yandex_mapkit: ^4.0.1
+  yandex_mapkit: ^4.0.2
   url_launcher: ^6.2.5
+  flutter_heatmap_calendar: ^1.0.5
   
   
   

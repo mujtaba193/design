@@ -1,9 +1,8 @@
+import 'package:design/where%20to%20design%20riverpod/review2.dart';
+import 'package:design/where%20to%20design%20riverpod/users_model/boat_model.dart';
+import 'package:design/where%20to%20design%20riverpod/where_to.dart';
 import 'package:design/where%20to%20design/list_image_view.dart';
-import 'package:design/where%20to%20design/review2.dart';
-import 'package:design/where%20to%20design/users_model/boat_model.dart';
-import 'package:design/where%20to%20design/where_to.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:readmore/readmore.dart';
 import 'package:share_plus/share_plus.dart';
@@ -12,7 +11,7 @@ import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 // API Yandex key   c29e3f51-6ad9-47eb-85d2-d90aec454225
 class ShowInformation extends StatefulWidget {
-  final BoatModel? boatinfo;
+  final BoatModelRiverPod? boatinfo;
   DateTime? userTimeNow1;
   DateTime? userTimeNow2;
   bool? isBooked;
@@ -37,7 +36,7 @@ class _ShowInformationState extends State<ShowInformation> {
     CardItemView hh = CardItemView(
       items: widget.boatinfo!.imageList,
     );
-    AndroidYandexMap.useAndroidViewSurface = false;
+
     String massage = 'share the information';
     Share.share(massage);
     // Share.shareUri(widget.boatList.imageList.toString());
@@ -474,66 +473,7 @@ class _ShowInformationState extends State<ShowInformation> {
                       Text(
                           '${widget.boatinfo!.characteristics.sleeping_places}'),
                     ],
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.01,
-                  ),
-                  /*InkWell(
-                    child: Container(
-                      height: 40,
-                      width: 200,
-                      decoration: BoxDecoration(
-                        border: GradientBoxBorder(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0xFF8942BC),
-                              Color(0xFF5831F7),
-                              Color(0xFF5731F8),
-                              Color(0xFF00C2C2),
-                            ],
-                          ),
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(
-                          colors: [
-                            Color(0xFF8942BC),
-                            Color(0xFF5831F7),
-                            Color(0xFF5731F8),
-                            Color(0xFF00C2C2),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),*/
-                  HeatMapCalendar(
-                    defaultColor: Colors.white,
-                    flexible: true,
-                    colorMode: ColorMode.color,
-                    datasets: {
-                      DateTime(2024, 4, 6): 3,
-                      DateTime(2024, 4, 7): 7,
-                      DateTime(2024, 4, 8): 10,
-                      DateTime(2024, 4, 9): 13,
-                      DateTime(2024, 4, 13): 6,
-                    },
-                    colorsets: {
-                      1: Colors.green.withOpacity(0.7),
-                      5: Colors.yellow,
-                      13: Colors.red.withOpacity(0.6),
-                      //   3: Colors.orange,
-
-                      //9: Colors.blue,
-                      //    11: Colors.indigo,
-                      //   13: Colors.purple,
-                    },
-                    onClick: (value) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(value.toString())));
-                    },
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.01,
-                  ),
+                  )
                 ],
               ),
             ),
