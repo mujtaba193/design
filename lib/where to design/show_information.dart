@@ -295,7 +295,7 @@ class _ShowInformationState extends State<ShowInformation> {
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(18.0),
                         child: YandexMap(
-                          nightModeEnabled: true,
+                          nightModeEnabled: false,
                           mapObjects: [
                             PlacemarkMapObject(
                               icon: PlacemarkIcon.single(PlacemarkIconStyle(
