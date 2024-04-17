@@ -16,39 +16,46 @@ class BoatModel {
   final List<String> options;
   final CharModel characteristics;
   final AddressModel address;
+  final Map<DateTime, int> datasets;
 
-  BoatModel(
-      {required this.boatName,
-      required this.imageList,
-      required this.reviews,
-      required this.userIds,
-      required this.minimumPrice,
-      required this.finalPrice,
-      required this.bookedFinishTime,
-      required this.bookedStartTime,
-      required this.guests,
-      required this.city,
-      required this.description,
-      required this.options,
-      required this.characteristics,
-      required this.address});
+  BoatModel({
+    required this.boatName,
+    required this.imageList,
+    required this.reviews,
+    required this.userIds,
+    required this.minimumPrice,
+    required this.finalPrice,
+    required this.bookedFinishTime,
+    required this.bookedStartTime,
+    required this.guests,
+    required this.city,
+    required this.description,
+    required this.options,
+    required this.characteristics,
+    required this.address,
+    required this.datasets,
+  });
 
   factory BoatModel.fromJson(Map<String, dynamic> json) {
     return BoatModel(
-        boatName: json['boatName'],
-        imageList: List<String>.from(json['imageList']),
-        reviews: List<String>.from(json['reviews']),
-        userIds: List<String>.from(json['userIds']),
-        minimumPrice: json['minimumPrice'].toDouble(),
-        finalPrice: json['finalPrice'].toDouble(),
-        bookedStartTime: DateTime.parse(json['booked_start_time']),
-        bookedFinishTime: DateTime.parse(json['booked_finish_time']),
-        guests: json['guests'],
-        city: json['city'],
-        description: json['description'],
-        options: List<String>.from(json['options']),
-        characteristics: CharModel.fromJson(json['characteristics']),
-        address: AddressModel.fromJson(json['address']));
+      boatName: json['boatName'],
+      imageList: List<String>.from(json['imageList']),
+      reviews: List<String>.from(json['reviews']),
+      userIds: List<String>.from(json['userIds']),
+      minimumPrice: json['minimumPrice'].toDouble(),
+      finalPrice: json['finalPrice'].toDouble(),
+      bookedStartTime: DateTime.parse(json['booked_start_time']),
+      bookedFinishTime: DateTime.parse(json['booked_finish_time']),
+      guests: json['guests'],
+      city: json['city'],
+      description: json['description'],
+      options: List<String>.from(json['options']),
+      characteristics: CharModel.fromJson(json['characteristics']),
+      address: AddressModel.fromJson(json['address']),
+      datasets: Map<DateTime, int>.from(json['datasets'].map(
+        (key, value) => MapEntry(DateTime.parse(key), value),
+      )),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -66,7 +73,8 @@ class BoatModel {
       'description': description,
       'options': options,
       'characteristics': characteristics,
-      'address': address
+      'address': address,
+      'datasets': datasets.map((key, value) => MapEntry(key.toString(), value)),
     };
   }
 }

@@ -509,13 +509,7 @@ class _ShowInformationState extends State<ShowInformation> {
                     defaultColor: Colors.white,
                     flexible: true,
                     colorMode: ColorMode.color,
-                    datasets: {
-                      DateTime(2024, 4, 6): 3,
-                      DateTime(2024, 4, 7): 7,
-                      DateTime(2024, 4, 8): 10,
-                      DateTime(2024, 4, 9): 13,
-                      DateTime(2024, 4, 13): 6,
-                    },
+                    datasets: widget.boatinfo!.datasets,
                     colorsets: {
                       1: Colors.green.withOpacity(0.7),
                       5: Colors.yellow,
