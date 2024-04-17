@@ -28,9 +28,25 @@ class ShowInformation extends StatefulWidget {
 }
 
 class _ShowInformationState extends State<ShowInformation> {
+  late int minimum;
+  late int meduim;
+  late int largest;
+  late List<int> allNumbers = [];
   @override
   void initState() {
+    sortingList();
+
     super.initState();
+  }
+
+  sortingList() {
+    for (var val in widget.boatinfo!.datasets.values) {
+      allNumbers!.add(val);
+    }
+    allNumbers!.sort();
+    minimum = allNumbers!.first;
+    largest = allNumbers!.last;
+    meduim = ((minimum! + largest!) / 2).floor();
   }
 
   void shareInfo() {
@@ -511,9 +527,12 @@ class _ShowInformationState extends State<ShowInformation> {
                     colorMode: ColorMode.color,
                     datasets: widget.boatinfo!.datasets,
                     colorsets: {
-                      1: Colors.green.withOpacity(0.7),
-                      5: Colors.yellow,
-                      13: Colors.red.withOpacity(0.6),
+                      minimum!: Colors.green.withOpacity(0.7),
+                      meduim!: Colors.yellow,
+                      largest!: Colors.red.withOpacity(0.6),
+                      //1: Colors.green.withOpacity(0.7),
+                      //5: Colors.yellow,
+                      //13: Colors.red.withOpacity(0.6),
                       //   3: Colors.orange,
 
                       //9: Colors.blue,
