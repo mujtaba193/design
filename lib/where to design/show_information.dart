@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:design/where%20to%20design/list_image_view.dart';
 import 'package:design/where%20to%20design/review2.dart';
 import 'package:design/where%20to%20design/users_model/boat_model.dart';
@@ -5,6 +7,7 @@ import 'package:design/where%20to%20design/where_to.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:http/http.dart' as http;
 import 'package:readmore/readmore.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -60,17 +63,34 @@ class _ShowInformationState extends State<ShowInformation> {
     Share;
   }
 
-  Future<void> openMap(
-    longitude,
-    latitude,
-  ) async {
+/*  Future<void> openMap(longitude, latitude) async {
     Uri url = Uri.parse(
-      "yandexmaps://maps.yandex.ru/?pt=$longitude,$latitude&z=20&l=map",
+      "yandexmaps://maps.yandex.ru/?pt=$longitude,$latitude&z=20&l=map&",
     );
     if (await launchUrl(url)) {
       await launchUrl(url);
     } else {
       throw 'could not open';
+    }
+  }*/
+
+  Future<void> openMap(longitude, latitude) async {
+    String apiKey = 'AIzaSyD_EXNQjjvmLVJE37nA8zVQdTPRDcQStYE';
+    String url =
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$apiKey';
+    var response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      String address = data['results'][0]['formatted_address'];
+      Uri yandexMapsUrl =
+          Uri.parse("yandexmaps://maps.yandex.ru/?text=$address&z=20&l=map");
+      if (await launchUrl(yandexMapsUrl)) {
+        await launchUrl(yandexMapsUrl);
+      } else {
+        throw 'Could not open Yandex Maps';
+      }
+    } else {
+      throw 'Failed to load address data';
     }
   }
 
@@ -295,11 +315,13 @@ class _ShowInformationState extends State<ShowInformation> {
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(18.0),
                         child: YandexMap(
-                          nightModeEnabled: false,
+                          nightModeEnabled: true,
                           mapObjects: [
                             PlacemarkMapObject(
                               icon: PlacemarkIcon.single(PlacemarkIconStyle(
-                                  scale: 0.2,
+                                  //rotationType: RotationType.rotate,
+                                  isFlat: true,
+                                  scale: 0.5,
                                   image: BitmapDescriptor.fromAssetImage(
                                       'asset/location.png'))),
                               mapId: MapObjectId('placemark_3'),
@@ -323,7 +345,7 @@ class _ShowInformationState extends State<ShowInformation> {
                   TextButton(
                     onPressed: () {
                       openMap(widget.boatinfo!.address.longitude,
-                          widget.boatinfo!.address.latitude);
+                          widget.boatinfo!.address.latitude); //"st. peter"
                     },
                     child: Text('Go to app'),
                   ),
@@ -522,19 +544,19 @@ class _ShowInformationState extends State<ShowInformation> {
                     ),
                   ),*/
                   HeatMapCalendar(
-                    defaultColor: Colors.white,
+                    defaultColor: Colors.grey,
+                    textColor: Colors.white,
                     flexible: true,
                     colorMode: ColorMode.color,
                     datasets: widget.boatinfo!.datasets,
                     colorsets: {
                       minimum!: Colors.green.withOpacity(0.7),
-                      meduim!: Colors.yellow,
+                      meduim!: Colors.yellow.withOpacity(0.6),
                       largest!: Colors.red.withOpacity(0.6),
                       //1: Colors.green.withOpacity(0.7),
                       //5: Colors.yellow,
                       //13: Colors.red.withOpacity(0.6),
                       //   3: Colors.orange,
-
                       //9: Colors.blue,
                       //    11: Colors.indigo,
                       //   13: Colors.purple,

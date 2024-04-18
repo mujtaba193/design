@@ -38,6 +38,25 @@ class _HomePageProvState extends State<HomePageProv> {
     super.initState();
   }
 
+/*  Future<void> openMap(longitude, latitude) async {
+    String apiKey = 'AIzaSyD_EXNQjjvmLVJE37nA8zVQdTPRDcQStYE';
+    String url =
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$apiKey';
+    var response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      String address = data['results'][0]['formatted_address'];
+      Uri yandexMapsUrl =
+          Uri.parse("yandexmaps://maps.yandex.ru/?text=$address&z=20&l=map");
+      if (await launchUrl(yandexMapsUrl)) {
+        await launchUrl(yandexMapsUrl);
+      } else {
+        throw 'Could not open Yandex Maps';
+      }
+    } else {
+      throw 'Failed to load address data';
+    }
+  }*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
