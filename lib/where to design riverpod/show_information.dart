@@ -48,7 +48,7 @@ class _ShowInformationState extends State<ShowInformation> {
     latitude,
   ) async {
     Uri url = Uri.parse(
-      "yandexmaps://maps.yandex.ru/?pt=$longitude,$latitude&z=20&l=map",
+      "yandexmaps://maps.yandex.ru/?pt=$longitude,$latitude&z=20&l=map&whatshere[zoom]=17",
     );
     if (await launchUrl(url)) {
       await launchUrl(url);
