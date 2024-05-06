@@ -34,10 +34,30 @@
             "cabins": 5,
             "sleeping_places": 10
         },
-        "address": {
-            "latitude": 59.9343,
-            "longitude": 30.3351
-        },
+        "address": [
+            {
+              "username": "user1",
+              "latitude": 59.976705,
+              "longitude": 30.315283
+            },
+            {
+              "username": "user2",
+              "latitude": 59.975344,
+              "longitude": 30.314650
+            },
+            {
+              "username": "user3",
+              "latitude": 59.974512,
+              "longitude": 30.314558
+            },
+            {
+              "username": "user4",
+              "latitude": 51.5074,
+              "longitude": -0.1278
+            }
+       
+          ]
+          ,
         "datasets": {
             "2024-04-14": 33,
             "2024-04-15": 17,
@@ -87,10 +107,29 @@
             "cabins": 3,
             "sleeping_places": 6
         },
-        "address": {
-            "latitude": 55.7558,
-            "longitude": 37.6176
-        },
+        "address": [
+            {
+              "username": "user1",
+              "latitude": 37.7749,
+              "longitude": -122.4194
+            },
+            {
+              "username": "user2",
+              "latitude": 34.0522,
+              "longitude": -118.2437
+            },
+            {
+              "username": "user3",
+              "latitude": 40.7128,
+              "longitude": -74.0060
+            },
+            {
+              "username": "user4",
+              "latitude": 51.5074,
+              "longitude": -0.1278
+            }
+       
+          ],
         "datasets": {
             "2024-04-14": 3,
             "2024-04-15": 7,
@@ -136,10 +175,29 @@
             "cabins": 4,
             "sleeping_places": 8
         },
-        "address": {
-            "latitude": 55.0084,
-            "longitude": 82.9357
-        },
+        "address": [
+            {
+              "username": "user1",
+              "latitude": 37.7749,
+              "longitude": -122.4194
+            },
+            {
+              "username": "user2",
+              "latitude": 34.0522,
+              "longitude": -118.2437
+            },
+            {
+              "username": "user3",
+              "latitude": 40.7128,
+              "longitude": -74.0060
+            },
+            {
+              "username": "user4",
+              "latitude": 51.5074,
+              "longitude": -0.1278
+            }
+       
+          ],
         "datasets": {
             "2024-04-14": 3,
             "2024-04-15": 7,
@@ -184,10 +242,29 @@
             "cabins": 6,
             "sleeping_places": 12
         },
-        "address": {
-            "latitude": 56.8389,
-            "longitude": 60.6057
-        },
+        "address": [
+            {
+              "username": "user1",
+              "latitude": 37.7749,
+              "longitude": -122.4194
+            },
+            {
+              "username": "user2",
+              "latitude": 34.0522,
+              "longitude": -118.2437
+            },
+            {
+              "username": "user3",
+              "latitude": 40.7128,
+              "longitude": -74.0060
+            },
+            {
+              "username": "user4",
+              "latitude": 51.5074,
+              "longitude": -0.1278
+            }
+       
+          ],
         "datasets": {
             "2024-04-14": 3,
             "2024-04-15": 7,
@@ -232,10 +309,29 @@
             "cabins": 6,
             "sleeping_places": 12
         },
-        "address": {
-            "latitude": 48.7080,
-            "longitude": 44.5133
-        },
+        "address": [
+            {
+              "username": "user1",
+              "latitude": 37.7749,
+              "longitude": -122.4194
+            },
+            {
+              "username": "user2",
+              "latitude": 34.0522,
+              "longitude": -118.2437
+            },
+            {
+              "username": "user3",
+              "latitude": 40.7128,
+              "longitude": -74.0060
+            },
+            {
+              "username": "user4",
+              "latitude": 51.5074,
+              "longitude": -0.1278
+            }
+       
+          ],
         "datasets": {
             "2024-04-14": 3,
             "2024-04-15": 7,
@@ -279,10 +375,29 @@
             "cabins": 6,
             "sleeping_places": 12
         },
-        "address": {
-            "latitude": 55.8304,
-            "longitude": 49.0661
-        },
+        "address": [
+            {
+              "username": "user1",
+              "latitude": 37.7749,
+              "longitude": -122.4194
+            },
+            {
+              "username": "user2",
+              "latitude": 34.0522,
+              "longitude": -118.2437
+            },
+            {
+              "username": "user3",
+              "latitude": 40.7128,
+              "longitude": -74.0060
+            },
+            {
+              "username": "user4",
+              "latitude": 51.5074,
+              "longitude": -0.1278
+            }
+       
+          ],
         "datasets": {
             "2024-04-14": 3,
             "2024-04-15": 7,
@@ -327,10 +442,29 @@
             "cabins": 6,
             "sleeping_places": 12
         },
-        "address": {
-            "latitude": 55.8304,
-            "longitude": 49.0661
-        },
+        "address": [
+            {
+              "username": "user1",
+              "latitude": 37.7749,
+              "longitude": -122.4194
+            },
+            {
+              "username": "user2",
+              "latitude": 34.0522,
+              "longitude": -118.2437
+            },
+            {
+              "username": "user3",
+              "latitude": 40.7128,
+              "longitude": -74.0060
+            },
+            {
+              "username": "user4",
+              "latitude": 51.5074,
+              "longitude": -0.1278
+            }
+       
+          ],
         "datasets": {
             "2024-04-14": 3,
             "2024-04-15": 7,
@@ -374,10 +508,29 @@
             "cabins": 6,
             "sleeping_places": 12
         },
-        "address": {
-            "latitude": 55.8304,
-            "longitude": 49.0661
-        },
+        "address": [
+            {
+              "username": "user1",
+              "latitude": 37.7749,
+              "longitude": -122.4194
+            },
+            {
+              "username": "user2",
+              "latitude": 34.0522,
+              "longitude": -118.2437
+            },
+            {
+              "username": "user3",
+              "latitude": 40.7128,
+              "longitude": -74.0060
+            },
+            {
+              "username": "user4",
+              "latitude": 51.5074,
+              "longitude": -0.1278
+            }
+       
+          ],
         "datasets": {
             "2024-04-14": 3,
             "2024-04-15": 7,

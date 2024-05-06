@@ -15,7 +15,8 @@ class BoatModel {
   final String description;
   final List<String> options;
   final CharModel characteristics;
-  final AddressModel address;
+
+  final List<AddressModel> address;
   final Map<DateTime, int> datasets;
 
   BoatModel({
@@ -51,7 +52,9 @@ class BoatModel {
       description: json['description'],
       options: List<String>.from(json['options']),
       characteristics: CharModel.fromJson(json['characteristics']),
-      address: AddressModel.fromJson(json['address']),
+      address: List<dynamic>.from(json['address'])
+          .map((e) => AddressModel.fromJson(e))
+          .toList(),
       datasets: Map<DateTime, int>.from(json['datasets'].map(
         (key, value) => MapEntry(DateTime.parse(key), value),
       )),
@@ -73,7 +76,7 @@ class BoatModel {
       'description': description,
       'options': options,
       'characteristics': characteristics,
-      'address': address,
+      'address': address.map((e) => e.toJson()).toList(),
       'datasets': datasets.map((key, value) => MapEntry(key.toString(), value)),
     };
   }

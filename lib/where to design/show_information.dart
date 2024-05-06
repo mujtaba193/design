@@ -316,39 +316,41 @@ class _ShowInformationState extends State<ShowInformation> {
                         borderRadius: BorderRadius.circular(18.0),
                         child: YandexMap(
                           nightModeEnabled: true,
-                          mapObjects: [
-                            PlacemarkMapObject(
-                              icon: PlacemarkIcon.single(PlacemarkIconStyle(
-                                  //rotationType: RotationType.rotate,
-                                  isFlat: true,
-                                  scale: 0.5,
-                                  image: BitmapDescriptor.fromAssetImage(
-                                      'asset/location.png'))),
-                              mapId: MapObjectId('placemark_3'),
-                              point: Point(
-                                  latitude: widget.boatinfo!.address.latitude,
-                                  longitude:
-                                      widget.boatinfo!.address.longitude),
-                            )
-                          ],
+                          mapObjects: widget.boatinfo!.address
+                              .map((e) => PlacemarkMapObject(
+                                    icon: PlacemarkIcon.single(
+                                        PlacemarkIconStyle(
+                                            //rotationType: RotationType.rotate,
+                                            isFlat: true,
+                                            scale: 0.2,
+                                            image:
+                                                BitmapDescriptor.fromAssetImage(
+                                                    'asset/location.png'))),
+                                    mapId: MapObjectId(e.username),
+                                    point: Point(
+                                        latitude: e.latitude,
+                                        longitude: e.longitude),
+                                  ))
+                              .toList(),
                           onMapCreated: (YandexMapController controller) {
                             controller.moveCamera(
                                 CameraUpdate.newCameraPosition(CameraPosition(
                               target: Point(
-                                  latitude: widget.boatinfo!.address.latitude,
+                                  latitude:
+                                      widget.boatinfo!.address.first.latitude,
                                   longitude:
-                                      widget.boatinfo!.address.longitude),
+                                      widget.boatinfo!.address.first.longitude),
                             )));
                           },
                         )),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      openMap(widget.boatinfo!.address.longitude,
-                          widget.boatinfo!.address.latitude); //"st. peter"
-                    },
-                    child: Text('Go to app'),
-                  ),
+                  // TextButton(
+                  //   onPressed: () {
+                  //     openMap(widget.boatinfo!.address.longitude,
+                  //         widget.boatinfo!.address.latitude); //"st. peter"
+                  //   },
+                  //   child: Text('Go to app'),
+                  // ),
                   Row(
                     children: [
                       Icon(Icons.description),
