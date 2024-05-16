@@ -1,24 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:mobkit_calendar/mobkit_calendar.dart';
-
-// class MobCalendarPage extends StatefulWidget {
-//   const MobCalendarPage({super.key});
-
-//   @override
-//   State<MobCalendarPage> createState() => _MobCalendarPageState();
-// }
-
-// class _MobCalendarPageState extends State<MobCalendarPage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(),
-//       body:
-//     );
-//     // MobkitCalendarConfigModel getConfig(MobkitCalendarViewType mobkitCalendarViewType){return;}
-//   }
-// }
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

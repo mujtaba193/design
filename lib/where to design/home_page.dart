@@ -1,8 +1,8 @@
 import 'package:design/loover2.dart';
-import 'package:design/loovr4.dart';
 import 'package:design/register%20-%20interests.dart';
 import 'package:design/value.dart';
 import 'package:design/where%20to%20design/pay%20pages%20/pay_page.dart';
+import 'package:design/where%20to%20design/review2.dart';
 import 'package:design/where%20to%20design/users_model/boat_model.dart';
 import 'package:flutter/material.dart';
 
@@ -24,14 +24,15 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     screens = [
+      Review2(
+        newBoatList: widget.newBoatList,
+        userTimeNow1: widget.userTimeNow1,
+        userTimeNow2: widget.userTimeNow2,
+      ),
       PayPage(),
-      // Review2(
-      //   newBoatList: widget.newBoatList,
-      //   userTimeNow1: widget.userTimeNow1,
-      //   userTimeNow2: widget.userTimeNow2,
-      // ),
       Loovr2(),
-      Loovr4(),
+      // TableEvents(),
+      //Loovr4(),
       Val(),
       Register3(),
     ];

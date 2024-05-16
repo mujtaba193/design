@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:design/where%20to%20design/Calendar%20classes/table_basic.dart';
+import 'package:design/where%20to%20design/Calendar%20classes/table_events.dart';
 import 'package:design/where%20to%20design/list_image_view.dart';
 import 'package:design/where%20to%20design/review2.dart';
 import 'package:design/where%20to%20design/users_model/boat_model.dart';
@@ -572,7 +572,7 @@ class _ShowInformationState extends State<ShowInformation> {
                           SnackBar(content: Text(value.toString())));
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
-                        return TableBasic();
+                        return TableEvents(timeLine: widget.boatinfo!.timeline);
                       }));
                     },
                   ),

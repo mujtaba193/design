@@ -1,156 +1,127 @@
-// // Copyright 2019 Aleksander Woźniak
-// // SPDX-License-Identifier: Apache-2.0
+import 'package:design/where%20to%20design/users_model/timeline_model.dart';
+import 'package:flutter/material.dart';
+import 'package:mobkit_calendar/mobkit_calendar.dart';
 
-// import 'dart:collection';
-// import 'dart:html';
+class TableEvents extends StatefulWidget {
+  List<TimeLineModel> timeLine;
+  TableEvents({super.key, required this.timeLine});
 
-// import 'package:flutter/material.dart';
-// import 'package:table_calendar/table_calendar.dart';
+  @override
+  State<TableEvents> createState() => _TableEventsState();
+}
 
-// class TableEventsExample extends StatefulWidget {
-//   @override
-//   _TableEventsExampleState createState() => _TableEventsExampleState();
-// }
+class _TableEventsState extends State<TableEvents> {
+  List<MobkitCalendarAppointmentModel> eventList = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    eventList = [
+      ...widget.timeLine.map(
+        (e) => MobkitCalendarAppointmentModel(
+          title: e.price.toString(),
+          appointmentStartDate: e.startTime,
+          appointmentEndDate: e.endTime,
+          isAllDay: false,
+          color: Colors.green,
+          detail: "The event will take place between 4 and 6 p.m.",
+          recurrenceModel: null,
+        ),
+      )
+    ];
+    super.initState();
+  }
 
-// class _TableEventsExampleState extends State<TableEventsExample> {
-//   late final ValueNotifier<List<Event>> _selectedEvents;
-//   CalendarFormat _calendarFormat = CalendarFormat.month;
-//   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
-//       .toggledOff; // Can be toggled on/off by longpressing a date
-//   DateTime _focusedDay = DateTime.now();
-//   DateTime? _selectedDay;
-//   DateTime? _rangeStart;
-//   DateTime? _rangeEnd;
-//   final kEvents = LinkedHashMap(
-//     equals: isSameDay,
-//   );
+  MobkitCalendarConfigModel getConfig(
+      MobkitCalendarViewType mobkitCalendarViewType) {
+    return MobkitCalendarConfigModel(
+      dailyItemsConfigModel:
+          DailyItemsConfigModel(hourTextStyle: TextStyle(color: Colors.white)),
 
-//   @override
-//   void initState() {
-//     super.initState();
+      cellConfig: CalendarCellConfigModel(
+        disabledStyle: CalendarCellStyle(
+          textStyle:
+              TextStyle(fontSize: 14, color: Colors.grey.withOpacity(0.5)),
+          // color: Colors.transparent,
+        ),
+        enabledStyle: CalendarCellStyle(
+          //  textStyle: const TextStyle(fontSize: 14, color: Colors.black),
+          border: Border.all(color: Colors.green, width: 1),
+        ),
+        selectedStyle: CalendarCellStyle(
+          color: Colors.blue,
+          textStyle: const TextStyle(fontSize: 14, color: Colors.white),
+          border: Border.all(color: Colors.white, width: 1),
+        ),
+        currentStyle: CalendarCellStyle(
+          textStyle: const TextStyle(color: Colors.lightBlue),
+        ),
+      ),
+      // calendarPopupConfigModel: CalendarPopupConfigModel(
+      //   popUpBoxDecoration: const BoxDecoration(
+      //       color: Colors.white,
+      //       borderRadius: BorderRadius.all(Radius.circular(25))),
+      //   popUpOpacity: true,
+      //   animateDuration: 500,
+      //   verticalPadding: 30,
+      //   popupSpace: 10,
+      //   popupHeight: MediaQuery.of(context).size.height * 0.6,
+      //   popupWidth: MediaQuery.of(context).size.width,
+      //   viewportFraction: 0.9,
+      // ),
+      topBarConfig: CalendarTopBarConfigModel(
+        isVisibleHeaderWidget:
+            mobkitCalendarViewType == MobkitCalendarViewType.monthly ||
+                mobkitCalendarViewType == MobkitCalendarViewType.agenda,
+        isVisibleTitleWidget: true,
+        isVisibleMonthBar: true,
+        isVisibleYearBar: true,
+        isVisibleWeekDaysBar: true,
+        weekDaysStyle: const TextStyle(
+          fontSize: 14,
+        ),
+      ),
+      weekDaysBarBorderColor: Colors.purple,
+      locale: "en",
+      disableOffDays: true,
+      disableWeekendsDays: false,
+      monthBetweenPadding: 20,
+      primaryColor: Colors.lightBlue,
+      popupEnable: mobkitCalendarViewType == MobkitCalendarViewType.monthly
+          ? true
+          : false,
+    );
+  }
 
-//     _selectedDay = _focusedDay;
-//     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
-//   }
-
-//   @override
-//   void dispose() {
-//     _selectedEvents.dispose();
-//     super.dispose();
-//   }
-
-//   List<Event> _getEventsForDay(DateTime day) {
-//     // Implementation example
-//     return kEvents[day] ?? [];
-//   }
-
-//   List<Event> _getEventsForRange(DateTime start, DateTime end) {
-//     // Implementation example
-//     final days = daysInRange(start, end);
-
-//     return [
-//       for (final d in days) ..._getEventsForDay(d),
-//     ];
-//   }
-
-//   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
-//     if (!isSameDay(_selectedDay, selectedDay)) {
-//       setState(() {
-//         _selectedDay = selectedDay;
-//         _focusedDay = focusedDay;
-//         _rangeStart = null; // Important to clean those
-//         _rangeEnd = null;
-//         _rangeSelectionMode = RangeSelectionMode.toggledOff;
-//       });
-
-//       _selectedEvents.value = _getEventsForDay(selectedDay);
-//     }
-//   }
-
-//   void _onRangeSelected(DateTime? start, DateTime? end, DateTime focusedDay) {
-//     setState(() {
-//       _selectedDay = null;
-//       _focusedDay = focusedDay;
-//       _rangeStart = start;
-//       _rangeEnd = end;
-//       _rangeSelectionMode = RangeSelectionMode.toggledOn;
-//     });
-
-//     // `start` or `end` could be null
-//     if (start != null && end != null) {
-//       _selectedEvents.value = _getEventsForRange(start, end);
-//     } else if (start != null) {
-//       _selectedEvents.value = _getEventsForDay(start);
-//     } else if (end != null) {
-//       _selectedEvents.value = _getEventsForDay(end);
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('TableCalendar - Events'),
-//       ),
-//       body: Column(
-//         children: [
-//           TableCalendar<Event>(
-//             firstDay: DateTime.now().toLocal(),
-//             lastDay: DateTime.utc(2060, 3, 22),
-//             focusedDay: _focusedDay,
-//             selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-//             rangeStartDay: _rangeStart,
-//             rangeEndDay: _rangeEnd,
-//             calendarFormat: _calendarFormat,
-//             rangeSelectionMode: _rangeSelectionMode,
-//             eventLoader: _getEventsForDay,
-//             startingDayOfWeek: StartingDayOfWeek.monday,
-//             calendarStyle: CalendarStyle(
-//               // Use `CalendarStyle` to customize the UI
-//               outsideDaysVisible: false,
-//             ),
-//             onDaySelected: _onDaySelected,
-//             onRangeSelected: _onRangeSelected,
-//             onFormatChanged: (format) {
-//               if (_calendarFormat != format) {
-//                 setState(() {
-//                   _calendarFormat = format;
-//                 });
-//               }
-//             },
-//             onPageChanged: (focusedDay) {
-//               _focusedDay = focusedDay;
-//             },
-//           ),
-//           const SizedBox(height: 8.0),
-//           Expanded(
-//             child: ValueListenableBuilder<List<Event>>(
-//               valueListenable: _selectedEvents,
-//               builder: (context, value, _) {
-//                 return ListView.builder(
-//                   itemCount: value.length,
-//                   itemBuilder: (context, index) {
-//                     return Container(
-//                       margin: const EdgeInsets.symmetric(
-//                         horizontal: 12.0,
-//                         vertical: 4.0,
-//                       ),
-//                       decoration: BoxDecoration(
-//                         border: Border.all(),
-//                         borderRadius: BorderRadius.circular(12.0),
-//                       ),
-//                       child: ListTile(
-//                         onTap: () => print('${value[index]}'),
-//                         title: Text('${value[index]}'),
-//                       ),
-//                     );
-//                   },
-//                 );
-//               },
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Events'),
+      ),
+      body: MobkitCalendarWidget(
+        minDate: DateTime(1800),
+        key: UniqueKey(),
+        config: getConfig(MobkitCalendarViewType.daily),
+        dateRangeChanged: (datetime) => null,
+        headerWidget:
+            (List<MobkitCalendarAppointmentModel> models, DateTime datetime) =>
+                Text('ABC'),
+        // titleWidget:
+        //     (List<MobkitCalendarAppointmentModel> models, DateTime datetime) =>
+        //         Text('ABC2'),
+        onSelectionChange:
+            (List<MobkitCalendarAppointmentModel> models, DateTime date) =>
+                null,
+        eventTap: (model) => null,
+        onPopupWidget:
+            (List<MobkitCalendarAppointmentModel> models, DateTime datetime) =>
+                Text('ABC3'),
+        onDateChanged: (DateTime datetime) => null,
+        mobkitCalendarController: MobkitCalendarController(
+          viewType: MobkitCalendarViewType.daily,
+          appointmentList: eventList,
+        ),
+      ),
+    );
+  }
+}
