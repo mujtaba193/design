@@ -4,7 +4,8 @@ import 'package:mobkit_calendar/mobkit_calendar.dart';
 
 class TableEvents extends StatefulWidget {
   List<TimeLineModel> timeLine;
-  TableEvents({super.key, required this.timeLine});
+  DateTime selectedDate;
+  TableEvents({super.key, required this.timeLine, required this.selectedDate});
 
   @override
   State<TableEvents> createState() => _TableEventsState();
@@ -118,6 +119,8 @@ class _TableEventsState extends State<TableEvents> {
                 Text('ABC3'),
         onDateChanged: (DateTime datetime) => null,
         mobkitCalendarController: MobkitCalendarController(
+          calendarDateTime: widget.selectedDate,
+          selectedDateTime: widget.selectedDate,
           viewType: MobkitCalendarViewType.daily,
           appointmentList: eventList,
         ),

@@ -568,11 +568,13 @@ class _ShowInformationState extends State<ShowInformation> {
                       //   13: Colors.purple,
                     },
                     onClick: (value) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(value.toString())));
+                      // ScaffoldMessenger.of(context).showSnackBar(
+                      //     SnackBar(content: Text(value.toString())));
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
-                        return TableEvents(timeLine: widget.boatinfo!.timeline);
+                        return TableEvents(
+                            timeLine: widget.boatinfo!.timeline,
+                            selectedDate: value);
                       }));
                     },
                   ),
