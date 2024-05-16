@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:design/where%20to%20design/Calendar%20classes/table_basic.dart';
 import 'package:design/where%20to%20design/list_image_view.dart';
 import 'package:design/where%20to%20design/review2.dart';
 import 'package:design/where%20to%20design/users_model/boat_model.dart';
@@ -35,6 +36,7 @@ class _ShowInformationState extends State<ShowInformation> {
   late int meduim;
   late int largest;
   late List<int> allNumbers = [];
+
   @override
   void initState() {
     sortingList();
@@ -316,22 +318,24 @@ class _ShowInformationState extends State<ShowInformation> {
                         borderRadius: BorderRadius.circular(18.0),
                         child: YandexMap(
                           nightModeEnabled: true,
-                          mapObjects: widget.boatinfo!.address
-                              .map((e) => PlacemarkMapObject(
-                                    icon: PlacemarkIcon.single(
-                                        PlacemarkIconStyle(
-                                            //rotationType: RotationType.rotate,
-                                            isFlat: true,
-                                            scale: 0.2,
-                                            image:
-                                                BitmapDescriptor.fromAssetImage(
-                                                    'asset/location.png'))),
-                                    mapId: MapObjectId(e.username),
-                                    point: Point(
-                                        latitude: e.latitude,
-                                        longitude: e.longitude),
-                                  ))
-                              .toList(),
+                          mapObjects: [
+                            ...widget.boatinfo!.address
+                                .map((e) => PlacemarkMapObject(
+                                      icon: PlacemarkIcon.single(
+                                          PlacemarkIconStyle(
+                                              //rotationType: RotationType.rotate,
+                                              isFlat: true,
+                                              scale: 0.2,
+                                              image: BitmapDescriptor
+                                                  .fromAssetImage(
+                                                      'asset/location.png'))),
+                                      mapId: MapObjectId(e.username),
+                                      point: Point(
+                                          latitude: e.latitude,
+                                          longitude: e.longitude),
+                                    ))
+                                .toList(),
+                          ],
                           onMapCreated: (YandexMapController controller) {
                             controller.moveCamera(
                                 CameraUpdate.newCameraPosition(CameraPosition(
@@ -566,6 +570,10 @@ class _ShowInformationState extends State<ShowInformation> {
                     onClick: (value) {
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(value.toString())));
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return TableBasic();
+                      }));
                     },
                   ),
                   SizedBox(
