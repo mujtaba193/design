@@ -32,7 +32,7 @@ class _TableEventsState extends State<TableEvents> {
           color: minimam == e.price
               ? Colors.green
               : mediam == e.price
-                  ? Colors.yellow
+                  ? Colors.yellow.shade200
                   : Colors.red,
           detail: "The event will take place between 4 and 6 p.m.",
           recurrenceModel: null,
@@ -47,7 +47,8 @@ class _TableEventsState extends State<TableEvents> {
     allPrice.sort();
     minimam = allPrice.first;
     maximam = allPrice.last;
-    mediam = ((minimam + maximam) / 2).floor();
+    mediam = allPrice[(allPrice.length / 2).floor()];
+    // ((minimam + maximam) / 2).floor();
   }
 
   MobkitCalendarConfigModel getConfig(
