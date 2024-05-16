@@ -13,9 +13,15 @@ class TableEvents extends StatefulWidget {
 
 class _TableEventsState extends State<TableEvents> {
   List<MobkitCalendarAppointmentModel> eventList = [];
+  late int minimam;
+  late int mediam;
+  late int maximam;
+  late List<int> allPrice;
+
   @override
   void initState() {
     // TODO: implement initState
+    sortingPrice();
     eventList = [
       ...widget.timeLine.map(
         (e) => MobkitCalendarAppointmentModel(
@@ -23,13 +29,25 @@ class _TableEventsState extends State<TableEvents> {
           appointmentStartDate: e.startTime,
           appointmentEndDate: e.endTime,
           isAllDay: false,
-          color: Colors.green,
+          color: minimam == e.price
+              ? Colors.green
+              : mediam == e.price
+                  ? Colors.yellow
+                  : Colors.red,
           detail: "The event will take place between 4 and 6 p.m.",
           recurrenceModel: null,
         ),
       )
     ];
     super.initState();
+  }
+
+  sortingPrice() {
+    allPrice = widget.timeLine.map((e) => e.price).toList();
+    allPrice.sort();
+    minimam = allPrice.first;
+    maximam = allPrice.last;
+    mediam = ((minimam + maximam) / 2).floor();
   }
 
   MobkitCalendarConfigModel getConfig(
