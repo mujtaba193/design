@@ -29,11 +29,13 @@ class _TableEventsState extends State<TableEvents> {
           appointmentStartDate: e.startTime,
           appointmentEndDate: e.endTime,
           isAllDay: false,
-          color: minimam == e.price
-              ? Colors.green
-              : mediam == e.price
-                  ? Colors.yellow.shade200
-                  : Colors.red,
+          color: minimam <= e.price && mediam > e.price
+              ? Colors.green.withOpacity(0.5)
+              : mediam <= e.price && maximam > e.price
+                  ? Colors.yellow.withOpacity(0.5)
+                  : maximam == e.price
+                      ? Colors.red.withOpacity(0.5)
+                      : null,
           detail: "The event will take place between 4 and 6 p.m.",
           recurrenceModel: null,
         ),
@@ -47,13 +49,14 @@ class _TableEventsState extends State<TableEvents> {
     allPrice.sort();
     minimam = allPrice.first;
     maximam = allPrice.last;
-    mediam = allPrice[(allPrice.length / 2).floor()];
-    // ((minimam + maximam) / 2).floor();
+    // mediam = allPrice[(allPrice.length / 2).floor()];
+    mediam = ((minimam + maximam) / 2).floor();
   }
 
   MobkitCalendarConfigModel getConfig(
       MobkitCalendarViewType mobkitCalendarViewType) {
     return MobkitCalendarConfigModel(
+      borderRadius: BorderRadius.circular(20),
       dailyItemsConfigModel:
           DailyItemsConfigModel(hourTextStyle: TextStyle(color: Colors.white)),
 
@@ -68,7 +71,7 @@ class _TableEventsState extends State<TableEvents> {
           border: Border.all(color: Colors.green, width: 1),
         ),
         selectedStyle: CalendarCellStyle(
-          color: Colors.blue,
+          color: Colors.blue.withOpacity(0.5),
           textStyle: const TextStyle(fontSize: 14, color: Colors.white),
           border: Border.all(color: Colors.white, width: 1),
         ),
