@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:design/heatSrc/src/data/heatmap_color_mode.dart';
 import 'package:design/heatSrc/src/heatmap_calendar.dart';
 import 'package:design/where%20to%20design/Calendar%20classes/table_events.dart';
+import 'package:design/where%20to%20design/full_map.dart';
 import 'package:design/where%20to%20design/list_image_view.dart';
 import 'package:design/where%20to%20design/review2.dart';
 import 'package:design/where%20to%20design/users_model/boat_model.dart';
@@ -14,6 +15,7 @@ import 'package:http/http.dart' as http;
 import 'package:readmore/readmore.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:yandex_geocoder/yandex_geocoder.dart' as yandexgeo;
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 // API Yandex key   c29e3f51-6ad9-47eb-85d2-d90aec454225
@@ -38,6 +40,11 @@ class _ShowInformationState extends State<ShowInformation> {
   late int meduim;
   late int largest;
   late List<int> allNumbers = [];
+  final yandexgeo.YandexGeocoder geocoder = yandexgeo.YandexGeocoder(
+      apiKey: 'AIzaSyD_EXNQjjvmLVJE37nA8zVQdTPRDcQStYE');
+
+  String address = 'null';
+  String latLong = 'null';
 
   @override
   void initState() {
@@ -319,23 +326,39 @@ class _ShowInformationState extends State<ShowInformation> {
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(18.0),
                         child: YandexMap(
+                          onMapTap: (a) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return FullMap(
+                                      address: widget.boatinfo!.address);
+                                },
+                              ),
+                            );
+                          },
                           nightModeEnabled: true,
                           mapObjects: [
                             ...widget.boatinfo!.address
-                                .map((e) => PlacemarkMapObject(
-                                      icon: PlacemarkIcon.single(
-                                          PlacemarkIconStyle(
-                                              //rotationType: RotationType.rotate,
-                                              isFlat: true,
-                                              scale: 0.2,
-                                              image: BitmapDescriptor
-                                                  .fromAssetImage(
-                                                      'asset/location.png'))),
-                                      mapId: MapObjectId(e.username),
-                                      point: Point(
-                                          latitude: e.latitude,
-                                          longitude: e.longitude),
-                                    ))
+                                .map(
+                                  (e) => PlacemarkMapObject(
+                                    icon: PlacemarkIcon.single(
+                                        PlacemarkIconStyle(
+                                            //rotationType: RotationType.rotate,
+                                            isFlat: true,
+                                            scale: 0.2,
+                                            image:
+                                                BitmapDescriptor.fromAssetImage(
+                                                    'asset/location.png'))),
+                                    mapId: MapObjectId(e.username),
+                                    point: Point(
+                                        latitude: e.latitude,
+                                        longitude: e.longitude),
+                                    // text: PlacemarkText(
+                                    //   text: '${e.username}',
+                                    //   style: PlacemarkTextStyle(),
+                                    // ),
+                                  ),
+                                )
                                 .toList(),
                           ],
                           onMapCreated: (YandexMapController controller) {

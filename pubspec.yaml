@@ -59,6 +59,7 @@ dependencies:
  # flutter_heatmap_calendar: ^1.0.5
  # mobkit_calendar: ^0.1.3
   table_calendar: ^3.0.9
+  yandex_geocoder: ^2.3.1
   
   
   
