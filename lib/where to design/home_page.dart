@@ -3,7 +3,6 @@ import 'package:design/value.dart';
 import 'package:design/where%20to%20design/pay%20pages%20/pay_page.dart';
 import 'package:design/where%20to%20design/review2.dart';
 import 'package:design/where%20to%20design/users_model/boat_model.dart';
-import 'package:design/where%20to%20design/yandex_map.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,7 +29,7 @@ class _HomePageState extends State<HomePage> {
         userTimeNow2: widget.userTimeNow2,
       ),
       PayPage(),
-      MyHomePage(),
+      // MyHomePage(),
       // TableEvents(),
       //Loovr4(),
       Val(),

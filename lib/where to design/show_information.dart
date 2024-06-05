@@ -341,23 +341,23 @@ class _ShowInformationState extends State<ShowInformation> {
                             ...widget.boatinfo!.address
                                 .map(
                                   (e) => PlacemarkMapObject(
-                                    icon: PlacemarkIcon.single(
-                                        PlacemarkIconStyle(
-                                            //rotationType: RotationType.rotate,
-                                            isFlat: true,
-                                            scale: 0.2,
-                                            image:
-                                                BitmapDescriptor.fromAssetImage(
-                                                    'asset/location.png'))),
-                                    mapId: MapObjectId(e.username),
-                                    point: Point(
-                                        latitude: e.latitude,
-                                        longitude: e.longitude),
-                                    // text: PlacemarkText(
-                                    //   text: '${e.username}',
-                                    //   style: PlacemarkTextStyle(),
-                                    // ),
-                                  ),
+                                      icon: PlacemarkIcon.single(
+                                          PlacemarkIconStyle(
+                                              //rotationType: RotationType.rotate,
+                                              isFlat: true,
+                                              scale: 0.2,
+                                              image: BitmapDescriptor
+                                                  .fromAssetImage(
+                                                      'asset/location.png'))),
+                                      mapId: MapObjectId(e.username),
+                                      point: Point(
+                                          latitude: e.latitude,
+                                          longitude: e.longitude),
+                                      // text: PlacemarkText(
+                                      //   text: '${e.username}',
+                                      //   style: PlacemarkTextStyle(),
+                                      // ),
+                                      opacity: 3),
                                 )
                                 .toList(),
                           ],
