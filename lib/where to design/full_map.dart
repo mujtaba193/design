@@ -165,11 +165,13 @@ class _FullMapState extends State<FullMap> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                          color: Colors.black.withOpacity(0.8), width: 2.0),
+                      borderRadius: BorderRadius.circular(999),
                       color: Color(0xFFFAFAFA).withOpacity(0.6),
                     ),
-                    width: 40,
-                    height: 40,
+                    width: 60,
+                    height: 60,
                     child: IconButton(
                       onPressed: () {
                         zoom = zoom + 2;
@@ -197,11 +199,13 @@ class _FullMapState extends State<FullMap> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                          color: Colors.black.withOpacity(0.8), width: 2.0),
+                      borderRadius: BorderRadius.circular(999),
                       color: Color(0xFFFAFAFA).withOpacity(0.6),
                     ),
-                    width: 40,
-                    height: 40,
+                    width: 60,
+                    height: 60,
                     child: IconButton(
                       onPressed: () {
                         zoom = zoom - 2;
@@ -223,35 +227,74 @@ class _FullMapState extends State<FullMap> {
                         color: Colors.black,
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+
+                  // Current location Button
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Colors.black.withOpacity(0.8), width: 2.0),
+                      borderRadius: BorderRadius.circular(999),
+                      color: Color(0xFFFAFAFA).withOpacity(0.6),
+                    ),
+                    width: 60,
+                    height: 60,
+                    child: IconButton(
+                      onPressed: () async {
+                        if (lat != null) {
+                          await controller.moveCamera(
+                            CameraUpdate.newCameraPosition(
+                              CameraPosition(
+                                zoom: 15,
+                                target:
+                                    Point(latitude: lat!, longitude: longt!),
+                              ),
+                            ),
+                          );
+                        }
+                        setState(() {});
+                      },
+                      icon: Icon(
+                        Icons.navigation,
+                        size: 20,
+                        color: Colors.black,
+                      ),
+                    ),
                   )
                 ],
               ))
         ],
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 140),
-        child: FloatingActionButton(
-          backgroundColor: Colors.blue,
-          onPressed: () async {
-            if (lat != null) {
-              await controller.moveCamera(
-                CameraUpdate.newCameraPosition(
-                  CameraPosition(
-                    zoom: zoom,
-                    target: Point(latitude: lat!, longitude: longt!),
-                  ),
-                ),
-              );
-            }
-            setState(() {});
-          },
-          child: const Icon(
-            Icons.navigation,
-            size: 40,
-            color: Colors.redAccent,
-          ),
-        ),
-      ),
+      // floatingActionButton: Padding(
+      //   padding: const EdgeInsets.only(bottom: 140, right: 0),
+      //   child: FloatingActionButton(
+      //     shape: RoundedRectangleBorder(
+      //         side: BorderSide(width: 3, color: Colors.brown),
+      //         borderRadius: BorderRadius.circular(100)),
+      //     backgroundColor: Colors.blue,
+      //     onPressed: () async {
+      //       if (lat != null) {
+      //         await controller.moveCamera(
+      //           CameraUpdate.newCameraPosition(
+      //             CameraPosition(
+      //               zoom: zoom,
+      //               target: Point(latitude: lat!, longitude: longt!),
+      //             ),
+      //           ),
+      //         );
+      //       }
+      //       setState(() {});
+      //     },
+      //     child: const Icon(
+      //       Icons.navigation,
+      //       size: 40,
+      //       color: Colors.redAccent,
+      //     ),
+      //   ),
+      // ),
     );
   }
 
