@@ -24,6 +24,7 @@ class _FullMapState extends State<FullMap> {
   late PermissionStatus permission;
   double? lat;
   double? longt;
+  MapType mapType = MapType.vector;
 
   @override
   void initState() {
@@ -56,6 +57,30 @@ class _FullMapState extends State<FullMap> {
     return locationData;
   }
 
+  /// Метод для генерации точек начала и конца маршрута
+  List<PlacemarkMapObject> _getDrivingPlacemarks(
+    BuildContext context, {
+    required List<Point> drivingPoints,
+  }) {
+    return drivingPoints
+        .map(
+          (point) => PlacemarkMapObject(
+            mapId: MapObjectId('MapObject $point'),
+            point: Point(latitude: point.latitude, longitude: point.longitude),
+            opacity: 1,
+            icon: PlacemarkIcon.single(
+              PlacemarkIconStyle(
+                image: BitmapDescriptor.fromAssetImage(
+                  'assets/icons/car_point.png',
+                ),
+                scale: 2,
+              ),
+            ),
+          ),
+        )
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,6 +92,7 @@ class _FullMapState extends State<FullMap> {
           ClipRRect(
             borderRadius: BorderRadius.circular(18.0),
             child: YandexMap(
+              mapType: mapType,
               // onObjectTap: (geoObject) {
               //   showModalBottomSheet(
               //       context: context,
@@ -156,6 +182,65 @@ class _FullMapState extends State<FullMap> {
                   ),
                 );
               },
+            ),
+          ),
+          //mapType buttons
+          Positioned(
+            top: 10,
+            right: 5,
+            child: Column(
+              children: [
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      mapType = MapType.map;
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Colors.black.withOpacity(0.8), width: 2.0),
+                      borderRadius: BorderRadius.circular(999),
+                      color: Color(0xFFFAFAFA).withOpacity(0.6),
+                    ),
+                    width: 60,
+                    height: 60,
+                    child: Icon(
+                      Icons.map,
+                      size: 50,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      mapType = MapType.vector;
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Colors.black.withOpacity(0.8), width: 2.0),
+                      borderRadius: BorderRadius.circular(999),
+                      color: Color(0xFFFAFAFA).withOpacity(0.6),
+                    ),
+                    width: 60,
+                    height: 60,
+                    child: Icon(
+                      Icons.satellite,
+                      size: 50,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           Positioned(

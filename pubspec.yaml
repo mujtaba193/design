@@ -61,6 +61,7 @@ dependencies:
   table_calendar: ^3.0.9
   yandex_geocoder: ^2.3.1
   location: ^6.0.2
+  flutter_polyline_points: ^2.0.0
   
   
   
