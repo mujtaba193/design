@@ -2,6 +2,7 @@ import 'package:design/register%20-%20interests.dart';
 import 'package:design/value.dart';
 import 'package:design/where%20to%20design/pay%20pages%20/pay_page.dart';
 import 'package:design/where%20to%20design/review2.dart';
+import 'package:design/where%20to%20design/user_profile.dart';
 import 'package:design/where%20to%20design/users_model/boat_model.dart';
 import 'package:flutter/material.dart';
 
@@ -33,6 +34,9 @@ class _HomePageState extends State<HomePage> {
       // TableEvents(),
       //Loovr4(),
       Val(),
+      // Register3(),
+      UserProfile(),
+      // Loovr4(),
       Register3(),
     ];
     super.initState();

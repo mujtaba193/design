@@ -21,6 +21,7 @@ class _Register3State extends State<Register3> {
   File? file4;
   File? file5;
   int? value;
+  List<File> files = [];
 
   Future takeFromCamera(
     context,
