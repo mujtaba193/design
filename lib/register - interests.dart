@@ -255,6 +255,7 @@ class _Register3State extends State<Register3> {
                                         Expanded(
                                           child: ClipRRect(
                                             child: Image.file(
+                                              fit: BoxFit.fill,
                                               file!,
                                             ),
                                           ),

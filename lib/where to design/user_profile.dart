@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:design/where%20to%20design/translation/hive_class.dart';
+import 'package:design/where%20to%20design/translation/profie_page_translation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserProfile extends StatefulWidget {
@@ -53,16 +56,100 @@ class _UserProfileState extends State<UserProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Настройки Профиля'),
+        title: Text(ProfiePageTranslation.profileSettings),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.05,
-            ),
-            Center(
-              child: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.05,
+              ),
+              Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: GradientBoxBorder(
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0xFF8942BC),
+                          Color(0xFF5831F7),
+                          Color(0xFF5731F8),
+                          Color(0xFF00C2C2),
+                        ],
+                      ),
+                    ),
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(999),
+                    child: file == null
+                        ? SvgPicture.asset(
+                            'lib/image/profile-default.svg',
+                            width: MediaQuery.of(context).size.width * 0.666,
+                            height: MediaQuery.of(context).size.width * 0.666,
+                          )
+                        : Image.file(
+                            file!,
+                            width: MediaQuery.of(context).size.width * 0.666,
+                            height: MediaQuery.of(context).size.width * 0.666,
+                            fit: BoxFit.fill,
+                          ),
+                  ),
+                ),
+              ),
+              Center(
+                child: IconButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return SimpleDialog(
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  setState(() {
+                                    takeFromCamera(context);
+                                  });
+                                },
+                                child: const Text(
+                                  'choose Image from camera',
+                                  style: TextStyle(
+                                    color: Color(0xFFC3C3C3),
+                                  ),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  setState(() {
+                                    takeFromGallary(context);
+                                  });
+                                },
+                                child: const Text(
+                                  'choose Image from Gallery',
+                                  style: TextStyle(
+                                    color: Color(0xFFC3C3C3),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    icon: Icon(Icons.add_a_photo)),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.001,
+              ),
+              Text(
+                ProfiePageTranslation.name,
+                style: TextStyle(fontSize: 20),
+              ),
+              Container(
                 decoration: BoxDecoration(
                   border: GradientBoxBorder(
                     gradient: LinearGradient(
@@ -74,235 +161,180 @@ class _UserProfileState extends State<UserProfile> {
                       ],
                     ),
                   ),
-                  borderRadius: BorderRadius.circular(999),
+                  borderRadius: BorderRadius.circular(30),
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(999),
-                  child: file == null
-                      ? SvgPicture.asset(
-                          'lib/image/profile-default.svg',
-                          width: MediaQuery.of(context).size.width * 0.666,
-                          height: MediaQuery.of(context).size.width * 0.666,
-                        )
-                      : Image.file(
-                          file!,
-                          width: MediaQuery.of(context).size.width * 0.666,
-                          height: MediaQuery.of(context).size.width * 0.666,
-                          fit: BoxFit.fill,
-                        ),
+                width: MediaQuery.of(context).size.width * 0.95,
+                child: TextFormField(
+                  controller: nameController,
+                  decoration: InputDecoration(
+                    suffixIcon: Icon(Icons.edit),
+                    hintText: ProfiePageTranslation.hintName,
+                    hintStyle: const TextStyle(
+                      fontSize: 14,
+                    ),
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  onChanged: (value) {},
                 ),
               ),
-            ),
-            IconButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return SimpleDialog(
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              setState(() {
-                                takeFromCamera(context);
-                              });
-                            },
-                            child: const Text(
-                              'choose Image from camera',
-                              style: TextStyle(
-                                color: Color(0xFFC3C3C3),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
+              ),
+              Text(
+                ProfiePageTranslation.phoneNum,
+                style: TextStyle(fontSize: 20),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  border: GradientBoxBorder(
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xFF8942BC),
+                        Color(0xFF5831F7),
+                        Color(0xFF5731F8),
+                        Color(0xFF00C2C2),
+                      ],
+                    ),
+                  ),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                width: MediaQuery.of(context).size.width * 0.95,
+                child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  controller: phonController,
+                  decoration: InputDecoration(
+                    suffixIcon: Icon(Icons.edit),
+                    hintText: ProfiePageTranslation.hintPhon,
+                    hintStyle: const TextStyle(
+                      fontSize: 14,
+                    ),
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  onChanged: (value) {},
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
+              ),
+              Text(
+                ProfiePageTranslation.mail,
+                style: TextStyle(fontSize: 20),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  border: GradientBoxBorder(
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xFF8942BC),
+                        Color(0xFF5831F7),
+                        Color(0xFF5731F8),
+                        Color(0xFF00C2C2),
+                      ],
+                    ),
+                  ),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                width: MediaQuery.of(context).size.width * 0.95,
+                child: TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  controller: mailController,
+                  decoration: InputDecoration(
+                    suffixIcon: Icon(Icons.edit),
+                    hintText: ProfiePageTranslation.hintMail,
+                    hintStyle: const TextStyle(
+                      fontSize: 14,
+                    ),
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  onChanged: (value) {},
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
+              ),
+              Row(
+                children: [Text(ProfiePageTranslation.profileSettings)],
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
+              ),
+              Row(
+                children: [
+                  Text(ProfiePageTranslation.language),
+                  Spacer(),
+                  InkWell(
+                    child: Text(
+                        Hive.box(HiveBox.langbox).get(HiveBox.newLang) == 'en'
+                            ? 'English'
+                            : 'Russian'),
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return SimpleDialog(
+                            children: [
+                              TextButton(
+                                onPressed: () async {
+                                  Box<dynamic> newLang =
+                                      Hive.box(HiveBox.langbox);
+                                  await newLang.put(HiveBox.newLang, 'ru');
+                                  //   ProfiePageTranslation.languageCode = 'ru';
+                                  Navigator.pop(context);
+                                  setState(() {});
+                                },
+                                child: const Text(
+                                  'русский',
+                                  style: TextStyle(
+                                    color: Color(0xFFC3C3C3),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              setState(() {
-                                takeFromGallary(context);
-                              });
-                            },
-                            child: const Text(
-                              'choose Image from Gallery',
-                              style: TextStyle(
-                                color: Color(0xFFC3C3C3),
+                              TextButton(
+                                onPressed: () async {
+                                  Box<dynamic> newLang =
+                                      Hive.box(HiveBox.langbox);
+                                  await newLang.put(HiveBox.newLang, 'en');
+                                  setState(() {
+                                    //  ProfiePageTranslation.languageCode = 'en';
+                                    Navigator.pop(context);
+                                  });
+                                },
+                                child: const Text(
+                                  'English',
+                                  style: TextStyle(
+                                    color: Color(0xFFC3C3C3),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        ],
+                            ],
+                          );
+                        },
                       );
                     },
-                  );
-                },
-                icon: Icon(Icons.add_a_photo)),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.001,
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  right: MediaQuery.of(context).size.width * 0.74),
-              child: Text(
-                'Имя',
-                style: TextStyle(fontSize: 20),
+                  )
+                ],
               ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                border: GradientBoxBorder(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color(0xFF8942BC),
-                      Color(0xFF5831F7),
-                      Color(0xFF5731F8),
-                      Color(0xFF00C2C2),
-                    ],
-                  ),
-                ),
-                borderRadius: BorderRadius.circular(30),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
               ),
-              width: MediaQuery.of(context).size.width * 0.95,
-              child: TextFormField(
-                controller: nameController,
-                decoration: InputDecoration(
-                  suffixIcon: Icon(Icons.edit),
-                  hintText: 'Введите ваше имя',
-                  hintStyle: const TextStyle(
-                    fontSize: 14,
-                  ),
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                onChanged: (value) {},
+              Row(
+                children: [Text(ProfiePageTranslation.pushNotifications)],
               ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.01,
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  right: MediaQuery.of(context).size.width * 0.65),
-              child: Text(
-                'Телефон',
-                style: TextStyle(fontSize: 20),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
               ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                border: GradientBoxBorder(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color(0xFF8942BC),
-                      Color(0xFF5831F7),
-                      Color(0xFF5731F8),
-                      Color(0xFF00C2C2),
-                    ],
-                  ),
-                ),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              width: MediaQuery.of(context).size.width * 0.95,
-              child: TextFormField(
-                keyboardType: TextInputType.number,
-                controller: phonController,
-                decoration: InputDecoration(
-                  suffixIcon: Icon(Icons.edit),
-                  hintText: 'Введите свой номер телефона',
-                  hintStyle: const TextStyle(
-                    fontSize: 14,
-                  ),
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                onChanged: (value) {},
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.01,
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  right: MediaQuery.of(context).size.width * 0.70),
-              child: Text(
-                'почта',
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                border: GradientBoxBorder(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color(0xFF8942BC),
-                      Color(0xFF5831F7),
-                      Color(0xFF5731F8),
-                      Color(0xFF00C2C2),
-                    ],
-                  ),
-                ),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              width: MediaQuery.of(context).size.width * 0.95,
-              child: TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                controller: mailController,
-                decoration: InputDecoration(
-                  suffixIcon: Icon(Icons.edit),
-                  hintText: 'Введите свою электронную почту',
-                  hintStyle: const TextStyle(
-                    fontSize: 14,
-                  ),
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                onChanged: (value) {},
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.01,
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.02),
-              child: Row(
-                children: [Text('Настройки Профиля')],
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.01,
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.02,
-                  right: MediaQuery.of(context).size.width * 0.01),
-              child: Row(
-                children: [Text('язык'), Spacer(), Text('русский')],
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.01,
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.02),
-              child: Row(
-                children: [Text('push-уведомление')],
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.01,
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.05,
-                  right: MediaQuery.of(context).size.width * 0.01),
-              child: Row(
+              Row(
                 children: [
-                  Text('информация о бронированию'),
+                  Text(ProfiePageTranslation.bookingInformations),
                   Spacer(),
                   CupertinoSwitch(
                     value: infoSwitched,
@@ -314,17 +346,12 @@ class _UserProfileState extends State<UserProfile> {
                   )
                 ],
               ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.01,
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.05,
-                  right: MediaQuery.of(context).size.width * 0.01),
-              child: Row(
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
+              ),
+              Row(
                 children: [
-                  Text('Собщения в чате'),
+                  Text(ProfiePageTranslation.chatMessage),
                   Spacer(),
                   CupertinoSwitch(
                     value: mailSwitched,
@@ -336,17 +363,12 @@ class _UserProfileState extends State<UserProfile> {
                   )
                 ],
               ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.01,
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.05,
-                  right: MediaQuery.of(context).size.width * 0.01),
-              child: Row(
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
+              ),
+              Row(
                 children: [
-                  Text('Новости и акции'),
+                  Text(ProfiePageTranslation.news),
                   Spacer(),
                   CupertinoSwitch(
                     value: newsSwitched,
@@ -358,8 +380,8 @@ class _UserProfileState extends State<UserProfile> {
                   )
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
