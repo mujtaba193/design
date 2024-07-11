@@ -56,6 +56,14 @@ class _UserProfileState extends State<UserProfile> {
     });
   }
 
+  deleteImage(
+    context,
+  ) {
+    setState(() {
+      file = null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,8 +126,8 @@ class _UserProfileState extends State<UserProfile> {
                                     takeFromCamera(context);
                                   });
                                 },
-                                child: const Text(
-                                  'choose Image from camera',
+                                child: Text(
+                                  ProfiePageTranslation.chooseFromCamera,
                                   style: TextStyle(
                                     color: Color(0xFFC3C3C3),
                                   ),
@@ -132,13 +140,27 @@ class _UserProfileState extends State<UserProfile> {
                                     takeFromGallary(context);
                                   });
                                 },
-                                child: const Text(
-                                  'choose Image from Gallery',
+                                child: Text(
+                                  ProfiePageTranslation.chooseFromGallery,
                                   style: TextStyle(
                                     color: Color(0xFFC3C3C3),
                                   ),
                                 ),
                               ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  setState(() {
+                                    deleteImage(context);
+                                  });
+                                },
+                                child: Text(
+                                  ProfiePageTranslation.deletePhoto,
+                                  style: TextStyle(
+                                    color: Color(0xFFC3C3C3),
+                                  ),
+                                ),
+                              )
                             ],
                           );
                         },
@@ -239,6 +261,10 @@ class _UserProfileState extends State<UserProfile> {
                   onTap: () {
                     const duration = Duration(days: 365 * 1 + 4);
                     BottomPicker.date(
+                      buttonContent: Text(
+                        ProfiePageTranslation.save,
+                        textAlign: TextAlign.center,
+                      ),
                       //  buttonText: CommonTranslations.save,
                       height: 500,
                       // buttonTextStyle:
@@ -358,74 +384,77 @@ class _UserProfileState extends State<UserProfile> {
                             Hive.box(HiveBox.langbox).get(HiveBox.newLang) ==
                                 null
                         ? 'English'
-                        : 'Russian'),
+                        : 'Русский'),
                     onTap: () {
                       showDialog(
                         context: context,
                         builder: (context) {
                           return SimpleDialog(
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  TextButton(
-                                    onPressed: () async {
-                                      Box<dynamic> newLang =
-                                          Hive.box(HiveBox.langbox);
-                                      await newLang.put(HiveBox.newLang, 'ru');
-                                      //   ProfiePageTranslation.languageCode = 'ru';
-                                      Navigator.pop(context);
-                                      setState(() {});
-                                    },
-                                    child: const Text(
+                              InkWell(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
                                       'русский',
                                       style: TextStyle(
                                         color: Color(0xFFC3C3C3),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Hive.box(HiveBox.langbox)
-                                              .get(HiveBox.newLang) ==
-                                          'ru'
-                                      ? Icon(Icons.check_circle)
-                                      : Icon(Icons.circle_outlined)
-                                ],
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Hive.box(HiveBox.langbox)
+                                                .get(HiveBox.newLang) ==
+                                            'ru'
+                                        ? Icon(Icons.check_circle)
+                                        : Icon(Icons.circle_outlined)
+                                  ],
+                                ),
+                                onTap: () async {
+                                  Box<dynamic> newLang =
+                                      Hive.box(HiveBox.langbox);
+                                  await newLang.put(HiveBox.newLang, 'ru');
+                                  //   ProfiePageTranslation.languageCode = 'ru';
+                                  Navigator.pop(context);
+                                  setState(() {});
+                                },
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  TextButton(
-                                    onPressed: () async {
-                                      Box<dynamic> newLang =
-                                          Hive.box(HiveBox.langbox);
-                                      await newLang.put(HiveBox.newLang, 'en');
-                                      setState(() {
-                                        //  ProfiePageTranslation.languageCode = 'en';
-                                        Navigator.pop(context);
-                                      });
-                                    },
-                                    child: const Text(
+                              SizedBox(
+                                height: 10,
+                              ),
+                              InkWell(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text(
                                       ' English ',
                                       style: TextStyle(
                                         color: Color(0xFFC3C3C3),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Hive.box(HiveBox.langbox)
-                                                  .get(HiveBox.newLang) ==
-                                              'en' ||
-                                          Hive.box(HiveBox.langbox)
-                                                  .get(HiveBox.newLang) ==
-                                              null
-                                      ? Icon(Icons.check_circle)
-                                      : Icon(Icons.circle_outlined)
-                                ],
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Hive.box(HiveBox.langbox)
+                                                    .get(HiveBox.newLang) ==
+                                                'en' ||
+                                            Hive.box(HiveBox.langbox)
+                                                    .get(HiveBox.newLang) ==
+                                                null
+                                        ? Icon(Icons.check_circle)
+                                        : Icon(Icons.circle_outlined)
+                                  ],
+                                ),
+                                onTap: () async {
+                                  Box<dynamic> newLang =
+                                      Hive.box(HiveBox.langbox);
+                                  await newLang.put(HiveBox.newLang, 'en');
+                                  setState(() {
+                                    //  ProfiePageTranslation.languageCode = 'en';
+                                    Navigator.pop(context);
+                                  });
+                                },
                               ),
                             ],
                           );

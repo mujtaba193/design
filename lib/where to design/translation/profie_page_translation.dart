@@ -23,7 +23,11 @@ class ProfiePageTranslation {
       'pushNotifications': 'Push-notifications',
       'bookingInformations': 'Booking Information',
       'chatMessage': 'Chat Message',
-      'news': 'News and Promotions'
+      'news': 'News and Promotions',
+      'save': 'Save',
+      'chooseFromCamera': 'choose Photo from camera',
+      'chooseFromGallery': 'choose Photo from gallery',
+      'deletePhoto': 'Delete the photo'
     },
     'ru': {
       'name': 'Имя',
@@ -42,7 +46,11 @@ class ProfiePageTranslation {
       'pushNotifications': 'Push-уведомление ',
       'bookingInformations': 'информация о бронированию',
       'chatMessage': 'Собщения в чате',
-      'news': 'Новости и акции'
+      'news': 'Новости и акции',
+      'save': 'Сохранить',
+      'chooseFromCamera': 'выбрать из камеры',
+      'chooseFromGallery': 'выбрать из галереи',
+      'deletePhoto': 'Удалить фотографию'
     }
   };
 
@@ -70,4 +78,8 @@ class ProfiePageTranslation {
   static String get bookingInformations => translate('bookingInformations');
   static String get chatMessage => translate('chatMessage');
   static String get news => translate('news');
+  static String get save => translate('save');
+  static String get chooseFromCamera => translate('chooseFromCamera');
+  static String get chooseFromGallery => translate('chooseFromGallery');
+  static String get deletePhoto => translate('deletePhoto');
 }
