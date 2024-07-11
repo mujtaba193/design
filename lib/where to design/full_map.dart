@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:design/where%20to%20design/users_model/address_model.dart';
+import 'package:design/where%20to%20design/yandex_map.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
@@ -25,6 +26,13 @@ class _FullMapState extends State<FullMap> {
   double? lat;
   double? longt;
   MapType mapType = MapType.vector;
+
+  DrivingSessionResult? _drivingResultWithSession;
+
+  /// Список точек на карте, по которым строится автомобильный маршрут
+  List<Point> _drivingPointsList = [];
+  List<PolylineMapObject> _drivingMapLines = [];
+  List<Point>? _polygonPointsList;
 
   @override
   void initState() {
@@ -81,6 +89,122 @@ class _FullMapState extends State<FullMap> {
         .toList();
   }
 
+  /// Метод для получения маршрутов проезда от точки начала к точке конца
+  Future<(DrivingSession, Future<DrivingSessionResult>)>
+      _getDrivingResultWithSession({
+    required Point startPoint,
+    required Point endPoint,
+  }) {
+    var drivingResultWithSession = YandexDriving.requestRoutes(
+      points: [
+        RequestPoint(
+          point: startPoint,
+          requestPointType: RequestPointType.wayPoint, // точка начала маршрута
+        ),
+        RequestPoint(
+          point: endPoint,
+          requestPointType: RequestPointType.wayPoint, // точка конца маршрута
+        ),
+      ],
+      drivingOptions: const DrivingOptions(
+        initialAzimuth: 0,
+        routesCount: 5,
+        avoidTolls: true,
+        avoidPoorConditions: true,
+      ),
+    );
+
+    return drivingResultWithSession;
+  }
+
+  Future<void> _buildRoutes() async {
+    final drivingResult = await _drivingResultWithSession;
+
+    setState(() {
+      for (var element in drivingResult?.routes ?? []) {
+        _drivingMapLines.add(
+          PolylineMapObject(
+            mapId: MapObjectId('route $element'),
+            polyline: Polyline(points: element.geometry),
+            strokeColor:
+                // генерируем случайный цвет для каждого маршрута
+                Colors.red,
+            strokeWidth: 3,
+          ),
+        );
+      }
+    });
+  }
+
+  /// Метод для генерации точек на карте
+  List<MapPoint> _getMapPoints() {
+    return const [
+      MapPoint(name: 'Москва', latitude: 55.755864, longitude: 37.617698),
+      MapPoint(name: 'Лондон', latitude: 51.507351, longitude: -0.127696),
+      MapPoint(name: 'Рим', latitude: 41.887064, longitude: 12.504809),
+      MapPoint(name: 'Париж', latitude: 48.856663, longitude: 2.351556),
+      MapPoint(name: 'Стокгольм', latitude: 59.347360, longitude: 18.341573),
+    ];
+  }
+
+  /// Метод для генерации объектов маркеров для отображения на карте
+  List<PlacemarkMapObject> _getPlacemarkObjects(BuildContext context) {
+    return _getMapPoints()
+        .map(
+          (point) => PlacemarkMapObject(
+            mapId: MapObjectId('MapObject $point'),
+            point: Point(latitude: point.latitude, longitude: point.longitude),
+            opacity: 1,
+            icon: PlacemarkIcon.single(
+              PlacemarkIconStyle(
+                image: BitmapDescriptor.fromAssetImage(
+                  'assets/icons/map_point.png',
+                ),
+                scale: 2,
+              ),
+            ),
+            onTap: (_, __) => showModalBottomSheet(
+              context: context,
+              builder: (context) => _ModalBodyView(
+                point: point,
+              ),
+            ),
+          ),
+        )
+        .toList();
+  }
+
+  /// Метод для генерации объекта выделенной зоны на карте
+  PolygonMapObject _getPolygonMapObject(
+    BuildContext context, {
+    required List<Point> points,
+  }) {
+    return PolygonMapObject(
+      mapId: const MapObjectId('polygon map object'),
+      polygon: Polygon(
+        // внешняя линия зоны
+        outerRing: LinearRing(
+          points: points,
+        ),
+        // внутренняя линия зоны, которая формирует пропуски в полигоне
+        innerRings: const [],
+      ),
+      strokeColor: Colors.blue,
+      strokeWidth: 3.0,
+      fillColor: Colors.blue.withOpacity(0.2),
+      onTap: (_, point) => showModalBottomSheet(
+        context: context,
+        builder: (context) => _ModalBodyView(
+          point: MapPoint(
+            name: 'Неизвестный населенный пункт',
+            latitude: point.latitude,
+            longitude: point.longitude,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,51 +248,105 @@ class _FullMapState extends State<FullMap> {
               //         );
               //       });
               // },
-              onMapTap: (a) async {},
-              nightModeEnabled: true,
+              // onMapLongTap: (argument) {
+              //   setState(() {
+              //     // добавляем точку маршрута на карте, если еще не выбраны две точки
+              //     if (_drivingPointsList.length < 2) {
+              //       _drivingPointsList.add(argument);
+              //     } else {
+              //       _drivingPointsList = [];
+              //       _drivingMapLines = [];
+              //       _drivingResultWithSession = null;
+              //     }
+
+              //     // когда выбраны точки начала и конца,
+              //     // получаем данные предложенных маршрутов
+              //     if (_drivingPointsList.length == 2) {
+              //       _drivingResultWithSession = _getDrivingResultWithSession(
+              //         startPoint: _drivingPointsList.first,
+              //         endPoint: _drivingPointsList.last,
+              //       );
+              //     }
+              //   });
+
+              //   _buildRoutes();
+              // },
               mapObjects: [
                 _getClusterizedCollection(
-                  placemarks: widget.address
-                      .map(
-                        (e) => PlacemarkMapObject(
-                          onTap: (mapObject, point) {
-                            showModalBottomSheet(
-                                context: context,
-                                builder: (context) {
-                                  return Container(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.3,
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Column(
-                                      children: [
-                                        Text('${e.username}'),
-                                        Text('${e.latitude}'),
-                                        Text('${e.longitude}'),
-                                      ],
-                                    ),
-                                  );
-                                });
-                          },
-                          icon: PlacemarkIcon.single(PlacemarkIconStyle(
-                              //rotationType: RotationType.rotate,
-                              isFlat: true,
-                              scale: 0.2,
-                              image: BitmapDescriptor.fromAssetImage(
-                                  'asset/location.png'))),
-                          mapId: MapObjectId(e.username),
-                          point: Point(
-                              latitude: e.latitude, longitude: e.longitude),
-                          // text: PlacemarkText(
-                          //   text: '${e.username}',
-                          //   style: PlacemarkTextStyle(),
-                          // ),
-                          consumeTapEvents: true,
-                          opacity: 3,
-                        ),
-                      )
-                      .toList(),
+                  placemarks: _getPlacemarkObjects(context),
                 ),
+                _getPolygonMapObject(context, points: _polygonPointsList ?? []),
+                ..._getDrivingPlacemarks(context,
+                    drivingPoints: _drivingPointsList),
+                ..._drivingMapLines,
               ],
+              onMapTap: (argument) {
+                setState(() {
+                  // добавляем точку маршрута на карте, если еще не выбраны две точки
+                  if (_drivingPointsList.length < 2) {
+                    _drivingPointsList.add(argument);
+                  } else {
+                    _drivingPointsList = [];
+                    _drivingMapLines = [];
+                    _drivingResultWithSession = null;
+                  }
+
+                  // когда выбраны точки начала и конца,
+                  // получаем данные предложенных маршрутов
+                  if (_drivingPointsList.length == 2) {
+                    _drivingResultWithSession = _getDrivingResultWithSession(
+                      startPoint: _drivingPointsList.first,
+                      endPoint: _drivingPointsList.last,
+                    ) as DrivingSessionResult?;
+                  }
+                });
+
+                _buildRoutes();
+              },
+              nightModeEnabled: true,
+              // mapObjects: [
+              //   _getClusterizedCollection(
+              //     placemarks: widget.address
+              //         .map(
+              //           (e) => PlacemarkMapObject(
+              //             onTap: (mapObject, point) {
+              //               showModalBottomSheet(
+              //                   context: context,
+              //                   builder: (context) {
+              //                     return Container(
+              //                       height: MediaQuery.of(context).size.height *
+              //                           0.3,
+              //                       width: MediaQuery.of(context).size.width,
+              //                       child: Column(
+              //                         children: [
+              //                           Text('${e.username}'),
+              //                           Text('${e.latitude}'),
+              //                           Text('${e.longitude}'),
+              //                         ],
+              //                       ),
+              //                     );
+              //                   });
+              //             },
+              //             icon: PlacemarkIcon.single(PlacemarkIconStyle(
+              //                 //rotationType: RotationType.rotate,
+              //                 isFlat: true,
+              //                 scale: 0.2,
+              //                 image: BitmapDescriptor.fromAssetImage(
+              //                     'asset/location.png'))),
+              //             mapId: MapObjectId(e.username),
+              //             point: Point(
+              //                 latitude: e.latitude, longitude: e.longitude),
+              //             // text: PlacemarkText(
+              //             //   text: '${e.username}',
+              //             //   style: PlacemarkTextStyle(),
+              //             // ),
+              //             consumeTapEvents: true,
+              //             opacity: 3,
+              //           ),
+              //         )
+              //         .toList(),
+              //   ),
+              // ],
               onMapCreated: (_controller) {
                 controller = _controller;
                 _controller.moveCamera(
@@ -259,18 +437,7 @@ class _FullMapState extends State<FullMap> {
                     height: 60,
                     child: IconButton(
                       onPressed: () {
-                        zoom = zoom + 2;
-
-                        controller.moveCamera(
-                          CameraUpdate.newCameraPosition(
-                            CameraPosition(
-                              zoom: zoom,
-                              target: Point(
-                                  latitude: widget.address.first.latitude,
-                                  longitude: widget.address.first.longitude),
-                            ),
-                          ),
-                        );
+                        controller.moveCamera(CameraUpdate.zoomIn());
                       },
                       icon: Icon(
                         Icons.add,
@@ -293,18 +460,7 @@ class _FullMapState extends State<FullMap> {
                     height: 60,
                     child: IconButton(
                       onPressed: () {
-                        zoom = zoom - 2;
-
-                        controller.moveCamera(
-                          CameraUpdate.newCameraPosition(
-                            CameraPosition(
-                              zoom: zoom,
-                              target: Point(
-                                  latitude: widget.address.first.latitude,
-                                  longitude: widget.address.first.longitude),
-                            ),
-                          ),
-                        );
+                        controller.moveCamera(CameraUpdate.zoomOut());
                       },
                       icon: Icon(
                         Icons.remove,
@@ -333,7 +489,7 @@ class _FullMapState extends State<FullMap> {
                           await controller.moveCamera(
                             CameraUpdate.newCameraPosition(
                               CameraPosition(
-                                zoom: 15,
+                                zoom: 3,
                                 target:
                                     Point(latitude: lat!, longitude: longt!),
                               ),
@@ -508,4 +664,32 @@ void _paintTextCountPlacemarks({
     (size.height - textPainter.height) / 2,
   );
   textPainter.paint(canvas, textOffset);
+}
+
+/// Содержимое модального окна с информацией о точке на карте
+class _ModalBodyView extends StatelessWidget {
+  const _ModalBodyView({required this.point});
+
+  final MapPoint point;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 40),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(point.name, style: const TextStyle(fontSize: 20)),
+          const SizedBox(height: 20),
+          Text(
+            '${point.latitude}, ${point.longitude}',
+            style: const TextStyle(
+              fontSize: 16,
+              color: Colors.grey,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

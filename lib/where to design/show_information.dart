@@ -375,8 +375,16 @@ class _ShowInformationState extends State<ShowInformation> {
                   ),
                   // TextButton(
                   //   onPressed: () {
-                  //     openMap(widget.boatinfo!.address.longitude,
-                  //         widget.boatinfo!.address.latitude); //"st. peter"
+                  //     Navigator.of(context).push(
+                  //       MaterialPageRoute(
+                  //         builder: (context) {
+                  //           return DrivingPage();
+                  //         },
+                  //       ),
+                  //     );
+
+                  //     // openMap(widget.boatinfo!.address.longitude,
+                  //     //     widget.boatinfo!.address.latitude); //"st. peter"
                   //   },
                   //   child: Text('Go to app'),
                   // ),

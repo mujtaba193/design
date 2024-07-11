@@ -9,6 +9,8 @@ class ProfiePageTranslation {
     'en': {
       'name': 'Name',
       'hintName': 'Enter your name',
+      'birthDate': 'Date Of Birth',
+      'hintbirthDate': 'DD.MM.YYYY',
       'familyName': 'Family Name',
       'hintFamily': 'Enter your family name',
       'phoneNum': 'Phone Number',
@@ -26,6 +28,8 @@ class ProfiePageTranslation {
     'ru': {
       'name': 'Имя',
       'hintName': 'Введите ваше имя',
+      'birthDate': 'Дата рождения',
+      'hintbirthDate': 'ДД.ММ.ГГГГ',
       'familyName': 'Фамилия',
       'hintFamily': 'Введите свою фамилию',
       'phoneNum': 'Телефон',
@@ -51,6 +55,8 @@ class ProfiePageTranslation {
 
   static String get name => translate('name');
   static String get hintName => translate('hintName');
+  static String get birthDate => translate('birthDate');
+  static String get hintbirthDate => translate('hintbirthDate');
   static String get familyName => translate('familyName');
   static String get hintFamily => translate('hintFamily');
   static String get phoneNum => translate('phoneNum');
