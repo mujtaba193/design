@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
 import 'hive_class.dart';
@@ -56,8 +57,11 @@ class ProfiePageTranslation {
 
   // static String? languageCode;
   static String translate(String key) {
-    final languageMap =
-        translation[Hive.box(HiveBox.langbox).get(HiveBox.newLang)];
+    final languageMap = translation[
+        Hive.box(HiveBox.langbox).get(HiveBox.newLang) ??
+            (PlatformDispatcher.instance.locale.languageCode == 'ru'
+                ? 'ru'
+                : 'en')];
     return languageMap != null ? languageMap[key] ?? key : key;
   }
 

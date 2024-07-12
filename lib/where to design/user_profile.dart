@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:bottom_picker/bottom_picker.dart';
-import 'package:bottom_picker/resources/arrays.dart';
 import 'package:design/where%20to%20design/translation/hive_class.dart';
 import 'package:design/where%20to%20design/translation/profie_page_translation.dart';
 import 'package:flutter/cupertino.dart';
@@ -258,34 +256,46 @@ class _UserProfileState extends State<UserProfile> {
                   //   }
                   //   return null;
                   // },
-                  onTap: () {
+                  onTap: () async {
                     const duration = Duration(days: 365 * 1 + 4);
-                    BottomPicker.date(
-                      buttonContent: Text(
-                        ProfiePageTranslation.save,
-                        textAlign: TextAlign.center,
-                      ),
-                      //  buttonText: CommonTranslations.save,
-                      height: 500,
-                      // buttonTextStyle:
-                      //     const TextStyle(color: Colors.white),
-                      initialDateTime: DateTime.now().subtract(duration),
-                      maxDateTime: DateTime.now().subtract(duration),
-                      minDateTime: DateTime(1925),
+                    DateTime? dateTime = await showDatePicker(
+                        initialDatePickerMode: DatePickerMode.year,
+                        context: context,
+                        firstDate: DateTime(1930),
+                        lastDate: DateTime.now());
 
-                      onChange: (index) {
-                        print(index);
-                      },
-                      onSubmit: (index) {
-                        if (index != null) {
-                          //    onBirthdaySelected(index);
-                          birthdayController.text =
-                              DateFormat("dd.MM.yyyy").format(index);
-                        }
-                      },
-                      bottomPickerTheme: BottomPickerTheme.plumPlate,
-                      pickerTitle: Text('selcte'),
-                    ).show(context);
+                    if (dateTime != null) {
+                      //    onBirthdaySelected(index);
+                      birthdayController.text =
+                          DateFormat("dd.MM.yyyy").format(dateTime);
+                    }
+
+                    // BottomPicker.date(
+                    //   buttonContent: Text(
+                    //     ProfiePageTranslation.save,
+                    //     textAlign: TextAlign.center,
+                    //   ),
+                    //   //  buttonText: CommonTranslations.save,
+                    //   height: 500,
+                    //   // buttonTextStyle:
+                    //   //     const TextStyle(color: Colors.white),
+                    //   initialDateTime: DateTime.now().subtract(duration),
+                    //   maxDateTime: DateTime.now().subtract(duration),
+                    //   minDateTime: DateTime(1925),
+
+                    //   onChange: (index) {
+                    //     print(index);
+                    //   },
+                    //   onSubmit: (index) {
+                    //     if (index != null) {
+                    //       //    onBirthdaySelected(index);
+                    //       birthdayController.text =
+                    //           DateFormat("dd.MM.yyyy").format(index);
+                    //     }
+                    //   },
+                    //   bottomPickerTheme: BottomPickerTheme.plumPlate,
+                    //   pickerTitle: Text('selcte'),
+                    // ).show(context);
                   },
                 ),
               ),
