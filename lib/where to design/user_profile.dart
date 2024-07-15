@@ -66,6 +66,7 @@ class _UserProfileState extends State<UserProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.check))],
         title: Text(ProfiePageTranslation.profileSettings),
       ),
       body: SingleChildScrollView(

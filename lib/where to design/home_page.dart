@@ -6,6 +6,8 @@ import 'package:design/where%20to%20design/user_profile.dart';
 import 'package:design/where%20to%20design/users_model/boat_model.dart';
 import 'package:flutter/material.dart';
 
+import 'translation/profie_page_translation.dart';
+
 class HomePage extends StatefulWidget {
   List<BoatModel>? newBoatList;
   DateTime? userTimeNow1;
@@ -54,25 +56,25 @@ class _HomePageState extends State<HomePage> {
             currentIndex = newIndex;
           });
         },
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            label: 'home',
+            label: ProfiePageTranslation.home,
             icon: Icon(Icons.home),
           ),
           BottomNavigationBarItem(
-            label: 'chat',
+            label: ProfiePageTranslation.chats,
             icon: Icon(Icons.chat),
           ),
           BottomNavigationBarItem(
-            label: 'Settings',
+            label: ProfiePageTranslation.settings,
             icon: Icon(Icons.settings),
           ),
           BottomNavigationBarItem(
-            label: 'Profile',
+            label: ProfiePageTranslation.profile,
             icon: Icon(Icons.person),
           ),
           BottomNavigationBarItem(
-            label: 'Favorite',
+            label: ProfiePageTranslation.favorite,
             icon: Icon(Icons.favorite),
           ),
         ],

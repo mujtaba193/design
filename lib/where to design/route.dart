@@ -3,22 +3,22 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
-class DrivingExample extends StatefulWidget {
+class DrivingRoute extends StatefulWidget {
   double startLong;
   double startLat;
   double endLong;
   double endLat;
-  DrivingExample(
+  DrivingRoute(
       {super.key,
       required this.startLat,
       required this.startLong,
       required this.endLong,
       required this.endLat});
   @override
-  DrivingExampleState createState() => DrivingExampleState();
+  DrivingRouteState createState() => DrivingRouteState();
 }
 
-class DrivingExampleState extends State<DrivingExample> {
+class DrivingRouteState extends State<DrivingRoute> {
   late final List<MapObject> mapObjects = [
     startPlacemark,
     //  stopByPlacemark,
@@ -50,6 +50,7 @@ class DrivingExampleState extends State<DrivingExample> {
         icon: PlacemarkIcon.single(PlacemarkIconStyle(
             image: BitmapDescriptor.fromAssetImage('asset/location.png'),
             scale: 0.3)));
+    _requestRoutes();
     super.initState();
   }
 

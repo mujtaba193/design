@@ -28,7 +28,12 @@ class ProfiePageTranslation {
       'save': 'Save',
       'chooseFromCamera': 'choose Photo from camera',
       'chooseFromGallery': 'choose Photo from gallery',
-      'deletePhoto': 'Delete the photo'
+      'deletePhoto': 'Delete the photo',
+      'home': 'Home',
+      'chats': 'Chats',
+      'settings': 'Settings',
+      'profile': 'Profile',
+      'favorite': 'Favorite'
     },
     'ru': {
       'name': 'Имя',
@@ -51,7 +56,12 @@ class ProfiePageTranslation {
       'save': 'Сохранить',
       'chooseFromCamera': 'выбрать из камеры',
       'chooseFromGallery': 'выбрать из галереи',
-      'deletePhoto': 'Удалить фотографию'
+      'deletePhoto': 'Удалить фотографию',
+      'home': 'Главная',
+      'chats': 'Чаты',
+      'settings': 'настройки',
+      'profile': 'Профиль',
+      'favorite': 'Любимый'
     }
   };
 
@@ -86,4 +96,9 @@ class ProfiePageTranslation {
   static String get chooseFromCamera => translate('chooseFromCamera');
   static String get chooseFromGallery => translate('chooseFromGallery');
   static String get deletePhoto => translate('deletePhoto');
+  static String get home => translate('home');
+  static String get chats => translate('chats');
+  static String get settings => translate('settings');
+  static String get profile => translate('profile');
+  static String get favorite => translate('favorite');
 }

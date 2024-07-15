@@ -202,79 +202,84 @@ class _Register3State extends State<Register3> {
                                 Radius.circular(10),
                               ),
                             ),
-                            child: Center(
-                              child: file == null
-                                  ? IconButton(
-                                      onPressed: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return SimpleDialog(
-                                              children: [
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                    setState(() {
-                                                      value = 0;
-                                                      takeFromCamera(context);
-                                                    });
-                                                  },
-                                                  child: const Text(
-                                                    'choose Image from camera',
-                                                    style: TextStyle(
-                                                      color: Color(0xFFC3C3C3),
+                            child: Expanded(
+                              child: Center(
+                                child: file == null
+                                    ? IconButton(
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return SimpleDialog(
+                                                children: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      setState(() {
+                                                        value = 0;
+                                                        takeFromCamera(context);
+                                                      });
+                                                    },
+                                                    child: const Text(
+                                                      'choose Image from camera',
+                                                      style: TextStyle(
+                                                        color:
+                                                            Color(0xFFC3C3C3),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                    setState(() {
-                                                      value = 0;
-                                                      takeFromGallary(context);
-                                                    });
-                                                  },
-                                                  child: const Text(
-                                                    'choose Image from Gallery',
-                                                    style: TextStyle(
-                                                      color: Color(0xFFC3C3C3),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      setState(() {
+                                                        value = 0;
+                                                        takeFromGallary(
+                                                            context);
+                                                      });
+                                                    },
+                                                    child: const Text(
+                                                      'choose Image from Gallery',
+                                                      style: TextStyle(
+                                                        color:
+                                                            Color(0xFFC3C3C3),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      },
-                                      icon: const Icon(Icons.add),
-                                    )
-                                  : Stack(
-                                      alignment: Alignment.center,
-                                      clipBehavior: Clip.antiAlias,
-                                      children: [
-                                        Expanded(
-                                          child: ClipRRect(
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                        icon: const Icon(Icons.add),
+                                      )
+                                    : Stack(
+                                        alignment: Alignment.center,
+                                        clipBehavior: Clip.antiAlias,
+                                        children: [
+                                          ClipRRect(
                                             child: Image.file(
                                               fit: BoxFit.fill,
                                               file!,
                                             ),
                                           ),
-                                        ),
-                                        Positioned(
-                                          left: 50,
-                                          bottom: 90,
-                                          child: IconButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                file = null;
-                                              });
-                                            },
-                                            icon: SvgPicture.asset(
-                                                'lib/image/close-circle-fill.svg'),
+                                          Positioned(
+                                            left: 50,
+                                            bottom: 90,
+                                            child: IconButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  file = null;
+                                                });
+                                              },
+                                              icon: SvgPicture.asset(
+                                                  'lib/image/close-circle-fill.svg'),
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
+                                        ],
+                                      ),
+                              ),
                             ),
                           ),
                         ),

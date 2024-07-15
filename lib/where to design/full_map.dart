@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:design/where%20to%20design/teeeeeest.dart';
 import 'package:design/where%20to%20design/users_model/address_model.dart';
 import 'package:design/where%20to%20design/yandex_map.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,9 @@ class _FullMapState extends State<FullMap> {
   late bool servicesEnabled;
   late PermissionStatus permission;
   double? lat;
-  double? longt;
+  double? long;
+  double? endLatitude;
+  double? endLongitude;
   MapType mapType = MapType.vector;
 
   DrivingSessionResult? _drivingResultWithSession;
@@ -38,7 +41,7 @@ class _FullMapState extends State<FullMap> {
   void initState() {
     getCurrentLucation();
     lat;
-    longt;
+    long;
     super.initState();
   }
 
@@ -60,7 +63,7 @@ class _FullMapState extends State<FullMap> {
 
     setState(() {
       lat = locationData.latitude!;
-      longt = locationData.longitude!;
+      long = locationData.longitude!;
     });
     return locationData;
   }
@@ -79,7 +82,7 @@ class _FullMapState extends State<FullMap> {
             icon: PlacemarkIcon.single(
               PlacemarkIconStyle(
                 image: BitmapDescriptor.fromAssetImage(
-                  'assets/icons/car_point.png',
+                  'asset/location.png',
                 ),
                 scale: 2,
               ),
@@ -271,82 +274,84 @@ class _FullMapState extends State<FullMap> {
 
               //   _buildRoutes();
               // },
-              mapObjects: [
-                _getClusterizedCollection(
-                  placemarks: _getPlacemarkObjects(context),
-                ),
-                _getPolygonMapObject(context, points: _polygonPointsList ?? []),
-                ..._getDrivingPlacemarks(context,
-                    drivingPoints: _drivingPointsList),
-                ..._drivingMapLines,
-              ],
+
               onMapTap: (argument) {
                 setState(() {
-                  // добавляем точку маршрута на карте, если еще не выбраны две точки
-                  if (_drivingPointsList.length < 2) {
-                    _drivingPointsList.add(argument);
-                  } else {
-                    _drivingPointsList = [];
-                    _drivingMapLines = [];
-                    _drivingResultWithSession = null;
-                  }
+                  endLatitude = argument.latitude;
+                  endLongitude = argument.longitude;
 
-                  // когда выбраны точки начала и конца,
-                  // получаем данные предложенных маршрутов
-                  if (_drivingPointsList.length == 2) {
-                    _drivingResultWithSession = _getDrivingResultWithSession(
-                      startPoint: _drivingPointsList.first,
-                      endPoint: _drivingPointsList.last,
-                    ) as DrivingSessionResult?;
-                  }
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return Container(
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          width: MediaQuery.of(context).size.width,
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return DrivingExample(
+                                        startLat: lat!,
+                                        startLong: long!,
+                                        endLat: endLatitude!,
+                                        endLong: endLongitude!);
+                                  },
+                                ),
+                              );
+                            },
+                            icon: Icon(Icons.route),
+                          ),
+                        );
+                      });
                 });
 
                 _buildRoutes();
               },
               nightModeEnabled: true,
-              // mapObjects: [
-              //   _getClusterizedCollection(
-              //     placemarks: widget.address
-              //         .map(
-              //           (e) => PlacemarkMapObject(
-              //             onTap: (mapObject, point) {
-              //               showModalBottomSheet(
-              //                   context: context,
-              //                   builder: (context) {
-              //                     return Container(
-              //                       height: MediaQuery.of(context).size.height *
-              //                           0.3,
-              //                       width: MediaQuery.of(context).size.width,
-              //                       child: Column(
-              //                         children: [
-              //                           Text('${e.username}'),
-              //                           Text('${e.latitude}'),
-              //                           Text('${e.longitude}'),
-              //                         ],
-              //                       ),
-              //                     );
-              //                   });
-              //             },
-              //             icon: PlacemarkIcon.single(PlacemarkIconStyle(
-              //                 //rotationType: RotationType.rotate,
-              //                 isFlat: true,
-              //                 scale: 0.2,
-              //                 image: BitmapDescriptor.fromAssetImage(
-              //                     'asset/location.png'))),
-              //             mapId: MapObjectId(e.username),
-              //             point: Point(
-              //                 latitude: e.latitude, longitude: e.longitude),
-              //             // text: PlacemarkText(
-              //             //   text: '${e.username}',
-              //             //   style: PlacemarkTextStyle(),
-              //             // ),
-              //             consumeTapEvents: true,
-              //             opacity: 3,
-              //           ),
-              //         )
-              //         .toList(),
-              //   ),
-              // ],
+              mapObjects: [
+                _getClusterizedCollection(
+                  placemarks: widget.address
+                      .map(
+                        (e) => PlacemarkMapObject(
+                          onTap: (mapObject, point) {
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (context) {
+                                  return Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.3,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Column(
+                                      children: [
+                                        Text('${e.username}'),
+                                        Text('${e.latitude}'),
+                                        Text('${e.longitude}'),
+                                      ],
+                                    ),
+                                  );
+                                });
+                          },
+                          icon: PlacemarkIcon.single(PlacemarkIconStyle(
+                              //rotationType: RotationType.rotate,
+                              isFlat: true,
+                              scale: 0.2,
+                              image: BitmapDescriptor.fromAssetImage(
+                                  'asset/location.png'))),
+                          mapId: MapObjectId(e.username),
+                          point: Point(
+                              latitude: e.latitude, longitude: e.longitude),
+                          // text: PlacemarkText(
+                          //   text: '${e.username}',
+                          //   style: PlacemarkTextStyle(),
+                          // ),
+                          consumeTapEvents: true,
+                          opacity: 3,
+                        ),
+                      )
+                      .toList(),
+                ),
+              ],
               onMapCreated: (_controller) {
                 controller = _controller;
                 _controller.moveCamera(
@@ -489,9 +494,8 @@ class _FullMapState extends State<FullMap> {
                           await controller.moveCamera(
                             CameraUpdate.newCameraPosition(
                               CameraPosition(
-                                zoom: 3,
-                                target:
-                                    Point(latitude: lat!, longitude: longt!),
+                                zoom: 10,
+                                target: Point(latitude: lat!, longitude: long!),
                               ),
                             ),
                           );
