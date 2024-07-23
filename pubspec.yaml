@@ -98,9 +98,11 @@ flutter:
   assets:
       - asset/user_booking.json
       - asset/images_list.json
-      - asset/h3.jpeg
+     # - asset/h3.jpeg
       - lib/image/
-      - asset/location.png
+     # - asset/location.png
+     # - asset/399308.png
+      - asset/
   
   
 

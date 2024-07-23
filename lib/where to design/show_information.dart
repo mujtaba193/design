@@ -342,13 +342,15 @@ class _ShowInformationState extends State<ShowInformation> {
                                 .map(
                                   (e) => PlacemarkMapObject(
                                       icon: PlacemarkIcon.single(
-                                          PlacemarkIconStyle(
-                                              //rotationType: RotationType.rotate,
-                                              isFlat: true,
-                                              scale: 0.2,
-                                              image: BitmapDescriptor
-                                                  .fromAssetImage(
-                                                      'asset/location.png'))),
+                                        PlacemarkIconStyle(
+                                          //rotationType: RotationType.rotate,
+                                          isFlat: true,
+                                          scale: 0.5,
+                                          image:
+                                              BitmapDescriptor.fromAssetImage(
+                                                  'asset/markicon.png'),
+                                        ),
+                                      ),
                                       mapId: MapObjectId(e.username),
                                       point: Point(
                                           latitude: e.latitude,

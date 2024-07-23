@@ -1,7 +1,10 @@
+import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:design/where%20to%20design/teeeeeest.dart';
+import 'package:design/where%20to%20design/routes/bicycle_page.dart';
+import 'package:design/where%20to%20design/routes/driving_page.dart';
+import 'package:design/where%20to%20design/routes/pedestrian_page.dart';
 import 'package:design/where%20to%20design/users_model/address_model.dart';
 import 'package:design/where%20to%20design/yandex_map.dart';
 import 'package:flutter/material.dart';
@@ -29,20 +32,216 @@ class _FullMapState extends State<FullMap> {
   double? endLatitude;
   double? endLongitude;
   MapType mapType = MapType.vector;
+  late PlacemarkMapObject endPlacemark;
+  late PlacemarkMapObject startPlacemark;
 
-  DrivingSessionResult? _drivingResultWithSession;
+  late PlacemarkMapObject currentLocationPlacemark;
 
-  /// Список точек на карте, по которым строится автомобильный маршрут
-  List<Point> _drivingPointsList = [];
-  List<PolylineMapObject> _drivingMapLines = [];
-  List<Point>? _polygonPointsList;
+  late List<MapObject> drivingMapObjects = [];
+  bool _progress = true;
+  late Future<DrivingSessionResult> result;
+  late DrivingSession session;
+  final List<DrivingSessionResult> results = [];
 
   @override
   void initState() {
     getCurrentLucation();
     lat;
     long;
+    if (lat != null) {
+      drivingMapObjects = [startPlacemark, endPlacemark];
+    }
+
     super.initState();
+  }
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  Future<void> _cancel() async {
+    await session.cancel();
+
+    setState(() {
+      _progress = false;
+    });
+  }
+
+  Future<void> _close() async {
+    await session.close();
+  }
+
+  Future<void> _init() async {
+    await _handleResult(await result);
+  }
+
+  Future<void> _handleResult(DrivingSessionResult result) async {
+    setState(() {
+      _progress = false;
+    });
+
+    if (result.error != null) {
+      print('Error: ${result.error}');
+      return;
+    }
+
+    setState(
+      () {
+        results.add(result);
+      },
+    );
+    setState(
+      () {
+        result.routes!.asMap().forEach(
+          (i, route) {
+            drivingMapObjects.add(
+              PolylineMapObject(
+                mapId: MapObjectId('route_${i}_polyline'),
+                polyline: route.geometry,
+                strokeColor:
+                    Colors.primaries[Random().nextInt(Colors.primaries.length)],
+                strokeWidth: 3,
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Future _requestDrivingRoutes() async {
+    // print(
+    //     'Points: ${startPlacemark.point},${stopByPlacemark.point},${endPlacemark.point}');
+    endPlacemark = PlacemarkMapObject(
+      mapId: const MapObjectId('end_placemark'),
+      point: Point(latitude: endLatitude!, longitude: endLongitude!),
+      icon: PlacemarkIcon.single(
+        PlacemarkIconStyle(
+            image: BitmapDescriptor.fromAssetImage('asset/flagYallow.png'),
+            scale: 0.6),
+      ),
+    );
+    startPlacemark = PlacemarkMapObject(
+      // 37.643125, -122.104765  37.526998, -122.011405
+
+      mapId: const MapObjectId('start_placemark'),
+      point: Point(latitude: lat!, longitude: long!),
+      icon: PlacemarkIcon.single(PlacemarkIconStyle(
+          image: BitmapDescriptor.fromAssetImage('asset/399308.png'),
+          scale: 0.2)),
+    );
+
+    var resultWithSession = await YandexDriving.requestRoutes(
+      points: [
+        RequestPoint(
+            point: startPlacemark.point,
+            requestPointType: RequestPointType.wayPoint),
+        // RequestPoint(
+        //     point: stopByPlacemark.point,
+        //     requestPointType: RequestPointType.viaPoint),
+        RequestPoint(
+            point: endPlacemark.point,
+            requestPointType: RequestPointType.wayPoint),
+      ],
+      drivingOptions: const DrivingOptions(
+          initialAzimuth: 0, routesCount: 1, avoidTolls: true),
+    );
+    result = resultWithSession.$2;
+    session = resultWithSession.$1;
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => SessionPage(startPlacemark,
+            endPlacemark, resultWithSession.$1, resultWithSession.$2),
+      ),
+    );
+  }
+
+  Future<void> _requestBicycleRoutes() async {
+    // print(
+    //     'Points: ${startPlacemark.point},${stopByPlacemark.point},${endPlacemark.point}');
+    endPlacemark = PlacemarkMapObject(
+      opacity: 10,
+      mapId: const MapObjectId('end_placemark'),
+      point: Point(latitude: endLatitude!, longitude: endLongitude!),
+      icon: PlacemarkIcon.single(
+        PlacemarkIconStyle(
+            image: BitmapDescriptor.fromAssetImage('asset/flagYallow.png'),
+            scale: 0.3),
+      ),
+    );
+    startPlacemark = PlacemarkMapObject(
+      opacity: 10,
+      mapId: const MapObjectId('start_placemark'),
+      point: Point(latitude: lat!, longitude: long!),
+      icon: PlacemarkIcon.single(PlacemarkIconStyle(
+          image: BitmapDescriptor.fromAssetImage('asset/399308.png'),
+          scale: 0.3)),
+    );
+
+    var resultWithSession = await YandexBicycle.requestRoutes(
+      points: [
+        RequestPoint(
+            point: startPlacemark.point,
+            requestPointType: RequestPointType.wayPoint),
+        // RequestPoint(
+        //     point: stopByPlacemark.point,
+        //     requestPointType: RequestPointType.viaPoint),
+        RequestPoint(
+            point: endPlacemark.point,
+            requestPointType: RequestPointType.wayPoint),
+      ],
+      bicycleVehicleType: BicycleVehicleType.bicycle,
+    );
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => BicyclePage(startPlacemark,
+                endPlacemark, resultWithSession.$1, resultWithSession.$2)));
+  }
+
+  Future<void> _requestPedestrianRoutes() async {
+    // print(
+    //     'Points: ${startPlacemark.point},${stopByPlacemark.point},${endPlacemark.point}');
+    endPlacemark = PlacemarkMapObject(
+      mapId: const MapObjectId('end_placemark'),
+      point: Point(latitude: endLatitude!, longitude: endLongitude!),
+      icon: PlacemarkIcon.single(
+        PlacemarkIconStyle(
+            image: BitmapDescriptor.fromAssetImage('asset/flagYallow.png'),
+            scale: 0.3),
+      ),
+    );
+    startPlacemark = PlacemarkMapObject(
+      opacity: 5,
+      mapId: const MapObjectId('start_placemark'),
+      point: Point(latitude: lat!, longitude: long!),
+      icon: PlacemarkIcon.single(
+        PlacemarkIconStyle(
+          image: BitmapDescriptor.fromAssetImage('asset/399308.png'),
+          scale: 0.4,
+        ),
+      ),
+    );
+
+    var resultWithSession = await YandexPedestrian.requestRoutes(
+      timeOptions: TimeOptions(departureTime: DateTime.now()),
+      avoidSteep: true,
+      points: [
+        RequestPoint(
+            point: startPlacemark.point,
+            requestPointType: RequestPointType.wayPoint),
+        // RequestPoint(
+        //     point: stopByPlacemark.point,
+        //     requestPointType: RequestPointType.viaPoint),
+        RequestPoint(
+            point: endPlacemark.point,
+            requestPointType: RequestPointType.wayPoint),
+      ],
+    );
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => PedestrianPage(startPlacemark,
+                endPlacemark, resultWithSession.$1, resultWithSession.$2)));
   }
 
   //method to get user's current location
@@ -61,151 +260,13 @@ class _FullMapState extends State<FullMap> {
     }
     locationData = await location.getLocation();
 
-    setState(() {
-      lat = locationData.latitude!;
-      long = locationData.longitude!;
-    });
+    setState(
+      () {
+        lat = locationData.latitude!;
+        long = locationData.longitude!;
+      },
+    );
     return locationData;
-  }
-
-  /// Метод для генерации точек начала и конца маршрута
-  List<PlacemarkMapObject> _getDrivingPlacemarks(
-    BuildContext context, {
-    required List<Point> drivingPoints,
-  }) {
-    return drivingPoints
-        .map(
-          (point) => PlacemarkMapObject(
-            mapId: MapObjectId('MapObject $point'),
-            point: Point(latitude: point.latitude, longitude: point.longitude),
-            opacity: 1,
-            icon: PlacemarkIcon.single(
-              PlacemarkIconStyle(
-                image: BitmapDescriptor.fromAssetImage(
-                  'asset/location.png',
-                ),
-                scale: 2,
-              ),
-            ),
-          ),
-        )
-        .toList();
-  }
-
-  /// Метод для получения маршрутов проезда от точки начала к точке конца
-  Future<(DrivingSession, Future<DrivingSessionResult>)>
-      _getDrivingResultWithSession({
-    required Point startPoint,
-    required Point endPoint,
-  }) {
-    var drivingResultWithSession = YandexDriving.requestRoutes(
-      points: [
-        RequestPoint(
-          point: startPoint,
-          requestPointType: RequestPointType.wayPoint, // точка начала маршрута
-        ),
-        RequestPoint(
-          point: endPoint,
-          requestPointType: RequestPointType.wayPoint, // точка конца маршрута
-        ),
-      ],
-      drivingOptions: const DrivingOptions(
-        initialAzimuth: 0,
-        routesCount: 5,
-        avoidTolls: true,
-        avoidPoorConditions: true,
-      ),
-    );
-
-    return drivingResultWithSession;
-  }
-
-  Future<void> _buildRoutes() async {
-    final drivingResult = await _drivingResultWithSession;
-
-    setState(() {
-      for (var element in drivingResult?.routes ?? []) {
-        _drivingMapLines.add(
-          PolylineMapObject(
-            mapId: MapObjectId('route $element'),
-            polyline: Polyline(points: element.geometry),
-            strokeColor:
-                // генерируем случайный цвет для каждого маршрута
-                Colors.red,
-            strokeWidth: 3,
-          ),
-        );
-      }
-    });
-  }
-
-  /// Метод для генерации точек на карте
-  List<MapPoint> _getMapPoints() {
-    return const [
-      MapPoint(name: 'Москва', latitude: 55.755864, longitude: 37.617698),
-      MapPoint(name: 'Лондон', latitude: 51.507351, longitude: -0.127696),
-      MapPoint(name: 'Рим', latitude: 41.887064, longitude: 12.504809),
-      MapPoint(name: 'Париж', latitude: 48.856663, longitude: 2.351556),
-      MapPoint(name: 'Стокгольм', latitude: 59.347360, longitude: 18.341573),
-    ];
-  }
-
-  /// Метод для генерации объектов маркеров для отображения на карте
-  List<PlacemarkMapObject> _getPlacemarkObjects(BuildContext context) {
-    return _getMapPoints()
-        .map(
-          (point) => PlacemarkMapObject(
-            mapId: MapObjectId('MapObject $point'),
-            point: Point(latitude: point.latitude, longitude: point.longitude),
-            opacity: 1,
-            icon: PlacemarkIcon.single(
-              PlacemarkIconStyle(
-                image: BitmapDescriptor.fromAssetImage(
-                  'assets/icons/map_point.png',
-                ),
-                scale: 2,
-              ),
-            ),
-            onTap: (_, __) => showModalBottomSheet(
-              context: context,
-              builder: (context) => _ModalBodyView(
-                point: point,
-              ),
-            ),
-          ),
-        )
-        .toList();
-  }
-
-  /// Метод для генерации объекта выделенной зоны на карте
-  PolygonMapObject _getPolygonMapObject(
-    BuildContext context, {
-    required List<Point> points,
-  }) {
-    return PolygonMapObject(
-      mapId: const MapObjectId('polygon map object'),
-      polygon: Polygon(
-        // внешняя линия зоны
-        outerRing: LinearRing(
-          points: points,
-        ),
-        // внутренняя линия зоны, которая формирует пропуски в полигоне
-        innerRings: const [],
-      ),
-      strokeColor: Colors.blue,
-      strokeWidth: 3.0,
-      fillColor: Colors.blue.withOpacity(0.2),
-      onTap: (_, point) => showModalBottomSheet(
-        context: context,
-        builder: (context) => _ModalBodyView(
-          point: MapPoint(
-            name: 'Неизвестный населенный пункт',
-            latitude: point.latitude,
-            longitude: point.longitude,
-          ),
-        ),
-      ),
-    );
   }
 
   @override
@@ -220,93 +281,45 @@ class _FullMapState extends State<FullMap> {
             borderRadius: BorderRadius.circular(18.0),
             child: YandexMap(
               mapType: mapType,
-              // onObjectTap: (geoObject) {
-              //   showModalBottomSheet(
-              //       context: context,
-              //       builder: (context) {
-              //         return Container(
-              //           height: MediaQuery.of(context).size.height * 0.3,
-              //           width: MediaQuery.of(context).size.width,
-              //           child: SingleChildScrollView(
-              //             child: Column(
-              //               children: [
-              //                 //  Text('${geoObject.descriptionText}'),
-              //                 Text('${geoObject.name}'),
-              //                 Text('${geoObject.boundingBox}'),
-              //                 Text(
-              //                   geoObject.descriptionText,
-              //                   style: TextStyle(color: Colors.red),
-              //                 ),
-              //                 Text(geoObject.selectionMetadata!.dataSourceName),
-              //                 Text(geoObject.selectionMetadata!.layerId),
-              //                 // ListView.builder(
-              //                 //   itemCount: geoObject.aref.length,
-              //                 //   itemBuilder: (context, index) {
-              //                 //     return Text('${geoObject.aref[index]}');
-              //                 //   },
-              //                 // )
-              //               ],
-              //             ),
-              //           ),
-              //         );
-              //       });
-              // },
-              // onMapLongTap: (argument) {
-              //   setState(() {
-              //     // добавляем точку маршрута на карте, если еще не выбраны две точки
-              //     if (_drivingPointsList.length < 2) {
-              //       _drivingPointsList.add(argument);
-              //     } else {
-              //       _drivingPointsList = [];
-              //       _drivingMapLines = [];
-              //       _drivingResultWithSession = null;
-              //     }
-
-              //     // когда выбраны точки начала и конца,
-              //     // получаем данные предложенных маршрутов
-              //     if (_drivingPointsList.length == 2) {
-              //       _drivingResultWithSession = _getDrivingResultWithSession(
-              //         startPoint: _drivingPointsList.first,
-              //         endPoint: _drivingPointsList.last,
-              //       );
-              //     }
-              //   });
-
-              //   _buildRoutes();
-              // },
-
               onMapTap: (argument) {
-                setState(() {
-                  endLatitude = argument.latitude;
-                  endLongitude = argument.longitude;
+                setState(
+                  () {
+                    endLatitude = argument.latitude;
+                    endLongitude = argument.longitude;
 
-                  showModalBottomSheet(
+                    showModalBottomSheet(
                       context: context,
                       builder: (context) {
                         return Container(
-                          height: MediaQuery.of(context).size.height * 0.3,
+                          height: MediaQuery.of(context).size.height * 0.2,
                           width: MediaQuery.of(context).size.width,
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return DrivingExample(
-                                        startLat: lat!,
-                                        startLong: long!,
-                                        endLat: endLatitude!,
-                                        endLong: endLongitude!);
-                                  },
-                                ),
-                              );
-                            },
-                            icon: Icon(Icons.route),
+                          child: Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  _requestDrivingRoutes();
+                                },
+                                icon: Icon(Icons.car_rental_sharp),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  _requestBicycleRoutes();
+                                },
+                                icon: Icon(Icons.bike_scooter),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  _requestPedestrianRoutes();
+                                },
+                                icon: Icon(Icons.nordic_walking),
+                              ),
+                            ],
                           ),
                         );
-                      });
-                });
-
-                _buildRoutes();
+                      },
+                    );
+                  },
+                );
               },
               nightModeEnabled: true,
               mapObjects: [
@@ -316,28 +329,58 @@ class _FullMapState extends State<FullMap> {
                         (e) => PlacemarkMapObject(
                           onTap: (mapObject, point) {
                             showModalBottomSheet(
-                                context: context,
-                                builder: (context) {
-                                  return Container(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.3,
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Column(
-                                      children: [
-                                        Text('${e.username}'),
-                                        Text('${e.latitude}'),
-                                        Text('${e.longitude}'),
-                                      ],
-                                    ),
-                                  );
-                                });
+                              context: context,
+                              builder: (context) {
+                                return Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.3,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Column(
+                                    children: [
+                                      Text('${e.username}'),
+                                      Text('${e.latitude}'),
+                                      Text('${e.longitude}'),
+                                      Row(
+                                        children: [
+                                          IconButton(
+                                            onPressed: () {
+                                              _requestDrivingRoutes();
+                                            },
+                                            icon: Icon(Icons.car_rental_sharp),
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              _requestBicycleRoutes();
+                                            },
+                                            icon: Icon(Icons.bike_scooter),
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              _requestPedestrianRoutes();
+                                            },
+                                            icon: Icon(Icons.nordic_walking),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                            setState(() {
+                              endLatitude = e.latitude;
+                              endLongitude = e.longitude;
+                            });
                           },
-                          icon: PlacemarkIcon.single(PlacemarkIconStyle(
+                          icon: PlacemarkIcon.single(
+                            PlacemarkIconStyle(
                               //rotationType: RotationType.rotate,
                               isFlat: true,
-                              scale: 0.2,
+                              scale: 0.6,
                               image: BitmapDescriptor.fromAssetImage(
-                                  'asset/location.png'))),
+                                  'asset/markicon.png'),
+                            ),
+                          ),
                           mapId: MapObjectId(e.username),
                           point: Point(
                               latitude: e.latitude, longitude: e.longitude),
@@ -351,9 +394,29 @@ class _FullMapState extends State<FullMap> {
                       )
                       .toList(),
                 ),
+                if (lat != null)
+                  currentLocationPlacemark = PlacemarkMapObject(
+                    opacity: 5,
+                    mapId: const MapObjectId('start_placemark'),
+                    point: Point(latitude: lat!, longitude: long!),
+                    icon: PlacemarkIcon.single(PlacemarkIconStyle(
+                        image:
+                            BitmapDescriptor.fromAssetImage('asset/399308.png'),
+                        scale: 0.2)),
+                  ),
               ],
               onMapCreated: (_controller) {
                 controller = _controller;
+                // routeMode == 1
+                //     ? _controller.moveCamera(
+                //         CameraUpdate.newCameraPosition(
+                //           CameraPosition(
+                //             zoom: 12,
+                //             target: startPlacemark.point,
+                //           ),
+                //         ),
+                //       )
+                //     :
                 _controller.moveCamera(
                   CameraUpdate.newCameraPosition(
                     CameraPosition(
@@ -427,90 +490,91 @@ class _FullMapState extends State<FullMap> {
             ),
           ),
           Positioned(
-              top: 400,
-              right: 5,
-              child: Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Colors.black.withOpacity(0.8), width: 2.0),
-                      borderRadius: BorderRadius.circular(999),
-                      color: Color(0xFFFAFAFA).withOpacity(0.6),
-                    ),
-                    width: 60,
-                    height: 60,
-                    child: IconButton(
-                      onPressed: () {
-                        controller.moveCamera(CameraUpdate.zoomIn());
-                      },
-                      icon: Icon(
-                        Icons.add,
-                        size: 20,
-                        color: Colors.black,
-                      ),
-                    ),
+            top: 400,
+            right: 5,
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        color: Colors.black.withOpacity(0.8), width: 2.0),
+                    borderRadius: BorderRadius.circular(999),
+                    color: Color(0xFFFAFAFA).withOpacity(0.6),
                   ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Colors.black.withOpacity(0.8), width: 2.0),
-                      borderRadius: BorderRadius.circular(999),
-                      color: Color(0xFFFAFAFA).withOpacity(0.6),
-                    ),
-                    width: 60,
-                    height: 60,
-                    child: IconButton(
-                      onPressed: () {
-                        controller.moveCamera(CameraUpdate.zoomOut());
-                      },
-                      icon: Icon(
-                        Icons.remove,
-                        size: 20,
-                        color: Colors.black,
-                      ),
+                  width: 60,
+                  height: 60,
+                  child: IconButton(
+                    onPressed: () {
+                      controller.moveCamera(CameraUpdate.zoomIn());
+                    },
+                    icon: Icon(
+                      Icons.add,
+                      size: 20,
+                      color: Colors.black,
                     ),
                   ),
-                  SizedBox(
-                    height: 15,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        color: Colors.black.withOpacity(0.8), width: 2.0),
+                    borderRadius: BorderRadius.circular(999),
+                    color: Color(0xFFFAFAFA).withOpacity(0.6),
                   ),
+                  width: 60,
+                  height: 60,
+                  child: IconButton(
+                    onPressed: () {
+                      controller.moveCamera(CameraUpdate.zoomOut());
+                    },
+                    icon: Icon(
+                      Icons.remove,
+                      size: 20,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
 
-                  // Current location Button
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Colors.black.withOpacity(0.8), width: 2.0),
-                      borderRadius: BorderRadius.circular(999),
-                      color: Color(0xFFFAFAFA).withOpacity(0.6),
-                    ),
-                    width: 60,
-                    height: 60,
-                    child: IconButton(
-                      onPressed: () async {
-                        if (lat != null) {
-                          await controller.moveCamera(
-                            CameraUpdate.newCameraPosition(
-                              CameraPosition(
-                                zoom: 10,
-                                target: Point(latitude: lat!, longitude: long!),
-                              ),
+                // Current location Button
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        color: Colors.black.withOpacity(0.8), width: 2.0),
+                    borderRadius: BorderRadius.circular(999),
+                    color: Color(0xFFFAFAFA).withOpacity(0.6),
+                  ),
+                  width: 60,
+                  height: 60,
+                  child: IconButton(
+                    onPressed: () async {
+                      if (lat != null) {
+                        await controller.moveCamera(
+                          CameraUpdate.newCameraPosition(
+                            CameraPosition(
+                              zoom: 10,
+                              target: Point(latitude: lat!, longitude: long!),
                             ),
-                          );
-                        }
-                        setState(() {});
-                      },
-                      icon: Icon(
-                        Icons.navigation,
-                        size: 20,
-                        color: Colors.black,
-                      ),
+                          ),
+                        );
+                      }
+                      setState(() {});
+                    },
+                    icon: Icon(
+                      Icons.navigation,
+                      size: 20,
+                      color: Colors.black,
                     ),
-                  )
-                ],
-              ))
+                  ),
+                )
+              ],
+            ),
+          )
         ],
       ),
       // floatingActionButton: Padding(
