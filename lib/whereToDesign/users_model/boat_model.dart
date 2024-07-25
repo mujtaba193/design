@@ -1,6 +1,6 @@
-import 'package:design/where%20to%20design/users_model/Characteristics_model.dart';
-import 'package:design/where%20to%20design/users_model/address_model.dart';
-import 'package:design/where%20to%20design/users_model/timeline_model.dart';
+import 'package:design/whereToDesign/users_model/Characteristics_model.dart';
+import 'package:design/whereToDesign/users_model/address_model.dart';
+import 'package:design/whereToDesign/users_model/timeline_model.dart';
 
 class BoatModel {
   final String boatName;

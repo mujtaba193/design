@@ -2,11 +2,12 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:design/where%20to%20design/routes/bicycle_page.dart';
-import 'package:design/where%20to%20design/routes/driving_page.dart';
-import 'package:design/where%20to%20design/routes/pedestrian_page.dart';
-import 'package:design/where%20to%20design/users_model/address_model.dart';
-import 'package:design/where%20to%20design/yandex_map.dart';
+import 'package:design/whereToDesign/routes/bicycle_page.dart';
+import 'package:design/whereToDesign/routes/driving_page.dart';
+import 'package:design/whereToDesign/routes/map_draw.dart';
+import 'package:design/whereToDesign/routes/pedestrian_page.dart';
+import 'package:design/whereToDesign/users_model/address_model.dart';
+import 'package:design/whereToDesign/yandex_map.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
@@ -34,6 +35,8 @@ class _FullMapState extends State<FullMap> {
   MapType mapType = MapType.vector;
   late PlacemarkMapObject endPlacemark;
   late PlacemarkMapObject startPlacemark;
+  final List<MapObject> mapObjects = [];
+  final MapObjectId mapObjectId = const MapObjectId('circle');
 
   late PlacemarkMapObject currentLocationPlacemark;
 
@@ -51,6 +54,8 @@ class _FullMapState extends State<FullMap> {
     if (lat != null) {
       drivingMapObjects = [startPlacemark, endPlacemark];
     }
+    mapObjectId;
+    mapObjects;
 
     super.initState();
   }
@@ -124,9 +129,11 @@ class _FullMapState extends State<FullMap> {
 
       mapId: const MapObjectId('start_placemark'),
       point: Point(latitude: lat!, longitude: long!),
-      icon: PlacemarkIcon.single(PlacemarkIconStyle(
-          image: BitmapDescriptor.fromAssetImage('asset/399308.png'),
-          scale: 0.2)),
+      icon: PlacemarkIcon.single(
+        PlacemarkIconStyle(
+            image: BitmapDescriptor.fromAssetImage('asset/399308.png'),
+            scale: 0.2),
+      ),
     );
 
     var resultWithSession = await YandexDriving.requestRoutes(
@@ -269,6 +276,45 @@ class _FullMapState extends State<FullMap> {
     return locationData;
   }
 
+  Future drawing() async {
+    if (mapObjects.any((el) => el.mapId == mapObjectId)) {
+      return;
+    }
+    final mapObject = CircleMapObject(
+      mapId: mapObjectId,
+      circle: Circle(
+          center: Point(latitude: endLatitude!, longitude: endLongitude!),
+          radius: 10000),
+      strokeColor: Colors.blue[700]!,
+      strokeWidth: 5,
+      fillColor: Colors.blue.withOpacity(0.2),
+      onTap: (CircleMapObject self, Point point) =>
+          print('Tapped me at $point'),
+    );
+    endPlacemark = PlacemarkMapObject(
+      opacity: 10,
+      mapId: const MapObjectId('end_placemark'),
+      point: Point(latitude: endLatitude!, longitude: endLongitude!),
+      icon: PlacemarkIcon.single(
+        PlacemarkIconStyle(
+            image: BitmapDescriptor.fromAssetImage('asset/flagYallow.png'),
+            scale: 0.3),
+      ),
+    );
+    setState(() {
+      mapObjects.add(mapObject);
+    });
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => MapDraw(
+            mapObjects: mapObjects,
+            endPlacemark: endPlacemark,
+            mapObjectId: mapObjectId),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -312,6 +358,12 @@ class _FullMapState extends State<FullMap> {
                                   _requestPedestrianRoutes();
                                 },
                                 icon: Icon(Icons.nordic_walking),
+                              ),
+                              IconButton(
+                                onPressed: () async {
+                                  drawing();
+                                },
+                                icon: Icon(Icons.crisis_alert),
                               ),
                             ],
                           ),
@@ -571,7 +623,7 @@ class _FullMapState extends State<FullMap> {
                       color: Colors.black,
                     ),
                   ),
-                )
+                ),
               ],
             ),
           )

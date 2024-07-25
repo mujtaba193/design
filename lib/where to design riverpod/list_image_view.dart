@@ -1,4 +1,4 @@
-import 'package:design/where%20to%20design/single_image_view.dart';
+import 'package:design/whereToDesign/single_image_view.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 

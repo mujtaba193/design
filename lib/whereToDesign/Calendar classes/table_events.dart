@@ -7,7 +7,7 @@ import 'package:design/src/src/mobkit_calendar/model/configs/calendar_top_bar_co
 import 'package:design/src/src/mobkit_calendar/model/configs/daily_items_config_model.dart';
 import 'package:design/src/src/mobkit_calendar/model/mobkit_calendar_appointment_model.dart';
 import 'package:design/src/src/mobkit_calendar/model/styles/calendar_cell_style.dart';
-import 'package:design/where%20to%20design/users_model/timeline_model.dart';
+import 'package:design/whereToDesign/users_model/timeline_model.dart';
 import 'package:flutter/material.dart';
 
 class TableEvents extends StatefulWidget {

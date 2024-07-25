@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:design/where%20to%20design/show_information.dart';
-import 'package:design/where%20to%20design/users_model/boat_model.dart';
-import 'package:design/where%20to%20design/where_to.dart';
+import 'package:design/whereToDesign/show_information.dart';
+import 'package:design/whereToDesign/users_model/boat_model.dart';
+import 'package:design/whereToDesign/where_to.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 

@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:design/where%20to%20design/translation/hive_class.dart';
-import 'package:design/where%20to%20design/translation/profie_page_translation.dart';
+import 'package:design/whereToDesign/translation/hive_class.dart';
+import 'package:design/whereToDesign/translation/profie_page_translation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

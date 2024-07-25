@@ -1,9 +1,9 @@
 import 'package:design/register%20-%20interests.dart';
 import 'package:design/value.dart';
-import 'package:design/where%20to%20design/pay%20pages%20/pay_page.dart';
-import 'package:design/where%20to%20design/review2.dart';
-import 'package:design/where%20to%20design/user_profile.dart';
-import 'package:design/where%20to%20design/users_model/boat_model.dart';
+import 'package:design/whereToDesign/review2.dart';
+import 'package:design/whereToDesign/tessssssssssssst.dart';
+import 'package:design/whereToDesign/user_profile.dart';
+import 'package:design/whereToDesign/users_model/boat_model.dart';
 import 'package:flutter/material.dart';
 
 import 'translation/profie_page_translation.dart';
@@ -31,7 +31,8 @@ class _HomePageState extends State<HomePage> {
         userTimeNow1: widget.userTimeNow1,
         userTimeNow2: widget.userTimeNow2,
       ),
-      PayPage(),
+      YandexPolygon(),
+      //PayPage(),
       // MyHomePage(),
       // TableEvents(),
       //Loovr4(),
