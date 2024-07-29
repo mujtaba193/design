@@ -68,6 +68,7 @@ dependencies:
   bottom_picker: ^2.0.4
   best_naveen_localization: ^1.0.6
   intl: ^0.19.0
+  vector_math: ^2.1.0
   
   
   
