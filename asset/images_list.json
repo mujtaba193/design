@@ -62,6 +62,21 @@
         "username": "user4",
         "latitude": 51.5074,
         "longitude": -0.1278
+      },
+      {
+        "username": "user5",
+        "latitude": 59.941116,
+        "longitude": 30.355101
+      },
+      {
+        "username": "user6",
+        "latitude": 59.943342,
+        "longitude": 30.380122
+      },
+      {
+        "username": "user7",
+        "latitude": 59.967242,
+        "longitude": 30.377638
       }
     ],
     "datasets": {

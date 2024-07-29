@@ -31,7 +31,9 @@ class _HomePageState extends State<HomePage> {
         userTimeNow1: widget.userTimeNow1,
         userTimeNow2: widget.userTimeNow2,
       ),
-      YandexPolygon(),
+      YandexPolygon(
+        address: [],
+      ),
       //PayPage(),
       // MyHomePage(),
       // TableEvents(),

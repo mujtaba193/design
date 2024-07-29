@@ -1,19 +1,16 @@
-import 'dart:collection';
-import 'dart:math' as Math;
-
+import 'package:design/whereToDesign/users_model/address_model.dart';
 import 'package:flutter/material.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class YandexPolygon extends StatefulWidget {
-  YandexPolygon({Key? key}) : super(key: key);
+  List<AddressModel> address;
+  YandexPolygon({super.key, required this.address});
 
   @override
   _YandexPolygonState createState() => _YandexPolygonState();
 }
 
 class _YandexPolygonState extends State<YandexPolygon> {
-  final Set<Polygon> _polygons = HashSet<Polygon>();
-  final Set<Polyline> _polyLines = HashSet<Polyline>();
   late final YandexMapController controller;
   bool _drawPolygonEnabled = false;
   List<Point> _userPolyLinesLatLngList = [];
@@ -33,37 +30,42 @@ class _YandexPolygonState extends State<YandexPolygon> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: GestureDetector(
-          onPanUpdate: (_drawPolygonEnabled) ? _onPanUpdate : null,
-          onPanEnd: (_drawPolygonEnabled) ? _onPanEnd : null,
-          child: YandexMap(
-            onMapCreated: (_controller) {
-              controller = _controller;
-            },
-            mapObjects: mapObjects,
-          )),
+        onPanUpdate: (_drawPolygonEnabled) ? _onPanUpdate : null,
+        onPanEnd: (_drawPolygonEnabled) ? _onPanEnd : null,
+        child: YandexMap(
+          onMapCreated: (_controller) {
+            controller = _controller;
+          },
+          mapObjects: mapObjects,
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: _toggleDrawing,
         tooltip: 'Drawing',
-        child: Icon((_drawPolygonEnabled) ? Icons.cancel : Icons.edit),
+        child: Icon((_drawPolygonEnabled) ? Icons.cancel : Icons.swipe_down),
       ),
     );
   }
 
   _toggleDrawing() {
-    final mapObject = PolylineMapObject(
-      mapId: mapObjectId,
-      polyline: Polyline(points: _userPolyLinesLatLngList),
-      strokeColor: Colors.orange[700]!,
-      strokeWidth: 7.5,
-      outlineColor: Colors.yellow[200]!,
-      outlineWidth: 2.0,
-      turnRadius: 10.0,
-      arcApproximationStep: 1.0,
-      gradientLength: 1.0,
-      isInnerOutlineEnabled: true,
-    );
-    mapObjects.add(mapObject);
+    // final mapObject = PolylineMapObject(
+    //   mapId: mapObjectId,
+    //   polyline: Polyline(points: _userPolyLinesLatLngList),
+    //   strokeColor: Colors.orange[700]!,
+    //   strokeWidth: 7.5,
+    //   outlineColor: Colors.yellow[200]!,
+    //   outlineWidth: 2.0,
+    //   turnRadius: 10.0,
+    //   arcApproximationStep: 1.0,
+    //   gradientLength: 1.0,
+    //   isInnerOutlineEnabled: true,
+    // );
+    // setState(() {
+    //   mapObjects.add(mapObject);
+    // });
+    final List<AddressModel> address;
     _clearPolygons();
     setState(() => _drawPolygonEnabled = !_drawPolygonEnabled);
   }
@@ -83,8 +85,8 @@ class _YandexPolygonState extends State<YandexPolygon> {
       //   x = details.globalPosition.dx * 3;
       //   y = details.globalPosition.dy * 3;
       // } else if (Platform.isIOS) {
-      x = details.globalPosition.dx;
-      y = details.globalPosition.dy;
+      x = details.globalPosition.dx * 2.75;
+      y = details.globalPosition.dy * 2.75;
       // }
 
       // Round the x and y.
@@ -93,39 +95,39 @@ class _YandexPolygonState extends State<YandexPolygon> {
 
       // Check if the distance between last point is not too far.
       // to prevent two fingers drawing.
-      if (_lastXCoordinate != null && _lastYCoordinate != null) {
-        var distance = Math.sqrt(Math.pow(xCoordinate - _lastXCoordinate!, 2) +
-            Math.pow(yCoordinate - _lastYCoordinate!, 2));
-        // Check if the distance of point and point is large.
-        if (distance > 80.0) return;
-      }
+      // if (_lastXCoordinate != null && _lastYCoordinate != null) {
+      //   var distance = Math.sqrt(Math.pow(xCoordinate - _lastXCoordinate!, 2) +
+      //       Math.pow(yCoordinate - _lastYCoordinate!, 2));
+      //   // Check if the distance of point and point is large.
+      //   if (distance > 80.0) return;
+      // }
 
       // Cached the coordinate.
       _lastXCoordinate = xCoordinate;
       _lastYCoordinate = yCoordinate;
 
-      //ScreenCoordinate screenCoordinate = ScreenCoordinate(x: xCoordinate, y: yCoordinate);
-      ScreenPoint screenPoint = ScreenPoint(x: xCoordinate, y: yCoordinate);
-      //final GoogleMapController controller = await _controller.future;
-      // LatLng latLng = await controller.getLatLng(screenCoordinate);
+      ScreenPoint screenPoint =
+          ScreenPoint(x: _lastXCoordinate!, y: _lastYCoordinate!);
+
       Point? screenPoints = await controller.getPoint(screenPoint);
 
       try {
-        // Add new point to list.
-        //  _userPolyLinesLatLngList.add(latLng);
-
-        //  _polyLines.removeWhere(
-        //      (polyline) => polyline.polylineId.value == 'user_polyline');
         _userPolyLinesLatLngList.add(screenPoints!);
-
-        _polyLines.add(
-          Polyline(
-            //  polylineId: PolylineId('user_polyline'),
-            points: _userPolyLinesLatLngList,
-            // width: 2,
-            // color: Colors.blue,
-          ),
-        );
+        // final mapObject = PolylineMapObject(
+        //   mapId: mapObjectId,
+        //   polyline: Polyline(points: _userPolyLinesLatLngList),
+        //   strokeColor: Colors.orange[700]!,
+        //   strokeWidth: 7.5,
+        //   outlineColor: Colors.yellow[200]!,
+        //   outlineWidth: 2.0,
+        //   turnRadius: 10.0,
+        //   arcApproximationStep: 1.0,
+        //   gradientLength: 1.0,
+        //   isInnerOutlineEnabled: true,
+        // );
+        // setState(() {
+        //   mapObjects.add(mapObject);
+        // });
       } catch (e) {
         print(" error painting $e");
       }
@@ -139,17 +141,20 @@ class _YandexPolygonState extends State<YandexPolygon> {
     _lastYCoordinate = null;
 
     if (_drawPolygonEnabled) {
-      //    _polygons
-      //       .removeWhere((polygon) => polygon.polygonId.value == 'user_polygon');
-      //   _polygons.add(
-      // Polygon(
-      //   polygonId: PolygonId('user_polygon'),
-      //   points: _userPolyLinesLatLngList,
-      //   strokeWidth: 2,
-      //   strokeColor: Colors.blue,
-      //   fillColor: Colors.blue.withOpacity(0.4), outerRing: , innerRings: [],
-      // ),
-      //  );
+      //TODO add polygon here
+      final mapobjectPolyGon = PolygonMapObject(
+        strokeWidth: 3,
+        strokeColor: Colors.blue,
+        fillColor: Colors.blue[100]!,
+        mapId: mapObjectId,
+        polygon: Polygon(
+            outerRing: LinearRing(points: _userPolyLinesLatLngList),
+            innerRings: []),
+      );
+
+      setState(() {
+        mapObjects.add(mapobjectPolyGon);
+      });
       setState(() {
         _clearDrawing = true;
       });
@@ -158,9 +163,8 @@ class _YandexPolygonState extends State<YandexPolygon> {
 
   _clearPolygons() {
     setState(() {
-      _polyLines.clear();
-      _polygons.clear();
-      //   _userPolyLinesLatLngList.clear();
+      _userPolyLinesLatLngList.clear();
+      mapObjects.clear();
     });
   }
 }
