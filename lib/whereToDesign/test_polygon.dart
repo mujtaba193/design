@@ -86,8 +86,8 @@ class _MapPageState extends State<MapPage> {
     if (_drawPolygonEnabled) {
       double x, y;
 
-      x = details.globalPosition.dx * 2.75;
-      y = details.globalPosition.dy * 2.75;
+      x = details.localPosition.dx * 2.75;
+      y = details.localPosition.dy * 2.75;
 
       // Round the x and y.
       double xCoordinate = x;
@@ -135,7 +135,21 @@ class _MapPageState extends State<MapPage> {
         bool insidepoint = isPointInPolygon(inside, _userPolyLinesLatLngList);
         print('Point is ${insidepoint ? "inside" : "outside"} the polygon.');
         if (insidepoint) {
-          // newaddressInside.add();
+          // Add to newaddressInside list
+
+          final newInsidePolygon = widget.address.where((element) =>
+              element.latitude == inside.latitude &&
+              element.longitude == inside.longitude);
+          newaddressInside.addAll(newInsidePolygon);
+          // newaddressInside.add(AddressModel(
+          //   latitude: inside.latitude,
+          //   longitude: inside.longitude,
+          //   username: widget.address
+          //       .firstWhere((e) =>
+          //           e.latitude == inside.latitude &&
+          //           e.longitude == inside.longitude)
+          //       .username,
+          // ));
         }
       }
 
@@ -148,10 +162,58 @@ class _MapPageState extends State<MapPage> {
     }
   }
 
+  // _onPanEnddd(DragEndDetails details) async {
+  //   // Reset last cached coordinate
+  //   _lastXCoordinate = null;
+  //   _lastYCoordinate = null;
+
+  //   if (_drawPolygonEnabled) {
+  //     //TODO add polygon here
+  //     final mapobjectPolyGon = PolygonMapObject(
+  //       strokeWidth: 3,
+  //       strokeColor: Colors.blue,
+  //       fillColor: Colors.blue[100]!,
+  //       mapId: mapObjectId,
+  //       polygon: Polygon(
+  //           outerRing: LinearRing(points: _userPolyLinesLatLngList),
+  //           innerRings: []),
+  //     );
+
+  //     List<Point> insidePoints = widget.address
+  //         .map((e) => Point(latitude: e.latitude, longitude: e.longitude))
+  //         .toList();
+
+  //     for (var inside in insidePoints) {
+  //       bool insidepoint = isPointInPolygon(inside, _userPolyLinesLatLngList);
+  //       print('Point is ${insidepoint ? "inside" : "outside"} the polygon.');
+
+  //       if (insidepoint) {
+  //         // Add to newaddressInside list
+  //         newaddressInside.add(AddressModel(
+  //           latitude: inside.latitude,
+  //           longitude: inside.longitude,
+  //           username: widget.address
+  //               .firstWhere((e) =>
+  //                   e.latitude == inside.latitude &&
+  //                   e.longitude == inside.longitude)
+  //               .username,
+  //         ));
+  //       }
+  //     }
+
+  //     setState(() {
+  //       mapObjects.add(mapobjectPolyGon);
+  //       _clearDrawing = true;
+  //     });
+  //   }
+  // }
+  //////
+
   _clearPolygons() {
     setState(() {
       _userPolyLinesLatLngList.clear();
       mapObjects.clear();
+      newaddressInside.clear();
     });
   }
 
