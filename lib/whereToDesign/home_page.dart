@@ -1,5 +1,5 @@
-import 'package:design/register%20-%20interests.dart';
-import 'package:design/value.dart';
+import 'package:design/loover_pages/register%20-%20interests.dart';
+import 'package:design/loover_pages/value.dart';
 import 'package:design/whereToDesign/review2.dart';
 import 'package:design/whereToDesign/tessssssssssssst.dart';
 import 'package:design/whereToDesign/user_profile.dart';

@@ -51,6 +51,7 @@ class _FullMapState extends State<FullMap> {
   final MapObjectId mapObjectId = const MapObjectId('polyline');
   final List<MapObject> mapObjects = [];
   late List<AddressModel> insidePolygon = [];
+  List<AddressModel> newaddressInside = [];
   @override
   void initState() {
     getCurrentLucation();
@@ -64,7 +65,7 @@ class _FullMapState extends State<FullMap> {
 
     super.initState();
   }
-  ////////////////////////// polygon //////////////////////////////////////////////////
+  //////////////////////////<<<<<<{polygon functions}>>>>>//////////////////////////////////////////////////
 
   _toggleDrawing() {
     _clearPolygons();
@@ -81,8 +82,8 @@ class _FullMapState extends State<FullMap> {
     if (_drawPolygonEnabled) {
       double x, y;
 
-      x = details.globalPosition.dx * 2.75;
-      y = details.globalPosition.dy * 2.75;
+      x = details.localPosition.dx * 2.75;
+      y = details.localPosition.dy * 2.75;
 
       // Round the x and y.
       double xCoordinate = x;
@@ -126,10 +127,26 @@ class _FullMapState extends State<FullMap> {
           .map((e) => Point(latitude: e.latitude, longitude: e.longitude))
           .toList();
       for (var inside in insidePoints) {
-        final insideList = mapobjectPolyGon.polygon.innerRings
-            .where((e) => e.points.contains(inside));
+        //   isPointInPolygon(inside, _userPolyLinesLatLngList);
+        bool insidepoint = isPointInPolygon(inside, _userPolyLinesLatLngList);
+        print('Point is ${insidepoint ? "inside" : "outside"} the polygon.');
+        if (insidepoint) {
+          // Add to newaddressInside list
 
-        print('gijhgijhji' + '${insideList}');
+          final newInsidePolygon = widget.address.where((element) =>
+              element.latitude == inside.latitude &&
+              element.longitude == inside.longitude);
+          newaddressInside.addAll(newInsidePolygon);
+          // newaddressInside.add(AddressModel(
+          //   latitude: inside.latitude,
+          //   longitude: inside.longitude,
+          //   username: widget.address
+          //       .firstWhere((e) =>
+          //           e.latitude == inside.latitude &&
+          //           e.longitude == inside.longitude)
+          //       .username,
+          // ));
+        }
       }
 
       setState(() {
@@ -145,10 +162,56 @@ class _FullMapState extends State<FullMap> {
     setState(() {
       _userPolyLinesLatLngList.clear();
       mapObjects.clear();
+      newaddressInside.clear();
     });
   }
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////// here are functions to check if the point in the polygon ///////
+  bool isPointInPolygon(Point point, List<Point> polygon) {
+    int intersections = 0;
+    for (int i = 0; i < polygon.length; i++) {
+      Point vertex1 = polygon[i];
+      Point vertex2 = polygon[(i + 1) % polygon.length];
+      if (_isIntersecting(point, vertex1, vertex2)) {
+        intersections++;
+      }
+    }
+    return (intersections % 2) == 1;
+  }
+
+  bool _isIntersecting(Point point, Point vertex1, Point vertex2) {
+    double px = point.longitude;
+    double py = point.latitude;
+    double ax = vertex1.longitude;
+    double ay = vertex1.latitude;
+    double bx = vertex2.longitude;
+    double by = vertex2.latitude;
+
+    if (ay > by) {
+      ax = vertex2.longitude;
+      ay = vertex2.latitude;
+      bx = vertex1.longitude;
+      by = vertex1.latitude;
+    }
+
+    if (py == ay || py == by) {
+      py += 0.00001;
+    }
+
+    if ((py > by || py < ay) || (px > max(ax, bx))) {
+      return false;
+    }
+
+    if (px < min(ax, bx)) {
+      return true;
+    }
+
+    double red = (ax != bx) ? ((by - ay) / (bx - ax)) : double.infinity;
+    double blue = (ax != px) ? ((py - ay) / (px - ax)) : double.infinity;
+    return blue >= red;
+  }
+
+  ///////////////////////////////////////////<<<<{end of polygon functions}>>>>////////////////////////////////////////////////////////////////
 
   Future<void> _cancel() async {
     await session.cancel();
@@ -367,7 +430,7 @@ class _FullMapState extends State<FullMap> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Map page'),
+        title: Text('Full Map page'),
       ),
       body: Stack(
         children: [
@@ -423,7 +486,7 @@ class _FullMapState extends State<FullMap> {
                     ? [
                         ...mapObjects,
                         _getClusterizedCollection(
-                          placemarks: widget.address
+                          placemarks: newaddressInside
                               .map(
                                 (e) => PlacemarkMapObject(
                                   onTap: (mapObject, point) {
@@ -762,7 +825,6 @@ class _FullMapState extends State<FullMap> {
                 SizedBox(
                   height: 15,
                 ),
-
                 Container(
                   decoration: BoxDecoration(
                     border: Border.all(
@@ -774,17 +836,6 @@ class _FullMapState extends State<FullMap> {
                   height: 60,
                   child: IconButton(
                     onPressed: _toggleDrawing,
-                    // () {
-                    //   Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (BuildContext context) => YandexPolygon(
-                    //         address: widget.address,
-                    //       ),
-                    //     ),
-                    //   );
-                    //   setState(() {});
-                    // },
                     icon: Icon(
                       (_drawPolygonEnabled) ? Icons.cancel : Icons.swipe_down,
                       size: 20,

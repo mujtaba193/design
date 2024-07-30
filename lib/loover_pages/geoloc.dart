@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:design/model.dart';
-import 'package:design/model2.dart';
+import 'package:design/loover_pages/model.dart';
+import 'package:design/loover_pages/model2.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;

@@ -1,5 +1,5 @@
+import 'package:design/loover_pages/svg.dart';
 import 'package:flutter/material.dart';
-import 'package:design/svg.dart';
 
 class Val extends StatefulWidget {
   const Val({super.key});

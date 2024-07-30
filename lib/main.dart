@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:design/futureProvider.dart';
-import 'package:design/provider.dart';
+import 'package:design/loover_pages/futureProvider.dart';
+import 'package:design/loover_pages/provider.dart';
 import 'package:design/whereToDesign/translation/hive_class.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -1,5 +1,5 @@
+import 'package:design/loover_pages/geoloc.dart';
 import 'package:flutter/material.dart';
-import 'package:design/geoloc.dart';
 
 class Fourth extends StatelessWidget {
   const Fourth({super.key});

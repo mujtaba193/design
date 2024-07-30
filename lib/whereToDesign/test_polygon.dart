@@ -162,51 +162,6 @@ class _MapPageState extends State<MapPage> {
     }
   }
 
-  // _onPanEnddd(DragEndDetails details) async {
-  //   // Reset last cached coordinate
-  //   _lastXCoordinate = null;
-  //   _lastYCoordinate = null;
-
-  //   if (_drawPolygonEnabled) {
-  //     //TODO add polygon here
-  //     final mapobjectPolyGon = PolygonMapObject(
-  //       strokeWidth: 3,
-  //       strokeColor: Colors.blue,
-  //       fillColor: Colors.blue[100]!,
-  //       mapId: mapObjectId,
-  //       polygon: Polygon(
-  //           outerRing: LinearRing(points: _userPolyLinesLatLngList),
-  //           innerRings: []),
-  //     );
-
-  //     List<Point> insidePoints = widget.address
-  //         .map((e) => Point(latitude: e.latitude, longitude: e.longitude))
-  //         .toList();
-
-  //     for (var inside in insidePoints) {
-  //       bool insidepoint = isPointInPolygon(inside, _userPolyLinesLatLngList);
-  //       print('Point is ${insidepoint ? "inside" : "outside"} the polygon.');
-
-  //       if (insidepoint) {
-  //         // Add to newaddressInside list
-  //         newaddressInside.add(AddressModel(
-  //           latitude: inside.latitude,
-  //           longitude: inside.longitude,
-  //           username: widget.address
-  //               .firstWhere((e) =>
-  //                   e.latitude == inside.latitude &&
-  //                   e.longitude == inside.longitude)
-  //               .username,
-  //         ));
-  //       }
-  //     }
-
-  //     setState(() {
-  //       mapObjects.add(mapobjectPolyGon);
-  //       _clearDrawing = true;
-  //     });
-  //   }
-  // }
   //////
 
   _clearPolygons() {
@@ -546,17 +501,6 @@ class _MapPageState extends State<MapPage> {
                   height: 60,
                   child: IconButton(
                     onPressed: _toggleDrawing,
-                    // () {
-                    //   Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (BuildContext context) => YandexPolygon(
-                    //         address: widget.address,
-                    //       ),
-                    //     ),
-                    //   );
-                    //   setState(() {});
-                    // },
                     icon: Icon(
                       (_drawPolygonEnabled) ? Icons.cancel : Icons.swipe_down,
                       size: 20,
@@ -621,15 +565,15 @@ class _MapPageState extends State<MapPage> {
     return blue >= red;
   }
 
-  void _checkPoint() {
-    Point testPoint = Point(latitude: 55.745, longitude: 37.623);
-    List<Point> polygon = [
-      Point(latitude: 55.751244, longitude: 37.618423),
-      Point(latitude: 55.751744, longitude: 37.628423),
-      Point(latitude: 55.741244, longitude: 37.628423),
-      Point(latitude: 55.741244, longitude: 37.618423),
-    ];
-    bool inside = isPointInPolygon(testPoint, polygon);
-    print('Point is ${inside ? "inside" : "outside"} the polygon.');
-  }
+  // void _checkPoint() {
+  //   Point testPoint = Point(latitude: 55.745, longitude: 37.623);
+  //   List<Point> polygon = [
+  //     Point(latitude: 55.751244, longitude: 37.618423),
+  //     Point(latitude: 55.751744, longitude: 37.628423),
+  //     Point(latitude: 55.741244, longitude: 37.628423),
+  //     Point(latitude: 55.741244, longitude: 37.618423),
+  //   ];
+  //   bool inside = isPointInPolygon(testPoint, polygon);
+  //   print('Point is ${inside ? "inside" : "outside"} the polygon.');
+  // }
 }

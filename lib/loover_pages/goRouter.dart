@@ -1,7 +1,7 @@
-import 'package:design/hompage.dart';
+import 'package:design/loover_pages/hompage.dart';
+import 'package:design/loover_pages/model2.dart';
+import 'package:design/loover_pages/provider.dart';
 import 'package:design/main.dart';
-import 'package:design/model2.dart';
-import 'package:design/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

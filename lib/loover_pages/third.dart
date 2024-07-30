@@ -1,4 +1,4 @@
-import 'package:design/fourth.dart';
+import 'package:design/loover_pages/fourth.dart';
 import 'package:flutter/material.dart';
 
 class Third extends StatelessWidget {
@@ -82,8 +82,8 @@ class Third extends StatelessWidget {
           Center(
             child: ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => const Fourth()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Fourth()));
               },
               child: const Text('go to Fourth'),
             ),
