@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:design/heatSrc/src/data/heatmap_color_mode.dart';
 import 'package:design/heatSrc/src/heatmap_calendar.dart';
 import 'package:design/whereToDesign/Calendar%20classes/table_events.dart';
-import 'package:design/whereToDesign/full_map.dart';
 import 'package:design/whereToDesign/list_image_view.dart';
 import 'package:design/whereToDesign/review2.dart';
+import 'package:design/whereToDesign/test_polygon.dart';
 import 'package:design/whereToDesign/users_model/boat_model.dart';
 import 'package:design/whereToDesign/where_to.dart';
 import 'package:flutter/material.dart';
@@ -330,7 +330,7 @@ class _ShowInformationState extends State<ShowInformation> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) {
-                                  return FullMap(
+                                  return MapPage(
                                       address: widget.boatinfo!.address);
                                 },
                               ),

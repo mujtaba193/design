@@ -1,7 +1,7 @@
 import 'package:design/loover_pages/register%20-%20interests.dart';
 import 'package:design/loover_pages/value.dart';
 import 'package:design/whereToDesign/review2.dart';
-import 'package:design/whereToDesign/tessssssssssssst.dart';
+import 'package:design/whereToDesign/test_polygon.dart';
 import 'package:design/whereToDesign/user_profile.dart';
 import 'package:design/whereToDesign/users_model/boat_model.dart';
 import 'package:flutter/material.dart';
@@ -31,13 +31,18 @@ class _HomePageState extends State<HomePage> {
         userTimeNow1: widget.userTimeNow1,
         userTimeNow2: widget.userTimeNow2,
       ),
-      YandexPolygon(
+      MapPage(
         address: [],
       ),
+      // HeadPage(),
+      // YandexPolygon(
+      //   address: [],
+      // ),
       //PayPage(),
       // MyHomePage(),
       // TableEvents(),
       //Loovr4(),
+
       Val(),
       // Register3(),
       UserProfile(),

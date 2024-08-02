@@ -50,21 +50,21 @@ class _YandexPolygonState extends State<YandexPolygon> {
   }
 
   _toggleDrawing() {
-    // final mapObject = PolylineMapObject(
-    //   mapId: mapObjectId,
-    //   polyline: Polyline(points: _userPolyLinesLatLngList),
-    //   strokeColor: Colors.orange[700]!,
-    //   strokeWidth: 7.5,
-    //   outlineColor: Colors.yellow[200]!,
-    //   outlineWidth: 2.0,
-    //   turnRadius: 10.0,
-    //   arcApproximationStep: 1.0,
-    //   gradientLength: 1.0,
-    //   isInnerOutlineEnabled: true,
-    // );
-    // setState(() {
-    //   mapObjects.add(mapObject);
-    // });
+    final mapObject = PolylineMapObject(
+      mapId: mapObjectId,
+      polyline: Polyline(points: _userPolyLinesLatLngList),
+      strokeColor: Colors.orange[700]!,
+      strokeWidth: 7.5,
+      outlineColor: Colors.yellow[200]!,
+      outlineWidth: 2.0,
+      turnRadius: 10.0,
+      arcApproximationStep: 1.0,
+      gradientLength: 1.0,
+      isInnerOutlineEnabled: true,
+    );
+    setState(() {
+      mapObjects.add(mapObject);
+    });
     final List<AddressModel> address;
     _clearPolygons();
     setState(() => _drawPolygonEnabled = !_drawPolygonEnabled);
@@ -113,21 +113,21 @@ class _YandexPolygonState extends State<YandexPolygon> {
 
       try {
         _userPolyLinesLatLngList.add(screenPoints!);
-        // final mapObject = PolylineMapObject(
-        //   mapId: mapObjectId,
-        //   polyline: Polyline(points: _userPolyLinesLatLngList),
-        //   strokeColor: Colors.orange[700]!,
-        //   strokeWidth: 7.5,
-        //   outlineColor: Colors.yellow[200]!,
-        //   outlineWidth: 2.0,
-        //   turnRadius: 10.0,
-        //   arcApproximationStep: 1.0,
-        //   gradientLength: 1.0,
-        //   isInnerOutlineEnabled: true,
-        // );
-        // setState(() {
-        //   mapObjects.add(mapObject);
-        // });
+        final mapObject = PolylineMapObject(
+          mapId: mapObjectId,
+          polyline: Polyline(points: _userPolyLinesLatLngList),
+          strokeColor: Colors.orange[700]!,
+          strokeWidth: 7.5,
+          outlineColor: Colors.yellow[200]!,
+          outlineWidth: 2.0,
+          turnRadius: 10.0,
+          arcApproximationStep: 1.0,
+          gradientLength: 1.0,
+          isInnerOutlineEnabled: true,
+        );
+        setState(() {
+          mapObjects.add(mapObject);
+        });
       } catch (e) {
         print(" error painting $e");
       }

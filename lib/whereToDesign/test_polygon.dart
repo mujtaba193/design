@@ -25,6 +25,7 @@ class _MapPageState extends State<MapPage> {
   final MapObjectId mapObjectId = const MapObjectId('polyline');
   final List<MapObject> mapObjects = [];
   late List<AddressModel> insidePolygon = [];
+  LineObject? line;
   late PlacemarkMapObject currentLocationPlacemark;
   double? lat;
   double? long;
@@ -107,7 +108,16 @@ class _MapPageState extends State<MapPage> {
       } catch (e) {
         print(" error painting $e");
       }
-      setState(() {});
+
+      setState(() {
+        line = line!.copyWith(
+          points: [...line!.points, details.localPosition],
+        );
+        // if (line != null) {
+        //   //line!.last.add(details.localPosition);
+        //   line;
+        // }
+      });
     }
   }
 
@@ -158,10 +168,20 @@ class _MapPageState extends State<MapPage> {
       });
       setState(() {
         _clearDrawing = true;
+        line = null;
       });
     }
   }
 
+//////
+  void _onPanStart(DragStartDetails details) {
+    setState(() {
+      line = LineObject(points: [details.localPosition]);
+      // if (line != null) {
+      //   line!.points.add(details.localPosition);
+      // }
+    });
+  }
   //////
 
   _clearPolygons() {
@@ -169,6 +189,8 @@ class _MapPageState extends State<MapPage> {
       _userPolyLinesLatLngList.clear();
       mapObjects.clear();
       newaddressInside.clear();
+      // lines.clear();
+      // lines.last.points.clear();
     });
   }
 
@@ -178,13 +200,14 @@ class _MapPageState extends State<MapPage> {
       appBar: AppBar(
         title: Text('Yandex Map with Polygon'),
       ),
-      body: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(18.0),
-            child: GestureDetector(
-              onPanUpdate: (_drawPolygonEnabled) ? _onPanUpdate : null,
-              onPanEnd: (_drawPolygonEnabled) ? _onPanEnd : null,
+      body: GestureDetector(
+        onPanUpdate: (_drawPolygonEnabled) ? _onPanUpdate : null,
+        onPanStart: _onPanStart,
+        onPanEnd: (_drawPolygonEnabled) ? _onPanEnd : null,
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(18.0),
               child: YandexMap(
                 mapType: mapType,
                 onMapTap: (argument) {
@@ -330,6 +353,7 @@ class _MapPageState extends State<MapPage> {
                   //         ),
                   //       )
                   //     :
+                  //
                   _controller.moveCamera(
                     CameraUpdate.newCameraPosition(
                       CameraPosition(
@@ -343,175 +367,183 @@ class _MapPageState extends State<MapPage> {
                 },
               ),
             ),
-          ),
-          //mapType buttons
-          Positioned(
-            top: 10,
-            right: 5,
-            child: Column(
-              children: [
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      mapType = MapType.map;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Colors.black.withOpacity(0.8), width: 2.0),
-                      borderRadius: BorderRadius.circular(999),
-                      color: Color(0xFFFAFAFA).withOpacity(0.6),
-                    ),
-                    width: 60,
-                    height: 60,
-                    child: Icon(
-                      Icons.map,
-                      size: 50,
-                      color: Colors.black,
-                    ),
-                  ),
+            if (line != null)
+              CustomPaint(
+                size: MediaQuery.sizeOf(context),
+                painter: FingerPainter(
+                  line: line!,
                 ),
-                SizedBox(
-                  height: 5,
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      mapType = MapType.vector;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Colors.black.withOpacity(0.8), width: 2.0),
-                      borderRadius: BorderRadius.circular(999),
-                      color: Color(0xFFFAFAFA).withOpacity(0.6),
-                    ),
-                    width: 60,
-                    height: 60,
-                    child: Icon(
-                      Icons.satellite,
-                      size: 50,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            top: 400,
-            right: 5,
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.black.withOpacity(0.8), width: 2.0),
-                    borderRadius: BorderRadius.circular(999),
-                    color: Color(0xFFFAFAFA).withOpacity(0.6),
-                  ),
-                  width: 60,
-                  height: 60,
-                  child: IconButton(
-                    onPressed: () {
-                      controller.moveCamera(CameraUpdate.zoomIn());
-                    },
-                    icon: Icon(
-                      Icons.add,
-                      size: 20,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.black.withOpacity(0.8), width: 2.0),
-                    borderRadius: BorderRadius.circular(999),
-                    color: Color(0xFFFAFAFA).withOpacity(0.6),
-                  ),
-                  width: 60,
-                  height: 60,
-                  child: IconButton(
-                    onPressed: () {
-                      controller.moveCamera(CameraUpdate.zoomOut());
-                    },
-                    icon: Icon(
-                      Icons.remove,
-                      size: 20,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
+              ),
 
-                // Current location Button
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.black.withOpacity(0.8), width: 2.0),
-                    borderRadius: BorderRadius.circular(999),
-                    color: Color(0xFFFAFAFA).withOpacity(0.6),
+            //mapType buttons
+            Positioned(
+              top: 10,
+              right: 5,
+              child: Column(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        mapType = MapType.map;
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Colors.black.withOpacity(0.8), width: 2.0),
+                        borderRadius: BorderRadius.circular(999),
+                        color: Color(0xFFFAFAFA).withOpacity(0.6),
+                      ),
+                      width: 60,
+                      height: 60,
+                      child: Icon(
+                        Icons.map,
+                        size: 50,
+                        color: Colors.black,
+                      ),
+                    ),
                   ),
-                  width: 60,
-                  height: 60,
-                  child: IconButton(
-                    onPressed: () async {
-                      if (lat != null) {
-                        await controller.moveCamera(
-                          CameraUpdate.newCameraPosition(
-                            CameraPosition(
-                              zoom: 10,
-                              target: Point(latitude: lat!, longitude: long!),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        mapType = MapType.vector;
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Colors.black.withOpacity(0.8), width: 2.0),
+                        borderRadius: BorderRadius.circular(999),
+                        color: Color(0xFFFAFAFA).withOpacity(0.6),
+                      ),
+                      width: 60,
+                      height: 60,
+                      child: Icon(
+                        Icons.satellite,
+                        size: 50,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
+              top: 400,
+              right: 5,
+              child: Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Colors.black.withOpacity(0.8), width: 2.0),
+                      borderRadius: BorderRadius.circular(999),
+                      color: Color(0xFFFAFAFA).withOpacity(0.6),
+                    ),
+                    width: 60,
+                    height: 60,
+                    child: IconButton(
+                      onPressed: () {
+                        controller.moveCamera(CameraUpdate.zoomIn());
+                      },
+                      icon: Icon(
+                        Icons.add,
+                        size: 20,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Colors.black.withOpacity(0.8), width: 2.0),
+                      borderRadius: BorderRadius.circular(999),
+                      color: Color(0xFFFAFAFA).withOpacity(0.6),
+                    ),
+                    width: 60,
+                    height: 60,
+                    child: IconButton(
+                      onPressed: () {
+                        controller.moveCamera(CameraUpdate.zoomOut());
+                      },
+                      icon: Icon(
+                        Icons.remove,
+                        size: 20,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+
+                  // Current location Button
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Colors.black.withOpacity(0.8), width: 2.0),
+                      borderRadius: BorderRadius.circular(999),
+                      color: Color(0xFFFAFAFA).withOpacity(0.6),
+                    ),
+                    width: 60,
+                    height: 60,
+                    child: IconButton(
+                      onPressed: () async {
+                        if (lat != null) {
+                          await controller.moveCamera(
+                            CameraUpdate.newCameraPosition(
+                              CameraPosition(
+                                zoom: 10,
+                                target: Point(latitude: lat!, longitude: long!),
+                              ),
                             ),
-                          ),
-                        );
-                      }
-                      setState(() {});
-                    },
-                    icon: Icon(
-                      Icons.navigation,
-                      size: 20,
-                      color: Colors.black,
+                          );
+                        }
+                        setState(() {});
+                      },
+                      icon: Icon(
+                        Icons.navigation,
+                        size: 20,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
+                  SizedBox(
+                    height: 15,
+                  ),
 
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.black.withOpacity(0.8), width: 2.0),
-                    borderRadius: BorderRadius.circular(999),
-                    color: Color(0xFFFAFAFA).withOpacity(0.6),
-                  ),
-                  width: 60,
-                  height: 60,
-                  child: IconButton(
-                    onPressed: _toggleDrawing,
-                    icon: Icon(
-                      (_drawPolygonEnabled) ? Icons.cancel : Icons.swipe_down,
-                      size: 20,
-                      color: Colors.black,
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Colors.black.withOpacity(0.8), width: 2.0),
+                      borderRadius: BorderRadius.circular(999),
+                      color: Color(0xFFFAFAFA).withOpacity(0.6),
+                    ),
+                    width: 60,
+                    height: 60,
+                    child: IconButton(
+                      onPressed: _toggleDrawing,
+                      icon: Icon(
+                        (_drawPolygonEnabled) ? Icons.cancel : Icons.swipe_down,
+                        size: 20,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          )
-        ],
+                ],
+              ),
+            )
+          ],
+        ),
       ),
       // YandexMap(
       //   onMapCreated: (YandexMapController controller) {
@@ -521,6 +553,7 @@ class _MapPageState extends State<MapPage> {
     );
   }
 
+///////////////////////////////////////////////////////////////////////////////////
   bool isPointInPolygon(Point point, List<Point> polygon) {
     int intersections = 0;
     for (int i = 0; i < polygon.length; i++) {
@@ -576,4 +609,101 @@ class _MapPageState extends State<MapPage> {
   //   bool inside = isPointInPolygon(testPoint, polygon);
   //   print('Point is ${inside ? "inside" : "outside"} the polygon.');
   // }
+}
+
+// class LineObject {
+//   final List<Offset> points;
+//   final Color color;
+//   final double strokeWidth;
+
+//   const LineObject({
+//     required this.points,
+//     this.color = Colors.red,
+//     this.strokeWidth = 20.0,
+//   });
+
+//   LineObject copyWith({
+//     List<Offset>? points,
+//     Color? color,
+//     double? strokeWidth,
+//   }) {
+//     return LineObject(
+//       points: points ?? this.points,
+//       color: color ?? this.color,
+//       strokeWidth: strokeWidth ?? this.strokeWidth,
+//     );
+//   }
+// }
+
+// //////////////////
+// class FingerPainter extends CustomPainter {
+//   final LineObject line;
+//   const FingerPainter({
+//     required this.line,
+//   });
+
+//   @override
+//   void paint(Canvas canvas, Size size) {
+//     final paint = Paint()
+//       ..style = PaintingStyle.stroke
+//       ..color = line.color
+//       ..strokeWidth = line.strokeWidth
+//       ..strokeCap = StrokeCap.round;
+
+//     for (var i = 0; i < line.points.length - 1; i++) {
+//       canvas.drawLine(line.points[i], line.points[i + 1], paint);
+//     }
+//   }
+
+//   @override
+//   bool shouldRepaint(FingerPainter oldDelegate) => true;
+// }
+
+class LineObject {
+  final List<Offset> points;
+  final Color color;
+  final double strokeWidth;
+
+  const LineObject({
+    required this.points,
+    this.color = Colors.red,
+    this.strokeWidth = 20.0,
+  });
+
+  LineObject copyWith({
+    List<Offset>? points,
+    Color? color,
+    double? strokeWidth,
+  }) {
+    return LineObject(
+      points: points ?? this.points,
+      color: color ?? this.color,
+      strokeWidth: strokeWidth ?? this.strokeWidth,
+    );
+  }
+}
+
+class FingerPainter extends CustomPainter {
+  final LineObject line;
+  const FingerPainter({
+    required this.line,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..color = line.color
+      ..strokeWidth = line.strokeWidth
+      ..strokeCap = StrokeCap.round;
+
+    for (var i = 0; i < line.points.length - 1; i++) {
+      canvas.drawLine(line.points[i], line.points[i + 1], paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(FingerPainter oldDelegate) {
+    return line.points.length != oldDelegate.line.points.length;
+  }
 }

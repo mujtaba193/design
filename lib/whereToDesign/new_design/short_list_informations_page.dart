@@ -1,3 +1,5 @@
+// import 'dart:async';
+
 // import 'package:design/whereToDesign/new_design/pages/CourseFee_page.dart';
 // import 'package:design/whereToDesign/new_design/pages/about_page.dart';
 // import 'package:design/whereToDesign/new_design/pages/coureSyllabus_page.dart';
@@ -6,8 +8,10 @@
 // import 'package:design/whereToDesign/new_design/pages/courseEligibility_page.dart';
 // import 'package:design/whereToDesign/new_design/pages/entranceRequired_page.dart';
 // import 'package:design/whereToDesign/new_design/pages/universityD_page.dart';
+// import 'package:flutter/cupertino.dart';
 // import 'package:flutter/material.dart';
-
+// import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:share_plus/share_plus.dart';
 
 // const tabItem = [
 //   AboutPage(),
@@ -129,7 +133,7 @@
 //   @override
 //   void dispose() {
 //     itemPositionsListener.itemPositions.removeListener(_itemPositionListener);
-    
+
 //     super.dispose();
 //   }
 
@@ -148,9 +152,7 @@
 //               return NestedScrollView(
 //                 controller: scrollController,
 //                 headerSliverBuilder: (context, innerBoxIsScrolled) => [
-
-
-// SliverAppBar(
+//                   SliverAppBar(
 //                     backgroundColor: ColorResources.WHITE,
 //                     surfaceTintColor: ColorResources.WHITE,
 //                     floating: false,
@@ -233,9 +235,7 @@
 //                             : const NeverScrollableScrollPhysics(),
 //                         itemCount: tabItem.length,
 //                         itemBuilder: (context, index) {
-
-
-// return tabItem[index];
+//                           return tabItem[index];
 //                         },
 //                         itemScrollController: itemScrollController,
 //                         itemPositionsListener: itemPositionsListener,
@@ -282,7 +282,6 @@
 //     );
 //   }
 // }
-
 
 // const tabs = [
 //   'About',
@@ -369,7 +368,6 @@
 //   }
 // }
 
-// Naveen, [30.07.2024 11:06]
 // class UniversityTabbar extends StatelessWidget implements PreferredSize {
 //   const UniversityTabbar({
 //     required this.tabController,
