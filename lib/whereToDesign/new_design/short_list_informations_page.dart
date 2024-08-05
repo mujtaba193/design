@@ -11,6 +11,7 @@
 // import 'package:flutter/cupertino.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 // import 'package:share_plus/share_plus.dart';
 
 // const tabItem = [
@@ -61,21 +62,21 @@
 
 //     itemPositionsListener.itemPositions.addListener(_itemPositionListener);
 
-//     context.read<CourseDetailsBloc>()
-//       ..add(
-//         CheckCourseSaved(
-//           leadId: context.currentUser?.id,
-//           courseId: widget.courseId,
-//         ),
-//       )
-//       ..add(
-//         FetchCourseDetails(
-//           courseId: widget.courseId,
-//           universityId: widget.universityId,
-//         ),
-//       );
+//     // context.read<CourseDetailsBloc>()
+//     //   ..add(
+//     //     CheckCourseSaved(
+//     //       leadId: context.currentUser?.id,
+//     //       courseId: widget.courseId,
+//     //     ),
+//     //   )
+//     //   ..add(
+//     //     FetchCourseDetails(
+//     //       courseId: widget.courseId,
+//     //       universityId: widget.universityId,
+//     //     ),
+//     //   );
 
-//     Logger.logWarning('UNIVERSITY ID: ${widget.universityId}');
+//     // Logger.logWarning('UNIVERSITY ID: ${widget.universityId}');
 
 //     super.initState();
 //   }

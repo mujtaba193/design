@@ -202,7 +202,7 @@ class _MapPageState extends State<MapPage> {
       ),
       body: GestureDetector(
         onPanUpdate: (_drawPolygonEnabled) ? _onPanUpdate : null,
-        onPanStart: _onPanStart,
+        onPanStart: (_drawPolygonEnabled) ? _onPanStart : null,
         onPanEnd: (_drawPolygonEnabled) ? _onPanEnd : null,
         child: Stack(
           children: [
@@ -354,16 +354,16 @@ class _MapPageState extends State<MapPage> {
                   //       )
                   //     :
                   //
-                  _controller.moveCamera(
-                    CameraUpdate.newCameraPosition(
-                      CameraPosition(
-                        zoom: zoom,
-                        target: Point(
-                            latitude: widget.address.first.latitude,
-                            longitude: widget.address.first.longitude),
-                      ),
-                    ),
-                  );
+                  // _controller.moveCamera(
+                  //   CameraUpdate.newCameraPosition(
+                  //     CameraPosition(
+                  //       zoom: zoom,
+                  //       target: Point(
+                  //           latitude: widget.address.first.latitude,
+                  //           longitude: widget.address.first.longitude),
+                  //     ),
+                  //   ),
+                  // );
                 },
               ),
             ),

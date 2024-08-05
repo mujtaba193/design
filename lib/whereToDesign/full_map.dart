@@ -52,6 +52,7 @@ class _FullMapState extends State<FullMap> {
   final List<MapObject> mapObjects = [];
   late List<AddressModel> insidePolygon = [];
   List<AddressModel> newaddressInside = [];
+  LineObject? line;
   @override
   void initState() {
     getCurrentLucation();
@@ -103,7 +104,11 @@ class _FullMapState extends State<FullMap> {
       } catch (e) {
         print(" error painting $e");
       }
-      setState(() {});
+      setState(() {
+        line = line!.copyWith(
+          points: [...line!.points, details.localPosition],
+        );
+      });
     }
   }
 
@@ -154,9 +159,21 @@ class _FullMapState extends State<FullMap> {
       });
       setState(() {
         _clearDrawing = true;
+        line = null;
       });
     }
   }
+
+  ///////
+  void _onPanStart(DragStartDetails details) {
+    setState(() {
+      line = LineObject(points: [details.localPosition]);
+      // if (line != null) {
+      //   line!.points.add(details.localPosition);
+      // }
+    });
+  }
+  /////////
 
   _clearPolygons() {
     setState(() {
@@ -432,13 +449,14 @@ class _FullMapState extends State<FullMap> {
       appBar: AppBar(
         title: Text('Full Map page'),
       ),
-      body: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(18.0),
-            child: GestureDetector(
-              onPanUpdate: (_drawPolygonEnabled) ? _onPanUpdate : null,
-              onPanEnd: (_drawPolygonEnabled) ? _onPanEnd : null,
+      body: GestureDetector(
+        onPanUpdate: (_drawPolygonEnabled) ? _onPanUpdate : null,
+        onPanStart: (_drawPolygonEnabled) ? _onPanStart : null,
+        onPanEnd: (_drawPolygonEnabled) ? _onPanEnd : null,
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(18.0),
               child: YandexMap(
                 mapType: mapType,
                 onMapTap: (argument) {
@@ -679,174 +697,181 @@ class _FullMapState extends State<FullMap> {
                 },
               ),
             ),
-          ),
-          //mapType buttons
-          Positioned(
-            top: 10,
-            right: 5,
-            child: Column(
-              children: [
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      mapType = MapType.map;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Colors.black.withOpacity(0.8), width: 2.0),
-                      borderRadius: BorderRadius.circular(999),
-                      color: Color(0xFFFAFAFA).withOpacity(0.6),
-                    ),
-                    width: 60,
-                    height: 60,
-                    child: Icon(
-                      Icons.map,
-                      size: 50,
-                      color: Colors.black,
-                    ),
-                  ),
+            if (line != null)
+              CustomPaint(
+                size: MediaQuery.sizeOf(context),
+                painter: FingerPainter(
+                  line: line!,
                 ),
-                SizedBox(
-                  height: 5,
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      mapType = MapType.vector;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Colors.black.withOpacity(0.8), width: 2.0),
-                      borderRadius: BorderRadius.circular(999),
-                      color: Color(0xFFFAFAFA).withOpacity(0.6),
-                    ),
-                    width: 60,
-                    height: 60,
-                    child: Icon(
-                      Icons.satellite,
-                      size: 50,
-                      color: Colors.black,
+              ),
+            //mapType buttons
+            Positioned(
+              top: 10,
+              right: 5,
+              child: Column(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        mapType = MapType.map;
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Colors.black.withOpacity(0.8), width: 2.0),
+                        borderRadius: BorderRadius.circular(999),
+                        color: Color(0xFFFAFAFA).withOpacity(0.6),
+                      ),
+                      width: 60,
+                      height: 60,
+                      child: Icon(
+                        Icons.map,
+                        size: 50,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        mapType = MapType.vector;
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Colors.black.withOpacity(0.8), width: 2.0),
+                        borderRadius: BorderRadius.circular(999),
+                        color: Color(0xFFFAFAFA).withOpacity(0.6),
+                      ),
+                      width: 60,
+                      height: 60,
+                      child: Icon(
+                        Icons.satellite,
+                        size: 50,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Positioned(
-            top: 400,
-            right: 5,
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.black.withOpacity(0.8), width: 2.0),
-                    borderRadius: BorderRadius.circular(999),
-                    color: Color(0xFFFAFAFA).withOpacity(0.6),
-                  ),
-                  width: 60,
-                  height: 60,
-                  child: IconButton(
-                    onPressed: () {
-                      controller.moveCamera(CameraUpdate.zoomIn());
-                    },
-                    icon: Icon(
-                      Icons.add,
-                      size: 20,
-                      color: Colors.black,
+            Positioned(
+              top: 400,
+              right: 5,
+              child: Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Colors.black.withOpacity(0.8), width: 2.0),
+                      borderRadius: BorderRadius.circular(999),
+                      color: Color(0xFFFAFAFA).withOpacity(0.6),
+                    ),
+                    width: 60,
+                    height: 60,
+                    child: IconButton(
+                      onPressed: () {
+                        controller.moveCamera(CameraUpdate.zoomIn());
+                      },
+                      icon: Icon(
+                        Icons.add,
+                        size: 20,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.black.withOpacity(0.8), width: 2.0),
-                    borderRadius: BorderRadius.circular(999),
-                    color: Color(0xFFFAFAFA).withOpacity(0.6),
+                  SizedBox(
+                    height: 15,
                   ),
-                  width: 60,
-                  height: 60,
-                  child: IconButton(
-                    onPressed: () {
-                      controller.moveCamera(CameraUpdate.zoomOut());
-                    },
-                    icon: Icon(
-                      Icons.remove,
-                      size: 20,
-                      color: Colors.black,
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Colors.black.withOpacity(0.8), width: 2.0),
+                      borderRadius: BorderRadius.circular(999),
+                      color: Color(0xFFFAFAFA).withOpacity(0.6),
+                    ),
+                    width: 60,
+                    height: 60,
+                    child: IconButton(
+                      onPressed: () {
+                        controller.moveCamera(CameraUpdate.zoomOut());
+                      },
+                      icon: Icon(
+                        Icons.remove,
+                        size: 20,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
+                  SizedBox(
+                    height: 15,
+                  ),
 
-                // Current location Button
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.black.withOpacity(0.8), width: 2.0),
-                    borderRadius: BorderRadius.circular(999),
-                    color: Color(0xFFFAFAFA).withOpacity(0.6),
-                  ),
-                  width: 60,
-                  height: 60,
-                  child: IconButton(
-                    onPressed: () async {
-                      if (lat != null) {
-                        await controller.moveCamera(
-                          CameraUpdate.newCameraPosition(
-                            CameraPosition(
-                              zoom: 10,
-                              target: Point(latitude: lat!, longitude: long!),
+                  // Current location Button
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Colors.black.withOpacity(0.8), width: 2.0),
+                      borderRadius: BorderRadius.circular(999),
+                      color: Color(0xFFFAFAFA).withOpacity(0.6),
+                    ),
+                    width: 60,
+                    height: 60,
+                    child: IconButton(
+                      onPressed: () async {
+                        if (lat != null) {
+                          await controller.moveCamera(
+                            CameraUpdate.newCameraPosition(
+                              CameraPosition(
+                                zoom: 10,
+                                target: Point(latitude: lat!, longitude: long!),
+                              ),
                             ),
-                          ),
-                        );
-                      }
-                      setState(() {});
-                    },
-                    icon: Icon(
-                      Icons.navigation,
-                      size: 20,
-                      color: Colors.black,
+                          );
+                        }
+                        setState(() {});
+                      },
+                      icon: Icon(
+                        Icons.navigation,
+                        size: 20,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.black.withOpacity(0.8), width: 2.0),
-                    borderRadius: BorderRadius.circular(999),
-                    color: Color(0xFFFAFAFA).withOpacity(0.6),
+                  SizedBox(
+                    height: 15,
                   ),
-                  width: 60,
-                  height: 60,
-                  child: IconButton(
-                    onPressed: _toggleDrawing,
-                    icon: Icon(
-                      (_drawPolygonEnabled) ? Icons.cancel : Icons.swipe_down,
-                      size: 20,
-                      color: Colors.black,
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Colors.black.withOpacity(0.8), width: 2.0),
+                      borderRadius: BorderRadius.circular(999),
+                      color: Color(0xFFFAFAFA).withOpacity(0.6),
+                    ),
+                    width: 60,
+                    height: 60,
+                    child: IconButton(
+                      onPressed: _toggleDrawing,
+                      icon: Icon(
+                        (_drawPolygonEnabled) ? Icons.cancel : Icons.swipe_down,
+                        size: 20,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          )
-        ],
+                ],
+              ),
+            )
+          ],
+        ),
       ),
       // floatingActionButton: Padding(
       //   padding: const EdgeInsets.only(bottom: 140, right: 0),
@@ -1034,3 +1059,53 @@ class _ModalBodyView extends StatelessWidget {
 }
 
 /////////////////////////////////////////////////// draw polygon ////////////////////////
+
+///////////////////////////// draw line ///////////////////////////////
+class LineObject {
+  final List<Offset> points;
+  final Color color;
+  final double strokeWidth;
+
+  const LineObject({
+    required this.points,
+    this.color = Colors.red,
+    this.strokeWidth = 20.0,
+  });
+
+  LineObject copyWith({
+    List<Offset>? points,
+    Color? color,
+    double? strokeWidth,
+  }) {
+    return LineObject(
+      points: points ?? this.points,
+      color: color ?? this.color,
+      strokeWidth: strokeWidth ?? this.strokeWidth,
+    );
+  }
+}
+
+class FingerPainter extends CustomPainter {
+  final LineObject line;
+  const FingerPainter({
+    required this.line,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..color = line.color
+      ..strokeWidth = line.strokeWidth
+      ..strokeCap = StrokeCap.round;
+
+    for (var i = 0; i < line.points.length - 1; i++) {
+      canvas.drawLine(line.points[i], line.points[i + 1], paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(FingerPainter oldDelegate) {
+    return line.points.length != oldDelegate.line.points.length;
+  }
+}
