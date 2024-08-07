@@ -30,8 +30,15 @@ class MaskTicketPainter extends CustomPainter {
     _radiusArc = size.width / 2;
 
     final pathPolygon = Path()
-      ..addRRect(RRect.fromLTRBR(
-          0.0, 0.0, size.width, size.height, Radius.circular(0)))
+      ..addRRect(
+        RRect.fromLTRBR(
+          0.0,
+          0.0,
+          size.width,
+          size.height,
+          Radius.circular(0),
+        ),
+      )
       ..close();
 
     final pathMask = Path()

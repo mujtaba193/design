@@ -1,11 +1,11 @@
 import 'package:design/loover_pages/register%20-%20interests.dart';
 import 'package:design/loover_pages/value.dart';
-import 'package:design/whereToDesign/pay%20pages%20/pay_page.dart';
 import 'package:design/whereToDesign/review2.dart';
 import 'package:design/whereToDesign/user_profile.dart';
 import 'package:design/whereToDesign/users_model/boat_model.dart';
 import 'package:flutter/material.dart';
 
+import 'testing_folder/place_picker.dart';
 import 'translation/profie_page_translation.dart';
 
 class HomePage extends StatefulWidget {
@@ -34,11 +34,14 @@ class _HomePageState extends State<HomePage> {
       // MapPage(
       //   address: [],
       // ),
+      TestPlacePicker(),
+      // GoogleMampTest(),
+      //////////////////////////ShowTicketsList(),
       // HeadPage(),
       // YandexPolygon(
       //   address: [],
       // ),
-      PayPage(),
+      // PayPage(),
       // MyHomePage(),
       // TableEvents(),
       //Loovr4(),

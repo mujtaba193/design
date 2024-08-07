@@ -9,6 +9,7 @@ import 'package:design/whereToDesign/users_model/address_model.dart';
 import 'package:design/whereToDesign/yandex_map.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:yandex_geocoder/yandex_geocoder.dart' as geocoder;
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class FullMap extends StatefulWidget {
@@ -53,6 +54,13 @@ class _FullMapState extends State<FullMap> {
   late List<AddressModel> insidePolygon = [];
   List<AddressModel> newaddressInside = [];
   LineObject? line;
+  // Geocoder definitions //
+
+  final geocoder.YandexGeocoder geo =
+      geocoder.YandexGeocoder(apiKey: 'c29e3f51-6ad9-47eb-85d2-d90aec454225');
+
+  String address = 'null';
+  String latLong = 'null';
   @override
   void initState() {
     getCurrentLucation();
@@ -65,6 +73,23 @@ class _FullMapState extends State<FullMap> {
     mapObjects;
 
     super.initState();
+  }
+
+  ////////////////////////// Geocoder ////////////////////////////////////
+  Future<String> convertLatLngToAddress(
+      geocoder.YandexGeocoder geo, double latitude, double longitude) async {
+    try {
+      final geocoder.GeocodeResponse response = await geo.getGeocode(
+        geocoder.ReverseGeocodeRequest(
+          pointGeocode: (lat: latitude, lon: longitude),
+        ),
+      );
+
+      String address = response.firstAddress?.formatted ?? 'No address found';
+      return address;
+    } catch (e) {
+      return 'Error occurred: $e';
+    }
   }
   //////////////////////////<<<<<<{polygon functions}>>>>>//////////////////////////////////////////////////
 
@@ -459,7 +484,7 @@ class _FullMapState extends State<FullMap> {
               borderRadius: BorderRadius.circular(18.0),
               child: YandexMap(
                 mapType: mapType,
-                onMapTap: (argument) {
+                onMapTap: (argument) async {
                   setState(
                     () {
                       endLatitude = argument.latitude;
@@ -471,25 +496,31 @@ class _FullMapState extends State<FullMap> {
                           return Container(
                             height: MediaQuery.of(context).size.height * 0.2,
                             width: MediaQuery.of(context).size.width,
-                            child: Row(
+                            child: Column(
                               children: [
-                                IconButton(
-                                  onPressed: () {
-                                    _requestDrivingRoutes();
-                                  },
-                                  icon: Icon(Icons.car_rental_sharp),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    _requestBicycleRoutes();
-                                  },
-                                  icon: Icon(Icons.bike_scooter),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    _requestPedestrianRoutes();
-                                  },
-                                  icon: Icon(Icons.nordic_walking),
+                                Text('$endLatitude'),
+                                Text('$endLongitude'),
+                                Row(
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {
+                                        _requestDrivingRoutes();
+                                      },
+                                      icon: Icon(Icons.directions_car),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        _requestBicycleRoutes();
+                                      },
+                                      icon: Icon(Icons.directions_bike),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        _requestPedestrianRoutes();
+                                      },
+                                      icon: Icon(Icons.directions_walk),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -498,6 +529,22 @@ class _FullMapState extends State<FullMap> {
                       );
                     },
                   );
+                  // final geocoder.GeocodeResponse _address =
+                  //     await geo.getGeocode(
+                  //   geocoder.ReverseGeocodeRequest(
+                  //     pointGeocode: (lat: endLatitude!, lon: endLongitude!),
+                  //   ),
+                  // );
+                  // address = _address.firstAddress?.formatted ?? 'null';
+
+                  // final geocoder.GeocodeResponse _latLong =
+                  //     await geo.getGeocode(
+                  //   geocoder.DirectGeocodeRequest(
+                  //     addressGeocode: 'Москва, 4-я Тверская-Ямская улица, 7',
+                  //   ),
+                  // );
+
+                  // latLong = _latLong.firstPoint.toString();
                 },
                 nightModeEnabled: true,
                 mapObjects: (_drawPolygonEnabled)
@@ -530,21 +577,21 @@ class _FullMapState extends State<FullMap> {
                                                       _requestDrivingRoutes();
                                                     },
                                                     icon: Icon(
-                                                        Icons.car_rental_sharp),
+                                                        Icons.directions_car),
                                                   ),
                                                   IconButton(
                                                     onPressed: () {
                                                       _requestBicycleRoutes();
                                                     },
                                                     icon: Icon(
-                                                        Icons.bike_scooter),
+                                                        Icons.directions_bike),
                                                   ),
                                                   IconButton(
                                                     onPressed: () {
                                                       _requestPedestrianRoutes();
                                                     },
                                                     icon: Icon(
-                                                        Icons.nordic_walking),
+                                                        Icons.directions_walk),
                                                   ),
                                                 ],
                                               ),
@@ -610,21 +657,21 @@ class _FullMapState extends State<FullMap> {
                                                       _requestDrivingRoutes();
                                                     },
                                                     icon: Icon(
-                                                        Icons.car_rental_sharp),
+                                                        Icons.directions_car),
                                                   ),
                                                   IconButton(
                                                     onPressed: () {
                                                       _requestBicycleRoutes();
                                                     },
                                                     icon: Icon(
-                                                        Icons.bike_scooter),
+                                                        Icons.directions_bike),
                                                   ),
                                                   IconButton(
                                                     onPressed: () {
                                                       _requestPedestrianRoutes();
                                                     },
                                                     icon: Icon(
-                                                        Icons.nordic_walking),
+                                                        Icons.directions_walk),
                                                   ),
                                                 ],
                                               ),

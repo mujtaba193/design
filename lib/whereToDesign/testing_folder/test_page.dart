@@ -1,119 +1,372 @@
+import 'dart:io' show Platform;
+
+import 'package:design/google_place_picker/src/models/pick_result.dart';
+import 'package:design/google_place_picker/src/place_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+// Only to control hybrid composition and the renderer in Android
+import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
+import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
+// do not import this yourself
 
-class LineObject {
-  final List<Offset> points;
-  final Color color;
-  final double strokeWidth;
+// Your api key storage.
+//import 'keys.dart';
 
-  const LineObject({
-    required this.points,
-    this.color = Colors.red,
-    this.strokeWidth = 20.0,
-  });
+class GoogleMampTest extends StatefulWidget {
+  GoogleMampTest({Key? key}) : super(key: key);
 
-  LineObject copyWith({
-    List<Offset>? points,
-    Color? color,
-    double? strokeWidth,
-  }) {
-    return LineObject(
-      points: points ?? this.points,
-      color: color ?? this.color,
-      strokeWidth: strokeWidth ?? this.strokeWidth,
-    );
-  }
+  static final kInitialPosition = LatLng(-33.8567844, 151.213108);
+
+  final GoogleMapsFlutterPlatform mapsImplementation =
+      GoogleMapsFlutterPlatform.instance;
+  // String APIKeys = 'AIzaSyD_EXNQjjvmLVJE37nA8zVQdTPRDcQStYE';
+  @override
+  _GoogleMampTestState createState() => _GoogleMampTestState();
 }
 
-class FingerPainter extends CustomPainter {
-  final LineObject line;
-  const FingerPainter({
-    required this.line,
-  });
+class _GoogleMampTestState extends State<GoogleMampTest> {
+  PickResult? selectedPlace;
+  bool _showPlacePickerInContainer = false;
+  bool _showGoogleMapInContainer = false;
 
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..style = PaintingStyle.stroke
-      ..color = line.color
-      ..strokeWidth = line.strokeWidth
-      ..strokeCap = StrokeCap.round;
+  bool _mapsInitialized = false;
+  String _mapsRenderer = "latest";
 
-    for (var i = 0; i < line.points.length - 1; i++) {
-      canvas.drawLine(line.points[i], line.points[i + 1], paint);
+  void initRenderer() {
+    if (_mapsInitialized) return;
+    if (widget.mapsImplementation is GoogleMapsFlutterAndroid) {
+      switch (_mapsRenderer) {
+        case "legacy":
+          (widget.mapsImplementation as GoogleMapsFlutterAndroid)
+              .initializeWithRenderer(AndroidMapRenderer.legacy);
+          break;
+        case "latest":
+          (widget.mapsImplementation as GoogleMapsFlutterAndroid)
+              .initializeWithRenderer(AndroidMapRenderer.latest);
+          break;
+      }
     }
-  }
-
-  @override
-  bool shouldRepaint(FingerPainter oldDelegate) {
-    return line.points.length != oldDelegate.line.points.length;
-  }
-}
-
-class FingerPainterScreen extends StatefulWidget {
-  const FingerPainterScreen({super.key});
-
-  @override
-  State<FingerPainterScreen> createState() => _FingerPainterScreenState();
-}
-
-class _FingerPainterScreenState extends State<FingerPainterScreen> {
-  LineObject line = LineObject(points: []);
-
-  void _onClearLines() {
     setState(() {
-      line = LineObject(points: []);
-    });
-  }
-
-  void _onPanUpdate(DragUpdateDetails details) {
-    setState(() {
-      line = line.copyWith(
-        points: [...line.points, details.localPosition],
-      );
-    });
-  }
-
-  void _onPanStart(DragStartDetails details) {
-    setState(() {
-      line = LineObject(points: [details.localPosition]);
+      _mapsInitialized = true;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: _onClearLines,
-        child: const Icon(Icons.clear),
-      ),
-      body: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onPanStart: _onPanStart,
-        onPanUpdate: _onPanUpdate,
-        child: RepaintBoundary(
-          child: CustomPaint(
-            size: MediaQuery.sizeOf(context),
-            painter: FingerPainter(
-              line: line,
-            ),
-          ),
+        appBar: AppBar(
+          title: Text("Google Map Place Picker Demo"),
         ),
-      ),
-    );
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (!_mapsInitialized &&
+                      widget.mapsImplementation
+                          is GoogleMapsFlutterAndroid) ...[
+                    Switch(
+                        value: (widget.mapsImplementation
+                                as GoogleMapsFlutterAndroid)
+                            .useAndroidViewSurface,
+                        onChanged: (value) {
+                          setState(() {
+                            (widget.mapsImplementation
+                                    as GoogleMapsFlutterAndroid)
+                                .useAndroidViewSurface = value;
+                          });
+                        }),
+                    Text("Hybrid Composition"),
+                  ]
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (!_mapsInitialized &&
+                      widget.mapsImplementation
+                          is GoogleMapsFlutterAndroid) ...[
+                    Text("Renderer: "),
+                    Radio(
+                        groupValue: _mapsRenderer,
+                        value: "auto",
+                        onChanged: (value) {
+                          setState(() {
+                            _mapsRenderer = "auto";
+                          });
+                        }),
+                    Text("Auto"),
+                    Radio(
+                        groupValue: _mapsRenderer,
+                        value: "legacy",
+                        onChanged: (value) {
+                          setState(() {
+                            _mapsRenderer = "legacy";
+                          });
+                        }),
+                    Text("Legacy"),
+                    Radio(
+                        groupValue: _mapsRenderer,
+                        value: "latest",
+                        onChanged: (value) {
+                          setState(() {
+                            _mapsRenderer = "latest";
+                          });
+                        }),
+                    Text("Latest"),
+                  ]
+                ],
+              ),
+              !_showPlacePickerInContainer
+                  ? ElevatedButton(
+                      child: Text("Load Place Picker"),
+                      onPressed: () {
+                        initRenderer();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return PlacePicker(
+                                resizeToAvoidBottomInset:
+                                    false, // only works in page mode, less flickery
+                                apiKey: Platform.isAndroid
+                                    ? APIKeys.androidApiKey
+                                    : APIKeys.iosApiKey,
+                                hintText: "Find a place ...",
+                                searchingText: "Please wait ...",
+                                selectText: "Select place",
+                                outsideOfPickAreaText: "Place not in area",
+                                initialPosition:
+                                    GoogleMampTest.kInitialPosition,
+                                useCurrentLocation: true,
+                                selectInitialPosition: true,
+                                usePinPointingSearch: true,
+                                usePlaceDetailSearch: true,
+                                zoomGesturesEnabled: true,
+                                zoomControlsEnabled: true,
+                                ignoreLocationPermissionErrors: true,
+                                onMapCreated: (GoogleMapController controller) {
+                                  print("Map created");
+                                },
+                                onPlacePicked: (PickResult result) {
+                                  print(
+                                      "Place picked: ${result.formattedAddress}");
+                                  setState(() {
+                                    selectedPlace = result;
+                                    Navigator.of(context).pop();
+                                  });
+                                },
+                                onMapTypeChanged: (MapType mapType) {
+                                  print(
+                                      "Map type changed to ${mapType.toString()}");
+                                },
+                                // #region additional stuff
+                                // forceSearchOnZoomChanged: true,
+                                // automaticallyImplyAppBarLeading: false,
+                                // autocompleteLanguage: "ko",
+                                // region: 'au',
+                                // pickArea: CircleArea(
+                                //   center: HomePage.kInitialPosition,
+                                //   radius: 300,
+                                //   fillColor: Colors.lightGreen
+                                //       .withGreen(255)
+                                //       .withAlpha(32),
+                                //   strokeColor: Colors.lightGreen
+                                //       .withGreen(255)
+                                //       .withAlpha(192),
+                                //   strokeWidth: 2,
+                                // ),
+                                // selectedPlaceWidgetBuilder: (_, selectedPlace, state, isSearchBarFocused) {
+                                //   print("state: $state, isSearchBarFocused: $isSearchBarFocused");
+                                //   return isSearchBarFocused
+                                //       ? Container()
+                                //       : FloatingCard(
+                                //           bottomPosition: 0.0, // MediaQuery.of(context) will cause rebuild. See MediaQuery document for the information.
+                                //           leftPosition: 0.0,
+                                //           rightPosition: 0.0,
+                                //           width: 500,
+                                //           borderRadius: BorderRadius.circular(12.0),
+                                //           child: state == SearchingState.Searching
+                                //               ? Center(child: CircularProgressIndicator())
+                                //               : ElevatedButton(
+                                //                   child: Text("Pick Here"),
+                                //                   onPressed: () {
+                                //                     // IMPORTANT: You MUST manage selectedPlace data yourself as using this build will not invoke onPlacePicker as
+                                //                     //            this will override default 'Select here' Button.
+                                //                     print("do something with [selectedPlace] data");
+                                //                     Navigator.of(context).pop();
+                                //                   },
+                                //                 ),
+                                //         );
+                                // },
+                                // pinBuilder: (context, state) {
+                                //   if (state == PinState.Idle) {
+                                //     return Icon(Icons.favorite_border);
+                                //   } else {
+                                //     return Icon(Icons.favorite);
+                                //   }
+                                // },
+                                // introModalWidgetBuilder: (context,  close) {
+                                //   return Positioned(
+                                //     top: MediaQuery.of(context).size.height * 0.35,
+                                //     right: MediaQuery.of(context).size.width * 0.15,
+                                //     left: MediaQuery.of(context).size.width * 0.15,
+                                //     child: Container(
+                                //       width: MediaQuery.of(context).size.width * 0.7,
+                                //       child: Material(
+                                //         type: MaterialType.canvas,
+                                //         color: Theme.of(context).cardColor,
+                                //         shape: RoundedRectangleBorder(
+                                //             borderRadius: BorderRadius.circular(12.0),
+                                //         ),
+                                //         elevation: 4.0,
+                                //         child: ClipRRect(
+                                //           borderRadius: BorderRadius.circular(12.0),
+                                //           child: Container(
+                                //             padding: EdgeInsets.all(8.0),
+                                //             child: Column(
+                                //               children: [
+                                //                 SizedBox.fromSize(size: new Size(0, 10)),
+                                //                 Text("Please select your preferred address.",
+                                //                   style: TextStyle(
+                                //                     fontWeight: FontWeight.bold,
+                                //                   )
+                                //                 ),
+                                //                 SizedBox.fromSize(size: new Size(0, 10)),
+                                //                 SizedBox.fromSize(
+                                //                   size: Size(MediaQuery.of(context).size.width * 0.6, 56), // button width and height
+                                //                   child: ClipRRect(
+                                //                     borderRadius: BorderRadius.circular(10.0),
+                                //                     child: Material(
+                                //                       child: InkWell(
+                                //                         overlayColor: MaterialStateColor.resolveWith(
+                                //                           (states) => Colors.blueAccent
+                                //                         ),
+                                //                         onTap: close,
+                                //                         child: Row(
+                                //                           mainAxisAlignment: MainAxisAlignment.center,
+                                //                           children: [
+                                //                             Icon(Icons.check_sharp, color: Colors.blueAccent),
+                                //                             SizedBox.fromSize(size: new Size(10, 0)),
+                                //                             Text("OK",
+                                //                               style: TextStyle(
+                                //                                 color: Colors.blueAccent
+                                //                               )
+                                //                             )
+                                //                           ],
+                                //                         )
+                                //                       ),
+                                //                     ),
+                                //                   ),
+                                //                 )
+                                //               ]
+                                //             )
+                                //           ),
+                                //         ),
+                                //       ),
+                                //     )
+                                //   );
+                                // },
+                                // #endregion
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    )
+                  : Container(),
+              !_showPlacePickerInContainer
+                  ? ElevatedButton(
+                      child: Text("Load Place Picker in Container"),
+                      onPressed: () {
+                        initRenderer();
+                        setState(() {
+                          _showPlacePickerInContainer = true;
+                        });
+                      },
+                    )
+                  : Container(
+                      width: MediaQuery.of(context).size.width * 0.75,
+                      height: MediaQuery.of(context).size.height * 0.35,
+                      child: PlacePicker(
+                          apiKey: Platform.isAndroid
+                              ? APIKeys.androidApiKey
+                              : APIKeys.iosApiKey,
+                          hintText: "Find a place ...",
+                          searchingText: "Please wait ...",
+                          selectText: "Select place",
+                          initialPosition: GoogleMampTest.kInitialPosition,
+                          useCurrentLocation: true,
+                          selectInitialPosition: true,
+                          usePinPointingSearch: true,
+                          usePlaceDetailSearch: true,
+                          zoomGesturesEnabled: true,
+                          zoomControlsEnabled: true,
+                          ignoreLocationPermissionErrors: true,
+                          onPlacePicked: (PickResult result) {
+                            setState(() {
+                              selectedPlace = result;
+                              _showPlacePickerInContainer = false;
+                            });
+                          },
+                          onTapBack: () {
+                            setState(() {
+                              _showPlacePickerInContainer = false;
+                            });
+                          })),
+              if (selectedPlace != null) ...[
+                Text(selectedPlace!.formattedAddress!),
+                Text("(lat: " +
+                    selectedPlace!.geometry!.location.lat.toString() +
+                    ", lng: " +
+                    selectedPlace!.geometry!.location.lng.toString() +
+                    ")"),
+              ],
+              // #region Google Map Example without provider
+              _showPlacePickerInContainer
+                  ? Container()
+                  : ElevatedButton(
+                      child: Text("Toggle Google Map w/o Provider"),
+                      onPressed: () {
+                        initRenderer();
+                        setState(() {
+                          _showGoogleMapInContainer =
+                              !_showGoogleMapInContainer;
+                        });
+                      },
+                    ),
+              !_showGoogleMapInContainer
+                  ? Container()
+                  : Container(
+                      width: MediaQuery.of(context).size.width * 0.75,
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      child: GoogleMap(
+                        zoomGesturesEnabled: false,
+                        zoomControlsEnabled: false,
+                        myLocationButtonEnabled: false,
+                        mapToolbarEnabled: false,
+                        initialCameraPosition: new CameraPosition(
+                            target: GoogleMampTest.kInitialPosition, zoom: 15),
+                        mapType: MapType.normal,
+                        myLocationEnabled: true,
+                        onMapCreated: (GoogleMapController controller) {},
+                        onCameraIdle: () {},
+                        onCameraMoveStarted: () {},
+                        onCameraMove: (CameraPosition position) {},
+                      )),
+              !_showGoogleMapInContainer ? Container() : TextField(),
+              // #endregion
+            ],
+          ),
+        ));
   }
 }
 
-void main() {
-  runApp(MaterialApp(
-    home: FingerPainterScreen(),
-  ));
+///////////////////////
+class APIKeys {
+  static String androidApiKey = "AIzaSyD_EXNQjjvmLVJE37nA8zVQdTPRDcQStYE";
+  static String iosApiKey = "AIzaSyD_EXNQjjvmLVJE37nA8zVQdTPRDcQStYE";
 }
-// Changes made:
-//LineObject Class: The LineObject class remains the same but is used to manage a single line.
-//FingerPainter Class: The FingerPainter class now receives a single LineObject instance and draws only one line.
-//FingerPainterScreen Class:
-//Manages a single LineObject instance (line).
-//Updated methods (_onPanStart and _onPanUpdate) to modify this single line.
-//Removed the list of lines and now directly works with a single line.
-//CustomPaint is now wrapped in RepaintBoundary to optimize repainting.
-//This setup ensures only one line is drawn and allows you to clear and redraw the line as needed.
