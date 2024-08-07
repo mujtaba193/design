@@ -1,11 +1,11 @@
-import 'package:design/loover_pages/register%20-%20interests.dart';
 import 'package:design/loover_pages/value.dart';
 import 'package:design/whereToDesign/review2.dart';
 import 'package:design/whereToDesign/user_profile.dart';
 import 'package:design/whereToDesign/users_model/boat_model.dart';
 import 'package:flutter/material.dart';
 
-import 'testing_folder/place_picker.dart';
+import '../tinkoff/test_payment.dart';
+import 'tickets/shwo_tickets_list.dart';
 import 'translation/profie_page_translation.dart';
 
 class HomePage extends StatefulWidget {
@@ -34,9 +34,9 @@ class _HomePageState extends State<HomePage> {
       // MapPage(
       //   address: [],
       // ),
-      TestPlacePicker(),
+      //TestPlacePicker(),
       // GoogleMampTest(),
-      //////////////////////////ShowTicketsList(),
+      ShowTicketsList(),
       // HeadPage(),
       // YandexPolygon(
       //   address: [],
@@ -50,7 +50,8 @@ class _HomePageState extends State<HomePage> {
       // Register3(),
       UserProfile(),
       // Loovr4(),
-      Register3(),
+      // Register3(),
+      TestPaymentTinkoff(),
     ];
     super.initState();
   }

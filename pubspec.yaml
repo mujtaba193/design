@@ -75,6 +75,15 @@ dependencies:
   tuple: ^2.0.2
   provider: ^6.1.2
   google_api_headers: ^4.0.0
+
+
+  ##Tinkoff
+  comparer: ^2.0.1
+  crypto: ^3.0.3
+  crypton: ^2.1.0
+  meta: ^1.9.1
+  json_annotation: ^4.8.1
+  webview_flutter: ^4.2.1
   
   
   

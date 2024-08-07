@@ -1,10 +1,13 @@
 import 'dart:io';
 
-import 'package:design/google_place_picker/src/api_keys.dart';
-import 'package:design/google_place_picker/src/models/pick_result.dart';
+//import 'package:design/google_place_picker/src/api_keys.dart';
+//import 'package:design/google_place_picker/src/models/pick_result.dart';
 import 'package:design/google_place_picker/src/place_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../../google_place_picker/src/api_keys.dart';
+import '../../google_place_picker/src/models/pick_result.dart';
 
 class TestPlacePicker extends StatefulWidget {
   const TestPlacePicker({super.key});
