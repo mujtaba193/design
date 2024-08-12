@@ -5,7 +5,7 @@ import 'package:design/whereToDesign/users_model/boat_model.dart';
 import 'package:flutter/material.dart';
 
 import '../tinkoff/test_payment.dart';
-import 'tickets/shwo_tickets_list.dart';
+import 'tickets/tickets_all_pages.dart';
 import 'translation/profie_page_translation.dart';
 
 class HomePage extends StatefulWidget {
@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
       // ),
       //TestPlacePicker(),
       // GoogleMampTest(),
-      ShowTicketsList(),
+      TicketsAllPages(),
       // HeadPage(),
       // YandexPolygon(
       //   address: [],

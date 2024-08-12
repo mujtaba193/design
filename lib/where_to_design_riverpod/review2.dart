@@ -1,6 +1,6 @@
-import 'package:design/where%20to%20design%20riverpod/show_information.dart';
-import 'package:design/where%20to%20design%20riverpod/user_provider/boat_list_provider.dart';
-import 'package:design/where%20to%20design%20riverpod/users_model/boat_model.dart';
+import 'package:design/where_to_design_riverpod/show_information.dart';
+import 'package:design/where_to_design_riverpod/user_provider/boat_list_provider.dart';
+import 'package:design/where_to_design_riverpod/users_model/boat_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';

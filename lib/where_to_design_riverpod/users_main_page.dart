@@ -2,15 +2,16 @@ import 'dart:convert';
 
 import 'package:design/whereToDesign/users_model/user_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class UsersMainPage extends StatefulWidget {
+class UsersMainPage extends ConsumerStatefulWidget {
   const UsersMainPage({super.key});
 
   @override
-  State<UsersMainPage> createState() => _UsersMainPageState();
+  ConsumerState<UsersMainPage> createState() => _UsersMainPageState();
 }
 
-class _UsersMainPageState extends State<UsersMainPage> {
+class _UsersMainPageState extends ConsumerState<UsersMainPage> {
   List<UsersModel>? usersd;
   @override
   void initState() {

@@ -3,14 +3,14 @@ import 'package:design/whereToDesign/tickets/tickets_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ShowTicketsList extends ConsumerStatefulWidget {
-  const ShowTicketsList({super.key});
+class ShowBeforTodayTickets extends ConsumerStatefulWidget {
+  const ShowBeforTodayTickets({super.key});
 
   @override
-  ConsumerState<ShowTicketsList> createState() => _ShowTicketsListState();
+  ConsumerState<ShowBeforTodayTickets> createState() => _ShowTicketsListState();
 }
 
-class _ShowTicketsListState extends ConsumerState<ShowTicketsList> {
+class _ShowTicketsListState extends ConsumerState<ShowBeforTodayTickets> {
   @override
   void initState() {
     // TODO: implement initState
@@ -23,31 +23,34 @@ class _ShowTicketsListState extends ConsumerState<ShowTicketsList> {
     return Scaffold(
       body: SafeArea(
           child: FutureBuilder(
-              future: tickets.readJsondataTickets(),
+              future: tickets.ticketArchieved(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator();
                 } else {
                   return ListView.builder(
-                      itemCount: tickets.ticketsList!.length,
+                      itemCount: tickets.ticketsArchieved!.length,
                       itemBuilder: (_, index) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(18.0),
                             child: TicketMaterial(
-                              colorBackground: Color.fromARGB(255, 70, 91, 109),
+                              colorBackground: Color.fromARGB(255, 37, 90, 114),
                               height: 150,
                               leftChild: _leftChild(
-                                  tickets.ticketsList![index].guests_number,
-                                  tickets.ticketsList![index].pets_number,
-                                  tickets.ticketsList![index].date_time,
-                                  tickets.ticketsList![index].boarding_time,
-                                  tickets.ticketsList![index].flight_number,
-                                  tickets.ticketsList![index].price),
+                                  tickets
+                                      .ticketsArchieved![index].guests_number,
+                                  tickets.ticketsArchieved![index].pets_number,
+                                  tickets.ticketsArchieved![index].date_time,
+                                  tickets
+                                      .ticketsArchieved![index].boarding_time,
+                                  tickets
+                                      .ticketsArchieved![index].flight_number,
+                                  tickets.ticketsArchieved![index].price),
                               rightChild: _rightChild(
-                                tickets.ticketsList![index].flight_number,
-                                tickets.ticketsList![index].guests_number,
+                                tickets.ticketsArchieved![index].flight_number,
+                                tickets.ticketsArchieved![index].guests_number,
                               ),
                             ),
                           ),

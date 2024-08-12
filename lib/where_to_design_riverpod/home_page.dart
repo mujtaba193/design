@@ -2,8 +2,8 @@ import 'package:design/loover_pages/loover2.dart';
 import 'package:design/loover_pages/loovr4.dart';
 import 'package:design/loover_pages/register%20-%20interests.dart';
 import 'package:design/loover_pages/value.dart';
-import 'package:design/where%20to%20design%20riverpod/review2.dart';
-import 'package:design/where%20to%20design%20riverpod/users_model/boat_model.dart';
+import 'package:design/where_to_design_riverpod/review2.dart';
+import 'package:design/where_to_design_riverpod/users_model/boat_model.dart';
 import 'package:flutter/material.dart';
 
 class HomePageProv extends StatefulWidget {
