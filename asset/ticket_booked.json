@@ -17,16 +17,16 @@
 {
     "guests_number": 4,
     "pets_number": 3,
-    "date_time": "2024-08-09T10:00:00",
-    "boarding_time": "2024-08-09T12:00:00",
+    "date_time": "2024-08-13T10:00:00",
+    "boarding_time": "2024-08-13T12:00:00",
     "flight_number": "DS092",
     "price": 5900
 },
 {
     "guests_number": 9,
     "pets_number": 2,
-    "date_time": "2024-08-09T10:00:00",
-    "boarding_time": "2024-08-09T09:00:00",
+    "date_time": "2024-08-13T10:00:00",
+    "boarding_time": "2024-08-13T09:00:00",
     "flight_number": "RA790",
     "price": 7100
 },

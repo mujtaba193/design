@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'shwo_tickets_list.dart';
 import 'tickets_after_today.dart';
 import 'tickets_befor_today.dart';
+import 'tickets_today.dart';
 
 class TicketsAllPages extends StatefulWidget {
   const TicketsAllPages({super.key});
@@ -21,20 +21,29 @@ class _TicketsAllPagesState extends State<TicketsAllPages> {
           bottom: TabBar(
             tabs: [
               Tab(
-                icon: Icon(Icons.list),
+                icon: Icon(
+                  Icons.airplane_ticket,
+                  color: Color.fromARGB(255, 70, 91, 109),
+                ),
               ),
               Tab(
-                icon: Icon(Icons.receipt_sharp),
+                icon: Icon(
+                  Icons.airplane_ticket_sharp,
+                  color: Color.fromARGB(255, 59, 101, 138),
+                ),
               ),
               Tab(
-                icon: Icon(Icons.list),
+                icon: Icon(
+                  Icons.airplane_ticket_outlined,
+                  color: Color.fromARGB(255, 37, 90, 114),
+                ),
               ),
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
-            ShowTicketsList(),
+            TicketsToday(),
             ShowAfterTodayTickets(),
             ShowBeforTodayTickets()
           ],

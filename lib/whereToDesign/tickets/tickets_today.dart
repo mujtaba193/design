@@ -4,18 +4,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'ticket_custom.dart';
 
-class ShowAfterTodayTickets extends ConsumerStatefulWidget {
-  const ShowAfterTodayTickets({super.key});
+class TicketsToday extends ConsumerStatefulWidget {
+  const TicketsToday({super.key});
 
   @override
-  ConsumerState<ShowAfterTodayTickets> createState() => _ShowTicketsListState();
+  ConsumerState<TicketsToday> createState() => _ShowTicketsListState();
 }
 
-class _ShowTicketsListState extends ConsumerState<ShowAfterTodayTickets> {
+class _ShowTicketsListState extends ConsumerState<TicketsToday> {
   @override
   void initState() {
     // TODO: implement initState
+    callJasonFunction();
     super.initState();
+  }
+
+  callJasonFunction() async {
+    await ref.read(ticketProvider).readJsondataTickets();
   }
 
   @override
@@ -24,20 +29,20 @@ class _ShowTicketsListState extends ConsumerState<ShowAfterTodayTickets> {
     return Scaffold(
       body: SafeArea(
           child: FutureBuilder(
-              future: tickets.ticketAfterToday(),
+              future: tickets.functionTicketToday(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator();
-                } else if (tickets.ticketsAfter!.isEmpty) {
+                } else if (tickets.ticketsToday!.isEmpty) {
                   return Center(
                     child: Text(
-                      'No ticket found',
+                      'There is no ticket for today',
                       style: TextStyle(color: Colors.white60, fontSize: 20),
                     ),
                   );
                 } else {
                   return CustomTicletList(
-                    ticketList: tickets.ticketsAfter!,
+                    ticketList: tickets.ticketsToday!,
                   );
                 }
               })
