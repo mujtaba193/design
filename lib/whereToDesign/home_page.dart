@@ -1,11 +1,11 @@
-import 'package:design/loover_pages/value.dart';
 import 'package:design/whereToDesign/review2.dart';
 import 'package:design/whereToDesign/user_profile.dart';
 import 'package:design/whereToDesign/users_model/boat_model.dart';
 import 'package:flutter/material.dart';
 
-import '../tinkoff/test_payment.dart';
-import 'tickets/tickets_all_pages.dart';
+import 'new_design/pages/first-page.dart';
+import 'new_design/pages/test_app_bar.dart';
+import 'tickets/tickets_pages/tickets_all_pages.dart';
 import 'translation/profie_page_translation.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,7 +37,8 @@ class _HomePageState extends State<HomePage> {
       //TestPlacePicker(),
       // GoogleMampTest(),
       TicketsAllPages(),
-      // HeadPage(),
+      //NestedScrollViewExample(),
+      //HeadPage(),
       // YandexPolygon(
       //   address: [],
       // ),
@@ -45,13 +46,19 @@ class _HomePageState extends State<HomePage> {
       // MyHomePage(),
       // TableEvents(),
       //Loovr4(),
-
-      Val(),
+      // DarkModePage(),
+      SliverBar(),
+      //Val(),
       // Register3(),
       UserProfile(),
       // Loovr4(),
       // Register3(),
-      TestPaymentTinkoff(),
+      //SynchronizedScrollWidget(),
+      Home(),
+      //MyNestedScrollView(),
+      //SliverBar(),
+      // HeadPage(),
+      // TestPaymentTinkoff(),
     ];
     super.initState();
   }

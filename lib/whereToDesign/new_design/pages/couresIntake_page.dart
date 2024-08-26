@@ -10,6 +10,9 @@ class CouresIntake extends StatefulWidget {
 class _CouresIntakeState extends State<CouresIntake> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      height: 400,
+      color: Colors.grey,
+    );
   }
 }

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+//import 'package:provider/provider.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 import 'whereToDesign/home_page.dart';
@@ -98,18 +99,20 @@ final GoRouter router = GoRouter(
   ],
 );
 
-class Myapp extends StatefulWidget {
+class Myapp extends ConsumerStatefulWidget {
   const Myapp({super.key});
 
   @override
-  State<Myapp> createState() => _MyappState();
+  ConsumerState<Myapp> createState() => _MyappState();
 }
 
-class _MyappState extends State<Myapp> {
+class _MyappState extends ConsumerState<Myapp> {
   @override
   Widget build(BuildContext context) {
+    //final darkModeCheck = ref.watch(darkModProvider);
     return MaterialApp.router(
       routerConfig: router,
+      themeMode: ThemeMode.dark,
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
     );

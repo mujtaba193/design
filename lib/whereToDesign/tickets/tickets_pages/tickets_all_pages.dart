@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'show_tickets_application.dart';
 import 'tickets_after_today.dart';
 import 'tickets_befor_today.dart';
-import 'tickets_today.dart';
 
 class TicketsAllPages extends StatefulWidget {
   const TicketsAllPages({super.key});
@@ -41,9 +41,10 @@ class _TicketsAllPagesState extends State<TicketsAllPages> {
             ],
           ),
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: [
-            TicketsToday(),
+            ShowTicketsApplication(),
+            // TicketsToday(),
             ShowAfterTodayTickets(),
             ShowBeforTodayTickets()
           ],

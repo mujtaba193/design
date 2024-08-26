@@ -1,164 +1,190 @@
-// import 'package:design/whereToDesign/new_design/pages/CourseFee_page.dart';
-// import 'package:design/whereToDesign/new_design/pages/about_page.dart';
-// import 'package:design/whereToDesign/new_design/pages/coureSyllabus_page.dart';
-// import 'package:design/whereToDesign/new_design/pages/couresIntake_page.dart';
-// import 'package:design/whereToDesign/new_design/pages/courseDuration_page.dart';
-// import 'package:design/whereToDesign/new_design/pages/courseEligibility_page.dart';
-// import 'package:design/whereToDesign/new_design/pages/entranceRequired_page.dart';
-// import 'package:design/whereToDesign/new_design/pages/universityD_page.dart';
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/material.dart';
-// import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-// const tabItem = [
-//   AboutPage(),
-//   CourseEligibility(),
-//   CourseDuration(),
-//   CouresIntake(),
-//   UniversityD(),
-//   EntranceRequired(),
-//   CoureSyllabus(),
-//   CourseFee(),
+import 'CourseFee_page.dart';
+import 'about_page.dart';
+import 'coureSyllabus_page.dart';
+import 'couresIntake_page.dart';
+import 'courseDuration_page.dart';
+import 'courseEligibility_page.dart';
+import 'entranceRequired_page.dart';
+import 'universityD_page.dart';
 
-//   // Documents(),
-// ];
+const tabItem = [
+  AboutPage(),
+  CourseEligibility(),
+  CourseDuration(),
+  CouresIntake(),
+  UniversityD(),
+  EntranceRequired(),
+  CoureSyllabus(),
+  CourseFee(),
 
-// class HeadPage extends StatefulWidget {
-//   const HeadPage({
-//     required this.universityId,
-//     required this.courseId,
-//     super.key,
-//   });
+  // Documents(),
+];
 
-//   final int? universityId;
-//   final int? courseId;
+class HeadPage extends StatefulWidget {
+  const HeadPage({super.key});
 
-//   @override
-//   State<HeadPage> createState() => _HeadPageState();
-// }
+//  final int? universityId;
+  // final int? courseId;
 
-// class _HeadPageState extends State<HeadPage> {
-//   late ItemScrollController itemScrollController;
-//   late ItemPositionsListener itemPositionsListener;
-//   late TabController tabController;
-//   late ScrollController scrollController;
+  @override
+  State<HeadPage> createState() => _HeadPageState();
+}
 
-//   bool sliverCollapsed = false;
+class _HeadPageState extends State<HeadPage> {
+  late ItemScrollController itemScrollController;
+  late ItemPositionsListener itemPositionsListener;
+  late TabController tabController;
+  //late ScrollController scrollController;
 
-//   bool enableScroll = false;
-//   bool visibleIndexChanged = false;
-//   @override
-//   void initState() {
-//     // TODO: implement initState
-//     itemScrollController = ItemScrollController();
-//     itemPositionsListener = ItemPositionsListener.create();
-//     tabController = TabController(length: tabItem.length, vsync: );
-//     scrollController = ScrollController();
+  bool sliverCollapsed = false;
 
-//     itemPositionsListener.itemPositions.addListener(_itemPositionListener);
+  bool enableScroll = false;
+  bool visibleIndexChanged = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    itemScrollController = ItemScrollController();
+    itemPositionsListener = ItemPositionsListener.create();
+    //  tabController = TabController(length: tabItem.length, vsync: );
+    // scrollController = ScrollController();
 
-//     super.initState();
-//   }
+    // itemPositionsListener.itemPositions.addListener(_itemPositionListener);
 
-//   void _itemPositionListener() {
-//     final positions = itemPositionsListener.itemPositions.value;
-//     if (positions.isNotEmpty) {
-//       final firstVisibleItem = positions
-//           .where((ItemPosition position) => position.itemLeadingEdge >= 0)
-//           .map((e) => e.index);
-//       if (firstVisibleItem.isNotEmpty) {
-//         // Logger.logSuccess(
-//         //     'Viible Item Index ${firstVisibleItem.first} Scroll Enabled: $enableScroll Visible Index Chaned $visibleIndexChanged');
-//         tabController.animateTo(firstVisibleItem.first);
-//         checkSliverCollapsed(firstVisibleItem.first);
-//       }
-//     }
-//   }
+    super.initState();
+  }
 
-//   void checkSliverCollapsed(int index) {
-//     if (index <= 1 && sliverCollapsed && visibleIndexChanged) {
-//       enableScroll = false;
-//       scrollController.animateTo(
-//         0,
-//         duration: const Duration(milliseconds: 600),
-//         curve: Curves.easeOut,
-//       );
-//     }
+  // void _itemPositionListener() {
+  //   final positions = itemPositionsListener.itemPositions.value;
+  //   if (positions.isNotEmpty) {
+  //     final firstVisibleItem = positions
+  //         .where((ItemPosition position) => position.itemLeadingEdge >= 0)
+  //         .map((e) => e.index);
+  //     if (firstVisibleItem.isNotEmpty) {
+  //       // Logger.logSuccess(
+  //       //     'Viible Item Index ${firstVisibleItem.first} Scroll Enabled: $enableScroll Visible Index Chaned $visibleIndexChanged');
+  //       tabController.animateTo(firstVisibleItem.first);
+  //       checkSliverCollapsed(firstVisibleItem.first);
+  //     }
+  //   }
+  // }
 
-//     if (index >= 2) {
-//       visibleIndexChanged = true;
-//     } else {
-//       visibleIndexChanged = false;
-//     }
-//     if (scrollController.position.pixels >= kToolbarHeight) {
-//       if (!sliverCollapsed) {
-//         sliverCollapsed = true;
-//         enableScroll = true;
-//       }
-//     } else {
-//       if (sliverCollapsed) {}
-//       sliverCollapsed = false;
-//     }
-//     setState(() {});
-//   }
+  // void checkSliverCollapsed(int index) {
+  //   if (index <= 1 && sliverCollapsed && visibleIndexChanged) {
+  //     enableScroll = false;
+  //     scrollController.animateTo(
+  //       0,
+  //       duration: const Duration(milliseconds: 600),
+  //       curve: Curves.easeOut,
+  //     );
+  //   }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return PopScope(
-//         child: Scaffold(
-//       appBar: AppBar(
-//         title: Text('BSW Page'),
-//       ),
-//       body: NestedScrollView(
-//         headerSliverBuilder: (context, innerBoxIsScrolled) => [
-//           SliverAppBar(
-//             elevation: 0,
-//             pinned: true,
-//             expandedHeight: 300,
-//             floating: false,
-//             stretch: true,
-//             collapsedHeight: 200,
-//             surfaceTintColor: Colors.white,
-//             backgroundColor: Colors.white60,
-//             flexibleSpace: Container(
-//               height: 300,
-//               //  padding: EdgeInsets.only(bottom: 3),
-//               child: Image.network(
-//                 'https://www.postgrad.co.uk/wp-content/uploads/2021/11/University-of-Edinburgh.jpg',
-//                 fit: BoxFit.fill,
-//               ),
-//             ),
-//             leading: CupertinoButton(
-//               onPressed: () {
-//                 Navigator.pop(context);
-//               },
-//               child: Icon(Icons.arrow_back_ios_sharp),
-//             ),
-//           ),
-//         ],
-//         body: LayoutBuilder(
-//           builder: (BuildContext context, BoxConstraints constraints) {
-//             return SizedBox(
-//               height: constraints.smallest.height,
-//               child: Padding(
-//                 padding: const EdgeInsets.symmetric(horizontal: 16),
-//                 child: ScrollablePositionedList.builder(
-//                   semanticChildCount: tabItem.length,
-//                   physics: enableScroll
-//                       ? const ClampingScrollPhysics()
-//                       : const NeverScrollableScrollPhysics(),
-//                   itemCount: tabItem.length,
-//                   itemBuilder: (context, index) {
-//                     return tabItem[index];
-//                   },
-//                   itemScrollController: itemScrollController,
-//                   itemPositionsListener: itemPositionsListener,
-//                 ),
-//               ),
-//             );
-//           },
-//         ),
-//       ),
-//     ));
-//   }
-// }
+  //   if (index >= 2) {
+  //     visibleIndexChanged = true;
+  //   } else {
+  //     visibleIndexChanged = false;
+  //   }
+  //   if (scrollController.position.pixels >= kToolbarHeight) {
+  //     if (!sliverCollapsed) {
+  //       sliverCollapsed = true;
+  //       enableScroll = true;
+  //     }
+  //   } else {
+  //     if (sliverCollapsed) {}
+  //     sliverCollapsed = false;
+  //   }
+  //   setState(() {});
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    final List<String> tabs = <String>['Tab 1', 'Tab 2'];
+    return PopScope(
+      child: Scaffold(
+        body: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScrolled) => [
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: SliverAppBar(
+                forceElevated: innerBoxIsScrolled,
+                floating: false,
+                stretch: true,
+                centerTitle: false,
+                scrolledUnderElevation: 100,
+                title: Text(
+                  'sliver app bar',
+                  style: TextStyle(color: Colors.black, fontSize: 50),
+                ),
+
+                elevation: 100,
+                pinned: true,
+                expandedHeight: 300,
+
+                toolbarHeight: 40,
+                collapsedHeight: 40,
+                surfaceTintColor: Colors.red,
+                backgroundColor: Colors.white30,
+                flexibleSpace: Container(
+                  height: 400,
+                  //  padding: EdgeInsets.only(bottom: 3),
+                  child: Image.network(
+                    'https://www.postgrad.co.uk/wp-content/uploads/2021/11/University-of-Edinburgh.jpg',
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                leading: CupertinoButton(
+                  onPressed: () {
+                    // Navigator.pop(context);
+                  },
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: Colors.red,
+                  ),
+                ),
+                //
+              ),
+            ),
+          ],
+          body: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return SizedBox(
+                height: constraints.biggest.height,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: ScrollablePositionedList.builder(
+                    semanticChildCount: tabItem.length,
+                    physics: enableScroll
+                        ? const ClampingScrollPhysics()
+                        : const NeverScrollableScrollPhysics(),
+                    itemCount: tabItem.length,
+                    itemBuilder: (context, index) {
+                      return TabBarView(
+                        children: [
+                          AboutPage(),
+                          CourseEligibility(),
+                          CourseDuration(),
+                          CouresIntake(),
+                          UniversityD(),
+                          EntranceRequired(),
+                          CoureSyllabus(),
+                          CourseFee(),
+                          // Documents(),
+                        ],
+                      );
+                      //  return tabItem[index];
+                    },
+                    itemScrollController: itemScrollController,
+                    itemPositionsListener: itemPositionsListener,
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}

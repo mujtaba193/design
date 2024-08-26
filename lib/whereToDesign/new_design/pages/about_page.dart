@@ -10,6 +10,8 @@ class AboutPage extends StatefulWidget {
 class _AboutPageState extends State<AboutPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Center(
+      child: Text('About'),
+    );
   }
 }

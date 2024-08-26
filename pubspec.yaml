@@ -84,6 +84,7 @@ dependencies:
   meta: ^1.9.1
   json_annotation: ^4.8.1
   webview_flutter: ^4.2.1
+  shared_preferences: ^2.2.3
   
   
   

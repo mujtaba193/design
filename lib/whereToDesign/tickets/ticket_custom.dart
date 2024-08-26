@@ -1,19 +1,19 @@
-import 'package:design/whereToDesign/tickets/ticket_material.dart';
+import 'package:design/whereToDesign/tickets/tickets_pages/ticket_material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'tickets_models/tickets_model.dart';
 
-class CustomTicletList extends ConsumerStatefulWidget {
+class CustomTicketList extends ConsumerStatefulWidget {
   List<TicketModel> ticketList;
   Color? ticketColor;
-  CustomTicletList({super.key, required this.ticketList, this.ticketColor});
+  CustomTicketList({super.key, required this.ticketList, this.ticketColor});
 
   @override
-  ConsumerState<CustomTicletList> createState() => _ShowTicketsListState();
+  ConsumerState<CustomTicketList> createState() => _ShowTicketsListState();
 }
 
-class _ShowTicketsListState extends ConsumerState<CustomTicletList> {
+class _ShowTicketsListState extends ConsumerState<CustomTicketList> {
   @override
   void initState() {
     // TODO: implement initState

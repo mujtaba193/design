@@ -1,4 +1,4 @@
-import 'package:design/whereToDesign/tickets/ticket_painter.dart';
+import 'package:design/whereToDesign/tickets/tickets_pages/ticket_painter.dart';
 import 'package:flutter/material.dart';
 
 ///Main class of plugin, that combine [MaskTicketPainter] as mask between

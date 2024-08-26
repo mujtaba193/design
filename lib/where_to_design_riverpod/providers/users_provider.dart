@@ -12,6 +12,7 @@ final uaersIdProvider = Provider<UserDataClass>(
 );
 
 class UserDataClass {
+  List<UsersModel>? usersId;
   Future getUsers() async {
     List<UsersModel>? usersId;
     var response = await rootBundle.loadString('asset/user_booking.json');

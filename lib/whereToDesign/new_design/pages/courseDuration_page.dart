@@ -10,6 +10,9 @@ class CourseDuration extends StatefulWidget {
 class _CourseDurationState extends State<CourseDuration> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      height: 400,
+      color: Colors.blueGrey,
+    );
   }
 }

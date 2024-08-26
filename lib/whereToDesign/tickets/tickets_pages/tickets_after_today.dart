@@ -1,26 +1,21 @@
-import 'package:design/whereToDesign/tickets/tickets_provider.dart';
+import 'package:design/whereToDesign/tickets/tickets_provider_folder/tickets_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'ticket_custom.dart';
+import '../ticket_custom.dart';
 
-class TicketsToday extends ConsumerStatefulWidget {
-  const TicketsToday({super.key});
+class ShowAfterTodayTickets extends ConsumerStatefulWidget {
+  const ShowAfterTodayTickets({super.key});
 
   @override
-  ConsumerState<TicketsToday> createState() => _ShowTicketsListState();
+  ConsumerState<ShowAfterTodayTickets> createState() => _ShowTicketsListState();
 }
 
-class _ShowTicketsListState extends ConsumerState<TicketsToday> {
+class _ShowTicketsListState extends ConsumerState<ShowAfterTodayTickets> {
   @override
   void initState() {
     // TODO: implement initState
-    callJasonFunction();
     super.initState();
-  }
-
-  callJasonFunction() async {
-    await ref.read(ticketProvider).readJsondataTickets();
   }
 
   @override
@@ -29,20 +24,20 @@ class _ShowTicketsListState extends ConsumerState<TicketsToday> {
     return Scaffold(
       body: SafeArea(
           child: FutureBuilder(
-              future: tickets.functionTicketToday(),
+              future: tickets.ticketAfterToday(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator();
-                } else if (tickets.ticketsToday!.isEmpty) {
+                } else if (tickets.ticketsAfter!.isEmpty) {
                   return Center(
                     child: Text(
-                      'There is no ticket for today',
+                      'No ticket found',
                       style: TextStyle(color: Colors.white60, fontSize: 20),
                     ),
                   );
                 } else {
-                  return CustomTicletList(
-                    ticketList: tickets.ticketsToday!,
+                  return CustomTicketList(
+                    ticketList: tickets.ticketsAfter!,
                   );
                 }
               })
