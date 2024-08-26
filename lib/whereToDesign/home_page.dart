@@ -3,9 +3,9 @@ import 'package:design/whereToDesign/user_profile.dart';
 import 'package:design/whereToDesign/users_model/boat_model.dart';
 import 'package:flutter/material.dart';
 
-import 'new_design/pages/first-page.dart';
 import 'new_design/pages/test_app_bar.dart';
 import 'tickets/tickets_pages/tickets_all_pages.dart';
+import 'tickets/timer/timer_page.dart';
 import 'translation/profie_page_translation.dart';
 
 class HomePage extends StatefulWidget {
@@ -47,7 +47,9 @@ class _HomePageState extends State<HomePage> {
       // TableEvents(),
       //Loovr4(),
       // DarkModePage(),
-      SliverBar(),
+      TimerPage(),
+
+      ////////////////// SliverBar(),
       //Val(),
       // Register3(),
       UserProfile(),

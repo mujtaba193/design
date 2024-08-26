@@ -1,10 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 import '../tickets_provider_folder/tickets_application_provider.dart';
+import '../timer/timer.dart';
 
 class ShowTicketsApplication extends ConsumerStatefulWidget {
   ShowTicketsApplication({super.key});
@@ -22,14 +21,6 @@ class _ShowTicketsApplicationState
   @override
   void initState() {
     super.initState();
-  }
-
-  timetFunction() {
-    Timer.periodic(Duration(seconds: 1), (timer) {
-      counter.value = timer.tick;
-      counter.value = counter.value;
-      //  time--;
-    });
   }
 
   @override
@@ -192,15 +183,11 @@ class _ShowTicketsApplicationState
                                 children: [
                                   ticketsHolder.ticketList![index].status ==
                                           'Confirmed'
-                                      ? ValueListenableBuilder(
-                                          valueListenable: counter,
-                                          builder: (BuildContext context, value,
-                                              Widget? child) {
-                                            return Text(
-                                              value.toString(),
-                                            );
-                                          },
-                                          child: Text('${counter.value}'),
+                                      ? TimerCountdown(
+                                          endTime: DateTime.now()
+                                              .add(Duration(minutes: 15)),
+                                          format: CountDownTimerFormat
+                                              .minutesSeconds,
                                         )
                                       : SizedBox(),
                                   SizedBox(
@@ -211,11 +198,11 @@ class _ShowTicketsApplicationState
                                       ticketsHolder.ticketList![index].status ==
                                               'Confirmed'
                                           ? GestureDetector(
-                                              onTap: () {
-                                                if (counter.value < 1) {
-                                                  timetFunction();
-                                                }
-                                              },
+                                              // onTap: () {
+                                              //   if (counter.value < 1) {
+                                              //     timetFunction();
+                                              //   }
+                                              // },
                                               onTapCancel: () {},
                                               child: Container(
                                                 height: 30,
