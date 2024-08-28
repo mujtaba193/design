@@ -4,8 +4,8 @@ import 'package:design/whereToDesign/users_model/boat_model.dart';
 import 'package:flutter/material.dart';
 
 import 'new_design/pages/test_app_bar.dart';
+import 'testing_folder/reverce_yandex_search.dart';
 import 'tickets/tickets_pages/tickets_all_pages.dart';
-import 'tickets/timer/timer_page.dart';
 import 'translation/profie_page_translation.dart';
 
 class HomePage extends StatefulWidget {
@@ -47,7 +47,8 @@ class _HomePageState extends State<HomePage> {
       // TableEvents(),
       //Loovr4(),
       // DarkModePage(),
-      TimerPage(),
+      ReverseSearchExample(),
+      //TimerPage(),
 
       ////////////////// SliverBar(),
       //Val(),

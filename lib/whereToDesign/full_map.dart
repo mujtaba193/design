@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
@@ -8,6 +9,7 @@ import 'package:design/whereToDesign/routes/pedestrian_page.dart';
 import 'package:design/whereToDesign/users_model/address_model.dart';
 import 'package:design/whereToDesign/yandex_map.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
 import 'package:yandex_geocoder/yandex_geocoder.dart' as geocoder;
 import 'package:yandex_mapkit/yandex_mapkit.dart';
@@ -55,9 +57,9 @@ class _FullMapState extends State<FullMap> {
   List<AddressModel> newaddressInside = [];
   LineObject? line;
   // Geocoder definitions //
-
+//ad correct key
   final geocoder.YandexGeocoder geo =
-      geocoder.YandexGeocoder(apiKey: 'c29e3f51-6ad9-47eb-85d2-d90aec454225');
+      geocoder.YandexGeocoder(apiKey: '04364003-6929-4113-b557-99bc856dcfb3');
 
   String address = 'null';
   String latLong = 'null';
@@ -468,6 +470,44 @@ class _FullMapState extends State<FullMap> {
     return locationData;
   }
 
+  // Reverse Geocoding Function
+  // Future<String> getAddressFromLatLng(double lat, double lng) async {
+  //   final apiKey = 'c29e3f51-6ad9-47eb-85d2-d90aec454225';
+  //   final url =
+  //       'https://geocode-maps.yandex.ru/1.x/?apikey=$apiKey&geocode=$lng,$lat&format=json';
+
+  //   final response = await http.get(Uri.parse(url));
+
+  //   if (response.statusCode == 200) {
+  //     final data = json.decode(response.body);
+  //     final String address = data['response']['GeoObjectCollection']
+  //             ['featureMember'][0]['GeoObject']['metaDataProperty']
+  //         ['GeocoderMetaData']['text'];
+  //     return address;
+  //   } else {
+  //     return 'No address found';
+  //   }
+  // }
+  Future<String> getAddressFromLatLng(double lat, double lng) async {
+    final apiKey = '04364003-6929-4113-b557-99bc856dcfb3';
+    final url =
+        'https://geocode-maps.yandex.ru/1.x/?apikey=$apiKey&geocode=$lng,$lat&format=json';
+
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      print(response.body); // Print the full response to debug
+      final String anAddress = data['response']['GeoObjectCollection']
+              ['featureMember'][0]['GeoObject']['metaDataProperty']
+          ['GeocoderMetaData']['text'];
+      return anAddress;
+    } else {
+      print('Error: ${response.statusCode}');
+      return 'No address found';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -485,11 +525,22 @@ class _FullMapState extends State<FullMap> {
               child: YandexMap(
                 mapType: mapType,
                 onMapTap: (argument) async {
+                  endLatitude = argument.latitude;
+                  endLongitude = argument.longitude;
+                  // Call the reverse geocoding function
+                  // String theAddress =
+                  //     await getAddressFromLatLng(endLatitude!, endLongitude!);
+                  // print('Address: $theAddress');
+                  /////////////////////////////////////////////////////////////
+                  // final geocoder.GeocodeResponse _address =
+                  //     await geo.getGeocode(
+                  //   geocoder.ReverseGeocodeRequest(
+                  //     pointGeocode: (lat: endLatitude!, lon: endLongitude!),
+                  //   ),
+                  // );
+                  // address = _address.firstAddress?.formatted ?? 'null';
                   setState(
                     () {
-                      endLatitude = argument.latitude;
-                      endLongitude = argument.longitude;
-
                       showModalBottomSheet(
                         context: context,
                         builder: (context) {
@@ -500,6 +551,7 @@ class _FullMapState extends State<FullMap> {
                               children: [
                                 Text('$endLatitude'),
                                 Text('$endLongitude'),
+                                Text('Address: $address'),
                                 Row(
                                   children: [
                                     IconButton(
