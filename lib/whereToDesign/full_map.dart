@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
@@ -9,7 +8,6 @@ import 'package:design/whereToDesign/routes/pedestrian_page.dart';
 import 'package:design/whereToDesign/users_model/address_model.dart';
 import 'package:design/whereToDesign/yandex_map.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
 import 'package:yandex_geocoder/yandex_geocoder.dart' as geocoder;
 import 'package:yandex_mapkit/yandex_mapkit.dart';
@@ -44,7 +42,12 @@ class _FullMapState extends State<FullMap> {
   bool _progress = true;
   late Future<DrivingSessionResult> result;
   late DrivingSession session;
+  late Future<SearchSessionResult> therResult;
+  final List<SearchSessionResult> addressResults = [];
+  String realAddress = 'null';
+
   final List<DrivingSessionResult> results = [];
+
   // polygon definitions //
   bool _drawPolygonEnabled = false;
   List<Point> _userPolyLinesLatLngList = [];
@@ -75,6 +78,50 @@ class _FullMapState extends State<FullMap> {
     mapObjects;
 
     super.initState();
+  }
+
+  void _search() async {
+    final cameraPosition = await controller.getCameraPosition();
+
+    print('Point: ${cameraPosition.target}, Zoom: ${cameraPosition.zoom}');
+
+    final resultWithSession = await YandexSearch.searchByPoint(
+      point: cameraPosition.target,
+      zoom: cameraPosition.zoom.toInt(),
+      searchOptions: const SearchOptions(
+        searchType: SearchType.geo,
+        geometry: false,
+      ),
+    );
+    therResult = resultWithSession.$2;
+  }
+
+  List<Widget> _getList() {
+    setState(() {
+      //addressResults.add(therResult);
+    });
+    final list = <Widget>[];
+
+    if (addressResults.isEmpty) {
+      list.add((const Text('Nothing found')));
+    }
+
+    for (var r in addressResults) {
+      list.add(Text(
+          'address: ${addressResults.first.items!.first.toponymMetadata!.address.formattedAddress}'));
+      list.add(Text('Page: ${r.page}'));
+      list.add(Container(height: 20));
+
+      r.items!.asMap().forEach((i, item) {
+        list.add(
+            Text('Item $i: ${item.toponymMetadata!.address.formattedAddress}'));
+        //  Text('Item $i: ${item.toponymMetadata!.address.formattedAddress}'));
+      });
+
+      list.add(Container(height: 20));
+    }
+
+    return list;
   }
 
   ////////////////////////// Geocoder ////////////////////////////////////
@@ -488,24 +535,64 @@ class _FullMapState extends State<FullMap> {
   //     return 'No address found';
   //   }
   // }
-  Future<String> getAddressFromLatLng(double lat, double lng) async {
-    final apiKey = '04364003-6929-4113-b557-99bc856dcfb3';
-    final url =
-        'https://geocode-maps.yandex.ru/1.x/?apikey=$apiKey&geocode=$lng,$lat&format=json';
+  // Future<String> getAddressFromLatLng(double lat, double lng) async {
+  //   final apiKey = '04364003-6929-4113-b557-99bc856dcfb3';
+  //   final url =
+  //       'https://geocode-maps.yandex.ru/1.x/?apikey=$apiKey&geocode=$lng,$lat&format=json';
 
-    final response = await http.get(Uri.parse(url));
+  //   final response = await http.get(Uri.parse(url));
 
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      print(response.body); // Print the full response to debug
-      final String anAddress = data['response']['GeoObjectCollection']
-              ['featureMember'][0]['GeoObject']['metaDataProperty']
-          ['GeocoderMetaData']['text'];
-      return anAddress;
-    } else {
-      print('Error: ${response.statusCode}');
-      return 'No address found';
+  //   if (response.statusCode == 200) {
+  //     final data = json.decode(response.body);
+  //     print(response.body); // Print the full response to debug
+  //     final String anAddress = data['response']['GeoObjectCollection']
+  //             ['featureMember'][0]['GeoObject']['metaDataProperty']
+  //         ['GeocoderMetaData']['text'];
+  //     return anAddress;
+  //   } else {
+  //     print('Error: ${response.statusCode}');
+  //     return 'No address found';
+  //   }
+  // }
+  Future<void> _initRealAddress() async {
+    final cameraPosition = await controller.getCameraPosition();
+
+    final resultWithSession = await YandexSearch.searchByPoint(
+      point: cameraPosition.target,
+      zoom: cameraPosition.zoom.toInt(),
+      searchOptions: const SearchOptions(
+        searchType: SearchType.geo,
+        geometry: false,
+      ),
+    );
+    await _handleResultRealAddress(
+        await resultWithSession.$2, resultWithSession.$1);
+  }
+
+  Future<void> _handleResultRealAddress(
+      SearchSessionResult result, SearchSession session) async {
+    setState(() {
+      _progress = false;
+    });
+
+    if (result.error != null) {
+      print('Error: ${result.error}');
+      return;
     }
+
+    print('Page ${result.page}: $result');
+
+    setState(() {
+      addressResults.add(result);
+    });
+
+    // if (await session.hasNextPage()) {
+    //   print('Got ${result.found} items, fetching next page...');
+    //   setState(() {
+    //     _progress = true;
+    //   });
+    //   await _handleResultRealAddress(await session.fetchNextPage());
+    // }
   }
 
   @override
@@ -527,18 +614,12 @@ class _FullMapState extends State<FullMap> {
                 onMapTap: (argument) async {
                   endLatitude = argument.latitude;
                   endLongitude = argument.longitude;
-                  // Call the reverse geocoding function
-                  // String theAddress =
-                  //     await getAddressFromLatLng(endLatitude!, endLongitude!);
-                  // print('Address: $theAddress');
-                  /////////////////////////////////////////////////////////////
-                  // final geocoder.GeocodeResponse _address =
-                  //     await geo.getGeocode(
-                  //   geocoder.ReverseGeocodeRequest(
-                  //     pointGeocode: (lat: endLatitude!, lon: endLongitude!),
-                  //   ),
-                  // );
-                  // address = _address.firstAddress?.formatted ?? 'null';
+                  await _initRealAddress();
+                  // getList();
+                  // Text(realAddress!);
+                  //  realAddress = addressResults.first.items!.first
+                  //      .toponymMetadata!.address.formattedAddress;
+
                   setState(
                     () {
                       showModalBottomSheet(
@@ -551,7 +632,8 @@ class _FullMapState extends State<FullMap> {
                               children: [
                                 Text('$endLatitude'),
                                 Text('$endLongitude'),
-                                Text('Address: $address'),
+                                Text(
+                                    'Address: ${addressResults.first.items!.first.toponymMetadata!.address.formattedAddress}'),
                                 Row(
                                   children: [
                                     IconButton(

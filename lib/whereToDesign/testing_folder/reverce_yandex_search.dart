@@ -247,12 +247,15 @@ class _SessionState extends State<_SessionPage> {
     }
 
     for (var r in results) {
+      list.add(Text(
+          'address: ${results.first.items!.first.toponymMetadata!.address.formattedAddress}'));
       list.add(Text('Page: ${r.page}'));
       list.add(Container(height: 20));
 
       r.items!.asMap().forEach((i, item) {
         list.add(
             Text('Item $i: ${item.toponymMetadata!.address.formattedAddress}'));
+        //  Text('Item $i: ${item.toponymMetadata!.address.formattedAddress}'));
       });
 
       list.add(Container(height: 20));
