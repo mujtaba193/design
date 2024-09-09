@@ -6,6 +6,8 @@ import 'package:design/whereToDesign/where_to.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
+import 'filter/filter_page.dart';
+
 class Review2 extends StatefulWidget {
   List<BoatModel>? newBoatList;
   DateTime? userTimeNow1;
@@ -72,15 +74,35 @@ class _Review2State extends State<Review2> {
                         ),
                         child: widget.newBoatList == null ||
                                 widget.newBoatList!.isEmpty
-                            ? TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) {
-                                      return WhereTo(boatList: boatList);
-                                    }),
-                                  );
-                                },
-                                child: Text('Search'))
+                            ? Row(
+                                children: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(builder: (context) {
+                                          return WhereTo(boatList: boatList);
+                                        }),
+                                      );
+                                    },
+                                    child: Text('Search'),
+                                  ),
+                                  Spacer(),
+                                  TextButton(
+                                    child: Text('Filter'),
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                        useSafeArea: true,
+                                        // showDragHandle: true,
+                                        isScrollControlled: true,
+                                        context: context,
+                                        builder: (context) {
+                                          return FilterPage();
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ],
+                              )
                             : Row(
                                 children: [
                                   TextButton(
@@ -94,13 +116,14 @@ class _Review2State extends State<Review2> {
                                       child: Text('Search')),
                                   Spacer(),
                                   TextButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          widget.newBoatList = null;
-                                          widget.newBoatList = [];
-                                        });
-                                      },
-                                      child: Text('Rreset')),
+                                    onPressed: () {
+                                      setState(() {
+                                        widget.newBoatList = null;
+                                        widget.newBoatList = [];
+                                      });
+                                    },
+                                    child: Text('Rreset'),
+                                  ),
                                 ],
                               ),
                       ),

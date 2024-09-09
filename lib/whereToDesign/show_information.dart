@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:design/heatSrc/src/data/heatmap_color_mode.dart';
 import 'package:design/heatSrc/src/heatmap_calendar.dart';
 import 'package:design/whereToDesign/Calendar%20classes/table_events.dart';
-import 'package:design/whereToDesign/full_map.dart';
 import 'package:design/whereToDesign/list_image_view.dart';
 import 'package:design/whereToDesign/review2.dart';
 import 'package:design/whereToDesign/users_model/boat_model.dart';
@@ -17,6 +16,8 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yandex_geocoder/yandex_geocoder.dart' as yandexgeo;
 import 'package:yandex_mapkit/yandex_mapkit.dart';
+
+import 'yandex_map/map_view/full_map_2.dart';
 
 // API Yandex key   c29e3f51-6ad9-47eb-85d2-d90aec454225
 class ShowInformation extends StatefulWidget {
@@ -330,7 +331,7 @@ class _ShowInformationState extends State<ShowInformation> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) {
-                                  return FullMap(
+                                  return FullMap2(
                                       address: widget.boatinfo!.address);
                                 },
                               ),

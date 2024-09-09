@@ -3,5 +3,6 @@
         "mapkit",
         "Placemark",
         "usersd"
-    ]
+    ],
+    "cmake.sourceDirectory": "/home/mujtaba/programming/projects/design/linux"
 }
