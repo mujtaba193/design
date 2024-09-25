@@ -1,4 +1,4 @@
-import 'package:design/whereToDesign/users_model/address_model.dart';
+import 'package:design/whereToDesign/models/address_model.dart';
 import 'package:flutter/material.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 

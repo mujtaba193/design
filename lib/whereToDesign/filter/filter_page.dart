@@ -1,7 +1,10 @@
+import 'package:design/whereToDesign/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../models/boat_model.dart';
+import '../providers/bout_provider.dart';
 import '../translation/filter_translation.dart';
 
 class FilterPage extends ConsumerStatefulWidget {
@@ -13,9 +16,9 @@ class FilterPage extends ConsumerStatefulWidget {
 
 class _FilterPageState extends ConsumerState<FilterPage> {
   double startPrice = 1;
-  double endPrice = 100000;
+  double endPrice = 10000;
   double startLength = 1;
-  double endLength = 100000;
+  double endLength = 10000;
   double startRating = 1;
   double endRating = 5;
   int? shipType;
@@ -33,6 +36,7 @@ class _FilterPageState extends ConsumerState<FilterPage> {
   bool fishEcho = false;
   bool heater = false;
   bool climate = false;
+
   List<String> list = [
     FilterPageTranslation.highspeed,
     FilterPageTranslation.american,
@@ -43,6 +47,9 @@ class _FilterPageState extends ConsumerState<FilterPage> {
     FilterPageTranslation.withPanoramicWindows
   ];
   List<String> selectedlist = [];
+  List<BoatModel>? filteredBoats;
+  String? theShipTypeValue;
+  String? theToiletValue;
   @override
   void initState() {
     // TODO: implement initState
@@ -52,6 +59,8 @@ class _FilterPageState extends ConsumerState<FilterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final boatListHolder = ref.read(boutProvider);
+    final boatList = boatListHolder.boatList;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -89,7 +98,7 @@ class _FilterPageState extends ConsumerState<FilterPage> {
                   ),
                   RangeSlider(
                       min: 1,
-                      max: 100000,
+                      max: 10000,
                       values: RangeValues(startPrice, endPrice),
                       onChanged: (RangeValues values) {
                         setState(() {
@@ -115,7 +124,7 @@ class _FilterPageState extends ConsumerState<FilterPage> {
                   ),
                   RangeSlider(
                       min: 1,
-                      max: 100000,
+                      max: 10000,
                       values: RangeValues(startLength, endLength),
                       onChanged: (value) {
                         setState(() {
@@ -178,6 +187,11 @@ class _FilterPageState extends ConsumerState<FilterPage> {
                           onSelected: (bool selected) {
                             setState(() {
                               shipType = selected ? index : null;
+                              if (shipType == 0) {
+                                theShipTypeValue = 'Motor';
+                              } else if (shipType == 1) {
+                                theShipTypeValue = 'Sailing';
+                              }
                             });
                           },
                         );
@@ -205,6 +219,13 @@ class _FilterPageState extends ConsumerState<FilterPage> {
                           onSelected: (bool selected) {
                             setState(() {
                               toilet = selected ? index : null;
+                              if (toilet == 0) {
+                                theToiletValue = 'Not important';
+                              } else if (toilet == 1) {
+                                theToiletValue = 'Yes';
+                              } else if (toilet == 2) {
+                                theToiletValue = 'No';
+                              }
                             });
                           },
                         );
@@ -469,6 +490,30 @@ class _FilterPageState extends ConsumerState<FilterPage> {
                           textAlign: TextAlign.center,
                           FilterPageTranslation.apply)),
                 ),
+                onTap: () async {
+                  setState(() {});
+                  filteredBoats = await boatList!
+                      .where((element) =>
+                          (element.finalPrice >= startPrice &&
+                              element.finalPrice <= endPrice) &&
+                          (element.characteristics.length >= startLength &&
+                              element.characteristics.length <= endLength) &&
+                          (element.rating >= startRating &&
+                              element.rating <= endRating) &&
+                          (shipType == null ||
+                              element.shipType == theShipTypeValue) &&
+                          (toilet == null ||
+                              element.toiletOnBoard == theToiletValue))
+                      .toList();
+
+                  await Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) {
+                      return HomePage(
+                        filterList: filteredBoats!,
+                      );
+                    }),
+                  );
+                },
               ),
             )
           ],

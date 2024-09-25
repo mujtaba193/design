@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:design/whereToDesign/users_model/boat_model.dart';
+import 'package:design/whereToDesign/models/boat_model.dart';
 import 'package:flutter/material.dart';
 
 class HotelReview extends StatefulWidget {

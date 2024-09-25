@@ -1,6 +1,8 @@
-import 'package:design/whereToDesign/users_model/Characteristics_model.dart';
-import 'package:design/whereToDesign/users_model/address_model.dart';
-import 'package:design/whereToDesign/users_model/timeline_model.dart';
+import 'package:design/whereToDesign/models/Characteristics_model.dart';
+import 'package:design/whereToDesign/models/address_model.dart';
+import 'package:design/whereToDesign/models/timeline_model.dart';
+
+import 'feauturs_model.dart';
 
 class BoatModel {
   final String boatName;
@@ -16,10 +18,13 @@ class BoatModel {
   final String description;
   final List<String> options;
   final CharModel characteristics;
-
+  final FeautursModel features;
   final List<AddressModel> address;
   final Map<DateTime, int> datasets;
   final List<TimeLineModel> timeline;
+  final double rating;
+  final String shipType;
+  final String toiletOnBoard;
 
   BoatModel(
       {required this.boatName,
@@ -35,9 +40,13 @@ class BoatModel {
       required this.description,
       required this.options,
       required this.characteristics,
+      required this.features,
       required this.address,
       required this.datasets,
-      required this.timeline});
+      required this.timeline,
+      required this.rating,
+      required this.shipType,
+      required this.toiletOnBoard});
 
   factory BoatModel.fromJson(Map<String, dynamic> json) {
     return BoatModel(
@@ -54,6 +63,7 @@ class BoatModel {
       description: json['description'],
       options: List<String>.from(json['options']),
       characteristics: CharModel.fromJson(json['characteristics']),
+      features: FeautursModel.fromJson(json['features']),
       address: List<dynamic>.from(json['address'])
           .map((e) => AddressModel.fromJson(e))
           .toList(),
@@ -63,6 +73,9 @@ class BoatModel {
       timeline: List<dynamic>.from(json['timeline'])
           .map((e) => TimeLineModel.fromJson(e))
           .toList(),
+      rating: json['rating'].toDouble(),
+      shipType: json['ship_type'],
+      toiletOnBoard: json['toilet_on_board'],
     );
   }
 
@@ -81,9 +94,13 @@ class BoatModel {
       'description': description,
       'options': options,
       'characteristics': characteristics,
+      'features': features,
       'address': address.map((e) => e.toJson()).toList(),
       'datasets': datasets.map((key, value) => MapEntry(key.toString(), value)),
-      'timeline': timeline.map((e) => e.toJson()).toList()
+      'timeline': timeline.map((e) => e.toJson()).toList(),
+      'rating': rating,
+      'ship_type': shipType,
+      'toilet_on_board': toiletOnBoard,
     };
   }
 }

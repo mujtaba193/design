@@ -1,0 +1,98 @@
+{
+    "city": [
+        {
+            "city_name": "Saint Petersburg",
+            "events": [
+                {
+                    "event_name": "White Nights Festival",
+                    "event_photos": [
+                        "https://lp-cms-production.imgix.net/features/2018/07/Scarlet-Sails-St-Petersburg-19408b26d851.jpg?w=1920&auto=format&q=75",
+                        "https://assets.vogue.com/photos/5891338e7edfa70512d62d21/master/w_1600%2Cc_limit/02-white-nights-festival-saint-petersburg-russia.jpg"
+                    ]
+                },
+                {
+                    "event_name": "Scarlet Sails",
+                    "event_photos": [
+                        "https://beaumondetraveler.com/wp-content/uploads/2020/12/feature-1-829x423.jpg",
+                        "https://cdn-media.tass.ru/width/1020_b9261fa1/tass/m2/en/uploads/i/20190624/1224132.jpg"
+                    ]
+                },
+                {
+                    "event_name": "Music Festival",
+                    "event_photos": [
+                        "https://www.udiscovermusic.com/wp-content/uploads/2017/06/Coachella-GettyImages-673625850-1000x600.jpg",
+                        "https://image.jimcdn.com/app/cms/image/transf/dimension=1190x10000:format=jpg/path/sa6549607c78f5c11/image/i82f8384a1348ab84/version/1554202007/tomorrowland-best-summer-music-festivals-europe.jpg"
+                    ]
+                },
+                {
+                    "event_name": "Toby Event",
+                    "event_photos": [
+                        "https://lp-cms-production.imgix.net/features/2018/07/Scarlet-Sails-St-Petersburg-19408b26d851.jpg?w=1920&auto=format&q=75",
+                        "https://assets.vogue.com/photos/5891338e7edfa70512d62d21/master/w_1600%2Cc_limit/02-white-nights-festival-saint-petersburg-russia.jpg"
+                    ]
+                },
+                {
+                    "event_name": "Naveen Event",
+                    "event_photos": [
+                        "https://lp-cms-production.imgix.net/features/2018/07/Scarlet-Sails-St-Petersburg-19408b26d851.jpg?w=1920&auto=format&q=75",
+                        "https://assets.vogue.com/photos/5891338e7edfa70512d62d21/master/w_1600%2Cc_limit/02-white-nights-festival-saint-petersburg-russia.jpg"
+                    ]
+                }
+            ]
+        },
+        {
+            "city_name": "Moscow",
+            "events": [
+                {
+                    "event_name": "Moscow International Film Festival",
+                    "event_photos": [
+                        "https://festagent.com/imageproxy/440/system/images/345d4d51edda3f3095672ec7aceac6621dd902e0.jpg?1498312588",
+                        "https://embassylife.ru/wp-content/uploads/2023/04/23_mm_io.jpg"
+                    ]
+                },
+                {
+                    "event_name": "Spasskaya Tower Military Music Festival",
+                    "event_photos": [
+                        "https://spasstower.ru/upload/iblock/fbd/fbd0592a6ac3df8f560986a088b64e63.jpg",
+                        "https://spasstower.ru/upload/resize_cache/iblock/d9e/768_600_2/d9ec55d04fc5bd8b582b9feb865cdb0b.JPG"
+                    ]
+                },
+                {
+                    "event_name": "Moscow City Day",
+                    "event_photos": [
+                        "https://mf.b37mrtl.ru/rbthmedia/images/all/2017/08/22/tass_17568200.jpg",
+                        "https://www.mos.ru/upload/newsfeed/newsfeed/grish(1014)(10).jpg"
+                    ]
+                }
+            ]
+        },
+        {
+            "city_name": "Sochi",
+            "events": [
+                {
+                    "event_name": "Sochi Winter International Arts Festival",
+                    "event_photos": [
+                        "https://2022.wiafs.ru/wp-content/uploads/2021/09/festival_finder_26_02_2021_article.jpg",
+                        "https://www.efa-aef.eu/media/lightbox/9924-sochi2020_coverpicture.jpg"
+                    ]
+                },
+                {
+                    "event_name": "New Wave Music Competition",
+                    "event_photos": [
+                        "https://images.travelandleisureasia.com/wp-content/uploads/sites/3/2024/05/08161004/next-wave-beach-musical-festival-2024-1-1600x900.jpeg",
+                        "https://media.timeout.com/images/106011302/image.jpg",
+                        "https://img.inform.kz/kazinform-photobank/media/2023-09-14/b5cc52bf-e959-4d23-b662-31691eab0c6e.webp"
+                    ]
+                },
+                {
+                    "event_name": "Sochi Jazz Festival",
+                    "event_photos": [
+                        "https://sochijazz.com/wp-content/uploads/2016/09/1G5A5886.jpg-resized.jpg",
+                        "https://sochi.ru/upload/resize_cache/iblock/e44/750_400_1/03r96y40n90mi5ryxt4u43111i6fvlt5.jpeg",
+                        "https://sochijazz.com/wp-content/uploads/2016/09/1G5A8149.jpg-resized.jpg"
+                    ]
+                }
+            ]
+        }
+    ]
+}

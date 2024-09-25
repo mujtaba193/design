@@ -1,8 +1,7 @@
-import 'dart:async';
 import 'dart:convert';
 import 'dart:js';
 
-import 'package:design/whereToDesign/users_model/user_model.dart';
+import 'package:design/whereToDesign/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,7 +19,6 @@ final userBookingInfoProvider = FutureProvider<List<UsersModel>>((ref) {
 
   return getUsers();
 });
-////////////////////////////////////////////////////////////////////////////////
 
 class UserProvider {
   List<UsersModel>? usersd;

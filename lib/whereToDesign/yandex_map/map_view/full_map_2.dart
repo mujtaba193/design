@@ -2,7 +2,7 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:design/whereToDesign/users_model/address_model.dart';
+import 'package:design/whereToDesign/models/address_model.dart';
 import 'package:design/whereToDesign/yandex_map.dart';
 import 'package:design/whereToDesign/yandex_map/route_custom/route_custom.dart';
 import 'package:flutter/material.dart';

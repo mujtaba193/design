@@ -2,10 +2,10 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:design/whereToDesign/models/address_model.dart';
 import 'package:design/whereToDesign/routes/bicycle_page.dart';
 import 'package:design/whereToDesign/routes/driving_page.dart';
 import 'package:design/whereToDesign/routes/pedestrian_page.dart';
-import 'package:design/whereToDesign/users_model/address_model.dart';
 import 'package:design/whereToDesign/yandex_map.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';

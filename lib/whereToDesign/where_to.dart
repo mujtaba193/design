@@ -1,7 +1,6 @@
-import 'package:design/whereToDesign/home_page.dart';
+import 'package:design/whereToDesign/models/boat_model.dart';
+import 'package:design/whereToDesign/models/user_model.dart';
 import 'package:design/whereToDesign/show_information.dart';
-import 'package:design/whereToDesign/users_model/boat_model.dart';
-import 'package:design/whereToDesign/users_model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
@@ -120,7 +119,6 @@ class _WhereToState extends State<WhereTo> {
           cityList.add(city);
         }
       }
-      print(cityList);
     }
   }
 
@@ -430,11 +428,12 @@ class _WhereToState extends State<WhereTo> {
                     await filterBoat();
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) {
-                        return HomePage(
-                          newBoatList: newBoatList,
-                          userTimeNow1: userTimeNow1,
-                          userTimeNow2: userTimeNow2,
-                        );
+                        return Text('dd');
+                        // HomePage(
+                        //   newBoatList: newBoatList,
+                        //   userTimeNow1: userTimeNow1,
+                        //   userTimeNow2: userTimeNow2,
+                        // );
                       }),
                     );
                   }

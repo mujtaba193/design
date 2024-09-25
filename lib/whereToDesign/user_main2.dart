@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:design/whereToDesign/users_model/user_model.dart';
+import 'package:design/whereToDesign/models/user_model.dart';
 import 'package:flutter/material.dart';
 
 class UsersMainPage2 extends StatefulWidget {

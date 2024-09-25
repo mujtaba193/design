@@ -66,9 +66,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/',
       builder: (context, state) => HomePage(
-          // newBoatList: const [],
-          //isUserLoggedIn: true,
-          ),
+        filterList: [],
+        // newBoatList: const [],
+        //isUserLoggedIn: true,
+      ),
     ),
     GoRoute(
       path: '/futureProvider',

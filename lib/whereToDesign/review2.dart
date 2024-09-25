@@ -1,54 +1,61 @@
-import 'dart:convert';
-
+import 'package:design/whereToDesign/models/boat_model.dart';
 import 'package:design/whereToDesign/show_information.dart';
-import 'package:design/whereToDesign/users_model/boat_model.dart';
 import 'package:design/whereToDesign/where_to.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 import 'filter/filter_page.dart';
+import 'providers/bout_provider.dart';
 
-class Review2 extends StatefulWidget {
+class Review2 extends ConsumerStatefulWidget {
+  List<BoatModel>? filterList;
   List<BoatModel>? newBoatList;
   DateTime? userTimeNow1;
   DateTime? userTimeNow2;
-  Review2({super.key, this.newBoatList, this.userTimeNow1, this.userTimeNow2});
+  Review2(
+      {super.key,
+      this.newBoatList,
+      this.userTimeNow1,
+      this.userTimeNow2,
+      this.filterList});
 
   @override
-  State<Review2> createState() => _Review2State();
+  ConsumerState<Review2> createState() => _Review2State();
 }
 
-class _Review2State extends State<Review2> {
-  List<BoatModel>? boatList;
+class _Review2State extends ConsumerState<Review2> {
+  // List<BoatModel>? boatList;
 
   @override
   void initState() {
-    readJsondata();
+    //readJsondata();
     super.initState();
   }
 
-  readJsondata() async {
-    //   File file = await File('assets/images/boat.json');
-    var jsonStr = await DefaultAssetBundle.of(context)
-        .loadString('asset/images_list.json');
-    //   String contents = await file.readAsString();
+  // readJsondata() async {
+  //   //   File file = await File('assets/images/boat.json');
+  //   var jsonStr = await DefaultAssetBundle.of(context)
+  //       .loadString('asset/images_list.json');
+  //   //   String contents = await file.readAsString();
 
-    // Parse the JSON data
-    //  List<dynamic> jsonData = jsonDecode(contents);
-    List<dynamic> jsonData = jsonDecode(jsonStr);
+  //   // Parse the JSON data
+  //   //  List<dynamic> jsonData = jsonDecode(contents);
+  //   List<dynamic> jsonData = jsonDecode(jsonStr);
 
-    // Convert JSON data to List<BoatModel>
-    boatList = jsonData.map((json) => BoatModel.fromJson(json)).toList();
-  }
+  //   // Convert JSON data to List<BoatModel>
+  //   boatList = jsonData.map((json) => BoatModel.fromJson(json)).toList();
+  // }
 
   @override
   Widget build(BuildContext context) {
+    final boatListHolder = ref.read(boutProvider);
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
         ),
         body: FutureBuilder(
-            future: readJsondata(),
+            future: boatListHolder.readJsondata(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
@@ -80,7 +87,9 @@ class _Review2State extends State<Review2> {
                                     onPressed: () {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(builder: (context) {
-                                          return WhereTo(boatList: boatList);
+                                          return WhereTo(
+                                              boatList:
+                                                  boatListHolder.boatList);
                                         }),
                                       );
                                     },
@@ -92,7 +101,7 @@ class _Review2State extends State<Review2> {
                                     onPressed: () {
                                       showModalBottomSheet(
                                         useSafeArea: true,
-                                        // showDragHandle: true,
+                                        // showDragHandle: true, // we can get the price from the model boatListHolder.boatList![index].finalPrice
                                         isScrollControlled: true,
                                         context: context,
                                         builder: (context) {
@@ -109,7 +118,9 @@ class _Review2State extends State<Review2> {
                                       onPressed: () {
                                         Navigator.of(context).push(
                                           MaterialPageRoute(builder: (context) {
-                                            return WhereTo(boatList: boatList);
+                                            return WhereTo(
+                                                boatList:
+                                                    boatListHolder.boatList);
                                           }),
                                         );
                                       },
@@ -132,7 +143,7 @@ class _Review2State extends State<Review2> {
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: (widget.newBoatList == null ||
                                 widget.newBoatList!.isEmpty)
-                            ? boatList!.length
+                            ? boatListHolder.boatList!.length
                             : widget.newBoatList!
                                 .length, // here it was boatList!.length
                         itemBuilder: (_, index) => GestureDetector(
@@ -143,7 +154,7 @@ class _Review2State extends State<Review2> {
                                   if (widget.newBoatList == null ||
                                       widget.newBoatList!.isEmpty) {
                                     return ShowInformation(
-                                      boatinfo: boatList![index],
+                                      boatinfo: boatListHolder.boatList![index],
                                       userTimeNow1: widget.userTimeNow1,
                                       userTimeNow2: widget.userTimeNow2,
                                     );
@@ -161,11 +172,18 @@ class _Review2State extends State<Review2> {
                               ),
                             );
                           },
-                          child: CardItemView(
-                              items: (widget.newBoatList == null ||
-                                      widget.newBoatList!.isEmpty)
-                                  ? boatList![index].imageList
-                                  : widget.newBoatList![index].imageList),
+                          child:
+                              // CardItemView(
+                              //     items: (widget.newBoatList == null ||
+                              //             widget.newBoatList!.isEmpty)
+                              //         ? boatListHolder.boatList![index].imageList
+                              //         : widget.newBoatList![index].imageList),
+                              CardItemView(
+                                  items: (widget.filterList == null ||
+                                          widget.filterList!.isEmpty)
+                                      ? boatListHolder
+                                          .boatList![index].imageList
+                                      : widget.filterList![index].imageList),
                         ),
                       ),
                     ],
