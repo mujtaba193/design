@@ -9,6 +9,7 @@ import 'tickets/tickets_pages/tickets_all_pages.dart';
 import 'translation/profie_page_translation.dart';
 
 class HomePage extends StatefulWidget {
+  List<BoatModel>? searchFilterList;
   List<BoatModel> filterList;
   List<BoatModel>? newBoatList;
   DateTime? userTimeNow1;
