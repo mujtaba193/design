@@ -11,15 +11,18 @@ import '../translation/filter_translation.dart';
 
 class ReviewFilter extends ConsumerStatefulWidget {
   // List<BoatModel> filterList;
-
+  bool searchValue;
+  List<BoatModel>? searchFilterList;
   DateTime? userTimeNow1;
   DateTime? userTimeNow2;
-  ReviewFilter({
-    super.key,
-    this.userTimeNow1,
-    this.userTimeNow2,
-    // required this.filterList
-  });
+  ReviewFilter(
+      {super.key,
+      this.userTimeNow1,
+      this.userTimeNow2,
+      this.searchFilterList,
+      required this.searchValue
+      // required this.filterList
+      });
 
   @override
   ConsumerState<ReviewFilter> createState() => _Review2State();
@@ -64,12 +67,20 @@ class _Review2State extends ConsumerState<ReviewFilter> {
   bool filterValue = false;
   @override
   void initState() {
+    filter();
     super.initState();
   }
 
-  filter() {
+  filter() async {
     final boatListHolder = ref.read(boutProvider);
-    final boatList = boatListHolder.boatList;
+    if (widget.searchFilterList == null ||
+        widget.searchFilterList!.isEmpty == true) {
+      await boatListHolder.readJsondata();
+    }
+    final boatList = (widget.searchFilterList == null ||
+            widget.searchFilterList!.isEmpty == true)
+        ? boatListHolder.boatList
+        : widget.searchFilterList!;
     filterList = boatList!
         .where((element) =>
             (element.finalPrice >= startPrice &&
@@ -146,9 +157,8 @@ class _Review2State extends ConsumerState<ReviewFilter> {
                         .contains(FilterPageTranslation.withPanoramicWindows)
                 : true))
         .toList();
-    filterValue = true;
+
     setState(() {});
-    Navigator.pop(context);
   }
 
   rest() {
@@ -861,7 +871,9 @@ class _Review2State extends ConsumerState<ReviewFilter> {
                                                                     .apply)),
                                                       ),
                                                       onTap: () async {
-                                                        filter();
+                                                        await filter();
+                                                        filterValue = true;
+                                                        Navigator.pop(context);
                                                       },
                                                     ),
                                                   )
@@ -907,13 +919,23 @@ class _Review2State extends ConsumerState<ReviewFilter> {
                           //     ],
                           //   ),
                           ),
+                      // ((widget.searchFilterList == null ||
+                      //             widget.searchFilterList!.isEmpty == true) &&
+                      //         widget.searchValue == true)
+                      //     ? Text('No result found')
+                      //     : ((widget.searchFilterList == null ||
+                      //                 widget.searchFilterList!.isEmpty ==
+                      //                     true) &&
+                      //             (widget.searchValue == false))
+                      //         ?
                       ((filterList == null || filterList!.isEmpty == true) &&
                               filterValue == true)
                           ? Text('No result found')
                           : ListView.builder(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
-                              itemCount: (filterList == null)
+                              itemCount: (filterList == null ||
+                                      filterList!.isEmpty == true)
                                   ? boatListHolder.boatList!.length
                                   : filterList!.length,
 
@@ -958,13 +980,53 @@ class _Review2State extends ConsumerState<ReviewFilter> {
                                     //         : widget.newBoatList![index].imageList),
 
                                     CardItemView(
-                                        items: (filterList == null &&
+                                        items: ((filterList == null ||
+                                                    filterList!.isEmpty ==
+                                                        true) &&
                                                 filterValue == false)
                                             ? boatListHolder
                                                 .boatList![index].imageList
                                             : filterList![index].imageList),
                               ),
-                            ),
+                            )
+                      // : ListView.builder(
+                      //     shrinkWrap: true,
+                      //     physics: NeverScrollableScrollPhysics(),
+                      //     itemCount: widget.searchFilterList!.length,
+
+                      //     // here it was boatList!.length
+                      //     itemBuilder: (_, index) => GestureDetector(
+                      //       onTap: () {
+                      //         Navigator.of(context).push(
+                      //           MaterialPageRoute(
+                      //             builder: (context) {
+                      //               return ShowInformation(
+                      //                 boatinfo: widget
+                      //                     .searchFilterList![index],
+                      //                 userTimeNow1: widget.userTimeNow1,
+                      //                 userTimeNow2: widget.userTimeNow2,
+                      //               );
+
+                      //               /* return ShowInformation(
+                      //       boatList: widget.newBoatList![
+                      //           index]); */ // here it was boatList![index]
+                      //             },
+                      //           ),
+                      //         );
+                      //       },
+                      //       child:
+                      //           // CardItemView(
+                      //           //     items: (widget.newBoatList == null ||
+                      //           //             widget.newBoatList!.isEmpty)
+                      //           //         ? boatListHolder.boatList![index].imageList
+                      //           //         : widget.newBoatList![index].imageList),
+
+                      //           CardItemView(
+                      //               items: widget
+                      //                   .searchFilterList![index]
+                      //                   .imageList),
+                      //     ),
+                      //   ),
                     ],
                   ),
                 );

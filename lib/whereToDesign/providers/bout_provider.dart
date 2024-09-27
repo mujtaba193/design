@@ -49,6 +49,9 @@ class Boat {
   String? theShipTypeValue;
   String? theToiletValue;
   bool filterValue = false;
+  bool searchValue = false;
+
+  List<BoatModel>? searchFilterList;
 
   readJsondata() async {
     //   File file = await File('assets/images/boat.json');
@@ -169,5 +172,13 @@ class Boat {
     filterList = [];
     filterValue = false;
     filterList = null;
+  }
+
+  // search filter function
+  searchFilter(selectedCityName) {
+    searchFilterList = boatList!
+        .where((element) => (element.city == selectedCityName))
+        .toList();
+    searchValue = true;
   }
 }

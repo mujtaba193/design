@@ -11,7 +11,6 @@ import '../providers/filter/search_filter_provider.dart';
 import '../translation/search_filter_translation.dart';
 
 class SearchFilter extends StatefulWidget {
-  // late List<UsersModel>? usersd;
   List<BoatModel>? boatList;
   final BoatModel? boatinfo;
   bool? isSearch;
@@ -20,13 +19,11 @@ class SearchFilter extends StatefulWidget {
     this.boatList,
     this.isSearch,
     this.boatinfo,
-    //this.usersd,
   }) : super(key: key);
 
   @override
   State<SearchFilter> createState() => _SearchFilterState();
 }
-// ".MainApplication"
 
 class _SearchFilterState extends State<SearchFilter> {
   TextEditingController _controller = TextEditingController();
@@ -48,8 +45,6 @@ class _SearchFilterState extends State<SearchFilter> {
   bool? rights;
   bool pets = false;
   bool disabilities = false;
-  List<BoatModel>? searchFilterList;
-  bool searchFilterValue = false;
 
   @override
   void initState() {
@@ -131,15 +126,6 @@ class _SearchFilterState extends State<SearchFilter> {
     );
   }
 
-  // searchFilter() {
-  //   final boatListHolder = ref.read(boutProvider);
-  //   final boatList = boatListHolder.boatList;
-  //   searchFilterList = boatList!
-  //       .where((element) => (element.city == selectedCityName))
-  //       .toList();
-  //   searchFilterValue = true;
-  //   setState(() {});
-  // }
 ////////////////////////////////////////
 
   // cheackBookTime() {
@@ -176,35 +162,28 @@ class _SearchFilterState extends State<SearchFilter> {
       child: Scaffold(
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
-          floatingActionButton: GestureDetector(
-            onTap: () {
-              //  searchFilter();
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) {
-                    return HomePage(
-                      filterList: searchFilterList!,
-                    );
-                  },
-                ),
-              );
-            },
-            child: Container(
-              height: 50,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [
-                    Color(0xFF8942BC),
-                    Color(0xFF5831F7),
-                    Color(0xFF5731F8),
-                    Color(0xFF00C2C2),
-                  ],
-                ),
-                //color: Colors.grey.withOpacity(0.5),
-                border: GradientBoxBorder(
-                  width: 2,
-                  gradient: LinearGradient(
+          floatingActionButton:
+              Consumer(builder: (BuildContext context, ref, _) {
+            return GestureDetector(
+              onTap: () {
+                ref.read(boutProvider).searchFilter(selectedCityName);
+                //  searchFilter();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return HomePage(
+                          searchFilterList:
+                              ref.read(boutProvider).searchFilterList!,
+                          searchValue: ref.read(boutProvider).searchValue);
+                    },
+                  ),
+                );
+              },
+              child: Container(
+                height: 50,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
                     colors: [
                       Color(0xFF8942BC),
                       Color(0xFF5831F7),
@@ -212,16 +191,28 @@ class _SearchFilterState extends State<SearchFilter> {
                       Color(0xFF00C2C2),
                     ],
                   ),
+                  //color: Colors.grey.withOpacity(0.5),
+                  border: GradientBoxBorder(
+                    width: 2,
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xFF8942BC),
+                        Color(0xFF5831F7),
+                        Color(0xFF5731F8),
+                        Color(0xFF00C2C2),
+                      ],
+                    ),
+                  ),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                borderRadius: BorderRadius.circular(8),
+                child: Center(
+                    child: Text(
+                  SearchFilterTranslation.apply,
+                  style: TextStyle(),
+                )),
               ),
-              child: Center(
-                  child: Text(
-                SearchFilterTranslation.apply,
-                style: TextStyle(),
-              )),
-            ),
-          ),
+            );
+          }),
           appBar: AppBar(
             automaticallyImplyLeading: false,
             title: Text(SearchFilterTranslation.filter),
@@ -477,22 +468,28 @@ class _SearchFilterState extends State<SearchFilter> {
                           style: TextStyle(fontSize: 20),
                         ),
                       ),
-                      IconButton(
-                        onPressed: () {
-                          // setState(() {
-                          //   if (timeValue2 > 1.0) {
-                          //     timeValue2 = timeValue2 - 0.5;
-                          //     userTimeNow2 = userTimeNow2.subtract(
-                          //       Duration(minutes: 30),
-                          //     );
-                          //   }
-                          // });
-                        },
-                        icon: Icon(
-                          Icons.remove,
-                          //color: Colors.black,
-                        ),
-                      ),
+                      Consumer(
+                          builder: (BuildContext context, WidgetRef ref, _) {
+                        return IconButton(
+                          onPressed: () {
+                            // setState(() {
+                            //   if (timeValue2 > 1.0) {
+                            //     timeValue2 = timeValue2 - 0.5;
+                            //     userTimeNow2 = userTimeNow2.subtract(
+                            //       Duration(minutes: 30),
+                            //     );
+                            //   }
+                            // });
+                            ref
+                                .read(searchFilterProvider.notifier)
+                                .subtractTime();
+                          },
+                          icon: Icon(
+                            Icons.remove,
+                            //color: Colors.black,
+                          ),
+                        );
+                      }),
                       Consumer(
                           builder: (BuildContext context, WidgetRef ref, _) {
                         final searchFilterState =

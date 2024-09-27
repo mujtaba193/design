@@ -1,4 +1,3 @@
-import 'package:design/whereToDesign/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -506,13 +505,13 @@ class _FilterPageState extends ConsumerState<FilterPage> {
                               element.toiletOnBoard == theToiletValue))
                       .toList();
 
-                  await Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) {
-                      return HomePage(
-                        filterList: filteredBoats!,
-                      );
-                    }),
-                  );
+                  // await Navigator.of(context).push(
+                  //   MaterialPageRoute(builder: (context) {
+                  //     return HomePage(
+                  //       filterList: filteredBoats!,
+                  //     );
+                  //   }),
+                  // );
                 },
               ),
             )

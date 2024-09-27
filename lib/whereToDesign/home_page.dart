@@ -10,7 +10,7 @@ import 'translation/profie_page_translation.dart';
 
 class HomePage extends StatefulWidget {
   List<BoatModel>? searchFilterList;
-  List<BoatModel> filterList;
+  bool searchValue;
   List<BoatModel>? newBoatList;
   DateTime? userTimeNow1;
   DateTime? userTimeNow2;
@@ -19,7 +19,8 @@ class HomePage extends StatefulWidget {
       this.newBoatList,
       this.userTimeNow1,
       this.userTimeNow2,
-      required this.filterList});
+      required this.searchFilterList,
+      required this.searchValue});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -27,6 +28,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<BoatModel>? boatList;
+
   int currentIndex = 0;
   late List screens;
 
@@ -34,8 +36,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     screens = [
       ReviewFilter(
-          //  filterList: widget.filterList,
-          ),
+        searchFilterList: widget.searchFilterList!,
+        searchValue: widget.searchValue,
+      ),
       // Review2(
       //   newBoatList: widget.newBoatList,
       //   userTimeNow1: widget.userTimeNow1,

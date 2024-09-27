@@ -636,7 +636,7 @@
     "booked_start_time": "2024-05-13T14:00:00",
     "booked_finish_time": "2024-05-13T16:00:00",
     "guests": 30,
-    "city": "Kazan",
+    "city": "Moscow",
     "description": "Vitaly Boat 2 offers a premium sailing experience with modern amenities and spacious decks. Ideal for large gatherings or special occasions.",
     "options": [
       "Toilet",
@@ -748,7 +748,7 @@
     "booked_start_time": "2024-05-13T14:00:00",
     "booked_finish_time": "2024-05-13T16:00:00",
     "guests": 30,
-    "city": "Kazan",
+    "city":"Moscow",
     "description": "Vitaly Boat 2 offers a premium sailing experience with modern amenities and spacious decks. Ideal for large gatherings or special occasions.",
     "options": [
       "Toilet",
@@ -860,7 +860,7 @@
     "booked_start_time": "2024-05-13T14:00:00",
     "booked_finish_time": "2024-05-13T16:00:00",
     "guests": 30,
-    "city": "Kazan",
+    "city": "Moscow",
     "description": "Vitaly Boat 2 offers a premium sailing experience with modern amenities and spacious decks. Ideal for large gatherings or special occasions.",
     "options": [
       "Toilet",

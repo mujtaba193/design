@@ -40,4 +40,5 @@ class City {
       cityEvents = varr.events;
     }
   }
+  // filter function
 }
