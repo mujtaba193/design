@@ -66,8 +66,17 @@ class Boat {
     boatList = jsonData.map((json) => BoatModel.fromJson(json)).toList();
   }
 
-  filter() {
-    filterList = boatList!
+//function for filtering.
+  filter(searchFilterList) async {
+    searchFilterList = searchFilterList;
+    if (searchFilterList == null || searchFilterList!.isEmpty == true) {
+      await readJsondata();
+    }
+    final boatList1 =
+        (searchFilterList == null || searchFilterList!.isEmpty == true)
+            ? boatList
+            : searchFilterList!;
+    filterList = boatList1!
         .where((element) =>
             (element.finalPrice >= startPrice &&
                 element.finalPrice <= endPrice) &&
@@ -143,10 +152,89 @@ class Boat {
                         .contains(FilterPageTranslation.withPanoramicWindows)
                 : true))
         .toList();
-    filterValue = true;
   }
+  // filter() {
+  //   filterList = boatList!
+  //       .where((element) =>
+  //           (element.finalPrice >= startPrice &&
+  //               element.finalPrice <= endPrice) &&
+  //           (element.characteristics.length >= startLength &&
+  //               element.characteristics.length <= endLength) &&
+  //           (element.rating >= startRating && element.rating <= endRating) &&
+  //           (shipType == null || element.shipType == theShipTypeValue) &&
+  //           (toilet == null || element.toiletOnBoard == theToiletValue) &&
+  //           (rainValue != null
+  //               ? element.characteristics.rain_awning == rainValue
+  //               : true) &&
+  //           (bimini != null
+  //               ? element.characteristics.bimini_sunshade == bimini
+  //               : true) &&
+  //           (bluetooth != null
+  //               ? element.characteristics.bluetooth_audio_system == bluetooth
+  //               : true) &&
+  //           (mask != null
+  //               ? element.characteristics.snorkeling_mask == mask
+  //               : true) &&
+  //           (shower != null
+  //               ? element.characteristics.shower == shower
+  //               : true) &&
+  //           (fridge != null
+  //               ? element.characteristics.fridge == fridge
+  //               : true) &&
+  //           (blankets != null
+  //               ? element.characteristics.blankets == blankets
+  //               : true) &&
+  //           (table != null ? element.characteristics.table == table : true) &&
+  //           (glasses != null
+  //               ? element.characteristics.glasses == glasses
+  //               : true) &&
+  //           (bathing != null
+  //               ? element.characteristics.bathing_platform == bathing
+  //               : true) &&
+  //           (fishEcho != null
+  //               ? element.characteristics.fish_echo_sounder == fishEcho
+  //               : true) &&
+  //           (heater != null
+  //               ? element.characteristics.heater == heater
+  //               : true) &&
+  //           (climate != null
+  //               ? element.characteristics.climate_control == climate
+  //               : true) &&
+  //           (selectedlist.contains(FilterPageTranslation.highspeed)
+  //               ? element.features.highSpeed ==
+  //                   selectedlist.contains(FilterPageTranslation.highspeed)
+  //               : true) &&
+  //           (selectedlist.contains(FilterPageTranslation.american)
+  //               ? element.features.american ==
+  //                   selectedlist.contains(FilterPageTranslation.american)
+  //               : true) &&
+  //           (selectedlist.contains(FilterPageTranslation.slowMoving)
+  //               ? element.features.slowMoving ==
+  //                   selectedlist.contains(FilterPageTranslation.slowMoving)
+  //               : true) &&
+  //           (selectedlist.contains(FilterPageTranslation.retro)
+  //               ? element.features.retro ==
+  //                   selectedlist.contains(FilterPageTranslation.retro)
+  //               : true) &&
+  //           (selectedlist.contains(FilterPageTranslation.closed)
+  //               ? element.features.closed ==
+  //                   selectedlist.contains(FilterPageTranslation.closed)
+  //               : true) &&
+  //           (selectedlist.contains(FilterPageTranslation.withFlybridge)
+  //               ? element.features.withFlybridge ==
+  //                   selectedlist.contains(FilterPageTranslation.withFlybridge)
+  //               : true) &&
+  //           (selectedlist.contains(FilterPageTranslation.withPanoramicWindows)
+  //               ? element.features.withPanoramicWindows ==
+  //                   selectedlist
+  //                       .contains(FilterPageTranslation.withPanoramicWindows)
+  //               : true))
+  //       .toList();
+  //   filterValue = true;
+  // }
 
-  restFilter() {
+// rest function.
+  rest() {
     startPrice = 1;
     endPrice = 10000;
     startLength = 1;

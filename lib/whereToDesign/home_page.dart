@@ -35,9 +35,13 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     screens = [
+      // ReviewFilterRiverpod(
+      //   searchFilterList: widget.searchFilterList!,
+      //   searchValue: widget.searchValue,
+      // ),
       ReviewFilter(
-        searchFilterList: widget.searchFilterList!,
         searchValue: widget.searchValue,
+        searchFilterList: widget.searchFilterList,
       ),
       // Review2(
       //   newBoatList: widget.newBoatList,

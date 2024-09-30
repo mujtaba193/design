@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
-import 'filter/filter_page.dart';
 import 'providers/bout_provider.dart';
 
 class Review2 extends ConsumerStatefulWidget {
@@ -96,20 +95,20 @@ class _Review2State extends ConsumerState<Review2> {
                                     child: Text('Search'),
                                   ),
                                   Spacer(),
-                                  TextButton(
-                                    child: Text('Filter'),
-                                    onPressed: () {
-                                      showModalBottomSheet(
-                                        useSafeArea: true,
-                                        // showDragHandle: true, // we can get the price from the model boatListHolder.boatList![index].finalPrice
-                                        isScrollControlled: true,
-                                        context: context,
-                                        builder: (context) {
-                                          return FilterPage();
-                                        },
-                                      );
-                                    },
-                                  ),
+                                  // TextButton(
+                                  //   child: Text('Filter'),
+                                  //   onPressed: () {
+                                  //     showModalBottomSheet(
+                                  //       useSafeArea: true,
+                                  //       // showDragHandle: true, // we can get the price from the model boatListHolder.boatList![index].finalPrice
+                                  //       isScrollControlled: true,
+                                  //       context: context,
+                                  //       builder: (context) {
+                                  //         return FilterPage();
+                                  //       },
+                                  //     );
+                                  //   },
+                                  // ),
                                 ],
                               )
                             : Row(

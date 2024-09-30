@@ -7,48 +7,14 @@ import '../providers/bout_provider.dart';
 import '../translation/filter_translation.dart';
 
 class FilterPage extends ConsumerStatefulWidget {
-  const FilterPage({super.key});
+  List<BoatModel> searchFilterList;
+  FilterPage({super.key, required this.searchFilterList});
 
   @override
   ConsumerState<FilterPage> createState() => _FilterPageState();
 }
 
 class _FilterPageState extends ConsumerState<FilterPage> {
-  double startPrice = 1;
-  double endPrice = 10000;
-  double startLength = 1;
-  double endLength = 10000;
-  double startRating = 1;
-  double endRating = 5;
-  int? shipType;
-  int? toilet;
-  bool rainValue = false;
-  bool bimini = false;
-  bool bluetooth = false;
-  bool mask = false;
-  bool shower = false;
-  bool fridge = false;
-  bool blanckets = false;
-  bool table = false;
-  bool glasses = false;
-  bool bathing = false;
-  bool fishEcho = false;
-  bool heater = false;
-  bool climate = false;
-
-  List<String> list = [
-    FilterPageTranslation.highspeed,
-    FilterPageTranslation.american,
-    FilterPageTranslation.slowMoving,
-    FilterPageTranslation.retro,
-    FilterPageTranslation.closed,
-    FilterPageTranslation.withFlybridge,
-    FilterPageTranslation.withPanoramicWindows
-  ];
-  List<String> selectedlist = [];
-  List<BoatModel>? filteredBoats;
-  String? theShipTypeValue;
-  String? theToiletValue;
   @override
   void initState() {
     // TODO: implement initState
@@ -58,8 +24,6 @@ class _FilterPageState extends ConsumerState<FilterPage> {
 
   @override
   Widget build(BuildContext context) {
-    final boatListHolder = ref.read(boutProvider);
-    final boatList = boatListHolder.boatList;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -72,451 +36,470 @@ class _FilterPageState extends ConsumerState<FilterPage> {
           icon: Icon(Icons.close_rounded),
         ),
       ),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        padding: EdgeInsets.all(10),
-        width: MediaQuery.of(context).size.width,
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      body: StatefulBuilder(
+        builder: (context, setState) {
+          final boatListHolder = ref.read(boutProvider);
+          final boatList = boatListHolder.boatList;
+          return Scaffold(
+            appBar: AppBar(
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      boatListHolder.rest();
+                    });
+                  },
+                  child: Text('Rreset'),
+                ),
+              ],
+              centerTitle: true,
+              title: Text(FilterPageTranslation.filter),
+              automaticallyImplyLeading: false,
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(Icons.close_rounded),
+              ),
+            ),
+            body: Container(
+              height: MediaQuery.of(context).size.height,
+              padding: EdgeInsets.all(10),
+              width: MediaQuery.of(context).size.width,
+              child: Stack(
                 children: [
-                  Text(
-                    FilterPageTranslation.price,
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                          '${FilterPageTranslation.from} ${startPrice.toStringAsFixed(2)} ₽'),
-                      Spacer(),
-                      Text(
-                          '${FilterPageTranslation.to} ${endPrice.toStringAsFixed(2)} ₽'),
-                    ],
-                  ),
-                  RangeSlider(
-                      min: 1,
-                      max: 10000,
-                      values: RangeValues(startPrice, endPrice),
-                      onChanged: (RangeValues values) {
-                        setState(() {
-                          startPrice = values.start;
-                          endPrice = values.end;
-                        });
-                      }),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    FilterPageTranslation.length,
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                          '${FilterPageTranslation.from} ${startLength.toStringAsFixed(2)} M'),
-                      Spacer(),
-                      Text(
-                          '${FilterPageTranslation.to} ${endLength.toStringAsFixed(2)} M')
-                    ],
-                  ),
-                  RangeSlider(
-                      min: 1,
-                      max: 10000,
-                      values: RangeValues(startLength, endLength),
-                      onChanged: (value) {
-                        setState(() {
-                          startLength = value.start;
-                          endLength = value.end;
-                        });
-                      }),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    FilterPageTranslation.rating,
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                          '${FilterPageTranslation.from} ${startRating.toStringAsFixed(1)} '),
-                      Icon(
-                        Icons.star,
-                        color: Colors.yellow,
-                      ),
-                      Spacer(),
-                      Text(
-                          '${FilterPageTranslation.to} ${endRating.toStringAsFixed(1)} '),
-                      Icon(
-                        Icons.star,
-                        color: Colors.yellow,
-                      ),
-                    ],
-                  ),
-                  RangeSlider(
-                      min: 1,
-                      max: 5,
-                      values: RangeValues(startRating, endRating),
-                      onChanged: (value) {
-                        setState(() {
-                          startRating = value.start;
-                          endRating = value.end;
-                        });
-                      }),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    FilterPageTranslation.type,
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  Wrap(
-                    spacing: 15.0,
-                    children: List<Widget>.generate(
-                      2,
-                      (int index) {
-                        return ChoiceChip(
-                          selectedColor: Color(0xFF5731F8),
-                          disabledColor: Color(0xFF8942BC),
-                          label: Text(
-                              ' ${index == 0 ? FilterPageTranslation.motor : FilterPageTranslation.sailing}'),
-                          selected: shipType == index,
-                          onSelected: (bool selected) {
-                            setState(() {
-                              shipType = selected ? index : null;
-                              if (shipType == 0) {
-                                theShipTypeValue = 'Motor';
-                              } else if (shipType == 1) {
-                                theShipTypeValue = 'Sailing';
-                              }
-                            });
-                          },
-                        );
-                      },
-                    ).toList(),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    FilterPageTranslation.toilet,
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  Wrap(
-                    spacing: 10.0,
-                    children: List<Widget>.generate(
-                      3,
-                      (int index) {
-                        return ChoiceChip(
-                          selectedColor: Color(0xFF5731F8),
-                          disabledColor: Color(0xFF8942BC),
-                          label: Text(
-                              ' ${index == 0 ? FilterPageTranslation.notImportant : index == 1 ? FilterPageTranslation.yes : FilterPageTranslation.no}'),
-                          selected: toilet == index,
-                          onSelected: (bool selected) {
-                            setState(() {
-                              toilet = selected ? index : null;
-                              if (toilet == 0) {
-                                theToiletValue = 'Not important';
-                              } else if (toilet == 1) {
-                                theToiletValue = 'Yes';
-                              } else if (toilet == 2) {
-                                theToiletValue = 'No';
-                              }
-                            });
-                          },
-                        );
-                      },
-                    ).toList(),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    FilterPageTranslation.amenities,
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
+                  SingleChildScrollView(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Text(FilterPageTranslation.rain),
-                            Spacer(),
-                            CupertinoSwitch(
-                              value: rainValue,
-                              onChanged: (value) {
-                                setState(() {
-                                  rainValue = value;
-                                });
-                              },
-                            )
-                          ],
+                        Text(
+                          FilterPageTranslation.price,
+                          style: TextStyle(fontSize: 20),
                         ),
                         Row(
                           children: [
-                            Text(FilterPageTranslation.biminiSunshade),
+                            Text(
+                                '${FilterPageTranslation.from} ${boatListHolder.startPrice.toStringAsFixed(2)} ₽'),
                             Spacer(),
-                            CupertinoSwitch(
-                              value: bimini,
-                              onChanged: (value) {
-                                setState(() {
-                                  bimini = value;
-                                });
-                              },
-                            )
+                            Text(
+                                '${FilterPageTranslation.to} ${boatListHolder.endPrice.toStringAsFixed(2)} ₽'),
                           ],
+                        ),
+                        RangeSlider(
+                            min: 1,
+                            max: 10000,
+                            values: RangeValues(boatListHolder.startPrice,
+                                boatListHolder.endPrice),
+                            onChanged: (RangeValues values) {
+                              setState(() {
+                                boatListHolder.startPrice = values.start;
+                                boatListHolder.endPrice = values.end;
+                              });
+                            }),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          FilterPageTranslation.length,
+                          style: TextStyle(fontSize: 20),
                         ),
                         Row(
                           children: [
-                            Text(FilterPageTranslation.bluetooth),
+                            Text(
+                                '${FilterPageTranslation.from} ${boatListHolder.startLength.toStringAsFixed(2)} M'),
                             Spacer(),
-                            CupertinoSwitch(
-                              value: bluetooth,
-                              onChanged: (value) {
-                                setState(() {
-                                  bluetooth = value;
-                                });
-                              },
-                            )
+                            Text(
+                                '${FilterPageTranslation.to} ${boatListHolder.endLength.toStringAsFixed(2)} M')
                           ],
+                        ),
+                        RangeSlider(
+                            min: 1,
+                            max: 10000,
+                            values: RangeValues(boatListHolder.startLength,
+                                boatListHolder.endLength),
+                            onChanged: (value) {
+                              setState(() {
+                                boatListHolder.startLength = value.start;
+                                boatListHolder.endLength = value.end;
+                              });
+                            }),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          FilterPageTranslation.rating,
+                          style: TextStyle(fontSize: 20),
                         ),
                         Row(
                           children: [
-                            Text(FilterPageTranslation.snorkeling),
+                            Text(
+                                '${FilterPageTranslation.from} ${boatListHolder.startRating.toStringAsFixed(1)} '),
+                            Icon(
+                              Icons.star,
+                              color: Colors.yellow,
+                            ),
                             Spacer(),
-                            CupertinoSwitch(
-                              value: mask,
-                              onChanged: (value) {
-                                setState(() {
-                                  mask = value;
-                                });
-                              },
-                            )
+                            Text(
+                                '${FilterPageTranslation.to} ${boatListHolder.endRating.toStringAsFixed(1)} '),
+                            Icon(
+                              Icons.star,
+                              color: Colors.yellow,
+                            ),
                           ],
                         ),
-                        Row(
-                          children: [
-                            Text(FilterPageTranslation.shower),
-                            Spacer(),
-                            CupertinoSwitch(
-                              value: shower,
-                              onChanged: (value) {
-                                setState(() {
-                                  shower = value;
-                                });
-                              },
-                            )
-                          ],
+                        RangeSlider(
+                            min: 1,
+                            max: 5,
+                            values: RangeValues(boatListHolder.startRating,
+                                boatListHolder.endRating),
+                            onChanged: (value) {
+                              setState(() {
+                                boatListHolder.startRating = value.start;
+                                boatListHolder.endRating = value.end;
+                              });
+                            }),
+                        SizedBox(
+                          height: 20,
                         ),
-                        Row(
-                          children: [
-                            Text(FilterPageTranslation.fridge),
-                            Spacer(),
-                            CupertinoSwitch(
-                              value: fridge,
-                              onChanged: (value) {
-                                setState(() {
-                                  fridge = value;
-                                });
-                              },
-                            )
-                          ],
+                        Text(
+                          FilterPageTranslation.type,
+                          style: TextStyle(fontSize: 20),
                         ),
-                        Row(
-                          children: [
-                            Text(FilterPageTranslation.blankets),
-                            Spacer(),
-                            CupertinoSwitch(
-                              value: blanckets,
-                              onChanged: (value) {
-                                setState(() {
-                                  blanckets = value;
-                                });
-                              },
-                            )
-                          ],
+                        Wrap(
+                          spacing: 15.0,
+                          children: List<Widget>.generate(
+                            2,
+                            (int index) {
+                              return ChoiceChip(
+                                selectedColor: Color(0xFF5731F8),
+                                disabledColor: Color(0xFF8942BC),
+                                label: Text(
+                                    ' ${index == 0 ? FilterPageTranslation.motor : FilterPageTranslation.sailing}'),
+                                selected: boatListHolder.shipType == index,
+                                onSelected: (bool selected) {
+                                  setState(() {
+                                    boatListHolder.shipType =
+                                        selected ? index : null;
+                                    if (boatListHolder.shipType == 0) {
+                                      boatListHolder.theShipTypeValue = 'Motor';
+                                    } else if (boatListHolder.shipType == 1) {
+                                      boatListHolder.theShipTypeValue =
+                                          'Sailing';
+                                    }
+                                  });
+                                },
+                              );
+                            },
+                          ).toList(),
                         ),
-                        Row(
-                          children: [
-                            Text(FilterPageTranslation.table),
-                            Spacer(),
-                            CupertinoSwitch(
-                              value: table,
-                              onChanged: (value) {
-                                setState(() {
-                                  table = value;
-                                });
-                              },
-                            )
-                          ],
+                        SizedBox(
+                          height: 20,
                         ),
-                        Row(
-                          children: [
-                            Text(FilterPageTranslation.glasses),
-                            Spacer(),
-                            CupertinoSwitch(
-                              value: glasses,
-                              onChanged: (value) {
-                                setState(() {
-                                  glasses = value;
-                                });
-                              },
-                            )
-                          ],
+                        Text(
+                          FilterPageTranslation.toilet,
+                          style: TextStyle(fontSize: 20),
                         ),
-                        Row(
-                          children: [
-                            Text('Bathing platform'),
-                            Spacer(),
-                            CupertinoSwitch(
-                              value: bathing,
-                              onChanged: (value) {
-                                setState(() {
-                                  bathing = value;
-                                });
-                              },
-                            )
-                          ],
+                        Wrap(
+                          spacing: 10.0,
+                          children: List<Widget>.generate(
+                            3,
+                            (int index) {
+                              return ChoiceChip(
+                                selectedColor: Color(0xFF5731F8),
+                                disabledColor: Color(0xFF8942BC),
+                                label: Text(
+                                    ' ${index == 0 ? FilterPageTranslation.notImportant : index == 1 ? FilterPageTranslation.yes : FilterPageTranslation.no}'),
+                                selected: boatListHolder.toilet == index,
+                                onSelected: (bool selected) {
+                                  setState(() {
+                                    boatListHolder.toilet =
+                                        selected ? index : null;
+                                    if (boatListHolder.toilet == 0) {
+                                      boatListHolder.theToiletValue =
+                                          'Not important';
+                                    } else if (boatListHolder.toilet == 1) {
+                                      boatListHolder.theToiletValue = 'Yes';
+                                    } else if (boatListHolder.toilet == 2) {
+                                      boatListHolder.theToiletValue = 'No';
+                                    }
+                                  });
+                                },
+                              );
+                            },
+                          ).toList(),
                         ),
-                        Row(
-                          children: [
-                            Text(FilterPageTranslation.fishEcho),
-                            Spacer(),
-                            CupertinoSwitch(
-                              value: fishEcho,
-                              onChanged: (value) {
-                                setState(() {
-                                  fishEcho = value;
-                                });
-                              },
-                            )
-                          ],
+                        SizedBox(
+                          height: 20,
                         ),
-                        Row(
-                          children: [
-                            Text(FilterPageTranslation.heater),
-                            Spacer(),
-                            CupertinoSwitch(
-                              value: heater,
-                              onChanged: (value) {
-                                setState(() {
-                                  heater = value;
-                                });
-                              },
-                            )
-                          ],
+                        Text(
+                          FilterPageTranslation.amenities,
+                          style: TextStyle(fontSize: 20),
                         ),
-                        Row(
-                          children: [
-                            Text(FilterPageTranslation.climate),
-                            Spacer(),
-                            CupertinoSwitch(
-                              value: climate,
-                              onChanged: (value) {
-                                setState(() {
-                                  climate = value;
-                                });
-                              },
-                            )
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(FilterPageTranslation.rain),
+                                  Spacer(),
+                                  CupertinoSwitch(
+                                    value: boatListHolder.rainValue ?? false,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        boatListHolder.rainValue = value;
+                                      });
+                                    },
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(FilterPageTranslation.biminiSunshade),
+                                  Spacer(),
+                                  CupertinoSwitch(
+                                    value: boatListHolder.bimini ?? false,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        boatListHolder.bimini = value;
+                                      });
+                                    },
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(FilterPageTranslation.bluetooth),
+                                  Spacer(),
+                                  CupertinoSwitch(
+                                    value: boatListHolder.bluetooth ?? false,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        boatListHolder.bluetooth = value;
+                                      });
+                                    },
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(FilterPageTranslation.snorkeling),
+                                  Spacer(),
+                                  CupertinoSwitch(
+                                    value: boatListHolder.mask ?? false,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        boatListHolder.mask = value;
+                                      });
+                                    },
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(FilterPageTranslation.shower),
+                                  Spacer(),
+                                  CupertinoSwitch(
+                                    value: boatListHolder.shower ?? false,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        boatListHolder.shower = value;
+                                      });
+                                    },
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(FilterPageTranslation.fridge),
+                                  Spacer(),
+                                  CupertinoSwitch(
+                                    value: boatListHolder.fridge ?? false,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        boatListHolder.fridge = value;
+                                      });
+                                    },
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(FilterPageTranslation.blankets),
+                                  Spacer(),
+                                  CupertinoSwitch(
+                                    value: boatListHolder.blankets ?? false,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        boatListHolder.blankets = value;
+                                      });
+                                    },
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(FilterPageTranslation.table),
+                                  Spacer(),
+                                  CupertinoSwitch(
+                                    value: boatListHolder.table ?? false,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        boatListHolder.table = value;
+                                      });
+                                    },
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(FilterPageTranslation.glasses),
+                                  Spacer(),
+                                  CupertinoSwitch(
+                                    value: boatListHolder.glasses ?? false,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        boatListHolder.glasses = value;
+                                      });
+                                    },
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text('Bathing platform'),
+                                  Spacer(),
+                                  CupertinoSwitch(
+                                    value: boatListHolder.bathing ?? false,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        boatListHolder.bathing = value;
+                                      });
+                                    },
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(FilterPageTranslation.fishEcho),
+                                  Spacer(),
+                                  CupertinoSwitch(
+                                    value: boatListHolder.fishEcho ?? false,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        boatListHolder.fishEcho = value;
+                                      });
+                                    },
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(FilterPageTranslation.heater),
+                                  Spacer(),
+                                  CupertinoSwitch(
+                                    value: boatListHolder.heater ?? false,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        boatListHolder.heater = value;
+                                      });
+                                    },
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(FilterPageTranslation.climate),
+                                  Spacer(),
+                                  CupertinoSwitch(
+                                    value: boatListHolder.climate ?? false,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        boatListHolder.climate = value;
+                                      });
+                                    },
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        Text(
+                          FilterPageTranslation.features,
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Wrap(
+                            spacing: 15.0,
+                            children: boatListHolder.list
+                                .map(
+                                  (e) => ChoiceChip(
+                                    selectedColor: Color(0xFF5731F8),
+                                    disabledColor: Color(0xFF8942BC),
+                                    label: Text(e),
+                                    selected:
+                                        boatListHolder.selectedlist.contains(e),
+                                    onSelected: (bool selected) {
+                                      setState(() {
+                                        if (boatListHolder.selectedlist
+                                            .contains(e)) {
+                                          boatListHolder.selectedlist.remove(e);
+                                        } else {
+                                          boatListHolder.selectedlist.add(e);
+                                        }
+                                      });
+                                    },
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 80,
+                        )
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Text(
-                    FilterPageTranslation.features,
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Wrap(
-                      spacing: 15.0,
-                      children: list
-                          .map(
-                            (e) => ChoiceChip(
-                              selectedColor: Color(0xFF5731F8),
-                              disabledColor: Color(0xFF8942BC),
-                              label: Text(e),
-                              selected: selectedlist.contains(e),
-                              onSelected: (bool selected) {
-                                setState(() {
-                                  if (selectedlist.contains(e)) {
-                                    selectedlist.remove(e);
-                                  } else {
-                                    selectedlist.add(e);
-                                  }
-                                });
-                              },
-                            ),
-                          )
-                          .toList(),
+                  Positioned(
+                    right: 5,
+                    left: 5,
+                    bottom: 5,
+                    child: GestureDetector(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color(0xFF8942BC),
+                              Color(0xFF5831F7),
+                              Color(0xFF5731F8),
+                              Color(0xFF00C2C2),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        child: Center(
+                            child: Text(
+                                textAlign: TextAlign.center,
+                                FilterPageTranslation.apply)),
+                      ),
+                      onTap: () async {
+                        await boatListHolder.filter(widget.searchFilterList);
+                        boatListHolder.filterValue = true;
+                        Navigator.pop(context);
+                      },
                     ),
-                  ),
-                  SizedBox(
-                    height: 80,
                   )
                 ],
               ),
             ),
-            Positioned(
-              right: 5,
-              left: 5,
-              bottom: 5,
-              child: GestureDetector(
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFF8942BC),
-                        Color(0xFF5831F7),
-                        Color(0xFF5731F8),
-                        Color(0xFF00C2C2),
-                      ],
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  height: 50,
-                  width: MediaQuery.of(context).size.width,
-                  child: Center(
-                      child: Text(
-                          textAlign: TextAlign.center,
-                          FilterPageTranslation.apply)),
-                ),
-                onTap: () async {
-                  setState(() {});
-                  filteredBoats = await boatList!
-                      .where((element) =>
-                          (element.finalPrice >= startPrice &&
-                              element.finalPrice <= endPrice) &&
-                          (element.characteristics.length >= startLength &&
-                              element.characteristics.length <= endLength) &&
-                          (element.rating >= startRating &&
-                              element.rating <= endRating) &&
-                          (shipType == null ||
-                              element.shipType == theShipTypeValue) &&
-                          (toilet == null ||
-                              element.toiletOnBoard == theToiletValue))
-                      .toList();
-
-                  // await Navigator.of(context).push(
-                  //   MaterialPageRoute(builder: (context) {
-                  //     return HomePage(
-                  //       filterList: filteredBoats!,
-                  //     );
-                  //   }),
-                  // );
-                },
-              ),
-            )
-          ],
-        ),
+          );
+        },
       ),
     );
   }
