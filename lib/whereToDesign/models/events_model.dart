@@ -2,8 +2,12 @@
 class Event {
   final String eventName;
   final List<String> eventPhotos;
+  final double minHours;
 
-  Event({required this.eventName, required this.eventPhotos});
+  Event(
+      {required this.eventName,
+      required this.eventPhotos,
+      required this.minHours});
 
   factory Event.fromJson(Map<String, dynamic> json) {
     var photoList = json['event_photos'] as List;
@@ -13,6 +17,7 @@ class Event {
     return Event(
       eventName: json['event_name'],
       eventPhotos: photoUrls,
+      minHours: json['min_hours'].toDouble(),
     );
   }
 }

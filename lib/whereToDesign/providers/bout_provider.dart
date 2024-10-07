@@ -11,7 +11,7 @@ final boutProvider = Provider<Boat>((ref) {
 });
 
 class Boat {
-  List<BoatModel>? boatList;
+  List<BoatModel> boatList = [];
   ///////////filter variables //////////////////
   double startPrice = 1;
   double endPrice = 10000;
@@ -44,39 +44,35 @@ class Boat {
     FilterPageTranslation.withFlybridge,
     FilterPageTranslation.withPanoramicWindows
   ];
+  List<BoatModel> boatList1 = [];
   List<String> selectedlist = [];
   List<BoatModel>? filterList;
   String? theShipTypeValue;
   String? theToiletValue;
   bool filterValue = false;
   bool searchValue = false;
+  String? selectedCityV;
 
-  List<BoatModel>? searchFilterList;
+  /// List<BoatModel>? searchFilterList;
 
   readJsondata() async {
-    //   File file = await File('assets/images/boat.json');
     var jsonStr = await rootBundle.loadString('asset/images_list.json');
-    //   String contents = await file.readAsString();
 
-    // Parse the JSON data
-    //  List<dynamic> jsonData = jsonDecode(contents);
     List<dynamic> jsonData = jsonDecode(jsonStr);
 
-    // Convert JSON data to List<BoatModel>
     boatList = jsonData.map((json) => BoatModel.fromJson(json)).toList();
   }
 
 //function for filtering.
-  filter(searchFilterList) async {
-    searchFilterList = searchFilterList;
-    if (searchFilterList == null || searchFilterList!.isEmpty == true) {
+  filter() async {
+    if (filterList == null || filterList!.isEmpty == true) {
       await readJsondata();
     }
-    final boatList1 =
-        (searchFilterList == null || searchFilterList!.isEmpty == true)
-            ? boatList
-            : searchFilterList!;
-    filterList = boatList1!
+
+    boatList1 = (filterList == null || filterList!.isEmpty == true)
+        ? boatList
+        : filterList!;
+    filterList = boatList1
         .where((element) =>
             (element.finalPrice >= startPrice &&
                 element.finalPrice <= endPrice) &&
@@ -263,10 +259,18 @@ class Boat {
   }
 
   // search filter function
-  searchFilter(selectedCityName) {
-    searchFilterList = boatList!
+  searchFilter(selectedCityName) async {
+    if (boatList == null || boatList!.isEmpty == true) {
+      await readJsondata();
+    }
+    filterList = boatList!
         .where((element) => (element.city == selectedCityName))
         .toList();
     searchValue = true;
+  }
+
+  moveToSelectedCity(selectedCityValue) {
+    selectedCityV = selectedCityValue;
+    filterList = boatList.where((e) => e.city == selectedCityValue).toList();
   }
 }

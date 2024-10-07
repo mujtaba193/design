@@ -1,0 +1,52 @@
+[
+    {
+        "city_name": "Saint Petersburg",
+        "event_name": "White Nights Festival",
+        "date": "2024-04-15T10:00:00",
+        "min_hours": 3,
+        "event_photos": [
+            "https://assets.vogue.com/photos/5891338e7edfa70512d62d21/master/w_1600%2Cc_limit/02-white-nights-festival-saint-petersburg-russia.jpg",
+            "https://lp-cms-production.imgix.net/features/2018/07/Scarlet-Sails-St-Petersburg-19408b26d851.jpg?w=1920&auto=format&q=75"
+        ]
+    },
+    {
+        "city_name": "Saint Petersburg",
+        "event_name": "Scarlet Sails",
+        "date": "2024-07-10T10:00:00",
+        "min_hours": 4,
+        "event_photos": [
+            "https://beaumondetraveler.com/wp-content/uploads/2020/12/feature-1-829x423.jpg",
+            "https://cdn-media.tass.ru/width/1020_b9261fa1/tass/m2/en/uploads/i/20190624/1224132.jpg"
+        ]
+    },
+    {
+        "city_name": "Saint Petersburg",
+        "event_name": "Music Festival",
+        "date": "2024-09-03T10:00:00",
+        "min_hours": 3,
+        "event_photos": [
+            "https://www.udiscovermusic.com/wp-content/uploads/2017/06/Coachella-GettyImages-673625850-1000x600.jpg",
+            "https://image.jimcdn.com/app/cms/image/transf/dimension=1190x10000:format=jpg/path/sa6549607c78f5c11/image/i82f8384a1348ab84/version/1554202007/tomorrowland-best-summer-music-festivals-europe.jpg"
+        ]
+    },
+    {
+        "city_name": "Moscow",
+        "event_name": "Moscow City Day",
+        "date": "2024-08-11T10:00:00",
+        "min_hours": 5,
+        "event_photos": [
+            "https://mf.b37mrtl.ru/rbthmedia/images/all/2017/08/22/tass_17568200.jpg",
+            "https://www.mos.ru/upload/newsfeed/newsfeed/grish(1014)(10).jpg"
+        ]
+    },
+    {
+        "city_name": "Sochi",
+        "event_name": "Sochi Winter International Arts Festival",
+        "date": "2024-07-07T10:00:00",
+        "min_hours": 3,
+        "event_photos": [
+            "https://2022.wiafs.ru/wp-content/uploads/2021/09/festival_finder_26_02_2021_article.jpg",
+            "https://www.efa-aef.eu/media/lightbox/9924-sochi2020_coverpicture.jpg"
+        ]
+    }
+]

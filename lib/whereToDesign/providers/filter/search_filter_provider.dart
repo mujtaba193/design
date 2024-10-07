@@ -6,7 +6,7 @@ final searchFilterProvider =
 );
 
 class SearchFilterState {
-  final double timeValue2;
+  double timeValue2;
   final DateTime userTimeNow2;
 
   SearchFilterState({required this.timeValue2, required this.userTimeNow2});

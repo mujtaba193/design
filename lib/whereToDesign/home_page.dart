@@ -2,25 +2,26 @@ import 'package:design/whereToDesign/models/boat_model.dart';
 import 'package:design/whereToDesign/user_profile.dart';
 import 'package:flutter/material.dart';
 
-import 'pay pages /pay_page.dart';
-import 'review/review_filter.dart';
+import 'new_design_slivers/pages/sliver_page.dart';
+import 'review/review_filter_riverpod.dart';
 import 'testing_folder/reverce_yandex_search.dart';
 import 'tickets/tickets_pages/tickets_all_pages.dart';
 import 'translation/profie_page_translation.dart';
 
 class HomePage extends StatefulWidget {
-  List<BoatModel>? searchFilterList;
-  bool searchValue;
+  // List<BoatModel>? searchFilterList;
+  // bool searchValue;
   List<BoatModel>? newBoatList;
   DateTime? userTimeNow1;
   DateTime? userTimeNow2;
-  HomePage(
-      {super.key,
-      this.newBoatList,
-      this.userTimeNow1,
-      this.userTimeNow2,
-      required this.searchFilterList,
-      required this.searchValue});
+  HomePage({
+    super.key,
+    this.newBoatList,
+    this.userTimeNow1,
+    this.userTimeNow2,
+    //required this.searchFilterList,
+    // required this.searchValue
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -35,14 +36,11 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     screens = [
-      // ReviewFilterRiverpod(
-      //   searchFilterList: widget.searchFilterList!,
+      ReviewFilterRiverpod(),
+      // ReviewFilter(
       //   searchValue: widget.searchValue,
+      //   searchFilterList: widget.searchFilterList,
       // ),
-      ReviewFilter(
-        searchValue: widget.searchValue,
-        searchFilterList: widget.searchFilterList,
-      ),
       // Review2(
       //   newBoatList: widget.newBoatList,
       //   userTimeNow1: widget.userTimeNow1,
@@ -77,9 +75,9 @@ class _HomePageState extends State<HomePage> {
       //SynchronizedScrollWidget(),
       // Home(), // it was this page instead of TestPlacePicker
       //TestPlacePicker(),
-      PayPage(),
+      // PayPage(),
       //MyNestedScrollView(),
-      //SliverBar(),
+      SliverBar(),
       // HeadPage(),
       // TestPaymentTinkoff(),
     ];

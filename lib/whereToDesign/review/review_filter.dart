@@ -245,7 +245,7 @@ class _Review2State extends ConsumerState<ReviewFilter> {
                                 onPressed: () {
                                   showModalBottomSheet(
                                     useSafeArea: true,
-                                    // showDragHandle: true, // we can get the price from the model boatListHolder.boatList![index].finalPrice
+                                    // showDragHandle: true,
                                     isScrollControlled: true,
                                     context: context,
                                     builder: (context) {
