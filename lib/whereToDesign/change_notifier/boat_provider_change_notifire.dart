@@ -7,11 +7,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/boat_model.dart';
 import '../translation/filter_translation.dart';
 
-final boutProvider = Provider<Boat>((ref) {
+final boatProviderChangeNotifier = ChangeNotifierProvider<Boat>((ref) {
   return Boat();
 });
 
-class Boat with ChangeNotifier {
+class Boat extends ChangeNotifier {
+  Boat() {}
   List<BoatModel> boatList = [];
   ///////////filter variables //////////////////
   double startPrice = 1;
@@ -56,7 +57,6 @@ class Boat with ChangeNotifier {
 
   /// List<BoatModel>? searchFilterList;
   // with notifier ......................................................//
-  List<BoatModel>? get filterListNotifier => filterList!.toList();
   readJsondata() async {
     var jsonStr = await rootBundle.loadString('asset/images_list.json');
 
@@ -262,7 +262,7 @@ class Boat with ChangeNotifier {
   }
 
   // search filter function
-  searchFilter(selectedCityName) async {
+  Future searchFilter(selectedCityName) async {
     if (boatList == null || boatList!.isEmpty == true) {
       await readJsondata();
     }

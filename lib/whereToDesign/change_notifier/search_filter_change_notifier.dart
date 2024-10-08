@@ -1,19 +1,18 @@
-import 'package:design/whereToDesign/home_page.dart';
 import 'package:design/whereToDesign/models/boat_model.dart';
 import 'package:design/whereToDesign/providers/city_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
-import '../providers/bout_provider.dart';
 import '../providers/filter/search_filter_provider.dart';
 import '../translation/search_filter_translation.dart';
+import 'boat_provider_change_notifire.dart';
 
-class SearchFilter extends StatefulWidget {
+class SearchFilterChangeNotifier extends StatefulWidget {
   List<BoatModel>? boatList;
   final BoatModel? boatinfo;
   bool? isSearch;
-  SearchFilter({
+  SearchFilterChangeNotifier({
     Key? key,
     this.boatList,
     this.isSearch,
@@ -21,10 +20,12 @@ class SearchFilter extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<SearchFilter> createState() => _SearchFilterState();
+  State<SearchFilterChangeNotifier> createState() =>
+      _SearchFilterChangeNotifierState();
 }
 
-class _SearchFilterState extends State<SearchFilter> {
+class _SearchFilterChangeNotifierState
+    extends State<SearchFilterChangeNotifier> {
   TextEditingController _controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   //double timeValue = 1.0;
@@ -138,18 +139,20 @@ class _SearchFilterState extends State<SearchFilter> {
           floatingActionButton:
               Consumer(builder: (BuildContext context, ref, _) {
             return GestureDetector(
-              onTap: () {
-                ref.read(boutProvider).searchFilter(selectedCityName);
+              onTap: () async {
+                await ref
+                    .read(boatProviderChangeNotifier)
+                    .searchFilter(selectedCityName);
                 //   searchFilter();
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return HomePage();
-                    },
-                  ),
-                );
-                // Navigator.pop(context);
-                setState(() {});
+                // Navigator.of(context).push(
+                //   MaterialPageRoute(
+                //     builder: (context) {
+                //       return HomePage();
+                //     },
+                //   ),
+                // );
+                Navigator.pop(context);
+                //setState(() {});
               },
               child: Container(
                 height: 50,
@@ -191,8 +194,9 @@ class _SearchFilterState extends State<SearchFilter> {
             leading: Consumer(builder: (BuildContext context, ref, _) {
               return IconButton(
                   onPressed: () async {
-                    if (ref.read(boutProvider).filterList != null) {
-                      ref.read(boutProvider).filterList!.clear();
+                    if (ref.read(boatProviderChangeNotifier).filterList !=
+                        null) {
+                      ref.read(boatProviderChangeNotifier).filterList!.clear();
                     }
                     if (ref.read(cityProvider).selectedCityName != null) {
                       ref.read(cityProvider).selectedCityName = null;
@@ -200,8 +204,9 @@ class _SearchFilterState extends State<SearchFilter> {
                     if (ref.read(cityProvider).cityEvents != null) {
                       ref.read(cityProvider).cityEvents = null;
                     }
-                    if (ref.read(boutProvider).selectedCityV != null) {
-                      ref.read(boutProvider).selectedCityV = null;
+                    if (ref.read(boatProviderChangeNotifier).selectedCityV !=
+                        null) {
+                      ref.read(boatProviderChangeNotifier).selectedCityV = null;
                     }
                     Navigator.pop(context);
                   },
@@ -210,7 +215,7 @@ class _SearchFilterState extends State<SearchFilter> {
           ),
           body: Consumer(builder: (context, ref, _) {
             final cityHolder = ref.read(cityProvider);
-            final boatListHolder = ref.read(boutProvider);
+            final boatListHolder = ref.read(boatProviderChangeNotifier);
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

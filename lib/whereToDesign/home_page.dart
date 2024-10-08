@@ -1,10 +1,10 @@
 import 'package:design/whereToDesign/models/boat_model.dart';
-import 'package:design/whereToDesign/user_profile.dart';
 import 'package:flutter/material.dart';
 
+import 'change_notifier/review_filter_change_notifier.dart';
 import 'new_design_slivers/pages/sliver_page.dart';
-import 'review/review_filter_riverpod.dart';
 import 'testing_folder/reverce_yandex_search.dart';
+import 'testing_folder/test_page.dart';
 import 'tickets/tickets_pages/tickets_all_pages.dart';
 import 'translation/profie_page_translation.dart';
 
@@ -36,7 +36,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     screens = [
-      ReviewFilterRiverpod(),
+      ReviewFilterChangeNotifier(),
+      // ReviewFilterRiverpod(),//.................................................................>>>>
       // ReviewFilter(
       //   searchValue: widget.searchValue,
       //   searchFilterList: widget.searchFilterList,
@@ -69,7 +70,8 @@ class _HomePageState extends State<HomePage> {
       ////////////////// SliverBar(),
       //Val(),
       // Register3(),
-      UserProfile(),
+      ListenableBuilderExample(),
+      //  UserProfile(), //.................................................................>>>
       // Loovr4(),
       // Register3(),
       //SynchronizedScrollWidget(),

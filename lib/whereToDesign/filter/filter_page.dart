@@ -1,8 +1,8 @@
+import 'package:design/whereToDesign/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../home_page.dart';
 import '../providers/bout_provider.dart';
 import '../translation/filter_translation.dart';
 
@@ -469,6 +469,7 @@ class _FilterPageState extends ConsumerState<FilterPage> {
                 ),
                 onTap: () async {
                   await boatListHolder.filter();
+
                   boatListHolder.filterValue = true;
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -477,7 +478,7 @@ class _FilterPageState extends ConsumerState<FilterPage> {
                       },
                     ),
                   );
-                  //   Navigator.pop(context);
+                  Navigator.pop(context);
                   setState(() {});
                 },
               ),
