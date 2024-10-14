@@ -10,7 +10,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 //import 'package:provider/provider.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
+import 'whereToDesign/change_notifier/boat_provider_change_notifire.dart';
 import 'whereToDesign/home_page.dart';
+import 'whereToDesign/new_design_slivers/pages/sliver_page.dart';
 
 //import 'package:design/router.dart';
 final themeProvid = StateProvider<bool>((ref) => true);
@@ -36,6 +38,7 @@ final strmProvider = StreamProvider<int>((ref) {
     (((computationCount) => computationCount)),
   );
 });
+
 void main() async {
   AndroidYandexMap.useAndroidViewSurface = false;
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,7 +56,29 @@ void main() async {
     ),
   );
 }
+// GoRoute(
+//   path: '/',
+//   builder: (context, state) => const HomePage(),
+// ),
+// GoRoute(
+//   path: '/futureProvider',
+//   builder: (context, state) {
+//     // Wrap your widget with Consumer to access the ref
+//     return Consumer(
+//       builder: (context, ref, child) {
+//         // Access your provider
+//         final boatListHolder = ref.watch(boatProviderChangeNotifier);
 
+//         // Now you can use boatListHolder in the FutureProvide widget
+//         return FutureProvide(
+//           boatListHolder: boatListHolder,
+//         );
+//       },
+//     );
+//   },
+// ),
+
+//..................................................................
 final GoRouter router = GoRouter(
   /*redirect: (context, state) {
     if (isUserLoggedIn) {
@@ -65,12 +90,18 @@ final GoRouter router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => HomePage(
-          //  searchFilterList: [], searchValue: false,
-          //filterList: [],
-          // newBoatList: const [],
-          //isUserLoggedIn: true,
-          ),
+      builder: (context, state) =>
+          Consumer(builder: (BuildContext context, ref, _) {
+        final boatListHolder = ref.watch(boatProviderChangeNotifier);
+        return boatListHolder.value == true
+            ? HomePage(
+                //  searchFilterList: [], searchValue: false,
+                //filterList: [],
+                // newBoatList: const [],
+                //isUserLoggedIn: true,
+                )
+            : SliverBar();
+      }),
     ),
     GoRoute(
       path: '/futureProvider',

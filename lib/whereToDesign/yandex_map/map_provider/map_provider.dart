@@ -95,7 +95,7 @@ class MapProviderClass {
       point: Point(latitude: endLatitude, longitude: endLongitude),
       icon: PlacemarkIcon.single(
         PlacemarkIconStyle(
-            image: BitmapDescriptor.fromAssetImage('asset/flagYallow.png'),
+            image: BitmapDescriptor.fromAssetImage('assets/flagYallow.png'),
             scale: 0.6),
       ),
     );
@@ -108,7 +108,7 @@ class MapProviderClass {
       point: Point(latitude: lat!, longitude: long!),
       icon: PlacemarkIcon.single(
         PlacemarkIconStyle(
-            image: BitmapDescriptor.fromAssetImage('asset/399308.png'),
+            image: BitmapDescriptor.fromAssetImage('assets/399308.png'),
             scale: 0.2),
       ),
     );

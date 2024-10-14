@@ -110,7 +110,7 @@ class _FullMap2State extends ConsumerState<FullMap2> {
       point: Point(latitude: endLatitude!, longitude: endLongitude!),
       icon: PlacemarkIcon.single(
         PlacemarkIconStyle(
-            image: BitmapDescriptor.fromAssetImage('asset/flagYallow.png'),
+            image: BitmapDescriptor.fromAssetImage('assets/flagYallow.png'),
             scale: 0.6),
       ),
     );
@@ -119,7 +119,7 @@ class _FullMap2State extends ConsumerState<FullMap2> {
     //   point: Point(latitude: lat!, longitude: long!),
     //   icon: PlacemarkIcon.single(
     //     PlacemarkIconStyle(
-    //         image: BitmapDescriptor.fromAssetImage('asset/399308.png'),
+    //         image: BitmapDescriptor.fromAssetImage('assets/399308.png'),
     //         scale: 0.2),
     //   ),
     // );
@@ -656,7 +656,7 @@ class _FullMap2State extends ConsumerState<FullMap2> {
                                       isFlat: true,
                                       scale: 0.6,
                                       image: BitmapDescriptor.fromAssetImage(
-                                          'asset/markicon.png'),
+                                          'assets/markicon.png'),
                                     ),
                                   ),
                                   mapId: MapObjectId(e.username),
@@ -848,7 +848,7 @@ class _FullMap2State extends ConsumerState<FullMap2> {
                                       isFlat: true,
                                       scale: 0.6,
                                       image: BitmapDescriptor.fromAssetImage(
-                                          'asset/markicon.png'),
+                                          'assets/markicon.png'),
                                     ),
                                   ),
                                   mapId: MapObjectId(e.username),
@@ -874,7 +874,7 @@ class _FullMap2State extends ConsumerState<FullMap2> {
                                 longitude: mapHolder.long!),
                             icon: PlacemarkIcon.single(PlacemarkIconStyle(
                                 image: BitmapDescriptor.fromAssetImage(
-                                    'asset/399308.png'),
+                                    'assets/399308.png'),
                                 scale: 0.2)),
                           ),
                       ],

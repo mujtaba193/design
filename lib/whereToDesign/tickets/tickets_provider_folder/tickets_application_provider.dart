@@ -16,7 +16,7 @@ class TicketsApplicationHolder {
   int time = DateTime.now().minute;
   List<TicketApplicationModel>? ticketList;
   readJsonDataApp() async {
-    var jsonStr = await rootBundle.loadString('asset/ticket_application.json');
+    var jsonStr = await rootBundle.loadString('assets/ticket_application.json');
 
     List<dynamic> jsonData = jsonDecode(jsonStr);
 

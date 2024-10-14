@@ -12,7 +12,7 @@ final secondListImageProvider = Provider<Second>((ref) {
 class Second {
   List<SecondLIModel> secondList = [];
   readJsondata() async {
-    var jsonStr = await rootBundle.loadString('asset/second_list_image.json');
+    var jsonStr = await rootBundle.loadString('assets/second_list_image.json');
 
     List<dynamic> jsonData = jsonDecode(jsonStr);
 

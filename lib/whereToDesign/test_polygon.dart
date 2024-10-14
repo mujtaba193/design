@@ -258,7 +258,7 @@ class _MapPageState extends State<MapPage> {
                                       isFlat: true,
                                       scale: 0.6,
                                       image: BitmapDescriptor.fromAssetImage(
-                                          'asset/markicon.png'),
+                                          'assets/markicon.png'),
                                     ),
                                   ),
                                   mapId: MapObjectId(e.username),
@@ -313,7 +313,7 @@ class _MapPageState extends State<MapPage> {
                                       isFlat: true,
                                       scale: 0.6,
                                       image: BitmapDescriptor.fromAssetImage(
-                                          'asset/markicon.png'),
+                                          'assets/markicon.png'),
                                     ),
                                   ),
                                   mapId: MapObjectId(e.username),
@@ -337,7 +337,7 @@ class _MapPageState extends State<MapPage> {
                             point: Point(latitude: lat!, longitude: long!),
                             icon: PlacemarkIcon.single(PlacemarkIconStyle(
                                 image: BitmapDescriptor.fromAssetImage(
-                                    'asset/399308.png'),
+                                    'assets/399308.png'),
                                 scale: 0.2)),
                           ),
                       ],

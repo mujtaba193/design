@@ -349,7 +349,7 @@ class _ShowInformationState extends State<ShowInformation> {
                                           scale: 0.5,
                                           image:
                                               BitmapDescriptor.fromAssetImage(
-                                                  'asset/markicon.png'),
+                                                  'assets/markicon.png'),
                                         ),
                                       ),
                                       mapId: MapObjectId(e.username),

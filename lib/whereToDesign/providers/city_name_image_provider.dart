@@ -13,7 +13,7 @@ class CityNameImageProvider {
   List<City>? cityNameImageList;
 
   readJsondata() async {
-    var jsonStr = await rootBundle.loadString('asset/city.json');
+    var jsonStr = await rootBundle.loadString('assets/city.json');
 
     // Decode the JSON string into a Map
     Map<String, dynamic> jsonData = json.decode(jsonStr);

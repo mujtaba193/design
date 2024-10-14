@@ -36,7 +36,7 @@ class _HotelReviewState extends State<HotelReview> {
   readJsondata() async {
     //   File file = await File('assets/images/boat.json');
     var jsonStr = await DefaultAssetBundle.of(context)
-        .loadString('asset/images_list.json');
+        .loadString('assets/images_list.json');
     //   String contents = await file.readAsString();
 
     // Parse the JSON data

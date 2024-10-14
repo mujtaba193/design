@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
-import '../filter/filter_page.dart';
+import '../providers/city_provider.dart';
 import 'boat_provider_change_notifire.dart';
+import 'filter_page_change_notifier.dart';
 import 'search_filter_change_notifier.dart';
 
 class ReviewFilterChangeNotifier extends ConsumerStatefulWidget {
@@ -33,6 +34,7 @@ class _Review2State extends ConsumerState<ReviewFilterChangeNotifier> {
   @override
   Widget build(BuildContext context) {
     final boatListHolder = ref.watch(boatProviderChangeNotifier);
+    final cityHolder = ref.watch(cityProvider);
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -64,26 +66,29 @@ class _Review2State extends ConsumerState<ReviewFilterChangeNotifier> {
                         child: Row(
                           children: [
                             TextButton(
-                              onPressed: () {
-                                // Navigator.of(context).push(
-                                //   MaterialPageRoute(builder: (context) {
-                                //     return SearchFilterChangeNotifier();
-                                //   }),
-                                // );
-                                showModalBottomSheet(
-                                  useSafeArea: true,
-                                  // showDragHandle: true,
-                                  isScrollControlled: true,
-                                  context: context,
-                                  builder: (context) {
-                                    return SearchFilterChangeNotifier();
-                                  },
-                                );
-                              },
-                              child: Text(boatListHolder.selectedCityV == null
-                                  ? 'Search'
-                                  : '${boatListHolder.selectedCityV}'),
-                            ),
+                                onPressed: () {
+                                  // Navigator.of(context).push(
+                                  //   MaterialPageRoute(builder: (context) {
+                                  //     return SearchFilterChangeNotifier();
+                                  //   }),
+                                  // );
+                                  showModalBottomSheet(
+                                    useSafeArea: true,
+                                    // showDragHandle: true,
+                                    isScrollControlled: true,
+                                    context: context,
+                                    builder: (context) {
+                                      return SearchFilterChangeNotifier();
+                                    },
+                                  );
+                                },
+                                child: Text(cityHolder.selectedCityName == null
+                                    ? 'Search'
+                                    : '${cityHolder.selectedCityName}')
+                                //  Text(boatListHolder.selectedCityV == null
+                                //     ? 'Search'
+                                //     : '${boatListHolder.selectedCityV}'),
+                                ),
                             Spacer(),
                             TextButton(
                               child: Text('Filter'),
@@ -94,7 +99,7 @@ class _Review2State extends ConsumerState<ReviewFilterChangeNotifier> {
                                   isScrollControlled: true,
                                   context: context,
                                   builder: (context) {
-                                    return FilterPage();
+                                    return FilterPageChangeNotifier();
                                   },
                                 );
                                 setState(() {});
@@ -115,8 +120,6 @@ class _Review2State extends ConsumerState<ReviewFilterChangeNotifier> {
                                           true)
                                   ? boatListHolder.boatList!.length
                                   : boatListHolder.filterList!.length,
-
-                              // here it was boatList!.length
                               itemBuilder: (_, index) => GestureDetector(
                                 onTap: () {
                                   Navigator.of(context).push(

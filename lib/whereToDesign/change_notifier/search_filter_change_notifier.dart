@@ -38,7 +38,7 @@ class _SearchFilterChangeNotifierState
   List<String> cityList = [];
   List<String> cityNameList = [];
   String? selectedCity;
-  String? selectedCityName;
+  // String? selectedCityName;
   // List<Event>? cityEvents;
   // String? slectedevent;
   bool? captain;
@@ -103,18 +103,12 @@ class _SearchFilterChangeNotifierState
                             child: GestureDetector(
                                 onTap: () {
                                   setState(() {});
-                                  // selectedCityName = e.cityName.toString();
-                                  cityHolder.getCity(e.cityName);
-                                  selectedCityName =
-                                      cityHolder.selectedCityName;
-                                  // for (var varr
-                                  //     in cityHolder.cityList!.cities) {
-                                  //   if (selectedCityName == varr.cityName) {
-                                  //     cityEvents = varr.events;
-                                  //   }
-                                  // }
-                                  cityHolder.getEvents();
+                                  // here we are set value to the variable "selectedCityName"
+                                  cityHolder.selectedCityName = e.cityName;
 
+                                  //  cityHolder.getCity(e.cityName);
+                                  //
+                                  cityHolder.getEvents();
                                   Navigator.pop(context);
                                 },
                                 child: Text(e.cityName)),
@@ -138,11 +132,12 @@ class _SearchFilterChangeNotifierState
               FloatingActionButtonLocation.centerFloat,
           floatingActionButton:
               Consumer(builder: (BuildContext context, ref, _) {
+            final cityHolder = ref.read(cityProvider);
             return GestureDetector(
               onTap: () async {
                 await ref
                     .read(boatProviderChangeNotifier)
-                    .searchFilter(selectedCityName);
+                    .searchFilter(cityHolder.selectedCityName.toString());
                 //   searchFilter();
                 // Navigator.of(context).push(
                 //   MaterialPageRoute(
@@ -198,16 +193,16 @@ class _SearchFilterChangeNotifierState
                         null) {
                       ref.read(boatProviderChangeNotifier).filterList!.clear();
                     }
-                    if (ref.read(cityProvider).selectedCityName != null) {
-                      ref.read(cityProvider).selectedCityName = null;
-                    }
-                    if (ref.read(cityProvider).cityEvents != null) {
-                      ref.read(cityProvider).cityEvents = null;
-                    }
-                    if (ref.read(boatProviderChangeNotifier).selectedCityV !=
-                        null) {
-                      ref.read(boatProviderChangeNotifier).selectedCityV = null;
-                    }
+                    // if (ref.read(cityProvider).selectedCityName != null) {
+                    //   ref.read(cityProvider).selectedCityName = null;
+                    // }
+                    // if (ref.read(cityProvider).cityEvents != null) {
+                    //   ref.read(cityProvider).cityEvents = null;
+                    // }
+                    // if (ref.read(boatProviderChangeNotifier).selectedCityV !=
+                    //     null) {
+                    //   ref.read(boatProviderChangeNotifier).selectedCityV = null;
+                    // }
                     Navigator.pop(context);
                   },
                   icon: Icon(Icons.arrow_back_rounded));
@@ -230,7 +225,9 @@ class _SearchFilterChangeNotifierState
                         ),
                         GestureDetector(
                           child: Text(
-                              '  ${(cityHolder.selectedCityName == null && boatListHolder.selectedCityV != null) ? '${boatListHolder.selectedCityV}' : (cityHolder.selectedCityName != null && boatListHolder.selectedCityV == null) ? cityHolder.selectedCityName : (cityHolder.selectedCityName != null && boatListHolder.selectedCityV != null) ? 'both are not null Chutia' : SearchFilterTranslation.city}'),
+                              '  ${(cityHolder.selectedCityName != null) ? '${cityHolder.selectedCityName}' : SearchFilterTranslation.city}'),
+                          // Text(
+                          //     '  ${(cityHolder.selectedCityName == null && boatListHolder.selectedCityV != null) ? '${boatListHolder.selectedCityV}' : (cityHolder.selectedCityName != null && boatListHolder.selectedCityV == null) ? cityHolder.selectedCityName : (cityHolder.selectedCityName != null && boatListHolder.selectedCityV != null && cityHolder.selectedCityName == boatListHolder.selectedCityV) ? 'both are not null Chutia' : SearchFilterTranslation.city}'),
                           onTap: () {
                             getCity();
                           },
@@ -259,10 +256,13 @@ class _SearchFilterChangeNotifierState
                                                     await cityHolder
                                                         .getSelectedEvent(
                                                             element);
+                                                    await cityHolder
+                                                        .getSelectedEventMinHours(
+                                                            element);
                                                   },
                                                   child: Container(
                                                     decoration: cityHolder
-                                                                .slectedevent ==
+                                                                .selectedevent ==
                                                             element.eventName
                                                         ? BoxDecoration(
                                                             borderRadius:
@@ -302,7 +302,7 @@ class _SearchFilterChangeNotifierState
                                               )
                                             ],
                                           ),
-                                          cityHolder.slectedevent ==
+                                          cityHolder.selectedevent ==
                                                   element.eventName
                                               ? Positioned(
                                                   child: Icon(
@@ -473,8 +473,11 @@ class _SearchFilterChangeNotifierState
                             builder: (BuildContext context, WidgetRef ref, _) {
                           final searchFilterState =
                               ref.watch(searchFilterProvider);
+                          final cityHolder = ref.read(cityProvider);
                           return Text(
-                            " ${searchFilterState.timeValue2} ",
+                            cityHolder.selectedeventMinHour == null
+                                ? " ${searchFilterState.timeValue2} "
+                                : cityHolder.selectedeventMinHour.toString(),
                             style: TextStyle(fontSize: 20),
                           );
                         }),

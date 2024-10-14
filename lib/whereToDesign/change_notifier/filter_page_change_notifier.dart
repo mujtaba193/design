@@ -1,19 +1,19 @@
-import 'package:design/whereToDesign/home_page.dart';
+import 'package:design/whereToDesign/providers/city_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../providers/bout_provider.dart';
 import '../translation/filter_translation.dart';
+import 'boat_provider_change_notifire.dart';
 
-class FilterPage extends ConsumerStatefulWidget {
-  FilterPage({super.key});
+class FilterPageChangeNotifier extends ConsumerStatefulWidget {
+  FilterPageChangeNotifier({super.key});
 
   @override
-  ConsumerState<FilterPage> createState() => _FilterPageState();
+  ConsumerState<FilterPageChangeNotifier> createState() => _FilterPageState();
 }
 
-class _FilterPageState extends ConsumerState<FilterPage> {
+class _FilterPageState extends ConsumerState<FilterPageChangeNotifier> {
   @override
   void initState() {
     // TODO: implement initState
@@ -23,7 +23,7 @@ class _FilterPageState extends ConsumerState<FilterPage> {
 
   @override
   Widget build(BuildContext context) {
-    final boatListHolder = ref.watch(boutProvider);
+    final boatListHolder = ref.read(boatProviderChangeNotifier);
     //  final boatList = boatListHolder.boatList;
     return Scaffold(
       appBar: AppBar(
@@ -468,18 +468,19 @@ class _FilterPageState extends ConsumerState<FilterPage> {
                           FilterPageTranslation.apply)),
                 ),
                 onTap: () async {
-                  await boatListHolder.filter();
+                  await boatListHolder
+                      .filter(ref.read(cityProvider).selectedCityName);
 
-                  boatListHolder.filterValue = true;
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return HomePage();
-                      },
-                    ),
-                  );
+                  // boatListHolder.filterValue = true;
+                  // Navigator.of(context).push(
+                  //   MaterialPageRoute(
+                  //     builder: (context) {
+                  //       return HomePage();
+                  //     },
+                  //   ),
+                  // );
                   setState(() {});
-                  // Navigator.pop(context);
+                  Navigator.pop(context);
                   // Navigator.of(context).pop();
                 },
               ),

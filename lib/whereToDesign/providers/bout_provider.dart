@@ -58,7 +58,7 @@ class Boat with ChangeNotifier {
   // with notifier ......................................................//
   List<BoatModel>? get filterListNotifier => filterList!.toList();
   readJsondata() async {
-    var jsonStr = await rootBundle.loadString('asset/images_list.json');
+    var jsonStr = await rootBundle.loadString('assets/images_list.json');
 
     List<dynamic> jsonData = jsonDecode(jsonStr);
 

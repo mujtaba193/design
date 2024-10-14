@@ -20,7 +20,7 @@ class _UsersMainPageState extends State<UsersMainPage> {
 
   Future<void> getUsers() async {
     var response = await DefaultAssetBundle.of(context)
-        .loadString('asset/user_booking.json');
+        .loadString('assets/user_booking.json');
     List<dynamic> usersList = json.decode(response);
     setState(() {
       usersd = usersList.map((e) => UsersModel.fromJson(e)).toList();

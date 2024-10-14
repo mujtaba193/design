@@ -17,7 +17,7 @@ class TicketsFunctions {
   // all tickets///////////////
   readJsondataTickets() async {
     //   File file = await File('assets/images/boat.json');
-    var jsonStr = await rootBundle.loadString('asset/ticket_booked.json');
+    var jsonStr = await rootBundle.loadString('assets/ticket_booked.json');
     //   String contents = await file.readAsString();
 
     // Parse the JSON data

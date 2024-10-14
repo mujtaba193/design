@@ -1,11 +1,11 @@
-import 'package:design/whereToDesign/home_page.dart';
 import 'package:design/whereToDesign/providers/city_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 
+import '../../change_notifier/boat_provider_change_notifire.dart';
+import '../../change_notifier/search_filter_change_notifier.dart';
 import '../../filter/search_filter.dart';
-import '../../providers/bout_provider.dart';
 import '../../providers/filter/search_filter_provider.dart';
 import '../../providers/second_list_image_provider.dart';
 
@@ -28,7 +28,7 @@ class _SliverBarState extends ConsumerState<SliverBar> {
   @override
   Widget build(BuildContext context) {
     final cityNameImage = ref.read(cityProvider);
-    final boatListHolder = ref.read(boutProvider);
+    final boatListHolder = ref.watch(boatProviderChangeNotifier);
     final secondListImage = ref.read(secondListImageProvider);
     final searchFilterState = ref.read(searchFilterProvider);
     final cityHolder = ref.read(cityProvider);
@@ -91,6 +91,7 @@ class _SliverBarState extends ConsumerState<SliverBar> {
               ),
             ),
           ),
+          // here we are showing Cities in this section. SliverToBoxAdapter
           SliverToBoxAdapter(
               child: Padding(
             padding: const EdgeInsets.only(top: 20),
@@ -112,21 +113,29 @@ class _SliverBarState extends ConsumerState<SliverBar> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: GestureDetector(
                                     onTap: () async {
-                                      //ReviewFilterRiverpod
+                                      // here we set a value to the variable "selectedCityName".
+                                      cityHolder.selectedCityName = e.cityName;
+                                      // here we set a value to the variable "cityEvents".
+                                      cityHolder.getEvents();
 
-                                      setState(() {
-                                        slectedCity = e.cityName;
-                                      });
-                                      await boatListHolder
-                                          .moveToSelectedCity(slectedCity);
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(builder: (context) {
-                                          return HomePage();
-                                        }),
-                                      );
+                                      await boatListHolder.moveToSelectedCity(
+                                          ref
+                                              .read(cityProvider)
+                                              .selectedCityName
+                                              .toString());
+                                      boatListHolder.value = true;
+                                      // Navigator.of(context).push(
+                                      //   MaterialPageRoute(builder: (context) {
+                                      //     return HomePage();
+                                      //   }),
+                                      // );
+                                      // boatListHolder.filterList;
                                     },
                                     child: Container(
-                                      decoration: slectedCity == e.cityName
+                                      decoration: ref
+                                                  .read(cityProvider)
+                                                  .selectedCityName ==
+                                              e.cityName
                                           ? BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(5),
@@ -163,83 +172,113 @@ class _SliverBarState extends ConsumerState<SliverBar> {
                   }
                 }),
           )),
-          //////////////////////////////////////////////////////
-
+//........................................................................................................................................
+          // here we are showing events in this section. SliverToBoxAdapter
           SliverToBoxAdapter(
-              child: Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: FutureBuilder(
-                future: secondListImage.readJsondata(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  } else {
-                    return Container(
-                        child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          ...secondListImage.secondList.map(
-                            (e) => Card(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () async {
-                                      setState(() {
-                                        searchFilterState.timeValue2 =
-                                            e.minHours;
-                                        cityHolder.selectedCityName =
-                                            e.cityName;
-                                        cityHolder.getEvents();
-                                        // cityHolder.cityEvents!.where(
-                                        //     (element) =>
-                                        //         element.eventName ==
-                                        //         e.eventName);
-                                        cityHolder.slectedevent = e.eventName;
-                                      });
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(builder: (context) {
-                                          return SearchFilter();
-                                        }),
-                                      );
-                                    },
-                                    child: Container(
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(5),
-                                        child: Image.network(
-                                          height: 100,
-                                          width: 200,
-                                          e.eventImage.first,
-                                          fit: BoxFit.fill,
-                                          alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: FutureBuilder(
+                  future: secondListImage.readJsondata(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else {
+                      return Container(
+                          child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            ...secondListImage.secondList.map(
+                              (e) => Card(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () async {
+                                        setState(() {
+                                          searchFilterState.timeValue2 =
+                                              e.minHours;
+                                          cityHolder.selectedCityName =
+                                              e.cityName;
+                                          cityHolder.getEvents();
+                                          // cityHolder.cityEvents!.where(
+                                          //     (element) =>
+                                          //         element.eventName ==
+                                          //         e.eventName);
+                                          cityHolder.selectedevent =
+                                              e.eventName;
+                                          boatListHolder.value = true;
+                                        });
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(builder: (context) {
+                                            return SearchFilterChangeNotifier();
+                                          }),
+                                        );
+                                      },
+                                      child: Container(
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          child: Image.network(
+                                            height: 100,
+                                            width: 200,
+                                            e.eventImage.first,
+                                            fit: BoxFit.fill,
+                                            alignment: Alignment.topCenter,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  Text('${e.eventName}'),
-                                  Text(
-                                    "${e.date.day < 10 ? '0${e.date.day}' : e.date.day}-${e.date.month < 10 ? '0${e.date.month}' : e.date.month}-${e.date.year} ",
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(Icons.location_city),
-                                      SizedBox(width: 5),
-                                      Text(
-                                          overflow: TextOverflow.ellipsis,
-                                          e.cityName),
-                                    ],
-                                  )
-                                ],
+                                    Text('${e.eventName}'),
+                                    Text(
+                                      "${e.date.day < 10 ? '0${e.date.day}' : e.date.day}-${e.date.month < 10 ? '0${e.date.month}' : e.date.month}-${e.date.year} ",
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(Icons.location_city),
+                                        SizedBox(width: 5),
+                                        Text(
+                                            overflow: TextOverflow.ellipsis,
+                                            e.cityName),
+                                      ],
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          )
+                            )
+                          ],
+                        ),
+                      ));
+                    }
+                  }),
+            ),
+          ),
+          /////////////////////////////////////////..................................////////////////////////////////////////////
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: FutureBuilder(
+                  future: secondListImage.readJsondata(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else {
+                      return Column(
+                        children: [
+                          Container(
+                            height: 600,
+                            color: Colors.grey.shade900,
+                          ),
+                          Container(
+                            height: 600,
+                            color: Colors.grey.shade900,
+                          ),
                         ],
-                      ),
-                    ));
-                  }
-                }),
-          )),
+                      );
+                    }
+                  }),
+            ),
+          ),
         ],
       ),
     );

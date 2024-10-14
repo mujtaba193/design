@@ -10,7 +10,7 @@ final userBookingInfoProvider = FutureProvider<List<UsersModel>>((ref) {
   Future<List<UsersModel>> getUsers() async {
     List<UsersModel> usersd;
     var response = await DefaultAssetBundle.of(context as BuildContext)
-        .loadString('asset/user_booking.json');
+        .loadString('assets/user_booking.json');
     List<dynamic> usersList = json.decode(response);
 
     usersd = usersList.map((e) => UsersModel.fromJson(e)).toList();
@@ -24,7 +24,7 @@ class UserProvider {
   List<UsersModel>? usersd;
   Future<void> getUsers() async {
     var response = await DefaultAssetBundle.of(context as BuildContext)
-        .loadString('asset/user_booking.json');
+        .loadString('assets/user_booking.json');
     List<dynamic> usersList = json.decode(response);
 
     usersd = usersList.map((e) => UsersModel.fromJson(e)).toList();

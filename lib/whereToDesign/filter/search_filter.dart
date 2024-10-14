@@ -103,7 +103,9 @@ class _SearchFilterState extends State<SearchFilter> {
                                 onTap: () {
                                   setState(() {});
                                   // selectedCityName = e.cityName.toString();
-                                  cityHolder.getCity(e.cityName);
+                                  cityHolder.selectedCityName = e.cityName;
+                                  //cityHolder.getCity(e.cityName);
+
                                   selectedCityName =
                                       cityHolder.selectedCityName;
                                   // for (var varr
@@ -257,7 +259,7 @@ class _SearchFilterState extends State<SearchFilter> {
                                                   },
                                                   child: Container(
                                                     decoration: cityHolder
-                                                                .slectedevent ==
+                                                                .selectedevent ==
                                                             element.eventName
                                                         ? BoxDecoration(
                                                             borderRadius:
@@ -297,7 +299,7 @@ class _SearchFilterState extends State<SearchFilter> {
                                               )
                                             ],
                                           ),
-                                          cityHolder.slectedevent ==
+                                          cityHolder.selectedevent ==
                                                   element.eventName
                                               ? Positioned(
                                                   child: Icon(
