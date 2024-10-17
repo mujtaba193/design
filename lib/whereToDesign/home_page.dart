@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'change_notifier/review_filter_change_notifier.dart';
 import 'new_design_slivers/pages/sliver_page.dart';
+import 'show_review.dart';
 import 'testing_folder/reverce_yandex_search.dart';
-import 'testing_folder/test_page.dart';
 import 'tickets/tickets_pages/tickets_all_pages.dart';
 import 'translation/profie_page_translation.dart';
 
@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
       ////////////////// SliverBar(),
       //Val(),
       // Register3(),
-      ListenableBuilderExample(),
+      ShowReview(),
       //  UserProfile(), //.................................................................>>>
       // Loovr4(),
       // Register3(),

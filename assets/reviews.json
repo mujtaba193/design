@@ -1,0 +1,58 @@
+{
+    "reviews": [
+        {
+            "reviewId": "1",
+            "reviewDescription": "Great product, highly recommended!",
+            "userId": "123",
+            "userName": "Andy",
+            "userPhoto": "https://www.shutterstock.com/shutterstock/photos/2151833739/display_1500/stock-photo-portrait-of-a-young-latin-woman-with-pleasant-smile-and-crossed-arms-isolated-on-grey-wall-with-2151833739.jpg",
+            "date": "2024-10-15",
+            "rating": 5
+        },
+        {
+            "reviewId": "2",
+            "reviewDescription": "The service was decent, but shipping was delayed.",
+            "userId": "456",
+            "userName": "Naveen",
+            "userPhoto": "https://media.istockphoto.com/id/1022259708/photo/closeup-portrait-of-young-european-caucasian-man-pictured-isolated-on-pink-background.jpg?s=612x612&w=0&k=20&c=Jk1AJVU1W41qI1-NnP7z-GVTEhUaN1l991V6E29oSGo=",
+            "date": "2024-10-12",
+            "rating": 3
+        },
+        {
+            "reviewId": "3",
+            "reviewDescription": "Poor quality, not worth the price.",
+            "userId": "789",
+            "userName": "Toby",
+            "userPhoto": "https://media.istockphoto.com/id/847727940/photo/portrait-of-serious-young-man.jpg?s=612x612&w=0&k=20&c=87nCUd9lVLkjjY0TfEHdSwwNcklp3E_bGA67K7HKDv0=",
+            "date": "2024-10-10",
+            "rating": 2
+        },
+        {
+            "reviewId": "1",
+            "reviewDescription": "Great product, highly recommended! Great product, highly recommended Great product, highly recommended Great product, highly recommended Great product, highly recommended Great product, highly recommended Great product, highly recommended",
+            "userId": "123",
+            "userName": "Luna",
+            "userPhoto": "https://media.istockphoto.com/id/1437816897/photo/business-woman-manager-or-human-resources-portrait-for-career-success-company-we-are-hiring.jpg?s=612x612&w=0&k=20&c=tyLvtzutRh22j9GqSGI33Z4HpIwv9vL_MZw_xOE19NQ=",
+            "date": "2024-10-15",
+            "rating": 4
+        },
+        {
+            "reviewId": "2",
+            "reviewDescription": "The service was decent, but shipping was delayed. ",
+            "userId": "456",
+            "userName": "Andray",
+            "userPhoto": "https://www.shutterstock.com/image-photo/profile-picture-smiling-successful-young-260nw-2040223583.jpg",
+            "date": "2024-10-12",
+            "rating": 3
+        },
+        {
+            "reviewId": "3",
+            "reviewDescription": "Poor quality, not worth the price.Great product, highly recommended! Great product, highly recommended Great product, highly recommended Great product, highly recommended Great product, highly recommended Great product, highly recommended Great product, highly recommended",
+            "userId": "789",
+            "userName": "Jason",
+            "userPhoto": "https://media.istockphoto.com/id/1300512215/photo/headshot-portrait-of-smiling-ethnic-businessman-in-office.jpg?s=612x612&w=0&k=20&c=QjebAlXBgee05B3rcLDAtOaMtmdLjtZ5Yg9IJoiy-VY=",
+            "date": "2024-10-10",
+            "rating": 4
+        }
+    ]
+}
