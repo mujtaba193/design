@@ -80,9 +80,10 @@ class ShowReview extends ConsumerWidget {
                   final totalRating = data.reviews
                       .map((e) => e.rating)
                       .fold(0, (prev, rating) => prev + rating);
+                  //.reduce((prev, rating) => prev + rating);
+                  // or we can use fold or reduce
 
-// how to get the average of totalRating
-
+                  // how to get the average of totalRating
                   final averageRating = data.reviews.isNotEmpty
                       ? totalRating / data.reviews.length
                       : 0;
@@ -96,7 +97,7 @@ class ShowReview extends ConsumerWidget {
                               Row(
                                 children: [
                                   Text(
-                                    'Total Reviews  $totalRating',
+                                    'Total Reviews  ${data.reviews.length}',
                                     style: TextStyle(fontSize: 20),
                                   ),
                                 ],
@@ -169,11 +170,12 @@ class ShowReview extends ConsumerWidget {
                                 Row(
                                   children: [
                                     ...List.generate(
-                                        e.rating,
-                                        (index) => Icon(
-                                              Icons.star,
-                                              color: Colors.yellow,
-                                            )),
+                                      e.rating,
+                                      (index) => Icon(
+                                        Icons.star,
+                                        color: Colors.yellow,
+                                      ),
+                                    ),
                                     SizedBox(
                                       width: 10,
                                     ),

@@ -1,6 +1,7 @@
 {
     "reviews": [
         {
+            "boatId": "123qga",
             "reviewId": "1",
             "reviewDescription": "Great product, highly recommended!",
             "userId": "123",
@@ -10,6 +11,7 @@
             "rating": 5
         },
         {
+            "boatId": "123qwb",
             "reviewId": "2",
             "reviewDescription": "The service was decent, but shipping was delayed.",
             "userId": "456",
@@ -19,6 +21,7 @@
             "rating": 3
         },
         {
+            "boatId": "123qsc",
             "reviewId": "3",
             "reviewDescription": "Poor quality, not worth the price.",
             "userId": "789",
@@ -28,6 +31,7 @@
             "rating": 2
         },
         {
+            "boatId": "123qxd",
             "reviewId": "1",
             "reviewDescription": "Great product, highly recommended! Great product, highly recommended Great product, highly recommended Great product, highly recommended Great product, highly recommended Great product, highly recommended Great product, highly recommended",
             "userId": "123",
@@ -37,6 +41,7 @@
             "rating": 4
         },
         {
+            "boatId": "123qxci",
             "reviewId": "2",
             "reviewDescription": "The service was decent, but shipping was delayed. ",
             "userId": "456",
@@ -46,6 +51,7 @@
             "rating": 3
         },
         {
+            "boatId": "12ijfc3",
             "reviewId": "3",
             "reviewDescription": "Poor quality, not worth the price.Great product, highly recommended! Great product, highly recommended Great product, highly recommended Great product, highly recommended Great product, highly recommended Great product, highly recommended Great product, highly recommended",
             "userId": "789",
