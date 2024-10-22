@@ -1,9 +1,9 @@
-import 'package:design/whereToDesign/show_information.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 import '../providers/city_provider.dart';
+import '../show_information_new.dart';
 import 'boat_provider_change_notifire.dart';
 import 'filter_page_change_notifier.dart';
 import 'search_filter_change_notifier.dart';
@@ -122,39 +122,59 @@ class _Review2State extends ConsumerState<ReviewFilterChangeNotifier> {
                                   : boatListHolder.filterList!.length,
                               itemBuilder: (_, index) => GestureDetector(
                                 onTap: () {
+                                  // here we will check the index and call the function getElemenIndex(){} to set the index in the provider.
+                                  if (((boatListHolder.filterList == null ||
+                                          boatListHolder.filterList!.isEmpty ==
+                                              true) &&
+                                      boatListHolder.filterValue == false)) {
+                                    boatListHolder.getElemenIndex(
+                                        boatListHolder.boatList[index]);
+                                  } else {
+                                    boatListHolder.getElemenIndex(
+                                        boatListHolder.filterList![index]);
+                                  }
+
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return ((boatListHolder.filterList ==
-                                                        null ||
-                                                    boatListHolder.filterList!
-                                                            .isEmpty ==
-                                                        true) &&
-                                                boatListHolder.filterValue ==
-                                                    false)
-                                            ? ShowInformation(
-                                                boatinfo: boatListHolder
-                                                    .boatList![index],
-                                                userTimeNow1:
-                                                    widget.userTimeNow1,
-                                                userTimeNow2:
-                                                    widget.userTimeNow2,
-                                              )
-                                            : ShowInformation(
-                                                boatinfo: boatListHolder
-                                                    .filterList![index],
-                                                userTimeNow1:
-                                                    widget.userTimeNow1,
-                                                userTimeNow2:
-                                                    widget.userTimeNow2,
-                                              );
-
-                                        /* return ShowInformation(
-                                    boatList: widget.newBoatList![
-                                        index]); */ // here it was boatList![index]
+                                        return ShowInformationNew(
+                                          // boatinfo:
+                                          //     boatListHolder.filterListIndex,
+                                          userTimeNow1: widget.userTimeNow1,
+                                          userTimeNow2: widget.userTimeNow2,
+                                        );
                                       },
                                     ),
                                   );
+                                  // Navigator.of(context).push(
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) {
+                                  //       return ((boatListHolder.filterList ==
+                                  //                       null ||
+                                  //                   boatListHolder.filterList!
+                                  //                           .isEmpty ==
+                                  //                       true) &&
+                                  //               boatListHolder.filterValue ==
+                                  //                   false)
+                                  //           ? ShowInformation(
+                                  //               boatinfo: boatListHolder
+                                  //                   .boatList![index],
+                                  //               userTimeNow1:
+                                  //                   widget.userTimeNow1,
+                                  //               userTimeNow2:
+                                  //                   widget.userTimeNow2,
+                                  //             )
+                                  //           : ShowInformation(
+                                  //               boatinfo: boatListHolder
+                                  //                   .filterList![index],
+                                  //               userTimeNow1:
+                                  //                   widget.userTimeNow1,
+                                  //               userTimeNow2:
+                                  //                   widget.userTimeNow2,
+                                  //             );
+                                  //     },
+                                  //   ),
+                                  // );
                                   setState(() {});
                                 },
                                 child:

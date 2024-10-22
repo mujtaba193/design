@@ -55,6 +55,7 @@ class Boat extends ChangeNotifier {
   // bool searchValue = false;
   // String? selectedCityV;
   bool value = false;
+  BoatModel? filterListIndex;
 
   /// List<BoatModel>? searchFilterList;
   // with notifier ......................................................//
@@ -207,6 +208,11 @@ class Boat extends ChangeNotifier {
     }
     filterList = boatList.where((e) => e.city == selectedCityValue).toList();
     filterValue = true;
+    notifyListeners();
+  }
+
+  Future getElemenIndex(elementIndex) async {
+    filterListIndex = elementIndex;
     notifyListeners();
   }
 }

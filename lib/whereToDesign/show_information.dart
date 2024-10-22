@@ -17,6 +17,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:yandex_geocoder/yandex_geocoder.dart' as yandexgeo;
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
+import 'show_all_reviews.dart';
 import 'yandex_map/map_view/full_map_2.dart';
 
 // API Yandex key   c29e3f51-6ad9-47eb-85d2-d90aec454225
@@ -198,6 +199,7 @@ class _ShowInformationState extends State<ShowInformation> {
                 ),
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
@@ -298,9 +300,46 @@ class _ShowInformationState extends State<ShowInformation> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.01,
+                  SizedBox(height: 10),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ShowAllReviews();
+                          },
+                        ),
+                      );
+                    },
+                    child: Container(
+                      // decoration: const BoxDecoration(
+                      //   border: GradientBoxBorder(
+                      //     width: 2,
+                      //     gradient: LinearGradient(
+                      //       colors: [
+                      //         Color(0xFF8942BC),
+                      //         Color(0xFF5831F7),
+                      //         Color(0xFF5731F8),
+                      //         Color(0xFF00C2C2),
+                      //       ],
+                      //     ),
+                      //   ),
+                      //   borderRadius: BorderRadius.all(
+                      //     Radius.circular(20),
+                      //   ),
+                      // ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.reviews),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text('Reviews'),
+                        ],
+                      ),
+                    ),
                   ),
+                  SizedBox(height: 10),
                   Container(
                     margin: EdgeInsets.all(
                       MediaQuery.of(context).size.width * 0.01,

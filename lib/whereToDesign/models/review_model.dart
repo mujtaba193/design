@@ -1,4 +1,5 @@
 class ReviewModel {
+  final String boatId;
   String reviewId; //userName
   String reviewDescription;
   String userId;
@@ -8,6 +9,7 @@ class ReviewModel {
   int rating;
 
   ReviewModel({
+    required this.boatId,
     required this.reviewId,
     required this.reviewDescription,
     required this.userId,
@@ -20,6 +22,7 @@ class ReviewModel {
   // Factory method to parse JSON into a Review object
   factory ReviewModel.fromJson(Map<String, dynamic> json) {
     return ReviewModel(
+      boatId: json['boatId'],
       reviewId: json['reviewId'],
       reviewDescription: json['reviewDescription'],
       userId: json['userId'],
@@ -33,6 +36,7 @@ class ReviewModel {
   // Method to convert Review object into JSON format
   Map<String, dynamic> toJson() {
     return {
+      'boatId': boatId,
       'reviewId': reviewId,
       'reviewDescription': reviewDescription,
       'userId': userId,

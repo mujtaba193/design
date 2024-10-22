@@ -5,6 +5,7 @@ import 'package:design/whereToDesign/models/timeline_model.dart';
 import 'feauturs_model.dart';
 
 class BoatModel {
+  final String boatId;
   final String boatName;
   final List<String> imageList;
   final List<String> reviews;
@@ -27,7 +28,8 @@ class BoatModel {
   final String toiletOnBoard;
 
   BoatModel(
-      {required this.boatName,
+      {required this.boatId,
+      required this.boatName,
       required this.imageList,
       required this.reviews,
       required this.userIds,
@@ -50,6 +52,7 @@ class BoatModel {
 
   factory BoatModel.fromJson(Map<String, dynamic> json) {
     return BoatModel(
+      boatId: json['boatId'],
       boatName: json['boatName'],
       imageList: List<String>.from(json['imageList']),
       reviews: List<String>.from(json['reviews']),
@@ -81,6 +84,7 @@ class BoatModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'boatId': boatId,
       'boatName': boatName,
       'imageList': imageList,
       'reviews': reviews,
