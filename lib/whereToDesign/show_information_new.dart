@@ -20,6 +20,7 @@ import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'change_notifier/boat_provider_change_notifire.dart';
 import 'models/all_reviews_model.dart';
 import 'providers/all_reviews_provider.dart';
+import 'providers/allboatsaddressProvider.dart';
 import 'show_all_reviews.dart';
 import 'yandex_map/map_view/full_map_2.dart';
 
@@ -114,6 +115,7 @@ class _ShowInformationState extends ConsumerState<ShowInformationNew> {
 
   @override
   Widget build(BuildContext context) {
+    final mapBoatList = ref.watch(allboataddressProvider);
     final boatListHolder = ref.watch(boatProviderChangeNotifier);
     final reviewHolder = ref.watch(allReviewsProvider);
     return Scaffold(

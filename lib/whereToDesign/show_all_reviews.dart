@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:readmore/readmore.dart';
 
-import 'change_notifier/boat_provider_change_notifire.dart';
 import 'list_image_view.dart';
 import 'models/all_reviews_model.dart';
-import 'providers/all_reviews_provider.dart';
 
 class ShowAllReviews extends ConsumerStatefulWidget {
   final List<ReviewssModel>? reviewsList;
@@ -17,8 +15,8 @@ class ShowAllReviews extends ConsumerStatefulWidget {
 class _ShowAllReviewsState extends ConsumerState<ShowAllReviews> {
   @override
   Widget build(BuildContext context) {
-    final boatListHolder = ref.watch(boatProviderChangeNotifier);
-    final holdReview = ref.watch(allReviewsProvider);
+    // final boatListHolder = ref.watch(boatProviderChangeNotifier);
+    // final holdReview = ref.watch(allReviewsProvider);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,

@@ -1033,6 +1033,7 @@ class _FullMap2State extends ConsumerState<FullMap2> {
                     height: 60,
                     child: IconButton(
                       onPressed: () async {
+                        await mapHolder.getCurrentLucation();
                         if (mapHolder.lat != null) {
                           await controller.moveCamera(
                             CameraUpdate.newCameraPosition(
@@ -1239,6 +1240,7 @@ void _paintTextCountPlacemarks({
 }
 
 /// Содержимое модального окна с информацией о точке на карте
+/// Contents of the modal window with information about the point on the map
 class _ModalBodyView extends StatelessWidget {
   const _ModalBodyView({required this.point});
 

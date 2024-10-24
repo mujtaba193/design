@@ -226,22 +226,22 @@
     "address": [
       {
         "username": "user1",
-        "latitude": 37.7749,
+        "latitude": 33.7749,
         "longitude": -122.4194
       },
       {
         "username": "user2",
-        "latitude": 34.0522,
+        "latitude": 33.0522,
         "longitude": -118.2437
       },
       {
         "username": "user3",
-        "latitude": 40.7128,
+        "latitude": 41.7128,
         "longitude": -74.0060
       },
       {
         "username": "user4",
-        "latitude": 51.5074,
+        "latitude": 52.5074,
         "longitude": -0.1278
       }
     ],
@@ -339,7 +339,7 @@
     "address": [
       {
         "username": "user1",
-        "latitude": 37.7749,
+        "latitude": 33.7749,
         "longitude": -122.4194
       },
       {
@@ -349,12 +349,12 @@
       },
       {
         "username": "user3",
-        "latitude": 40.7128,
+        "latitude": 41.7128,
         "longitude": -74.0060
       },
       {
         "username": "user4",
-        "latitude": 51.5074,
+        "latitude": 55.5074,
         "longitude": -0.1278
       }
     ],
@@ -452,22 +452,22 @@
     "address": [
       {
         "username": "user1",
-        "latitude": 37.7749,
+        "latitude": 27.7749,
         "longitude": -122.4194
       },
       {
         "username": "user2",
-        "latitude": 34.0522,
+        "latitude": 54.0522,
         "longitude": -118.2437
       },
       {
         "username": "user3",
-        "latitude": 40.7128,
+        "latitude": 42.7128,
         "longitude": -74.0060
       },
       {
         "username": "user4",
-        "latitude": 51.5074,
+        "latitude": 52.5074,
         "longitude": -0.1278
       }
     ],
@@ -565,22 +565,22 @@
     "address": [
       {
         "username": "user1",
-        "latitude": 37.7749,
-        "longitude": -122.4194
+        "latitude": 34.7749,
+        "longitude": -123.4194
       },
       {
         "username": "user2",
-        "latitude": 34.0522,
+        "latitude": 32.0522,
         "longitude": -118.2437
       },
       {
         "username": "user3",
-        "latitude": 40.7128,
+        "latitude": 43.7128,
         "longitude": -74.0060
       },
       {
         "username": "user4",
-        "latitude": 51.5074,
+        "latitude": 50.5074,
         "longitude": -0.1278
       }
     ],
@@ -677,17 +677,17 @@
     "address": [
       {
         "username": "user1",
-        "latitude": 37.7749,
+        "latitude": 36.7749,
         "longitude": -122.4194
       },
       {
         "username": "user2",
-        "latitude": 34.0522,
+        "latitude": 35.0522,
         "longitude": -118.2437
       },
       {
         "username": "user3",
-        "latitude": 40.7128,
+        "latitude": 43.7128,
         "longitude": -74.0060
       },
       {
@@ -790,22 +790,22 @@
     "address": [
       {
         "username": "user1",
-        "latitude": 37.7749,
+        "latitude": 67.7749,
         "longitude": -122.4194
       },
       {
         "username": "user2",
-        "latitude": 34.0522,
+        "latitude": 44.0522,
         "longitude": -118.2437
       },
       {
         "username": "user3",
-        "latitude": 40.7128,
+        "latitude": 60.7128,
         "longitude": -74.0060
       },
       {
         "username": "user4",
-        "latitude": 51.5074,
+        "latitude": 52.5074,
         "longitude": -0.1278
       }
     ],
@@ -903,22 +903,22 @@
     "address": [
       {
         "username": "user1",
-        "latitude": 37.7749,
-        "longitude": -122.4194
+        "latitude": 38.7749,
+        "longitude": -125.4194
       },
       {
         "username": "user2",
-        "latitude": 34.0522,
+        "latitude": 35.0522,
         "longitude": -118.2437
       },
       {
         "username": "user3",
-        "latitude": 40.7128,
+        "latitude": 46.7128,
         "longitude": -74.0060
       },
       {
         "username": "user4",
-        "latitude": 51.5074,
+        "latitude": 53.5074,
         "longitude": -0.1278
       }
     ],
