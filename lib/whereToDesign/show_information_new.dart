@@ -26,13 +26,13 @@ import 'yandex_map/map_view/full_map_2.dart';
 
 // API Yandex key   c29e3f51-6ad9-47eb-85d2-d90aec454225
 class ShowInformationNew extends ConsumerStatefulWidget {
-  // final BoatModel? boatinfo;
+  //final BoatModel? boatinfo;
   DateTime? userTimeNow1;
   DateTime? userTimeNow2;
   bool? isBooked;
   ShowInformationNew(
       {super.key,
-      //  this.boatinfo,
+      //   this.boatinfo,
       this.userTimeNow2,
       this.userTimeNow1,
       this.isBooked});
