@@ -56,6 +56,8 @@ class Boat extends ChangeNotifier {
   // String? selectedCityV;
   bool value = false;
   BoatModel? filterListIndex;
+  int adultsNumber = 1;
+  int childrenNumber = 0;
 
   /// List<BoatModel>? searchFilterList;
   // with notifier ......................................................//

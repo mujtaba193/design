@@ -30,6 +30,27 @@ class _ShowAllReviewsState extends ConsumerState<ShowAllReviews> {
                 )
               : Column(
                   children: [
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  'Total Reviews  ${widget.reviewsList!.length}',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                          ],
+                        ),
+                      ),
+                      color: Colors.grey.shade700,
+                    ),
                     ...widget.reviewsList!.map(
                       (element) => Card(
                         color: Colors.grey.shade800,

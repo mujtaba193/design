@@ -66,7 +66,7 @@ class SearchFilterTranslation {
   static String get selectDT => translate('selectDT');
   static String get duration => translate('duration');
   static String get guests => translate('guests');
-  static String get aduls => translate('aduls');
+  static String get adults => translate('adults');
   static String get children => translate('children');
   static String get pets => translate('pets');
   static String get disabilities => translate('disabilities');

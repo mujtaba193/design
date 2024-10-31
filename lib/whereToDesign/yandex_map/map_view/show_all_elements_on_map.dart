@@ -13,6 +13,7 @@ import 'package:yandex_geocoder/yandex_geocoder.dart' as geocoder;
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 import '../../change_notifier/boat_provider_change_notifire.dart';
+import '../map_provider/map_change_notifier_provider.dart';
 import '../map_provider/map_provider.dart';
 
 class ShowAllElementsOnMap extends ConsumerStatefulWidget {
@@ -370,44 +371,44 @@ class _FullMap2State extends ConsumerState<ShowAllElementsOnMap> {
   //   return locationData;
   // }
 
-  Future<void> _initRealAddress() async {
-    final cameraPosition = await controller.getCameraPosition();
+  // Future<void> _initRealAddress() async {
+  //   final cameraPosition = await controller.getCameraPosition();
 
-    final resultWithSession = await YandexSearch.searchByPoint(
-      point: cameraPosition.target,
-      zoom: cameraPosition.zoom.toInt(),
-      searchOptions: const SearchOptions(
-        searchType: SearchType.geo,
-        geometry: false,
-      ),
-    );
-    await _handleResultRealAddress(
-        await resultWithSession.$2, resultWithSession.$1);
-  }
+  //   final resultWithSession = await YandexSearch.searchByPoint(
+  //     point: cameraPosition.target,
+  //     zoom: cameraPosition.zoom.toInt(),
+  //     searchOptions: const SearchOptions(
+  //       searchType: SearchType.geo,
+  //       geometry: false,
+  //     ),
+  //   );
+  //   await _handleResultRealAddress(
+  //       await resultWithSession.$2, resultWithSession.$1);
+  // }
 
-  Future<void> _handleResultRealAddress(
-      SearchSessionResult result, SearchSession session) async {
-    setState(() {
-      _progress = false;
-    });
+  // Future<void> _handleResultRealAddress(
+  //     SearchSessionResult result, SearchSession session) async {
+  //   setState(() {
+  //     _progress = false;
+  //   });
 
-    if (result.error != null) {
-      print('Error: ${result.error}');
-      return;
-    }
+  //   if (result.error != null) {
+  //     print('Error: ${result.error}');
+  //     return;
+  //   }
 
-    print('Page ${result.page}: $result');
+  //   print('Page ${result.page}: $result');
 
-    setState(() {
-      addressResults.add(result);
-    });
-  }
+  //   setState(() {
+  //     addressResults.add(result);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final boatListHolder = ref.watch(boatProviderChangeNotifier);
+    final boatListHolder = ref.read(boatProviderChangeNotifier);
 
-    final mapHolder = ref.read(mapProvider);
+    final mapHolder = ref.watch(mapProvider);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -416,7 +417,7 @@ class _FullMap2State extends ConsumerState<ShowAllElementsOnMap> {
             ref.read(mapProvider).drivingMapObjects.clear();
             mapHolder.bicycleMapObjects.clear();
             mapHolder.pedestrianMapObjects.clear();
-            Navigator.of(context).pop();
+            //  Navigator.of(context).pop();
           },
         ),
         title: Text('Full Map page'),
@@ -432,24 +433,36 @@ class _FullMap2State extends ConsumerState<ShowAllElementsOnMap> {
               child: YandexMap(
                 mapType: mapType,
                 onMapTap: (argument) async {
+                  mapHolder.drivingMapObjects.clear();
+                  mapHolder.bicycleMapObjects.clear();
+                  mapHolder.pedestrianMapObjects.clear();
                   endLatitude = argument.latitude;
                   endLongitude = argument.longitude;
-                  await _initRealAddress();
+                  //      await _initRealAddress();
+                  final mapChangeNotiProvider =
+                      ref.read(mapChangeNotifierProvider);
+                  // call the function givValues() to set values to the >>endLatitude, endLongitude, controller, addressResults
+                  // in provider to use it in RouteCustom page.
+                  mapChangeNotiProvider.givValues(
+                    endLatitude,
+                    endLongitude,
+                    controller,
+                    // addressResults,
+                  );
 
-                  setState(
-                    () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (context) {
-                          return RouteCustom(
-                              endLatitude: endLatitude,
-                              endLongitude: endLongitude,
-                              controller: controller,
-                              addressResults: addressResults);
-                        },
+                  //
+                  await showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return RouteCustom(
+                        endLatitude: endLatitude,
+                        endLongitude: endLongitude,
+                        controller: controller,
+                        //   addressResults: addressResults,
                       );
                     },
                   );
+                  // Navigator.of(context).pop();
                 },
                 nightModeEnabled: true,
                 mapObjects: (_drawPolygonEnabled)
@@ -523,7 +536,7 @@ class _FullMap2State extends ConsumerState<ShowAllElementsOnMap> {
                                   (e) => PlacemarkMapObject(
                                     onTap: (mapObject, point) async {
                                       // await _initialEndPlacmark();
-                                      await _initRealAddress();
+                                      //    await _initRealAddress();
                                       boatListInsidePolygon.addAll(
                                           boatListHolder.boatList.where(
                                               (boat) =>
@@ -720,7 +733,7 @@ class _FullMap2State extends ConsumerState<ShowAllElementsOnMap> {
                                                 onTap:
                                                     (mapObject, point) async {
                                                   // Initialize address or any other data you need
-                                                  await _initRealAddress();
+                                                  //     await _initRealAddress();
 
                                                   // Display the bottom sheet with information about the placemark and boat
                                                   showModalBottomSheet(

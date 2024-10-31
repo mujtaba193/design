@@ -5,13 +5,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:location/location.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
-final mapProvider = Provider<MapProviderClass>(
+final mapProvider = ChangeNotifierProvider<MapProviderClass>(
   (ref) {
     return MapProviderClass();
   },
 );
 
-class MapProviderClass {
+class MapProviderClass extends ChangeNotifier {
   late Future<DrivingSessionResult> drivingResult;
   final List<DrivingSessionResult> drivingResults = [];
   late DrivingSession drivingSession;
@@ -81,7 +81,7 @@ class MapProviderClass {
     lat = locationData.latitude!;
     long = locationData.longitude!;
     // await _initialEndPlacmark();
-
+    notifyListeners();
     return locationData;
   }
 
@@ -99,6 +99,7 @@ class MapProviderClass {
             scale: 0.6),
       ),
     );
+    notifyListeners();
   }
 
   Future initialStartPlacmark() async {
@@ -112,6 +113,7 @@ class MapProviderClass {
             scale: 0.2),
       ),
     );
+    notifyListeners();
   }
 
 ////////////////////////////////////////////// Driving section ////////////////////////////////////////////////
@@ -134,6 +136,7 @@ class MapProviderClass {
         );
       },
     );
+    notifyListeners();
   }
 
   //Driving function
@@ -143,7 +146,7 @@ class MapProviderClass {
   ) async {
     // drivingMapObjects.clear();
     // call the function initialEndPlacmark to initial endPlacemark.
-    initialEndPlacmark(endLatitude, endLongitude);
+    await initialEndPlacmark(endLatitude, endLongitude);
 
     // call the function initialStartPlacmark to initial startPlacemark.
     await initialStartPlacmark();
@@ -164,6 +167,7 @@ class MapProviderClass {
     );
 
     await drivingHandleResult(await resultWithSession.$2, drivingMapObjects);
+    notifyListeners();
   }
 
   ///////////////////////////////////////////////// bicycle section //////////////////////////////////////////////////////
@@ -201,6 +205,7 @@ class MapProviderClass {
     } catch (e) {
       print('object');
     }
+    notifyListeners();
     return result;
   }
 
@@ -210,7 +215,7 @@ class MapProviderClass {
     double endLongitude,
   ) async {
     // call the function initialEndPlacmark to initial endPlacemark.
-    initialEndPlacmark(endLatitude, endLongitude);
+    await initialEndPlacmark(endLatitude, endLongitude);
     // call the function initialStartPlacmark to initial startPlacemark.
     // initialStartPlacmark(lat!, long!);
     bicycleMapObjects = [initstartPlacemark, initEndPlacemark];
@@ -233,6 +238,7 @@ class MapProviderClass {
     } catch (e) {
       print('object');
     }
+    notifyListeners();
     return resultWithSession.$2;
   }
 
@@ -271,6 +277,7 @@ class MapProviderClass {
     } catch (e) {
       print('object');
     }
+    notifyListeners();
     return result;
   }
 
@@ -279,7 +286,7 @@ class MapProviderClass {
     double endLongitude,
   ) async {
     // call the function initialEndPlacmark to initial endPlacemark.
-    initialEndPlacmark(endLatitude, endLongitude);
+    await initialEndPlacmark(endLatitude, endLongitude);
     // call the function initialStartPlacmark to initial startPlacemark.
     // initialStartPlacmark(lat!, long!);
 
@@ -307,6 +314,7 @@ class MapProviderClass {
     } catch (e) {
       print('object');
     }
+    notifyListeners();
     return resultWithSession.$2;
   }
 }

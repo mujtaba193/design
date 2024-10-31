@@ -8,7 +8,7 @@ import '../providers/filter/search_filter_provider.dart';
 import '../translation/search_filter_translation.dart';
 import 'boat_provider_change_notifire.dart';
 
-class SearchFilterChangeNotifier extends StatefulWidget {
+class SearchFilterChangeNotifier extends ConsumerStatefulWidget {
   List<BoatModel>? boatList;
   final BoatModel? boatinfo;
   bool? isSearch;
@@ -20,19 +20,19 @@ class SearchFilterChangeNotifier extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<SearchFilterChangeNotifier> createState() =>
+  ConsumerState<SearchFilterChangeNotifier> createState() =>
       _SearchFilterChangeNotifierState();
 }
 
 class _SearchFilterChangeNotifierState
-    extends State<SearchFilterChangeNotifier> {
+    extends ConsumerState<SearchFilterChangeNotifier> {
   TextEditingController _controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   //double timeValue = 1.0;
   double timeValue2 = 1.0;
-
-  DateTime userTimeNow1 = DateTime.now().toLocal();
-  DateTime userTimeNow2 = DateTime.now().toLocal();
+  // DateTime userTimeNow2 = DateTime.now().toLocal();
+  DateTime timeNow1 = DateTime.now().toLocal();
+  DateTime timeNow2 = DateTime.now().toLocal();
   DateTime date = DateTime.now().toLocal();
   /////////////////////////city///////////////////////////
   List<String> cityList = [];
@@ -48,13 +48,22 @@ class _SearchFilterChangeNotifierState
 
   @override
   void initState() {
-    userTimeNow2 = userTimeNow1.add(Duration(hours: 1));
-
-    //  listCities();
+    final searchFilterState = ref.read(searchFilterProvider);
+    final cityHolder = ref.read(cityProvider);
+    // userTimeNow2 = userTimeNow1.add(Duration(hours: 1));
+    // timeNow2 = timeNow1.add(Duration(hours: 1));
+    if (cityHolder.selectedevent == null) {
+      timeNow2 = timeNow1.add(Duration(hours: 1));
+    } else {
+      timeNow2 = timeNow1
+          .add(Duration(hours: searchFilterState.timeValue2.toInt() + 1));
+    }
     super.initState();
   }
 
   dateTimePicker() async {
+    final searchFilterState = ref.watch(searchFilterProvider);
+    final cityHolder = ref.read(cityProvider);
     DateTime? dateTime = await showDatePicker(
         context: context,
         initialDate: date,
@@ -62,7 +71,7 @@ class _SearchFilterChangeNotifierState
         lastDate: DateTime(3030));
     setState(() {
       if (dateTime != null) {
-        userTimeNow1 = dateTime;
+        timeNow1 = dateTime;
       }
     });
 
@@ -70,17 +79,17 @@ class _SearchFilterChangeNotifierState
         await showTimePicker(context: context, initialTime: TimeOfDay.now());
     if (timeOfDay != null) {
       setState(() {
-        userTimeNow1 = userTimeNow1
+        timeNow1 = timeNow1
             .add(Duration(hours: timeOfDay.hour, minutes: timeOfDay.minute));
-        userTimeNow2 = userTimeNow1.add(Duration(hours: 1));
+        if (cityHolder.selectedevent == null) {
+          timeNow2 = timeNow1.add(Duration(hours: 1));
+        } else {
+          timeNow2 = timeNow1
+              .add(Duration(hours: searchFilterState.timeValue2.toInt()));
+        }
       });
     }
   }
-
-  // listCities() async {
-  //  final cityHolder = ref.read(cityProvider);
-  //  await cityHolder.readJsondata();
-  // }
 
   //// function to get city (from city.json file)
   getCity() async {
@@ -189,10 +198,12 @@ class _SearchFilterChangeNotifierState
             leading: Consumer(builder: (BuildContext context, ref, _) {
               return IconButton(
                   onPressed: () async {
-                    if (ref.read(boatProviderChangeNotifier).filterList !=
-                        null) {
-                      ref.read(boatProviderChangeNotifier).filterList!.clear();
-                    }
+                    // if (ref.read(boatProviderChangeNotifier).filterList !=
+                    //     null) {
+                    //   ref.read(boatProviderChangeNotifier).filterList!.clear();
+                    // }
+                    //
+                    //
                     // if (ref.read(cityProvider).selectedCityName != null) {
                     //   ref.read(cityProvider).selectedCityName = null;
                     // }
@@ -210,7 +221,7 @@ class _SearchFilterChangeNotifierState
           ),
           body: Consumer(builder: (context, ref, _) {
             final cityHolder = ref.read(cityProvider);
-            final boatListHolder = ref.read(boatProviderChangeNotifier);
+            final boatListHolder = ref.watch(boatProviderChangeNotifier);
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -238,6 +249,8 @@ class _SearchFilterChangeNotifierState
                         ? SizedBox()
                         : Consumer(
                             builder: (BuildContext context, WidgetRef ref, _) {
+                            final searchFilterState =
+                                ref.watch(searchFilterProvider);
                             return SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Row(
@@ -259,6 +272,24 @@ class _SearchFilterChangeNotifierState
                                                     await cityHolder
                                                         .getSelectedEventMinHours(
                                                             element);
+                                                    searchFilterState
+                                                            .timeValue2 =
+                                                        element.minHours;
+                                                    // timeNow2 = ////////////////////////////////////////////////////////////////////
+                                                    //     timeNow1;
+                                                    if (cityHolder
+                                                            .selectedevent ==
+                                                        null) {
+                                                      timeNow2 = timeNow1.add(
+                                                          Duration(hours: 1));
+                                                    } else {
+                                                      timeNow2 = timeNow1.add(
+                                                          Duration(
+                                                              hours:
+                                                                  searchFilterState
+                                                                      .timeValue2
+                                                                      .toInt()));
+                                                    }
                                                   },
                                                   child: Container(
                                                     decoration: cityHolder
@@ -430,20 +461,25 @@ class _SearchFilterChangeNotifierState
                     ),
                     Text(
                       SearchFilterTranslation.selectDT,
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
                     ),
                     SizedBox(
                       height: 10,
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        dateTimePicker();
-                      },
-                      child: Text(
-                        "${userTimeNow1.day}-${userTimeNow1.month}-${userTimeNow1.year} (${userTimeNow1.hour}:${userTimeNow1.minute})",
-                        style: TextStyle(),
-                      ),
-                    ),
+                    Consumer(builder: (context, ref, _) {
+                      final searchFilterState = ref.watch(searchFilterProvider);
+                      return GestureDetector(
+                        onTap: () {
+                          dateTimePicker();
+                        },
+                        child: Text(
+                          "${timeNow1.day}-${timeNow1.month}-${timeNow1.year} (${timeNow1.hour}:${timeNow1.minute})",
+                          style: TextStyle(),
+                        ),
+                      );
+                    }),
                     SizedBox(
                       height: 10,
                     ),
@@ -457,11 +493,37 @@ class _SearchFilterChangeNotifierState
                         ),
                         Consumer(
                             builder: (BuildContext context, WidgetRef ref, _) {
+                          final searchFilterState =
+                              ref.watch(searchFilterProvider);
+                          final cityHolder = ref.read(cityProvider);
                           return IconButton(
                             onPressed: () {
-                              ref
-                                  .read(searchFilterProvider.notifier)
-                                  .subtractTime();
+                              //here we are checking if the
+                              if (cityHolder.selectedevent == null) {
+                                if (searchFilterState.timeValue2 > 1.0) {
+                                  ref
+                                      .read(searchFilterProvider.notifier)
+                                      .subtractTime();
+                                  timeNow2 = timeNow2.subtract(
+                                    Duration(minutes: 30),
+                                  );
+                                }
+
+                                // timeNow2 = timeNow2.add(
+                                //   Duration(minutes: 30),
+                                // );
+                              } else {
+                                //this is a condition in order to not decrease les than event time.
+                                if (searchFilterState.timeValue2 >
+                                    cityHolder.selectedeventMinHour!) {
+                                  ref
+                                      .read(searchFilterProvider.notifier)
+                                      .subtractTime();
+                                  timeNow2 = timeNow2.subtract(
+                                    Duration(minutes: 30),
+                                  );
+                                }
+                              }
                             },
                             icon: Icon(
                               Icons.remove,
@@ -473,19 +535,31 @@ class _SearchFilterChangeNotifierState
                             builder: (BuildContext context, WidgetRef ref, _) {
                           final searchFilterState =
                               ref.watch(searchFilterProvider);
-                          final cityHolder = ref.read(cityProvider);
                           return Text(
-                            cityHolder.selectedeventMinHour == null
-                                ? " ${searchFilterState.timeValue2} "
-                                : cityHolder.selectedeventMinHour.toString(),
+                            // cityHolder.selectedeventMinHour == null
+                            //     ? " ${searchFilterState.timeValue2} "
+                            //     : cityHolder.selectedeventMinHour.toString(),
+                            " ${searchFilterState.timeValue2} ",
                             style: TextStyle(fontSize: 20),
                           );
                         }),
                         Consumer(
                             builder: (BuildContext context, WidgetRef ref, _) {
+                          final searchFilterState =
+                              ref.watch(searchFilterProvider);
                           return IconButton(
                             onPressed: () {
-                              ref.read(searchFilterProvider.notifier).addTime();
+                              // this is a condition to make the maximum increasing 23 hours.
+                              if (searchFilterState.timeValue2 < 23.0) {
+                                ref
+                                    .watch(searchFilterProvider.notifier)
+                                    .addTime();
+
+                                timeNow2 = timeNow2.add(
+                                  Duration(minutes: 30),
+                                );
+                                setState(() {});
+                              }
                             },
                             icon: Icon(
                               Icons.add,
@@ -497,31 +571,37 @@ class _SearchFilterChangeNotifierState
                     SizedBox(
                       height: 10,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          SearchFilterTranslation.from,
-                          style: TextStyle(
-                              //color: Colors.black,
-                              ),
-                        ),
-                        Text(
-                          '    ${userTimeNow1.hour < 10 ? '0${userTimeNow1.hour}' : userTimeNow1.hour}:${userTimeNow1.minute < 10 ? '0${userTimeNow1.minute}' : userTimeNow1.minute}',
-                          style: TextStyle(),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 20,
-                        ),
-                        Text(
-                          SearchFilterTranslation.to,
-                          style: TextStyle(),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 20,
-                        ),
-                      ],
-                    ),
+                    Consumer(builder: (context, ref, _) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            SearchFilterTranslation.from,
+                            style: TextStyle(
+                                //color: Colors.black,
+                                ),
+                          ),
+                          Text(
+                            '    ${timeNow1.hour < 10 ? '0${timeNow1.hour}' : timeNow1.hour}:${timeNow1.minute < 10 ? '0${timeNow1.minute}' : timeNow1.minute}',
+                            style: TextStyle(),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 20,
+                          ),
+                          Text(
+                            SearchFilterTranslation.to,
+                            style: TextStyle(),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 20,
+                          ), //userTimeNow2
+                          Text(
+                            '    ${timeNow2.hour < 10 ? '0${timeNow2.hour}' : timeNow2.hour}:${timeNow2.minute < 10 ? '0${timeNow2.minute}' : timeNow2.minute}',
+                            style: TextStyle(),
+                          ),
+                        ],
+                      );
+                    }),
                     const SizedBox(
                       height: 10,
                     ),
@@ -534,9 +614,27 @@ class _SearchFilterChangeNotifierState
                     ),
                     Row(
                       children: [
-                        Text(SearchFilterTranslation.aduls),
+                        Text(SearchFilterTranslation.adults),
                         Spacer(),
-                        Text('+ 3 -'),
+                        IconButton(
+                          onPressed: () {
+                            if (boatListHolder.adultsNumber > 1) {
+                              boatListHolder.adultsNumber =
+                                  boatListHolder.adultsNumber - 1;
+                            }
+                            setState(() {});
+                          },
+                          icon: Icon(Icons.remove),
+                        ),
+                        Text(' ${boatListHolder.adultsNumber} '),
+                        IconButton(
+                          onPressed: () {
+                            boatListHolder.adultsNumber =
+                                boatListHolder.adultsNumber + 1;
+                            setState(() {});
+                          },
+                          icon: Icon(Icons.add),
+                        ),
                       ],
                     ),
                     const SizedBox(
@@ -546,7 +644,25 @@ class _SearchFilterChangeNotifierState
                       children: [
                         Text(SearchFilterTranslation.children),
                         Spacer(),
-                        Text('+ 3 -'),
+                        IconButton(
+                          onPressed: () {
+                            if (boatListHolder.childrenNumber > 0) {
+                              boatListHolder.childrenNumber =
+                                  boatListHolder.childrenNumber - 1;
+                            }
+                            setState(() {});
+                          },
+                          icon: Icon(Icons.remove),
+                        ),
+                        Text(' ${boatListHolder.childrenNumber} '),
+                        IconButton(
+                          onPressed: () {
+                            boatListHolder.childrenNumber =
+                                boatListHolder.childrenNumber + 1;
+                            setState(() {});
+                          },
+                          icon: Icon(Icons.add),
+                        ),
                       ],
                     ),
                     const SizedBox(

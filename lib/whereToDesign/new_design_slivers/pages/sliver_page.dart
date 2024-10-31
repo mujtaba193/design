@@ -5,7 +5,6 @@ import 'package:gradient_borders/gradient_borders.dart';
 
 import '../../change_notifier/boat_provider_change_notifire.dart';
 import '../../change_notifier/search_filter_change_notifier.dart';
-import '../../filter/search_filter.dart';
 import '../../providers/filter/search_filter_provider.dart';
 import '../../providers/second_list_image_provider.dart';
 
@@ -51,7 +50,8 @@ class _SliverBarState extends ConsumerState<SliverBar> {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) {
-                        return SearchFilter();
+                        return SearchFilterChangeNotifier();
+                        // return SearchFilter();
                       }),
                     );
                   },

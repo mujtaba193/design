@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
+import '../map_provider/map_change_notifier_provider.dart';
 import '../map_provider/map_provider.dart';
 
 class RouteCustom extends ConsumerStatefulWidget {
   double? endLatitude;
   double? endLongitude;
   final YandexMapController controller;
-  List<SearchSessionResult> addressResults = [];
-  RouteCustom(
-      {super.key,
-      required this.endLatitude,
-      required this.endLongitude,
-      required this.controller,
-      required this.addressResults});
+  // List<SearchSessionResult> addressResults = [];
+  RouteCustom({
+    super.key,
+    required this.endLatitude,
+    required this.endLongitude,
+    required this.controller,
+    //  required this.addressResults,
+  });
 
   @override
   ConsumerState<RouteCustom> createState() => _RouteCustomState();
@@ -47,30 +49,30 @@ class _RouteCustomState extends ConsumerState<RouteCustom> {
 
   @override
   Widget build(BuildContext context) {
-    final mapHolder = ref.read(mapProvider);
+    final mapChangeNotiProvider = ref.watch(mapChangeNotifierProvider);
+    final mapHolder = ref.watch(mapProvider);
     return Container(
       height: MediaQuery.of(context).size.height * 0.2,
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
-          Text('${widget.endLatitude}'),
-          Text('${widget.endLongitude}'),
-          Text(
-              'Address: ${widget.addressResults.first.items!.first.toponymMetadata!.address.formattedAddress}'),
+          Text('${mapChangeNotiProvider.endLatitude}'),
+          Text('${mapChangeNotiProvider.endLongitude}'),
+          // Text(
+          //     'Address: ${widget.addressResults.first.items!.first.toponymMetadata!.address.formattedAddress}'),
           Row(
             children: [
               IconButton(
                 onPressed: () async {
-                  setState(() {});
+                  // setState(() {});
                   await mapHolder.requestDrivingRoutes(
-                    widget.endLatitude!,
-                    widget.endLongitude!,
+                    mapChangeNotiProvider.endLatitude!,
+                    mapChangeNotiProvider.endLongitude!,
                   );
-                  setState(() {
-                    mapHolder.drivingMapObjects;
-                  });
 
-                  await widget.controller.moveCamera(
+                  mapHolder.drivingMapObjects;
+
+                  await mapChangeNotiProvider.controller!.moveCamera(
                     CameraUpdate.newCameraPosition(
                       CameraPosition(
                         zoom: 10,
@@ -80,6 +82,7 @@ class _RouteCustomState extends ConsumerState<RouteCustom> {
                       ),
                     ),
                   );
+                  Navigator.pop(context);
                 },
                 icon: Icon(Icons.directions_car),
               ),
@@ -90,8 +93,8 @@ class _RouteCustomState extends ConsumerState<RouteCustom> {
                   setState(() {});
                   await mapHolder
                       .requestBicycleRoutes(
-                    widget.endLatitude!,
-                    widget.endLongitude!,
+                    mapChangeNotiProvider.endLatitude!,
+                    mapChangeNotiProvider.endLongitude!,
                   )
                       .then((value) {
                     if (value.routes == null || value.routes!.isEmpty == true) {
@@ -104,7 +107,7 @@ class _RouteCustomState extends ConsumerState<RouteCustom> {
                     mapHolder.bicycleMapObjects;
                   });
 
-                  await widget.controller.moveCamera(
+                  await mapChangeNotiProvider.controller!.moveCamera(
                     CameraUpdate.newCameraPosition(
                       CameraPosition(
                         zoom: 10,
@@ -127,8 +130,8 @@ class _RouteCustomState extends ConsumerState<RouteCustom> {
                   setState(() {});
                   await mapHolder
                       .requestPedestrianRoutes(
-                    widget.endLatitude!,
-                    widget.endLongitude!,
+                    mapChangeNotiProvider.endLatitude!,
+                    mapChangeNotiProvider.endLongitude!,
                   )
                       .then((value) {
                     if (value.routes == null || value.routes!.isEmpty == true) {
@@ -141,7 +144,7 @@ class _RouteCustomState extends ConsumerState<RouteCustom> {
                     mapHolder.pedestrianMapObjects;
                   });
 
-                  await widget.controller.moveCamera(
+                  await mapChangeNotiProvider.controller!.moveCamera(
                     CameraUpdate.newCameraPosition(
                       CameraPosition(
                         zoom: 10,

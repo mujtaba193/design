@@ -528,7 +528,7 @@ class _SearchFilterState extends State<SearchFilter> {
                     ),
                     Row(
                       children: [
-                        Text(SearchFilterTranslation.aduls),
+                        Text(SearchFilterTranslation.adults),
                         Spacer(),
                         Text('+ 3 -'),
                       ],

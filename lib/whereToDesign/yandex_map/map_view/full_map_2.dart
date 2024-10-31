@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yandex_geocoder/yandex_geocoder.dart' as geocoder;
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
+import '../map_provider/map_change_notifier_provider.dart';
 import '../map_provider/map_provider.dart';
 
 class FullMap2 extends ConsumerStatefulWidget {
@@ -383,13 +384,16 @@ class _FullMap2State extends ConsumerState<FullMap2> {
 
   @override
   Widget build(BuildContext context) {
-    final mapHolder = ref.read(mapProvider);
+    final mapHolder = ref.watch(mapProvider);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            ref.read(mapProvider).drivingMapObjects.clear();
+            mapHolder.drivingMapObjects.clear();
+            mapHolder.bicycleMapObjects.clear();
+            mapHolder.pedestrianMapObjects.clear();
+            ref.watch(mapProvider).drivingMapObjects.clear();
             mapHolder.bicycleMapObjects.clear();
             mapHolder.pedestrianMapObjects.clear();
             Navigator.of(context).pop();
@@ -408,9 +412,22 @@ class _FullMap2State extends ConsumerState<FullMap2> {
               child: YandexMap(
                 mapType: mapType,
                 onMapTap: (argument) async {
+                  mapHolder.drivingMapObjects.clear();
+                  mapHolder.bicycleMapObjects.clear();
+                  mapHolder.pedestrianMapObjects.clear();
+                  ref.watch(mapProvider).drivingMapObjects.clear();
+                  mapHolder.bicycleMapObjects.clear();
+                  mapHolder.pedestrianMapObjects.clear();
+                  final mapChangeNotiProvider =
+                      ref.read(mapChangeNotifierProvider);
                   endLatitude = argument.latitude;
                   endLongitude = argument.longitude;
                   await _initRealAddress();
+                  mapChangeNotiProvider.givValues(
+                    endLatitude,
+                    endLongitude,
+                    controller,
+                  );
 
                   setState(
                     () {
@@ -418,10 +435,11 @@ class _FullMap2State extends ConsumerState<FullMap2> {
                         context: context,
                         builder: (context) {
                           return RouteCustom(
-                              endLatitude: endLatitude,
-                              endLongitude: endLongitude,
-                              controller: controller,
-                              addressResults: addressResults);
+                            endLatitude: endLatitude,
+                            endLongitude: endLongitude,
+                            controller: controller,
+                            //  addressResults: addressResults,
+                          );
                           // Container(
                           //   height: MediaQuery.of(context).size.height * 0.2,
                           //   width: MediaQuery.of(context).size.width,
