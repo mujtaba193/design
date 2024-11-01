@@ -13,6 +13,115 @@ class ShowAllReviews extends ConsumerStatefulWidget {
 }
 
 class _ShowAllReviewsState extends ConsumerState<ShowAllReviews> {
+  int? selectedValue;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  Future showPopUpMenu(Offset globalPosition, BuildContext context) async {
+    double top = globalPosition.dy;
+    double left = globalPosition.dx;
+
+    await showMenu(
+      shadowColor: Colors.black,
+      color: Colors.grey.shade600,
+      context: context,
+      position: RelativeRect.fromLTRB(left, top + 20.0, 20.0, 1),
+      items: [
+        PopupMenuItem(
+          value: 1,
+          child: Row(
+            children: [
+              Text('Usful'),
+              Spacer(),
+              Icon(selectedValue == 1
+                  ? Icons.radio_button_checked_rounded
+                  : Icons.circle_outlined),
+              SizedBox(
+                width: 2,
+              ),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 2,
+          child: Row(
+            children: [
+              Text('New'),
+              Spacer(),
+              Icon(selectedValue == 2
+                  ? Icons.radio_button_checked_rounded
+                  : Icons.circle_outlined),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 3,
+          child: Row(
+            children: [
+              Text('With high rating'),
+              Spacer(),
+              Icon(selectedValue == 3
+                  ? Icons.radio_button_checked_rounded
+                  : Icons.circle_outlined),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 4,
+          child: Row(
+            children: [
+              Text('With low rating'),
+              Spacer(),
+              Icon(selectedValue == 4
+                  ? Icons.radio_button_checked_rounded
+                  : Icons.circle_outlined),
+            ],
+          ),
+        )
+      ],
+    ).then((value) {
+      if (value == 1) {
+        widget.reviewsList!.sort(
+          (a, b) {
+            return a.date.compareTo(b.date);
+          },
+        );
+        selectedValue = 1;
+        setState(() {});
+      }
+      if (value == 2) {
+        widget.reviewsList!.sort(
+          (a, b) {
+            return b.date.compareTo(a.date);
+          },
+        );
+        selectedValue = 2;
+        setState(() {});
+      }
+      if (value == 3) {
+        widget.reviewsList!.sort(
+          (a, b) {
+            return b.rating.compareTo(a.rating);
+          },
+        );
+        selectedValue = 3;
+        setState(() {});
+      }
+      if (value == 4) {
+        widget.reviewsList!.sort(
+          (a, b) {
+            return a.rating.compareTo(b.rating);
+          },
+        );
+        selectedValue = 4;
+        setState(() {});
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // final boatListHolder = ref.watch(boatProviderChangeNotifier);
@@ -40,6 +149,14 @@ class _ShowAllReviewsState extends ConsumerState<ShowAllReviews> {
                                 Text(
                                   'Total Reviews  ${widget.reviewsList!.length}',
                                   style: TextStyle(fontSize: 20),
+                                ),
+                                Spacer(),
+                                GestureDetector(
+                                  onTapDown: (details) {
+                                    showPopUpMenu(
+                                        details.globalPosition, context);
+                                  },
+                                  child: Icon(Icons.swap_vert_outlined),
                                 ),
                               ],
                             ),
