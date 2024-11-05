@@ -124,8 +124,6 @@ class _ShowAllReviewsState extends ConsumerState<ShowAllReviews> {
 
   @override
   Widget build(BuildContext context) {
-    // final boatListHolder = ref.watch(boatProviderChangeNotifier);
-    // final holdReview = ref.watch(allReviewsProvider);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,

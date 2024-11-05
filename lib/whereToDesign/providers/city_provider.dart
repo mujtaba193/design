@@ -57,5 +57,10 @@ class City extends ChangeNotifier {
     selectedeventMinHour = element.minHours;
     notifyListeners();
   }
+
+  getSelectedEventMinHoursFirstPage(minHours) {
+    selectedeventMinHour = minHours;
+    notifyListeners();
+  }
   // filter function
 }

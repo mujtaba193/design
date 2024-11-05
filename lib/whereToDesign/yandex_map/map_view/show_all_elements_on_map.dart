@@ -69,8 +69,8 @@ class _FullMap2State extends ConsumerState<ShowAllElementsOnMap> {
   LineObject? line;
   // Geocoder definitions //
 //ad correct key
-  final geocoder.YandexGeocoder geo =
-      geocoder.YandexGeocoder(apiKey: '04364003-6929-4113-b557-99bc856dcfb3');
+  final geocoder.YandexGeocoder geo = geocoder.YandexGeocoder(
+      apiKey: '04364003-6929-4113-b557-99bc856dcfb3'); //
 
   String address = 'null';
   String latLong = 'null';

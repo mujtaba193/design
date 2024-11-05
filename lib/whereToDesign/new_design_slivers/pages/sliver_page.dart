@@ -208,6 +208,10 @@ class _SliverBarState extends ConsumerState<SliverBar> {
                                           cityHolder.selectedevent =
                                               e.eventName;
                                           boatListHolder.value = true;
+
+                                          cityHolder
+                                              .getSelectedEventMinHoursFirstPage(
+                                                  e.minHours);
                                         });
                                         Navigator.of(context).push(
                                           MaterialPageRoute(builder: (context) {

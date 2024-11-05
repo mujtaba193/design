@@ -55,8 +55,8 @@ class _SearchFilterChangeNotifierState
     if (cityHolder.selectedevent == null) {
       timeNow2 = timeNow1.add(Duration(hours: 1));
     } else {
-      timeNow2 = timeNow1
-          .add(Duration(hours: searchFilterState.timeValue2.toInt() + 1));
+      timeNow2 =
+          timeNow1.add(Duration(hours: searchFilterState.timeValue2.toInt()));
     }
     super.initState();
   }
@@ -475,7 +475,7 @@ class _SearchFilterChangeNotifierState
                           dateTimePicker();
                         },
                         child: Text(
-                          "${timeNow1.day}-${timeNow1.month}-${timeNow1.year} (${timeNow1.hour}:${timeNow1.minute})",
+                          "${timeNow1.day < 10 ? '0${timeNow1.day}' : timeNow1.day} - ${timeNow1.month < 10 ? '0${timeNow1.month}' : timeNow1.month} - ${timeNow1.year} (${timeNow1.hour < 10 ? '0${timeNow1.hour}' : timeNow1.hour}:${timeNow1.minute < 10 ? '0${timeNow1.minute}' : timeNow1.minute})",
                           style: TextStyle(),
                         ),
                       );
@@ -524,6 +524,7 @@ class _SearchFilterChangeNotifierState
                                   );
                                 }
                               }
+                              setState(() {});
                             },
                             icon: Icon(
                               Icons.remove,
