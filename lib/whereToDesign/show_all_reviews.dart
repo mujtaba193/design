@@ -85,8 +85,9 @@ class _ShowAllReviewsState extends ConsumerState<ShowAllReviews> {
     ).then((value) {
       if (value == 1) {
         widget.reviewsList!.sort(
+          // here we are sorting useful element according to how many likes
           (a, b) {
-            return a.date.compareTo(b.date);
+            return b.likes.length.compareTo(a.likes.length);
           },
         );
         selectedValue = 1;
@@ -271,7 +272,9 @@ class _ShowAllReviewsState extends ConsumerState<ShowAllReviews> {
                                           : '${element.likes.length}'),
                                       SizedBox(width: 10),
                                       Icon(Icons.thumb_up_alt_sharp),
-                                      Spacer(),
+                                      SizedBox(
+                                        width: 30,
+                                      ),
                                       Text((element.dislikes.isEmpty ||
                                               element.dislikes == null)
                                           ? '0'
