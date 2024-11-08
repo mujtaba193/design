@@ -1,4 +1,5 @@
 import 'package:design/whereToDesign/models/boat_model.dart';
+import 'package:design/whereToDesign/yandex_map/map_view/show_all_elements_on_map_second.dart';
 import 'package:flutter/material.dart';
 
 import 'change_notifier/review_filter_change_notifier.dart';
@@ -6,7 +7,6 @@ import 'new_design_slivers/pages/sliver_page.dart';
 import 'show_review.dart';
 import 'tickets/tickets_pages/tickets_all_pages.dart';
 import 'translation/profie_page_translation.dart';
-import 'yandex_map/map_view/show_all_elements_on_map.dart';
 
 class HomePage extends StatefulWidget {
   // List<BoatModel>? searchFilterList;
@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
       // TableEvents(),
       //Loovr4(),
       // DarkModePage(),
-      ShowAllElementsOnMap(),
+      ShowAllElementsOnMapSecond(),
       // ReverseSearchExample(),
       //TimerPage(),
 
