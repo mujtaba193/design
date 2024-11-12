@@ -237,8 +237,6 @@ class _SearchFilterChangeNotifierState
                         GestureDetector(
                           child: Text(
                               '  ${(cityHolder.selectedCityName != null) ? '${cityHolder.selectedCityName}' : SearchFilterTranslation.city}'),
-                          // Text(
-                          //     '  ${(cityHolder.selectedCityName == null && boatListHolder.selectedCityV != null) ? '${boatListHolder.selectedCityV}' : (cityHolder.selectedCityName != null && boatListHolder.selectedCityV == null) ? cityHolder.selectedCityName : (cityHolder.selectedCityName != null && boatListHolder.selectedCityV != null && cityHolder.selectedCityName == boatListHolder.selectedCityV) ? 'both are not null Chutia' : SearchFilterTranslation.city}'),
                           onTap: () {
                             getCity();
                           },
@@ -247,7 +245,7 @@ class _SearchFilterChangeNotifierState
                     ),
                     cityHolder.cityEvents == null
                         ? SizedBox()
-                        : Consumer(
+                        : Consumer(// here is to show events
                             builder: (BuildContext context, WidgetRef ref, _) {
                             final searchFilterState =
                                 ref.watch(searchFilterProvider);

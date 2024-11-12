@@ -51,7 +51,6 @@ class _SliverBarState extends ConsumerState<SliverBar> {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) {
                         return SearchFilterChangeNotifier();
-                        // return SearchFilter();
                       }),
                     );
                   },
@@ -258,6 +257,7 @@ class _SliverBarState extends ConsumerState<SliverBar> {
             ),
           ),
           /////////////////////////////////////////..................................////////////////////////////////////////////
+          // here is sliver just to add container to take extra area in order to scroll the screen.
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.only(top: 20),

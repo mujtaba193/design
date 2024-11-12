@@ -20,6 +20,7 @@ class _ShowAllReviewsState extends ConsumerState<ShowAllReviews> {
     super.initState();
   }
 
+  // function to sort the reviews
   Future showPopUpMenu(Offset globalPosition, BuildContext context) async {
     double top = globalPosition.dy;
     double left = globalPosition.dx;
@@ -139,6 +140,7 @@ class _ShowAllReviewsState extends ConsumerState<ShowAllReviews> {
               : Column(
                   children: [
                     Card(
+                      // here are card to show the total and sorting button.
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
@@ -169,6 +171,7 @@ class _ShowAllReviewsState extends ConsumerState<ShowAllReviews> {
                     ),
                     ...widget.reviewsList!.map(
                       (element) => Card(
+                        //here are card to show the review.
                         color: Colors.grey.shade800,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -288,126 +291,6 @@ class _ShowAllReviewsState extends ConsumerState<ShowAllReviews> {
                         ),
                       ),
                     )
-                    // holdReview.when(
-                    //   data: (data) {
-                    //     // // Calculate the sum of all ratings
-                    //     // final totalRating = data.boatReviews
-                    //     //     .map((e) => e.rating)
-                    //     //     .fold(0, (prev, rating) => prev + rating);
-                    //     // //.reduce((prev, rating) => prev + rating);
-                    //     // // or we can use fold or reduce
-
-                    //     // // how to get the average of totalRating
-                    //     // final averageRating = data.reviews.isNotEmpty
-                    //     //     ? totalRating / data.reviews.length
-                    //     //     : 0;
-                    //     return Column(
-                    //       children: [
-                    //         Card(
-                    //           child: Padding(
-                    //             padding: const EdgeInsets.all(8.0),
-                    //             child: Column(
-                    //               children: [
-                    //                 Row(
-                    //                   children: [
-                    //                     Text(
-                    //                       'Total Reviews  ${data.boatReviews.length}',
-                    //                       style: TextStyle(fontSize: 20),
-                    //                     ),
-                    //                   ],
-                    //                 ),
-                    //                 // Row(
-                    //                 //   children: [
-                    //                 //     ...List.generate(
-                    //                 //         averageRating.toInt(),
-                    //                 //         (index) => Icon(
-                    //                 //               Icons.star,
-                    //                 //               color: Colors.yellow,
-                    //                 //             )),
-                    //                 //     Text(
-                    //                 //         '............................ ${averageRating.toString()} / 5')
-                    //                 //   ],
-                    //                 // ),
-                    //                 SizedBox(
-                    //                   height: 20,
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ),
-                    //           color: Colors.grey.shade700,
-                    //         ),
-                    //         ...data.boatReviews.map((e) => Card(
-                    //               color: Colors.grey.shade800,
-                    //               child: Padding(
-                    //                 padding: const EdgeInsets.all(8.0),
-                    //                 child: Column(
-                    //                   crossAxisAlignment: CrossAxisAlignment.start,
-                    //                   children: [
-                    //                     Row(
-                    //                       children: [
-                    //                         ...e.reviews.map((el) => ClipRRect(
-                    //                               borderRadius:
-                    //                                   BorderRadius.circular(999),
-                    //                               child: Image.network(
-                    //                                 el.userPhoto,
-                    //                                 width: 60,
-                    //                                 height: 60,
-                    //                                 fit: BoxFit.cover,
-                    //                               ),
-                    //                             )),
-                    //                         SizedBox(
-                    //                           width: 20,
-                    //                         ),
-                    //                         Text(
-                    //                             '${e.reviews.map((el) => el.userName).toString()}'),
-                    //                       ],
-                    //                     ),
-                    //                     SizedBox(
-                    //                       height: 10,
-                    //                     ),
-                    //                     Text(
-                    //                       'Description',
-                    //                       style: TextStyle(fontSize: 20),
-                    //                     ),
-                    //                     ReadMoreText(
-                    //                       '${e.reviews.map((el) => el.reviewDescription).toString()}',
-                    //                       trimLines: 4,
-                    //                       trimMode: TrimMode.Line,
-                    //                       trimCollapsedText: 'Readmore',
-                    //                       trimExpandedText: 'Readless',
-                    //                       moreStyle: TextStyle(color: Colors.blue),
-                    //                       lessStyle: TextStyle(color: Colors.blue),
-                    //                     ),
-                    //                     // Text(e.reviewDescription),
-                    //                     SizedBox(
-                    //                       height: 10,
-                    //                     ),
-                    //                     // Row(
-                    //                     //   children: [
-
-                    //                     //     ...List.generate(
-                    //                     //       e.reviews.map((el) => el.rating),
-                    //                     //       (index) => Icon(
-                    //                     //         Icons.star,
-                    //                     //         color: Colors.yellow,
-                    //                     //       ),
-                    //                     //     ),
-                    //                     //     SizedBox(
-                    //                     //       width: 10,
-                    //                     //     ),
-                    //                     //     Text(e.reviews.map((el) => el.userPhoto).toString())
-                    //                     //   ],
-                    //                     // ),
-                    //                   ],
-                    //                 ),
-                    //               ),
-                    //             )),
-                    //       ],
-                    //     );
-                    //   },
-                    //   error: (context, _) => Text('error'),
-                    //   loading: () => CircularProgressIndicator(),
-                    // ),
                   ],
                 ),
         ));

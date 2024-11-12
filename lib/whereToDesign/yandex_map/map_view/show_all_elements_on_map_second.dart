@@ -598,1011 +598,605 @@ class _FullMap2State extends ConsumerState<ShowAllElementsOnMapSecond> {
                   // Navigator.of(context).pop();
                 },
                 nightModeEnabled: true,
-                mapObjects: (_drawPolygonEnabled == true ||
-                        _drawPolygonEnabledSecond == true)
-                    ? [
-                        // This is first polygon MapOpjects show
-                        // here is the cluster and marks inside the first polygon
-                        ...mapHolder.drivingMapObjects,
-                        ...mapHolder.bicycleMapObjects,
-                        ...mapHolder.pedestrianMapObjects,
-                        ...mapObjects, //this is first polygon MapObject
-                        ...mapObjectsSecond, //this is second polygon MapObject
-                        //
-                        _getClusterizedCollection(
-                            // this is the cluster for first polygon
-                            placemarks: newaddressInside
-                                .map(
-                                  (e) => PlacemarkMapObject(
-                                    onTap: (mapObject, point) async {
-                                      // await _initialEndPlacmark();
-                                      //    await _initRealAddress();
-                                      boatListInsidePolygon.addAll(
-                                          boatListHolder.boatList.where(
-                                              (boat) =>
-                                                  boat.address.contains(e)));
+                mapObjects:
+                    (_drawPolygonEnabled == true ||
+                            _drawPolygonEnabledSecond == true)
+                        ? [
+                            // This is first polygon MapOpjects show
+                            // here is the cluster and marks inside the first polygon
+                            ...mapHolder.drivingMapObjects,
+                            ...mapHolder.bicycleMapObjects,
+                            ...mapHolder.pedestrianMapObjects,
+                            ...mapObjects, //this is first polygon MapObject
+                            ...mapObjectsSecond, //this is second polygon MapObject
+                            //
+                            _getClusterizedCollection(
+                                // this is the cluster for first polygon
+                                placemarks: newaddressInside
+                                    .map(
+                                      (e) => PlacemarkMapObject(
+                                        onTap: (mapObject, point) async {
+                                          // await _initialEndPlacmark();
+                                          //    await _initRealAddress();
+                                          if (boatListInsidePolygon
+                                              .isNotEmpty) {
+                                            boatListInsidePolygon.clear();
+                                          }
+                                          boatListInsidePolygon.addAll(
+                                              boatListHolder.boatList.where(
+                                                  (boat) => boat.address
+                                                      .contains(e)));
 
-                                      showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) {
-                                          return Container(
-                                            height: 800,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            child: SingleChildScrollView(
-                                              child: Column(
-                                                children: [
-                                                  // Display the username, latitude, longitude
-                                                  ...boatListInsidePolygon
-                                                      .map(
-                                                          (boatlist) => InkWell(
-                                                                onTap:
-                                                                    () async {
-                                                                  final boatListHolder =
-                                                                      ref.read(
-                                                                          boatProviderChangeNotifier);
-                                                                  await boatListHolder
-                                                                      .getElemenIndex(
-                                                                          boatlist);
-                                                                  Navigator
-                                                                      .push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                      builder:
-                                                                          (context) =>
+                                          showModalBottomSheet(
+                                            context: context,
+                                            builder: (context) {
+                                              return Container(
+                                                height: 800,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                child: SingleChildScrollView(
+                                                  child: Column(
+                                                    children: [
+                                                      // Display the username, latitude, longitude
+                                                      ...boatListInsidePolygon
+                                                          .map(
+                                                              (boatlist) =>
+                                                                  InkWell(
+                                                                    onTap:
+                                                                        () async {
+                                                                      final boatListHolder =
+                                                                          ref.read(
+                                                                              boatProviderChangeNotifier);
+                                                                      await boatListHolder
+                                                                          .getElemenIndex(
+                                                                              boatlist);
+                                                                      Navigator
+                                                                          .push(
+                                                                        context,
+                                                                        MaterialPageRoute(
+                                                                          builder: (context) =>
                                                                               ShowInformationNew(),
-                                                                    ),
-                                                                  );
-                                                                },
-                                                                child: Card(
-                                                                  color: Colors
-                                                                      .grey
-                                                                      .shade800,
-                                                                  child:
-                                                                      Padding(
-                                                                    padding:
-                                                                        const EdgeInsets
+                                                                        ),
+                                                                      );
+                                                                    },
+                                                                    child: Card(
+                                                                      color: Colors
+                                                                          .grey
+                                                                          .shade800,
+                                                                      child:
+                                                                          Padding(
+                                                                        padding: const EdgeInsets
                                                                             .all(
                                                                             10),
-                                                                    child:
-                                                                        Column(
-                                                                      children: [
-                                                                        SizedBox(
-                                                                          height:
-                                                                              200,
-                                                                          child: ListView.builder(
-                                                                              scrollDirection: Axis.horizontal,
-                                                                              itemCount: boatlist.imageList.length,
-                                                                              itemBuilder: (context, index) {
-                                                                                return Padding(
-                                                                                  padding: const EdgeInsets.all(5),
-                                                                                  child: ClipRRect(
-                                                                                    borderRadius: BorderRadius.circular(10),
-                                                                                    child: Image.network(
-                                                                                      boatlist.imageList[index],
-                                                                                      width: 250,
-                                                                                      height: 200,
-                                                                                      fit: BoxFit.cover,
-                                                                                    ),
-                                                                                  ),
-                                                                                );
-                                                                              }),
-                                                                        ),
-                                                                        const SizedBox(
-                                                                          height:
-                                                                              10,
-                                                                        ),
-                                                                        Row(
+                                                                        child:
+                                                                            Column(
                                                                           children: [
-                                                                            Icon(Icons.radar),
-                                                                            const SizedBox(
-                                                                              width: 10,
+                                                                            SizedBox(
+                                                                              height: 200,
+                                                                              child: ListView.builder(
+                                                                                  scrollDirection: Axis.horizontal,
+                                                                                  itemCount: boatlist.imageList.length,
+                                                                                  itemBuilder: (context, index) {
+                                                                                    return Padding(
+                                                                                      padding: const EdgeInsets.all(5),
+                                                                                      child: ClipRRect(
+                                                                                        borderRadius: BorderRadius.circular(10),
+                                                                                        child: Image.network(
+                                                                                          boatlist.imageList[index],
+                                                                                          width: 250,
+                                                                                          height: 200,
+                                                                                          fit: BoxFit.cover,
+                                                                                        ),
+                                                                                      ),
+                                                                                    );
+                                                                                  }),
                                                                             ),
-                                                                            Text(boatlist.boatName),
-                                                                            Spacer(),
-                                                                            // ...List.generate(
-                                                                            //   boatInside.rating.toInt(),
-                                                                            //   (index) => Icon(
-                                                                            //     size: 15,
-                                                                            //     Icons.star,
-                                                                            //     color: Colors.yellow,
-                                                                            //   ),
-                                                                            // ),
+                                                                            const SizedBox(
+                                                                              height: 10,
+                                                                            ),
                                                                             Row(
                                                                               children: [
-                                                                                // Full stars
-                                                                                ...List.generate(
-                                                                                  boatlist.rating.floor(), // Full stars based on the integer part of the rating
-                                                                                  (index) => Icon(
-                                                                                    size: 15,
-                                                                                    Icons.star,
-                                                                                    color: Colors.yellow,
-                                                                                  ),
+                                                                                Icon(Icons.radar),
+                                                                                const SizedBox(
+                                                                                  width: 10,
                                                                                 ),
-                                                                                // Half star if there's a decimal part (e.g., 2.5)
-                                                                                if (boatlist.rating - boatlist.rating.floor() >= 0.5)
-                                                                                  Icon(
-                                                                                    size: 15,
-                                                                                    Icons.star_half,
-                                                                                    color: Colors.yellow,
-                                                                                  ),
-                                                                                // Empty stars for the remaining
-                                                                                ...List.generate(
-                                                                                  5 - boatlist.rating.ceil(), // Remaining empty stars
-                                                                                  (index) => Icon(
-                                                                                    size: 15,
-                                                                                    Icons.star_border,
-                                                                                    color: Colors.yellow,
-                                                                                  ),
+                                                                                Text(boatlist.boatName),
+                                                                                Spacer(),
+                                                                                // ...List.generate(
+                                                                                //   boatInside.rating.toInt(),
+                                                                                //   (index) => Icon(
+                                                                                //     size: 15,
+                                                                                //     Icons.star,
+                                                                                //     color: Colors.yellow,
+                                                                                //   ),
+                                                                                // ),
+                                                                                Row(
+                                                                                  children: [
+                                                                                    // Full stars
+                                                                                    ...List.generate(
+                                                                                      boatlist.rating.floor(), // Full stars based on the integer part of the rating
+                                                                                      (index) => Icon(
+                                                                                        size: 15,
+                                                                                        Icons.star,
+                                                                                        color: Colors.yellow,
+                                                                                      ),
+                                                                                    ),
+                                                                                    // Half star if there's a decimal part (e.g., 2.5)
+                                                                                    if (boatlist.rating - boatlist.rating.floor() >= 0.5)
+                                                                                      Icon(
+                                                                                        size: 15,
+                                                                                        Icons.star_half,
+                                                                                        color: Colors.yellow,
+                                                                                      ),
+                                                                                    // Empty stars for the remaining
+                                                                                    ...List.generate(
+                                                                                      5 - boatlist.rating.ceil(), // Remaining empty stars
+                                                                                      (index) => Icon(
+                                                                                        size: 15,
+                                                                                        Icons.star_border,
+                                                                                        color: Colors.yellow,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
                                                                                 ),
+                                                                                SizedBox(width: 10),
+                                                                                Text(boatlist.rating.toString())
                                                                               ],
                                                                             ),
-                                                                            SizedBox(width: 10),
-                                                                            Text(boatlist.rating.toString())
-                                                                          ],
-                                                                        ),
-                                                                        SizedBox(
-                                                                          height:
-                                                                              10,
-                                                                        ),
-                                                                        Row(
-                                                                          children: [
-                                                                            Icon(Icons.group),
-                                                                            const SizedBox(
-                                                                              width: 10,
+                                                                            SizedBox(
+                                                                              height: 10,
                                                                             ),
-                                                                            Text('To ${boatlist.guests} Guests')
+                                                                            Row(
+                                                                              children: [
+                                                                                Icon(Icons.group),
+                                                                                const SizedBox(
+                                                                                  width: 10,
+                                                                                ),
+                                                                                Text('To ${boatlist.guests} Guests')
+                                                                              ],
+                                                                            ),
+                                                                            SizedBox(
+                                                                              height: 10,
+                                                                            ),
+                                                                            Row(
+                                                                              children: [
+                                                                                Text('From ${boatlist.minimumPrice.toString()} P/hour')
+                                                                              ],
+                                                                            ),
                                                                           ],
                                                                         ),
-                                                                        SizedBox(
-                                                                          height:
-                                                                              10,
-                                                                        ),
-                                                                        Row(
-                                                                          children: [
-                                                                            Text('From ${boatlist.minimumPrice.toString()} P/hour')
-                                                                          ],
-                                                                        ),
-                                                                      ],
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                ),
-                                                              )),
-                                                ],
-                                              ),
-                                            ),
+                                                                  )),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            },
                                           );
                                         },
-                                      );
-                                    },
-                                    icon: PlacemarkIcon.single(
-                                      PlacemarkIconStyle(
-                                        //rotationType: RotationType.rotate,
-                                        isFlat: true,
-                                        scale: 0.6,
-                                        image: BitmapDescriptor.fromAssetImage(
-                                            'assets/markicon.png'),
+                                        icon: PlacemarkIcon.single(
+                                          PlacemarkIconStyle(
+                                            //rotationType: RotationType.rotate,
+                                            isFlat: true,
+                                            scale: 0.6,
+                                            image:
+                                                BitmapDescriptor.fromAssetImage(
+                                                    'assets/markicon.png'),
+                                          ),
+                                        ),
+                                        // it must be unique to show all
+                                        mapId: MapObjectId(
+                                            e.latitude.toString() +
+                                                e.longitude.toString()),
+                                        point: Point(
+                                            latitude: e.latitude,
+                                            longitude: e.longitude),
+                                        consumeTapEvents: true,
+                                        opacity: 3,
                                       ),
-                                    ),
-                                    // it must be unique to show all
-                                    mapId: MapObjectId(e.latitude.toString() +
-                                        e.longitude.toString()),
-                                    point: Point(
-                                        latitude: e.latitude,
-                                        longitude: e.longitude),
-                                    consumeTapEvents: true,
-                                    opacity: 3,
-                                  ),
-                                )
-                                .toList(),
-                            boatList: boatListHolder.boatList),
-                        ////////////////////////////////////////////////////////////////////////////////////
-                        // here is the Cluster of the second polygon
-                        _getClusterizedCollectionSecond(
+                                    )
+                                    .toList(),
+                                boatList: boatListHolder.boatList),
+                            ////////////////////////////////////////////////////////////////////////////////////
                             // here is the Cluster of the second polygon
-                            placemarks: newaddressInsideSecond
-                                .map(
-                                  (e) => PlacemarkMapObject(
-                                    onTap: (mapObject, point) async {
-                                      // await _initialEndPlacmark();
-                                      //    await _initRealAddress();
-                                      boatListInsidePolygonSecond.addAll(
-                                          boatListHolder.boatList.where(
-                                              (boat) =>
-                                                  boat.address.contains(e)));
+                            _getClusterizedCollectionSecond(
+                                // here is the Cluster of the second polygon
+                                placemarks: newaddressInsideSecond
+                                    .map(
+                                      (e) => PlacemarkMapObject(
+                                        onTap: (mapObject, point) async {
+                                          // await _initialEndPlacmark();
+                                          //    await _initRealAddress();
+                                          if (boatListInsidePolygonSecond
+                                              .isNotEmpty) {
+                                            boatListInsidePolygonSecond.clear();
+                                          }
 
-                                      showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) {
-                                          return Container(
-                                            height: 800,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            child: SingleChildScrollView(
-                                              child: Column(
-                                                children: [
-                                                  // Display the username, latitude, longitude
-                                                  ...boatListInsidePolygonSecond
-                                                      .map(
-                                                          (boatlist) => InkWell(
-                                                                onTap:
-                                                                    () async {
-                                                                  final boatListHolder =
-                                                                      ref.read(
-                                                                          boatProviderChangeNotifier);
-                                                                  await boatListHolder
-                                                                      .getElemenIndex(
-                                                                          boatlist);
-                                                                  Navigator
-                                                                      .push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                      builder:
-                                                                          (context) =>
+                                          boatListInsidePolygonSecond.addAll(
+                                              boatListHolder.boatList.where(
+                                                  (boat) => boat.address
+                                                      .contains(e)));
+
+                                          showModalBottomSheet(
+                                            context: context,
+                                            builder: (context) {
+                                              return Container(
+                                                height: 800,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                child: SingleChildScrollView(
+                                                  child: Column(
+                                                    children: [
+                                                      // Display the username, latitude, longitude
+                                                      ...boatListInsidePolygonSecond
+                                                          .map(
+                                                              (boatlist) =>
+                                                                  InkWell(
+                                                                    onTap:
+                                                                        () async {
+                                                                      final boatListHolder =
+                                                                          ref.read(
+                                                                              boatProviderChangeNotifier);
+                                                                      await boatListHolder
+                                                                          .getElemenIndex(
+                                                                              boatlist);
+                                                                      Navigator
+                                                                          .push(
+                                                                        context,
+                                                                        MaterialPageRoute(
+                                                                          builder: (context) =>
                                                                               ShowInformationNew(),
-                                                                    ),
-                                                                  );
-                                                                },
-                                                                child: Card(
-                                                                  color: Colors
-                                                                      .grey
-                                                                      .shade800,
-                                                                  child:
-                                                                      Padding(
-                                                                    padding:
-                                                                        const EdgeInsets
+                                                                        ),
+                                                                      );
+                                                                    },
+                                                                    child: Card(
+                                                                      color: Colors
+                                                                          .grey
+                                                                          .shade800,
+                                                                      child:
+                                                                          Padding(
+                                                                        padding: const EdgeInsets
                                                                             .all(
                                                                             10),
-                                                                    child:
-                                                                        Column(
-                                                                      children: [
-                                                                        SizedBox(
-                                                                          height:
-                                                                              200,
-                                                                          child: ListView.builder(
-                                                                              scrollDirection: Axis.horizontal,
-                                                                              itemCount: boatlist.imageList.length,
-                                                                              itemBuilder: (context, index) {
-                                                                                return Padding(
-                                                                                  padding: const EdgeInsets.all(5),
-                                                                                  child: ClipRRect(
-                                                                                    borderRadius: BorderRadius.circular(10),
-                                                                                    child: Image.network(
-                                                                                      boatlist.imageList[index],
-                                                                                      width: 250,
-                                                                                      height: 200,
-                                                                                      fit: BoxFit.cover,
-                                                                                    ),
-                                                                                  ),
-                                                                                );
-                                                                              }),
-                                                                        ),
-                                                                        const SizedBox(
-                                                                          height:
-                                                                              10,
-                                                                        ),
-                                                                        Row(
+                                                                        child:
+                                                                            Column(
                                                                           children: [
-                                                                            Icon(Icons.radar),
-                                                                            const SizedBox(
-                                                                              width: 10,
+                                                                            SizedBox(
+                                                                              height: 200,
+                                                                              child: ListView.builder(
+                                                                                  scrollDirection: Axis.horizontal,
+                                                                                  itemCount: boatlist.imageList.length,
+                                                                                  itemBuilder: (context, index) {
+                                                                                    return Padding(
+                                                                                      padding: const EdgeInsets.all(5),
+                                                                                      child: ClipRRect(
+                                                                                        borderRadius: BorderRadius.circular(10),
+                                                                                        child: Image.network(
+                                                                                          boatlist.imageList[index],
+                                                                                          width: 250,
+                                                                                          height: 200,
+                                                                                          fit: BoxFit.cover,
+                                                                                        ),
+                                                                                      ),
+                                                                                    );
+                                                                                  }),
                                                                             ),
-                                                                            Text(boatlist.boatName),
-                                                                            Spacer(),
-                                                                            // ...List.generate(
-                                                                            //   boatInside.rating.toInt(),
-                                                                            //   (index) => Icon(
-                                                                            //     size: 15,
-                                                                            //     Icons.star,
-                                                                            //     color: Colors.yellow,
-                                                                            //   ),
-                                                                            // ),
+                                                                            const SizedBox(
+                                                                              height: 10,
+                                                                            ),
                                                                             Row(
                                                                               children: [
-                                                                                // Full stars
-                                                                                ...List.generate(
-                                                                                  boatlist.rating.floor(), // Full stars based on the integer part of the rating
-                                                                                  (index) => Icon(
-                                                                                    size: 15,
-                                                                                    Icons.star,
-                                                                                    color: Colors.yellow,
-                                                                                  ),
+                                                                                Icon(Icons.radar),
+                                                                                const SizedBox(
+                                                                                  width: 10,
                                                                                 ),
-                                                                                // Half star if there's a decimal part (e.g., 2.5)
-                                                                                if (boatlist.rating - boatlist.rating.floor() >= 0.5)
-                                                                                  Icon(
-                                                                                    size: 15,
-                                                                                    Icons.star_half,
-                                                                                    color: Colors.yellow,
-                                                                                  ),
-                                                                                // Empty stars for the remaining
-                                                                                ...List.generate(
-                                                                                  5 - boatlist.rating.ceil(), // Remaining empty stars
-                                                                                  (index) => Icon(
-                                                                                    size: 15,
-                                                                                    Icons.star_border,
-                                                                                    color: Colors.yellow,
-                                                                                  ),
+                                                                                Text(boatlist.boatName),
+                                                                                Spacer(),
+                                                                                // ...List.generate(
+                                                                                //   boatInside.rating.toInt(),
+                                                                                //   (index) => Icon(
+                                                                                //     size: 15,
+                                                                                //     Icons.star,
+                                                                                //     color: Colors.yellow,
+                                                                                //   ),
+                                                                                // ),
+                                                                                Row(
+                                                                                  children: [
+                                                                                    // Full stars
+                                                                                    ...List.generate(
+                                                                                      boatlist.rating.floor(), // Full stars based on the integer part of the rating
+                                                                                      (index) => Icon(
+                                                                                        size: 15,
+                                                                                        Icons.star,
+                                                                                        color: Colors.yellow,
+                                                                                      ),
+                                                                                    ),
+                                                                                    // Half star if there's a decimal part (e.g., 2.5)
+                                                                                    if (boatlist.rating - boatlist.rating.floor() >= 0.5)
+                                                                                      Icon(
+                                                                                        size: 15,
+                                                                                        Icons.star_half,
+                                                                                        color: Colors.yellow,
+                                                                                      ),
+                                                                                    // Empty stars for the remaining
+                                                                                    ...List.generate(
+                                                                                      5 - boatlist.rating.ceil(), // Remaining empty stars
+                                                                                      (index) => Icon(
+                                                                                        size: 15,
+                                                                                        Icons.star_border,
+                                                                                        color: Colors.yellow,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
                                                                                 ),
+                                                                                SizedBox(width: 10),
+                                                                                Text(boatlist.rating.toString())
                                                                               ],
                                                                             ),
-                                                                            SizedBox(width: 10),
-                                                                            Text(boatlist.rating.toString())
-                                                                          ],
-                                                                        ),
-                                                                        SizedBox(
-                                                                          height:
-                                                                              10,
-                                                                        ),
-                                                                        Row(
-                                                                          children: [
-                                                                            Icon(Icons.group),
-                                                                            const SizedBox(
-                                                                              width: 10,
+                                                                            SizedBox(
+                                                                              height: 10,
                                                                             ),
-                                                                            Text('To ${boatlist.guests} Guests')
+                                                                            Row(
+                                                                              children: [
+                                                                                Icon(Icons.group),
+                                                                                const SizedBox(
+                                                                                  width: 10,
+                                                                                ),
+                                                                                Text('To ${boatlist.guests} Guests')
+                                                                              ],
+                                                                            ),
+                                                                            SizedBox(
+                                                                              height: 10,
+                                                                            ),
+                                                                            Row(
+                                                                              children: [
+                                                                                Text('From ${boatlist.minimumPrice.toString()} P/hour')
+                                                                              ],
+                                                                            ),
                                                                           ],
                                                                         ),
-                                                                        SizedBox(
-                                                                          height:
-                                                                              10,
-                                                                        ),
-                                                                        Row(
-                                                                          children: [
-                                                                            Text('From ${boatlist.minimumPrice.toString()} P/hour')
-                                                                          ],
-                                                                        ),
-                                                                      ],
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                ),
-                                                              )),
-                                                ],
-                                              ),
-                                            ),
+                                                                  )),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            },
                                           );
                                         },
-                                      );
-                                    },
-                                    icon: PlacemarkIcon.single(
-                                      PlacemarkIconStyle(
-                                        //rotationType: RotationType.rotate,
-                                        isFlat: true,
-                                        scale: 0.6,
-                                        image: BitmapDescriptor.fromAssetImage(
-                                            'assets/markicon.png'),
+                                        icon: PlacemarkIcon.single(
+                                          PlacemarkIconStyle(
+                                            //rotationType: RotationType.rotate,
+                                            isFlat: true,
+                                            scale: 0.6,
+                                            image:
+                                                BitmapDescriptor.fromAssetImage(
+                                                    'assets/markicon.png'),
+                                          ),
+                                        ),
+                                        // it must be unique to show all
+                                        mapId: MapObjectId(
+                                            e.latitude.toString() +
+                                                e.longitude.toString()),
+                                        point: Point(
+                                            latitude: e.latitude,
+                                            longitude: e.longitude),
+                                        consumeTapEvents: true,
+                                        opacity: 3,
                                       ),
-                                    ),
-                                    // it must be unique to show all
-                                    mapId: MapObjectId(e.latitude.toString() +
-                                        e.longitude.toString()),
-                                    point: Point(
-                                        latitude: e.latitude,
-                                        longitude: e.longitude),
-                                    consumeTapEvents: true,
-                                    opacity: 3,
-                                  ),
-                                )
-                                .toList(),
-                            boatList: boatListHolder.boatList),
-                      ]
-                    // : (
-                    //         // _drawPolygonEnabled == true &&
-                    //         _drawPolygonEnabledSecond == true)
-                    //     ? [
-                    //         // This is second polygon MapOpjects show
-                    //         // here is the cluster and marks inside the polygon
-                    //         ...mapHolder.drivingMapObjects,
-                    //         ...mapHolder.bicycleMapObjects,
-                    //         ...mapHolder.pedestrianMapObjects,
-                    //         ...mapObjects, //this is first polygon MapObject
-                    //         ...mapObjectsSecond, //this is second polygon MapObject
-                    //         //
-                    //         // here is the Cluster of the second polygon
-                    //         _getClusterizedCollection(
-                    //             // here is the Cluster of the second polygon
-                    //             placemarks: newaddressInsideSecond
-                    //                 .map(
-                    //                   (e) => PlacemarkMapObject(
-                    //                     onTap: (mapObject, point) async {
-                    //                       // await _initialEndPlacmark();
-                    //                       //    await _initRealAddress();
-                    //                       boatListInsidePolygonSecond
-                    //                           .addAll(boatListHolder
-                    //                               .boatList
-                    //                               .where((boat) => boat
-                    //                                   .address
-                    //                                   .contains(e)));
+                                    )
+                                    .toList(),
+                                boatList: boatListHolder.boatList),
+                          ]
+                        : [
+                            // here is the cluster and marks outside the Polygon
+                            ...mapHolder.drivingMapObjects,
+                            ...mapHolder.bicycleMapObjects,
+                            ...mapHolder.pedestrianMapObjects,
+                            // This is location mark MapOpject
+                            _getClusterizedCollection(
+                              placemarks: boatListHolder.boatList
+                                  .expand(
+                                      (boatlist) =>
+                                          boatlist.address
+                                              .map((e) => PlacemarkMapObject(
+                                                    onTap: (mapObject,
+                                                        point) async {
+                                                      // Initialize address or any other data you need
+                                                      //     await _initRealAddress();
 
-                    //                       showModalBottomSheet(
-                    //                         context: context,
-                    //                         builder: (context) {
-                    //                           return Container(
-                    //                             height: 800,
-                    //                             width:
-                    //                                 MediaQuery.of(context)
-                    //                                     .size
-                    //                                     .width,
-                    //                             child:
-                    //                                 SingleChildScrollView(
-                    //                               child: Column(
-                    //                                 children: [
-                    //                                   // Display the username, latitude, longitude
-                    //                                   ...boatListInsidePolygonSecond
-                    //                                       .map(
-                    //                                           (boatlist) =>
-                    //                                               InkWell(
-                    //                                                 onTap:
-                    //                                                     () async {
-                    //                                                   final boatListHolder =
-                    //                                                       ref.read(boatProviderChangeNotifier);
-                    //                                                   await boatListHolder
-                    //                                                       .getElemenIndex(boatlist);
-                    //                                                   Navigator
-                    //                                                       .push(
-                    //                                                     context,
-                    //                                                     MaterialPageRoute(
-                    //                                                       builder: (context) => ShowInformationNew(),
-                    //                                                     ),
-                    //                                                   );
-                    //                                                 },
-                    //                                                 child:
-                    //                                                     Card(
-                    //                                                   color: Colors
-                    //                                                       .grey
-                    //                                                       .shade800,
-                    //                                                   child:
-                    //                                                       Padding(
-                    //                                                     padding:
-                    //                                                         const EdgeInsets.all(10),
-                    //                                                     child:
-                    //                                                         Column(
-                    //                                                       children: [
-                    //                                                         SizedBox(
-                    //                                                           height: 200,
-                    //                                                           child: ListView.builder(
-                    //                                                               scrollDirection: Axis.horizontal,
-                    //                                                               itemCount: boatlist.imageList.length,
-                    //                                                               itemBuilder: (context, index) {
-                    //                                                                 return Padding(
-                    //                                                                   padding: const EdgeInsets.all(5),
-                    //                                                                   child: ClipRRect(
-                    //                                                                     borderRadius: BorderRadius.circular(10),
-                    //                                                                     child: Image.network(
-                    //                                                                       boatlist.imageList[index],
-                    //                                                                       width: 250,
-                    //                                                                       height: 200,
-                    //                                                                       fit: BoxFit.cover,
-                    //                                                                     ),
-                    //                                                                   ),
-                    //                                                                 );
-                    //                                                               }),
-                    //                                                         ),
-                    //                                                         const SizedBox(
-                    //                                                           height: 10,
-                    //                                                         ),
-                    //                                                         Row(
-                    //                                                           children: [
-                    //                                                             Icon(Icons.radar),
-                    //                                                             const SizedBox(
-                    //                                                               width: 10,
-                    //                                                             ),
-                    //                                                             Text(boatlist.boatName),
-                    //                                                             Spacer(),
-                    //                                                             // ...List.generate(
-                    //                                                             //   boatInside.rating.toInt(),
-                    //                                                             //   (index) => Icon(
-                    //                                                             //     size: 15,
-                    //                                                             //     Icons.star,
-                    //                                                             //     color: Colors.yellow,
-                    //                                                             //   ),
-                    //                                                             // ),
-                    //                                                             Row(
-                    //                                                               children: [
-                    //                                                                 // Full stars
-                    //                                                                 ...List.generate(
-                    //                                                                   boatlist.rating.floor(), // Full stars based on the integer part of the rating
-                    //                                                                   (index) => Icon(
-                    //                                                                     size: 15,
-                    //                                                                     Icons.star,
-                    //                                                                     color: Colors.yellow,
-                    //                                                                   ),
-                    //                                                                 ),
-                    //                                                                 // Half star if there's a decimal part (e.g., 2.5)
-                    //                                                                 if (boatlist.rating - boatlist.rating.floor() >= 0.5)
-                    //                                                                   Icon(
-                    //                                                                     size: 15,
-                    //                                                                     Icons.star_half,
-                    //                                                                     color: Colors.yellow,
-                    //                                                                   ),
-                    //                                                                 // Empty stars for the remaining
-                    //                                                                 ...List.generate(
-                    //                                                                   5 - boatlist.rating.ceil(), // Remaining empty stars
-                    //                                                                   (index) => Icon(
-                    //                                                                     size: 15,
-                    //                                                                     Icons.star_border,
-                    //                                                                     color: Colors.yellow,
-                    //                                                                   ),
-                    //                                                                 ),
-                    //                                                               ],
-                    //                                                             ),
-                    //                                                             SizedBox(width: 10),
-                    //                                                             Text(boatlist.rating.toString())
-                    //                                                           ],
-                    //                                                         ),
-                    //                                                         SizedBox(
-                    //                                                           height: 10,
-                    //                                                         ),
-                    //                                                         Row(
-                    //                                                           children: [
-                    //                                                             Icon(Icons.group),
-                    //                                                             const SizedBox(
-                    //                                                               width: 10,
-                    //                                                             ),
-                    //                                                             Text('To ${boatlist.guests} Guests')
-                    //                                                           ],
-                    //                                                         ),
-                    //                                                         SizedBox(
-                    //                                                           height: 10,
-                    //                                                         ),
-                    //                                                         Row(
-                    //                                                           children: [
-                    //                                                             Text('From ${boatlist.minimumPrice.toString()} P/hour')
-                    //                                                           ],
-                    //                                                         ),
-                    //                                                       ],
-                    //                                                     ),
-                    //                                                   ),
-                    //                                                 ),
-                    //                                               )),
-                    //                                 ],
-                    //                               ),
-                    //                             ),
-                    //                           );
-                    //                         },
-                    //                       );
-                    //                     },
-                    //                     icon: PlacemarkIcon.single(
-                    //                       PlacemarkIconStyle(
-                    //                         //rotationType: RotationType.rotate,
-                    //                         isFlat: true,
-                    //                         scale: 0.6,
-                    //                         image: BitmapDescriptor
-                    //                             .fromAssetImage(
-                    //                                 'assets/markicon.png'),
-                    //                       ),
-                    //                     ),
-                    //                     // it must be unique to show all
-                    //                     mapId: MapObjectId(
-                    //                         e.latitude.toString() +
-                    //                             e.longitude.toString()),
-                    //                     point: Point(
-                    //                         latitude: e.latitude,
-                    //                         longitude: e.longitude),
-                    //                     consumeTapEvents: true,
-                    //                     opacity: 3,
-                    //                   ),
-                    //                 )
-                    //                 .toList(),
-                    //             boatList: boatListHolder.boatList),
-                    //         ///////////this is polygon Cluster (first polygon)
-                    //         //
-                    //         _getClusterizedCollection(
-                    //             placemarks: newaddressInside
-                    //                 .map(
-                    //                   (e) => PlacemarkMapObject(
-                    //                     onTap: (mapObject, point) async {
-                    //                       // await _initialEndPlacmark();
-                    //                       //    await _initRealAddress();
-                    //                       boatListInsidePolygon.addAll(
-                    //                           boatListHolder.boatList.where(
-                    //                               (boat) => boat.address
-                    //                                   .contains(e)));
-
-                    //                       showModalBottomSheet(
-                    //                         context: context,
-                    //                         builder: (context) {
-                    //                           return Container(
-                    //                             height: 800,
-                    //                             width:
-                    //                                 MediaQuery.of(context)
-                    //                                     .size
-                    //                                     .width,
-                    //                             child:
-                    //                                 SingleChildScrollView(
-                    //                               child: Column(
-                    //                                 children: [
-                    //                                   // Display the username, latitude, longitude
-                    //                                   ...boatListInsidePolygon
-                    //                                       .map(
-                    //                                           (boatlist) =>
-                    //                                               InkWell(
-                    //                                                 onTap:
-                    //                                                     () async {
-                    //                                                   final boatListHolder =
-                    //                                                       ref.read(boatProviderChangeNotifier);
-                    //                                                   await boatListHolder
-                    //                                                       .getElemenIndex(boatlist);
-                    //                                                   Navigator
-                    //                                                       .push(
-                    //                                                     context,
-                    //                                                     MaterialPageRoute(
-                    //                                                       builder: (context) => ShowInformationNew(),
-                    //                                                     ),
-                    //                                                   );
-                    //                                                 },
-                    //                                                 child:
-                    //                                                     Card(
-                    //                                                   color: Colors
-                    //                                                       .grey
-                    //                                                       .shade800,
-                    //                                                   child:
-                    //                                                       Padding(
-                    //                                                     padding:
-                    //                                                         const EdgeInsets.all(10),
-                    //                                                     child:
-                    //                                                         Column(
-                    //                                                       children: [
-                    //                                                         SizedBox(
-                    //                                                           height: 200,
-                    //                                                           child: ListView.builder(
-                    //                                                               scrollDirection: Axis.horizontal,
-                    //                                                               itemCount: boatlist.imageList.length,
-                    //                                                               itemBuilder: (context, index) {
-                    //                                                                 return Padding(
-                    //                                                                   padding: const EdgeInsets.all(5),
-                    //                                                                   child: ClipRRect(
-                    //                                                                     borderRadius: BorderRadius.circular(10),
-                    //                                                                     child: Image.network(
-                    //                                                                       boatlist.imageList[index],
-                    //                                                                       width: 250,
-                    //                                                                       height: 200,
-                    //                                                                       fit: BoxFit.cover,
-                    //                                                                     ),
-                    //                                                                   ),
-                    //                                                                 );
-                    //                                                               }),
-                    //                                                         ),
-                    //                                                         const SizedBox(
-                    //                                                           height: 10,
-                    //                                                         ),
-                    //                                                         Row(
-                    //                                                           children: [
-                    //                                                             Icon(Icons.radar),
-                    //                                                             const SizedBox(
-                    //                                                               width: 10,
-                    //                                                             ),
-                    //                                                             Text(boatlist.boatName),
-                    //                                                             Spacer(),
-                    //                                                             // ...List.generate(
-                    //                                                             //   boatInside.rating.toInt(),
-                    //                                                             //   (index) => Icon(
-                    //                                                             //     size: 15,
-                    //                                                             //     Icons.star,
-                    //                                                             //     color: Colors.yellow,
-                    //                                                             //   ),
-                    //                                                             // ),
-                    //                                                             Row(
-                    //                                                               children: [
-                    //                                                                 // Full stars
-                    //                                                                 ...List.generate(
-                    //                                                                   boatlist.rating.floor(), // Full stars based on the integer part of the rating
-                    //                                                                   (index) => Icon(
-                    //                                                                     size: 15,
-                    //                                                                     Icons.star,
-                    //                                                                     color: Colors.yellow,
-                    //                                                                   ),
-                    //                                                                 ),
-                    //                                                                 // Half star if there's a decimal part (e.g., 2.5)
-                    //                                                                 if (boatlist.rating - boatlist.rating.floor() >= 0.5)
-                    //                                                                   Icon(
-                    //                                                                     size: 15,
-                    //                                                                     Icons.star_half,
-                    //                                                                     color: Colors.yellow,
-                    //                                                                   ),
-                    //                                                                 // Empty stars for the remaining
-                    //                                                                 ...List.generate(
-                    //                                                                   5 - boatlist.rating.ceil(), // Remaining empty stars
-                    //                                                                   (index) => Icon(
-                    //                                                                     size: 15,
-                    //                                                                     Icons.star_border,
-                    //                                                                     color: Colors.yellow,
-                    //                                                                   ),
-                    //                                                                 ),
-                    //                                                               ],
-                    //                                                             ),
-                    //                                                             SizedBox(width: 10),
-                    //                                                             Text(boatlist.rating.toString())
-                    //                                                           ],
-                    //                                                         ),
-                    //                                                         SizedBox(
-                    //                                                           height: 10,
-                    //                                                         ),
-                    //                                                         Row(
-                    //                                                           children: [
-                    //                                                             Icon(Icons.group),
-                    //                                                             const SizedBox(
-                    //                                                               width: 10,
-                    //                                                             ),
-                    //                                                             Text('To ${boatlist.guests} Guests')
-                    //                                                           ],
-                    //                                                         ),
-                    //                                                         SizedBox(
-                    //                                                           height: 10,
-                    //                                                         ),
-                    //                                                         Row(
-                    //                                                           children: [
-                    //                                                             Text('From ${boatlist.minimumPrice.toString()} P/hour')
-                    //                                                           ],
-                    //                                                         ),
-                    //                                                       ],
-                    //                                                     ),
-                    //                                                   ),
-                    //                                                 ),
-                    //                                               )),
-                    //                                 ],
-                    //                               ),
-                    //                             ),
-                    //                           );
-                    //                         },
-                    //                       );
-                    //                     },
-                    //                     icon: PlacemarkIcon.single(
-                    //                       PlacemarkIconStyle(
-                    //                         //rotationType: RotationType.rotate,
-                    //                         isFlat: true,
-                    //                         scale: 0.6,
-                    //                         image: BitmapDescriptor
-                    //                             .fromAssetImage(
-                    //                                 'assets/markicon.png'),
-                    //                       ),
-                    //                     ),
-                    //                     // it must be unique to show all
-                    //                     mapId: MapObjectId(
-                    //                         e.latitude.toString() +
-                    //                             e.longitude.toString()),
-                    //                     point: Point(
-                    //                         latitude: e.latitude,
-                    //                         longitude: e.longitude),
-                    //                     consumeTapEvents: true,
-                    //                     opacity: 3,
-                    //                   ),
-                    //                 )
-                    //                 .toList(),
-                    //             boatList: boatListHolder.boatList),
-                    //       ]
-                    : [
-                        // here is the cluster and marks outside the Polygon
-                        ...mapHolder.drivingMapObjects,
-                        ...mapHolder.bicycleMapObjects,
-                        ...mapHolder.pedestrianMapObjects,
-                        // This is location mark MapOpject
-                        _getClusterizedCollection(
-                          placemarks: boatListHolder.boatList
-                              .expand(
-                                  (boatlist) =>
-                                      boatlist.address
-                                          .map((e) => PlacemarkMapObject(
-                                                onTap:
-                                                    (mapObject, point) async {
-                                                  // Initialize address or any other data you need
-                                                  //     await _initRealAddress();
-
-                                                  // Display the bottom sheet with information about the placemark and boat
-                                                  showModalBottomSheet(
-                                                    context: context,
-                                                    builder: (context) {
-                                                      return InkWell(
-                                                        onTap: () async {
-                                                          final boatListHolder =
-                                                              ref.read(
-                                                                  boatProviderChangeNotifier);
-                                                          await boatListHolder
-                                                              .getElemenIndex(
-                                                                  boatlist);
-                                                          Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  ShowInformationNew(),
+                                                      // Display the bottom sheet with information about the placemark and boat
+                                                      showModalBottomSheet(
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return InkWell(
+                                                            onTap: () async {
+                                                              final boatListHolder =
+                                                                  ref.read(
+                                                                      boatProviderChangeNotifier);
+                                                              await boatListHolder
+                                                                  .getElemenIndex(
+                                                                      boatlist);
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          ShowInformationNew(),
+                                                                ),
+                                                              );
+                                                            },
+                                                            child: Container(
+                                                              height: 800,
+                                                              width:
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width,
+                                                              child:
+                                                                  SingleChildScrollView(
+                                                                child: Column(
+                                                                  children: [
+                                                                    // Display the username, latitude, longitude
+                                                                    Card(
+                                                                      color: Colors
+                                                                          .grey
+                                                                          .shade800,
+                                                                      child:
+                                                                          Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .all(
+                                                                            10),
+                                                                        child:
+                                                                            Column(
+                                                                          children: [
+                                                                            SizedBox(
+                                                                              height: 200,
+                                                                              child: ListView.builder(
+                                                                                  scrollDirection: Axis.horizontal,
+                                                                                  itemCount: boatlist.imageList.length,
+                                                                                  itemBuilder: (context, index) {
+                                                                                    return Padding(
+                                                                                      padding: const EdgeInsets.all(5),
+                                                                                      child: ClipRRect(
+                                                                                        borderRadius: BorderRadius.circular(10),
+                                                                                        child: Image.network(
+                                                                                          boatlist.imageList[index],
+                                                                                          width: 250,
+                                                                                          height: 200,
+                                                                                          fit: BoxFit.cover,
+                                                                                        ),
+                                                                                      ),
+                                                                                    );
+                                                                                  }),
+                                                                            ),
+                                                                            const SizedBox(
+                                                                              height: 10,
+                                                                            ),
+                                                                            Row(
+                                                                              children: [
+                                                                                Icon(Icons.radar),
+                                                                                const SizedBox(
+                                                                                  width: 10,
+                                                                                ),
+                                                                                Text(boatlist.boatName),
+                                                                                Spacer(),
+                                                                                // ...List.generate(
+                                                                                //   boatInside.rating.toInt(),
+                                                                                //   (index) => Icon(
+                                                                                //     size: 15,
+                                                                                //     Icons.star,
+                                                                                //     color: Colors.yellow,
+                                                                                //   ),
+                                                                                // ),
+                                                                                Row(
+                                                                                  children: [
+                                                                                    // Full stars
+                                                                                    ...List.generate(
+                                                                                      boatlist.rating.floor(), // Full stars based on the integer part of the rating
+                                                                                      (index) => Icon(
+                                                                                        size: 15,
+                                                                                        Icons.star,
+                                                                                        color: Colors.yellow,
+                                                                                      ),
+                                                                                    ),
+                                                                                    // Half star if there's a decimal part (e.g., 2.5)
+                                                                                    if (boatlist.rating - boatlist.rating.floor() >= 0.5)
+                                                                                      Icon(
+                                                                                        size: 15,
+                                                                                        Icons.star_half,
+                                                                                        color: Colors.yellow,
+                                                                                      ),
+                                                                                    // Empty stars for the remaining
+                                                                                    ...List.generate(
+                                                                                      5 - boatlist.rating.ceil(), // Remaining empty stars
+                                                                                      (index) => Icon(
+                                                                                        size: 15,
+                                                                                        Icons.star_border,
+                                                                                        color: Colors.yellow,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                                SizedBox(width: 10),
+                                                                                Text(boatlist.rating.toString())
+                                                                              ],
+                                                                            ),
+                                                                            SizedBox(
+                                                                              height: 10,
+                                                                            ),
+                                                                            Row(
+                                                                              children: [
+                                                                                Icon(Icons.group),
+                                                                                const SizedBox(
+                                                                                  width: 10,
+                                                                                ),
+                                                                                Text('To ${boatlist.guests} Guests')
+                                                                              ],
+                                                                            ),
+                                                                            SizedBox(
+                                                                              height: 10,
+                                                                            ),
+                                                                            Row(
+                                                                              children: [
+                                                                                Text('From ${boatlist.minimumPrice.toString()} P/hour')
+                                                                              ],
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
                                                             ),
                                                           );
                                                         },
-                                                        child: Container(
-                                                          height: 800,
-                                                          width: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width,
-                                                          child:
-                                                              SingleChildScrollView(
-                                                            child: Column(
-                                                              children: [
-                                                                // Display the username, latitude, longitude
-                                                                Card(
-                                                                  color: Colors
-                                                                      .grey
-                                                                      .shade800,
-                                                                  child:
-                                                                      Padding(
-                                                                    padding:
-                                                                        const EdgeInsets
-                                                                            .all(
-                                                                            10),
-                                                                    child:
-                                                                        Column(
-                                                                      children: [
-                                                                        SizedBox(
-                                                                          height:
-                                                                              200,
-                                                                          child: ListView.builder(
-                                                                              scrollDirection: Axis.horizontal,
-                                                                              itemCount: boatlist.imageList.length,
-                                                                              itemBuilder: (context, index) {
-                                                                                return Padding(
-                                                                                  padding: const EdgeInsets.all(5),
-                                                                                  child: ClipRRect(
-                                                                                    borderRadius: BorderRadius.circular(10),
-                                                                                    child: Image.network(
-                                                                                      boatlist.imageList[index],
-                                                                                      width: 250,
-                                                                                      height: 200,
-                                                                                      fit: BoxFit.cover,
-                                                                                    ),
-                                                                                  ),
-                                                                                );
-                                                                              }),
-                                                                        ),
-                                                                        const SizedBox(
-                                                                          height:
-                                                                              10,
-                                                                        ),
-                                                                        Row(
-                                                                          children: [
-                                                                            Icon(Icons.radar),
-                                                                            const SizedBox(
-                                                                              width: 10,
-                                                                            ),
-                                                                            Text(boatlist.boatName),
-                                                                            Spacer(),
-                                                                            // ...List.generate(
-                                                                            //   boatInside.rating.toInt(),
-                                                                            //   (index) => Icon(
-                                                                            //     size: 15,
-                                                                            //     Icons.star,
-                                                                            //     color: Colors.yellow,
-                                                                            //   ),
-                                                                            // ),
-                                                                            Row(
-                                                                              children: [
-                                                                                // Full stars
-                                                                                ...List.generate(
-                                                                                  boatlist.rating.floor(), // Full stars based on the integer part of the rating
-                                                                                  (index) => Icon(
-                                                                                    size: 15,
-                                                                                    Icons.star,
-                                                                                    color: Colors.yellow,
-                                                                                  ),
-                                                                                ),
-                                                                                // Half star if there's a decimal part (e.g., 2.5)
-                                                                                if (boatlist.rating - boatlist.rating.floor() >= 0.5)
-                                                                                  Icon(
-                                                                                    size: 15,
-                                                                                    Icons.star_half,
-                                                                                    color: Colors.yellow,
-                                                                                  ),
-                                                                                // Empty stars for the remaining
-                                                                                ...List.generate(
-                                                                                  5 - boatlist.rating.ceil(), // Remaining empty stars
-                                                                                  (index) => Icon(
-                                                                                    size: 15,
-                                                                                    Icons.star_border,
-                                                                                    color: Colors.yellow,
-                                                                                  ),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                            SizedBox(width: 10),
-                                                                            Text(boatlist.rating.toString())
-                                                                          ],
-                                                                        ),
-                                                                        SizedBox(
-                                                                          height:
-                                                                              10,
-                                                                        ),
-                                                                        Row(
-                                                                          children: [
-                                                                            Icon(Icons.group),
-                                                                            const SizedBox(
-                                                                              width: 10,
-                                                                            ),
-                                                                            Text('To ${boatlist.guests} Guests')
-                                                                          ],
-                                                                        ),
-                                                                        SizedBox(
-                                                                          height:
-                                                                              10,
-                                                                        ),
-                                                                        Row(
-                                                                          children: [
-                                                                            Text('From ${boatlist.minimumPrice.toString()} P/hour')
-                                                                          ],
-                                                                        )
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
                                                       );
                                                     },
-                                                  );
-                                                },
-                                                icon: PlacemarkIcon.single(
-                                                  PlacemarkIconStyle(
-                                                    isFlat: true,
-                                                    scale: 0.6,
-                                                    image: BitmapDescriptor
-                                                        .fromAssetImage(
-                                                            'assets/markicon.png'), // Ensure the asset exists
-                                                  ),
-                                                ),
-                                                mapId: MapObjectId(
-                                                    e.latitude.toString() +
+                                                    icon: PlacemarkIcon.single(
+                                                      PlacemarkIconStyle(
+                                                        isFlat: true,
+                                                        scale: 0.6,
+                                                        image: BitmapDescriptor
+                                                            .fromAssetImage(
+                                                                'assets/markicon.png'), // Ensure the asset exists
+                                                      ),
+                                                    ),
+                                                    mapId: MapObjectId(e
+                                                            .latitude
+                                                            .toString() +
                                                         e.longitude.toString()),
-                                                point: Point(
-                                                  latitude: e.latitude,
-                                                  longitude: e.longitude,
-                                                ),
-                                                consumeTapEvents: true,
-                                                opacity:
-                                                    1, // Consider adjusting opacity to valid value
-                                              )))
-                              .toList(), // Flatten the list of PlacemarkMapObjects
-                          boatList: boatListHolder.boatList,
-                        ),
-
-//////
-
-                        if (mapHolder.lat != null)
-                          currentLocationPlacemark = PlacemarkMapObject(
-                            opacity: 5,
-                            mapId: const MapObjectId('start_placemark'),
-                            point: Point(
-                                latitude: mapHolder.lat!,
-                                longitude: mapHolder.long!),
-                            icon: PlacemarkIcon.single(PlacemarkIconStyle(
-                                image: BitmapDescriptor.fromAssetImage(
-                                    'assets/399308.png'),
-                                scale: 0.2)),
-                          ),
-                      ],
+                                                    point: Point(
+                                                      latitude: e.latitude,
+                                                      longitude: e.longitude,
+                                                    ),
+                                                    consumeTapEvents: true,
+                                                    opacity:
+                                                        1, // Consider adjusting opacity to valid value
+                                                  )))
+                                  .toList(), // Flatten the list of PlacemarkMapObjects
+                              boatList: boatListHolder.boatList,
+                            ),
+                            if (mapHolder.lat != null)
+                              currentLocationPlacemark = PlacemarkMapObject(
+                                opacity: 5,
+                                mapId: const MapObjectId('start_placemark'),
+                                point: Point(
+                                    latitude: mapHolder.lat!,
+                                    longitude: mapHolder.long!),
+                                icon: PlacemarkIcon.single(PlacemarkIconStyle(
+                                    image: BitmapDescriptor.fromAssetImage(
+                                        'assets/399308.png'),
+                                    scale: 0.2)),
+                              ),
+                          ],
                 onMapCreated: (_controller) {
                   controller = _controller;
-                  // routeMode == 1
-                  //     ? _controller.moveCamera(
-                  //         CameraUpdate.newCameraPosition(
-                  //           CameraPosition(
-                  //             zoom: 12,
-                  //             target: startPlacemark.point,
-                  //           ),
-                  //         ),
-                  //       )
-                  //     :
-                  //  _controller.moveCamera(
-                  //  CameraUpdate.newCameraPosition(
-                  //  CameraPosition(
-                  //    zoom: zoom,
-                  //    target: Point(
-                  // latitude: widget.address.first.latitude,
-                  //  longitude: widget.address.first.longitude),
-                  //  ),
-                  //  ),
-                  //  );
                 },
               ),
             ),
@@ -1611,6 +1205,7 @@ class _FullMap2State extends ConsumerState<ShowAllElementsOnMapSecond> {
             //     line != null &&
             //     line2 != null)
             //if (line != null || line2 != null)
+            // here we are setting condition to check the line, is it from first polygon or from second.
             if ((_drawPolygonEnabled == true) && line != null)
               CustomPaint(
                 size: MediaQuery.sizeOf(context),
@@ -1783,9 +1378,7 @@ class _FullMap2State extends ConsumerState<ShowAllElementsOnMapSecond> {
                     height: 60,
                     child: IconButton(
                       onPressed: () {
-                        setState(() {
-                          // allowSecond = true;
-                        });
+                        setState(() {});
                         _toggleDrawing();
                       },
                       icon: Icon(
@@ -1810,10 +1403,6 @@ class _FullMap2State extends ConsumerState<ShowAllElementsOnMapSecond> {
                     height: 60,
                     child: IconButton(
                       onPressed: _toggleDrawingSecond,
-                      // (allowSecond == true) ? _toggleDrawingSecond() : null,
-                      //  _drawPolygonEnabledSecond == true
-                      //     ? _toggleDrawingSecond
-                      //     : null,
                       icon: Icon(
                         (_drawPolygonEnabledSecond)
                             ? Icons.cancel
@@ -1832,6 +1421,7 @@ class _FullMap2State extends ConsumerState<ShowAllElementsOnMapSecond> {
     );
   }
 
+  // here is the cluster function for first polygon.
   ClusterizedPlacemarkCollection _getClusterizedCollection({
     required List<PlacemarkMapObject> placemarks,
     required List<BoatModel> boatList,
@@ -2018,7 +1608,7 @@ class _FullMap2State extends ConsumerState<ShowAllElementsOnMapSecond> {
     );
   }
 
-  //second cluster
+  //here is the cluster function for second polygon.
   ClusterizedPlacemarkCollection _getClusterizedCollectionSecond({
     required List<PlacemarkMapObject> placemarks,
     required List<BoatModel> boatList,
