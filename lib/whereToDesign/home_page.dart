@@ -3,8 +3,8 @@ import 'package:design/whereToDesign/yandex_map/map_view/show_all_elements_on_ma
 import 'package:flutter/material.dart';
 
 import 'change_notifier/review_filter_change_notifier.dart';
-import 'new_design_slivers/pages/sliver_page.dart';
-import 'show_review.dart';
+import 'testing_folder/test_page.dart';
+import 'tickets/tickets_pages/ticket_befor_today_new.dart';
 import 'tickets/tickets_pages/tickets_all_pages.dart';
 import 'translation/profie_page_translation.dart';
 
@@ -71,8 +71,9 @@ class _HomePageState extends State<HomePage> {
       ////////////////// SliverBar(),
       //Val(),
       // Register3(),
-      ShowReview(),
-      //  UserProfile(), //.................................................................>>>
+      // ShowReview(),
+      // UserProfile(), //.................................................................>>>
+      TicketBeforeTodayNew(),
       // Loovr4(),
       // Register3(),
       //SynchronizedScrollWidget(),
@@ -80,7 +81,11 @@ class _HomePageState extends State<HomePage> {
       //TestPlacePicker(),
       // PayPage(),
       //MyNestedScrollView(),
-      SliverBar(),
+      //SliverBar(),
+      //
+      MyApp(),
+      //
+      //TicketBeforeTodayNew(),
       // HeadPage(),
       // TestPaymentTinkoff(),
     ];

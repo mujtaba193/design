@@ -12,32 +12,35 @@ class TicketApplicationModel {
   DateTime startTime;
   DateTime endTime;
   final String status;
+  int? rating;
 
-  TicketApplicationModel(
-      {required this.id,
-      required this.name,
-      required this.guests,
-      required this.photos,
-      required this.startAddress,
-      required this.destination,
-      required this.price,
-      required this.startTime,
-      required this.endTime,
-      required this.status});
+  TicketApplicationModel({
+    required this.id,
+    required this.name,
+    required this.guests,
+    required this.photos,
+    required this.startAddress,
+    required this.destination,
+    required this.price,
+    required this.startTime,
+    required this.endTime,
+    required this.status,
+    required this.rating,
+  });
   factory TicketApplicationModel.fromJson(Map<String, dynamic> json) {
     return TicketApplicationModel(
-      id: json['id'],
-      name: json['name'],
-      guests: json['guests'],
-      photos: List<String>.from(json['photos']),
-      startAddress: StartAddressModel.fromJson(json['start_address']),
-      destination:
-          DestinationAddressModel.fromJson(json['destination_address']),
-      price: json['price'].toDouble(),
-      startTime: DateTime.parse(json['start_time']),
-      endTime: DateTime.parse(json['end_time']),
-      status: json['status'],
-    );
+        id: json['id'],
+        name: json['name'],
+        guests: json['guests'],
+        photos: List<String>.from(json['photos']),
+        startAddress: StartAddressModel.fromJson(json['start_address']),
+        destination:
+            DestinationAddressModel.fromJson(json['destination_address']),
+        price: json['price'].toDouble(),
+        startTime: DateTime.parse(json['start_time']),
+        endTime: DateTime.parse(json['end_time']),
+        status: json['status'],
+        rating: json['rating']);
   }
   Map<String, dynamic> toJson() {
     return {
@@ -51,6 +54,7 @@ class TicketApplicationModel {
       'start_time': startTime.toIso8601String(),
       'end_time': endTime.toIso8601String(),
       'status': status,
+      'rating': rating,
     };
   }
 }

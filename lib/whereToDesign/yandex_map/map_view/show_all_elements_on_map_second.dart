@@ -1456,12 +1456,25 @@ class _FullMap2State extends ConsumerState<ShowAllElementsOnMapSecond> {
         //     ),
         //   ),
         // );
+        // List<BoatModel> boatListInside = [];
+        // for (var inside in boatList) {
+        //   if (inside.address.any((e) =>
+        //       e.latitude == cluster.placemarks.first.point.latitude &&
+        //       e.longitude == cluster.placemarks.first.point.longitude)) {
+        //     boatListInside.add(inside);
+        //   }
+        // }
         List<BoatModel> boatListInside = [];
         for (var inside in boatList) {
-          if (inside.address.any((e) =>
-              e.latitude == cluster.placemarks.first.point.latitude &&
-              e.longitude == cluster.placemarks.first.point.longitude)) {
-            boatListInside.add(inside);
+          for (var placemark in cluster.placemarks) {
+            if (inside.address.any((e) =>
+                e.latitude == placemark.point.latitude &&
+                e.longitude == placemark.point.longitude)) {
+              if (!boatListInside.contains(inside)) {
+                boatListInside.add(inside);
+              }
+              //   break; // Stop checking other placemarks once a match is found
+            }
           }
         }
 
@@ -1645,13 +1658,18 @@ class _FullMap2State extends ConsumerState<ShowAllElementsOnMapSecond> {
         // );
         List<BoatModel> boatListInside = [];
         for (var inside in boatList) {
-          if (inside.address.any((e) =>
-              e.latitude == cluster.placemarks.first.point.latitude &&
-              e.longitude == cluster.placemarks.first.point.longitude)) {
-            boatListInside.add(inside);
+          for (var placemark in cluster.placemarks) {
+            if (inside.address.any((e) =>
+                e.latitude == placemark.point.latitude &&
+                e.longitude == placemark.point.longitude)) {
+              if (!boatListInside.contains(inside)) {
+                boatListInside.add(inside);
+              }
+
+              //   break; // Stop checking other placemarks once a match is found
+            }
           }
         }
-
         showModalBottomSheet(
           context: context,
           builder: (context) {

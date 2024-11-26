@@ -19,14 +19,15 @@
     "price": 4450.0,
     "start_time": "2024-03-07T10:00:00",
     "end_time": "2024-03-07T12:00:00",
-    "status":"Waiting"
+    "status":"Waiting",
+    "rating": 4
 },
 {
     "id": "8675kjtjt",
     "name": "Toby Toman",
     "guests": 18,
     "photos": [
-        "https://wallpapers.com/images/high/beautiful-japanese-girl-portrait-gw865vkie5ekfimm.webp",
+        "https://images.unsplash.com/photo-1566753323558-f4e0952af115?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmlsZSUyMG1hbnxlbnwwfHwwfHx8MA%3D%3D",
         "https://thumbs.dreamstime.com/z/luxury-yacht-mediteranean-sea-sardinia-26104031.jpg?ct=jpeg"
     ],
     "start_address": {
@@ -42,14 +43,15 @@
     "price": 3000.0,
     "start_time": "2024-03-07T10:00:00",
     "end_time": "2024-03-07T12:00:00",
-    "status":"Confirmed"
+    "status":"Confirmed",
+    "rating": 2
 },
 {
     "id": "asdfdhj",
     "name": "Naveen",
     "guests": 18,
     "photos": [
-        "https://wallpapers.com/images/high/beautiful-japanese-girl-portrait-gw865vkie5ekfimm.webp",
+        "https://marketplace.canva.com/EAFqNrAJpQs/1/0/1600w/canva-neutral-pink-modern-circle-shape-linkedin-profile-picture-WAhofEY5L1U.jpg",
         "https://thumbs.dreamstime.com/z/luxury-yacht-mediteranean-sea-sardinia-26104031.jpg?ct=jpeg"
     ],
     "start_address": {
@@ -65,14 +67,15 @@
     "price": 3000.0,
     "start_time": "2024-03-07T10:00:00",
     "end_time": "2024-03-07T12:00:00",
-    "status":"Confirmed"
+    "status":"Confirmed",
+    "rating": 5
 },
 {
     "id": "mahshll654",
     "name": "Mahdi Shallal",
     "guests": 10,
     "photos": [
-        "https://wallpapers.com/images/high/beautiful-japanese-girl-portrait-gw865vkie5ekfimm.webp",
+        "https://images.assetsdelivery.com/compings_v2/fizkes/fizkes2011/fizkes201102042.jpg",
         "https://thumbs.dreamstime.com/z/luxury-yacht-mediteranean-sea-sardinia-26104031.jpg?ct=jpeg"
     ],
     "start_address": {
@@ -88,5 +91,6 @@
     "price": 4450.0,
     "start_time": "2024-03-07T10:00:00",
     "end_time": "2024-03-07T12:00:00",
-    "status":"Waiting"
+    "status":"Waiting",
+    "rating": null
 }]
