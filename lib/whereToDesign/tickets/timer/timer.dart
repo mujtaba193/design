@@ -163,15 +163,15 @@ class _TimerCountdownState extends State<TimerCountdown> {
               ":",
               style: widget.colonsTextStyle,
             ),
-            if (widget.enableDescriptions)
-              SizedBox(
-                height: 5,
-              ),
-            if (widget.enableDescriptions)
-              Text(
-                "",
-                style: widget.descriptionTextStyle,
-              ),
+            // if (widget.enableDescriptions)
+            //   SizedBox(
+            //     height: 5,
+            //   ),
+            // if (widget.enableDescriptions)
+            //   Text(
+            //     "",
+            //     style: widget.descriptionTextStyle,
+            //   ),
           ],
         ),
         SizedBox(
@@ -214,15 +214,15 @@ class _TimerCountdownState extends State<TimerCountdown> {
           countdownHours,
           style: widget.timeTextStyle,
         ),
-        if (widget.enableDescriptions)
-          SizedBox(
-            height: 5,
-          ),
-        if (widget.enableDescriptions)
-          Text(
-            widget.hoursDescription,
-            style: widget.descriptionTextStyle,
-          ),
+        // if (widget.enableDescriptions)
+        //   SizedBox(
+        //     height: 5,
+        //   ),
+        // if (widget.enableDescriptions)
+        //   Text(
+        //     widget.hoursDescription,
+        //     style: widget.descriptionTextStyle,
+        //   ),
       ],
     );
   }
@@ -237,15 +237,15 @@ class _TimerCountdownState extends State<TimerCountdown> {
           countdownMinutes,
           style: widget.timeTextStyle,
         ),
-        if (widget.enableDescriptions)
-          SizedBox(
-            height: 5,
-          ),
-        if (widget.enableDescriptions)
-          Text(
-            widget.minutesDescription,
-            style: widget.descriptionTextStyle,
-          ),
+        // if (widget.enableDescriptions)
+        //   SizedBox(
+        //     height: 5,
+        //   ),
+        // if (widget.enableDescriptions)
+        //   Text(
+        //     widget.minutesDescription,
+        //     style: widget.descriptionTextStyle,
+        //   ),
       ],
     );
   }
@@ -260,15 +260,15 @@ class _TimerCountdownState extends State<TimerCountdown> {
           countdownSeconds,
           style: widget.timeTextStyle,
         ),
-        if (widget.enableDescriptions)
-          SizedBox(
-            height: 5,
-          ),
-        if (widget.enableDescriptions)
-          Text(
-            widget.secondsDescription,
-            style: widget.descriptionTextStyle,
-          ),
+        // if (widget.enableDescriptions)
+        //   SizedBox(
+        //     height: 5,
+        //   ),
+        // if (widget.enableDescriptions)
+        //   Text(
+        //     widget.secondsDescription,
+        //     style: widget.descriptionTextStyle,
+        //   ),
       ],
     );
   }
@@ -414,13 +414,17 @@ class _TimerCountdownState extends State<TimerCountdown> {
           ],
         );
       case CountDownTimerFormat.minutesSeconds:
-        return Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _minutes(context),
-            _colon(),
-            _seconds(context),
-          ],
+        return Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _minutes(context),
+              _colon(),
+              _seconds(context),
+            ],
+          ),
         );
 
       case CountDownTimerFormat.minutesOnly:

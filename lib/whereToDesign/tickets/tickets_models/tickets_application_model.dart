@@ -2,6 +2,7 @@ import 'end_address_model.dart';
 import 'start_address_model.dart';
 
 class TicketApplicationModel {
+  final String boatId;
   final String id;
   final String name;
   final int guests;
@@ -15,6 +16,7 @@ class TicketApplicationModel {
   int? rating;
 
   TicketApplicationModel({
+    required this.boatId,
     required this.id,
     required this.name,
     required this.guests,
@@ -29,6 +31,7 @@ class TicketApplicationModel {
   });
   factory TicketApplicationModel.fromJson(Map<String, dynamic> json) {
     return TicketApplicationModel(
+        boatId: json['boatId'],
         id: json['id'],
         name: json['name'],
         guests: json['guests'],
@@ -44,6 +47,7 @@ class TicketApplicationModel {
   }
   Map<String, dynamic> toJson() {
     return {
+      'boatId': boatId,
       'id': id,
       'name': name,
       'guests': guests,
