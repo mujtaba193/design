@@ -50,6 +50,31 @@
         "rating": 2
     },
     {
+        "boatId": "106",
+        "id": "mahsfff54",
+        "name": "Taty Top",
+        "guests": 10,
+        "photos": [
+            "https://media.istockphoto.com/id/1476170969/photo/portrait-of-young-man-ready-for-job-business-concept.jpg?s=612x612&w=0&k=20&c=w8SlKv-4u6xYyU07CXeBRvfW6F0iYx-a7HR2ChM8ZbU=",
+            "https://thumbs.dreamstime.com/z/luxury-yacht-mediteranean-sea-sardinia-26104031.jpg?ct=jpeg"
+        ],
+        "start_address": {
+            "name": "Stimul",
+            "latitude": 59.961573,
+            "longitude": 30.307465
+        },
+        "destination_address": {
+            "name": "Chugunnaya Ulitsa, 2",
+            "latitude": 59.978807,
+            "longitude": 30.350653
+        },
+        "price": 4450.0,
+        "start_time": "2024-03-07T10:00:00",
+        "end_time": "2024-03-07T12:00:00",
+        "status": "Waiting",
+        "rating": null
+    },
+    {
         "boatId": "125",
         "id": "asdfdhj",
         "name": "Naveen",

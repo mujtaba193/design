@@ -114,7 +114,7 @@ class _TicketsReviewPageState extends State<TicketsReviewPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Pleas Rate',
+                      'Please Rate',
                       style: TextStyle(fontSize: 20),
                     ),
                     SizedBox(

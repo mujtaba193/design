@@ -63,32 +63,6 @@ class _ShowTicketsApplicationState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        // Row(
-                        //   children: [
-                        //     ticketsHolder.ticketList![index].status ==
-                        //             'Confirmed'
-                        //         ? Icon(
-                        //             Icons.check_circle,
-                        //             color: Colors.green,
-                        //           )
-                        //         : Icon(
-                        //             Icons.hourglass_bottom,
-                        //           ),
-                        //     Text('${ticketsHolder.ticketList![index].status}'),
-                        //     Spacer(),
-                        //     GestureDetector(
-                        //       child: Row(
-                        //         children: [
-                        //           Text('Edit  '),
-                        //           Icon(Icons.mode_edit_outline_outlined)
-                        //         ],
-                        //       ),
-                        //     )
-                        //   ],
-                        // ),
-                        // SizedBox(
-                        //   height: 20,
-                        // ),
                         Stack(
                           children: [
                             CardItemView(
@@ -221,30 +195,31 @@ class _ShowTicketsApplicationState
                                         'assets/Message 29.svg'),
                                   ),
                                   Consumer(
-                                      builder: (BuildContext context, ref, _) {
-                                    return reviewHolder.when(data: (e) {
-                                      // Filter the boat reviews based on the boatId
-                                      var filteredBoatReviews = e.boatReviews
-                                          .where((boat) =>
-                                              boat.boatId ==
-                                              ticketsHolder
-                                                  .ticketList![index].boatId)
-                                          .toList();
-                                      // Extract the reviews and make sure they are of the correct type (ReviewssModel)
-                                      List<ReviewssModel> reviewValue =
-                                          filteredBoatReviews
-                                              .expand(
-                                                  (element) => element.reviews)
-                                              .toList();
-                                      return Text(
-                                          reviewValue.length.toString());
-                                    }, error:
-                                        (Object error, StackTrace stackTrace) {
-                                      return SizedBox();
-                                    }, loading: () {
-                                      return CircularProgressIndicator();
-                                    });
-                                  })
+                                    builder: (BuildContext context, ref, _) {
+                                      return reviewHolder.when(data: (e) {
+                                        // Filter the boat reviews based on the boatId
+                                        var filteredBoatReviews = e.boatReviews
+                                            .where((boat) =>
+                                                boat.boatId ==
+                                                ticketsHolder
+                                                    .ticketList![index].boatId)
+                                            .toList();
+                                        // Extract the reviews and make sure they are of the correct type (ReviewssModel)
+                                        List<ReviewssModel> reviewValue =
+                                            filteredBoatReviews
+                                                .expand((element) =>
+                                                    element.reviews)
+                                                .toList();
+                                        return Text(
+                                            reviewValue.length.toString());
+                                      }, error: (Object error,
+                                          StackTrace stackTrace) {
+                                        return SizedBox();
+                                      }, loading: () {
+                                        return CircularProgressIndicator();
+                                      });
+                                    },
+                                  ),
                                 ],
                               ),
                               SizedBox(

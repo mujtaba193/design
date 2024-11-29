@@ -46,7 +46,7 @@ class _TicketsAllPagesState extends State<TicketsAllPages> {
             ShowTicketsApplication(),
             // TicketsToday(),
             ShowAfterTodayTickets(),
-            ShowBeforTodayTickets()
+            TicketBeforeToday()
           ],
         ),
       ),
