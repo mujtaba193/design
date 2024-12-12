@@ -83,23 +83,6 @@ class _TicketsReviewPageState extends State<TicketsReviewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      // floatingActionButton: TextButton(
-      //     onPressed: () {},
-      //     child: Container(
-      //       decoration: BoxDecoration(
-      //           borderRadius: BorderRadius.circular(8),
-      //           border: Border.all(),
-      //           color: Colors.grey.shade600),
-      //       width: 150,
-      //       height: 30,
-      //       child: Center(
-      //         child: Text(
-      //           'Submit',
-      //           style: TextStyle(color: Colors.white),
-      //         ),
-      //       ),
-      //     )),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       appBar: AppBar(),
       body: SingleChildScrollView(
         child: Column(
@@ -148,36 +131,114 @@ class _TicketsReviewPageState extends State<TicketsReviewPage> {
                             onTap: () {
                               if (pickedImagesList.length < 5) {
                                 // dialog for image picking options.
-                                showDialog(
+                                // showDialog(
+                                //   context: context,
+                                //   builder: (context) {
+                                //     return SimpleDialog(
+                                //       children: [
+                                //         TextButton(
+                                //           child: Text('Chose from Camera'),
+                                //           onPressed: () {
+                                //             Navigator.of(context).pop();
+                                //             setState(() {
+                                //               takeFromCamera(context);
+                                //             });
+                                //           },
+                                //         ),
+                                //         TextButton(
+                                //           onPressed: () {
+                                //             Navigator.of(context).pop();
+                                //             setState(() {
+                                //               takeFromGallary(context);
+                                //             });
+                                //           },
+                                //           child: Text('Chose from gallary'),
+                                //         ),
+                                //       ],
+                                //     );
+                                //   },
+                                // );
+                                // dialog for image picking option.
+                                showModalBottomSheet(
                                   context: context,
                                   builder: (context) {
-                                    return SimpleDialog(
-                                      children: [
-                                        TextButton(
-                                          child: Text('Chose from Camera'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            setState(() {
-                                              takeFromCamera(context);
-                                            });
-                                          },
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            setState(() {
-                                              takeFromGallary(context);
-                                            });
-                                          },
-                                          child: Text('Chose from gallary'),
-                                        ),
-                                      ],
+                                    return Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 300,
+                                      child: Column(
+                                        children: [
+                                          SizedBox(height: 10),
+                                          //Chose from camera.
+                                          Padding(
+                                            padding: const EdgeInsets.all(15),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Navigator.of(context).pop();
+                                                setState(() {
+                                                  takeFromCamera(context);
+                                                });
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.all(10),
+                                                height: 60,
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8)),
+                                                child: Row(
+                                                  children: [
+                                                    Icon(Icons.camera_alt),
+                                                    SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                    Text('Chose from Camera'),
+                                                    Spacer(),
+                                                    Icon(Icons.arrow_right),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(height: 20),
+                                          // Chose from gallery.
+                                          Padding(
+                                            padding: const EdgeInsets.all(15),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Navigator.of(context).pop();
+                                                setState(() {
+                                                  takeFromGallary(context);
+                                                });
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.all(10),
+                                                height: 60,
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8)),
+                                                child: Row(
+                                                  children: [
+                                                    Icon(Icons.photo_album),
+                                                    SizedBox(width: 15),
+                                                    Text('Chose from gallary'),
+                                                    Spacer(),
+                                                    Icon(Icons.arrow_right),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     );
                                   },
                                 );
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
+                                    const SnackBar(
                                         content: Text(
                                             'You can upload only 5 photos')));
                               }
@@ -192,7 +253,7 @@ class _TicketsReviewPageState extends State<TicketsReviewPage> {
                                   width: 100,
                                   height: 100,
                                   decoration: BoxDecoration(color: Colors.grey),
-                                  child: Center(
+                                  child: const Center(
                                     child: Icon(
                                       Icons.camera_alt_outlined,
                                       size: 50,
@@ -208,32 +269,112 @@ class _TicketsReviewPageState extends State<TicketsReviewPage> {
                                 (element) => GestureDetector(
                                   onTap: () {
                                     // dialog for image deleting options.
-                                    showDialog(
+                                    showModalBottomSheet(
                                       context: context,
                                       builder: (context) {
-                                        return SimpleDialog(
-                                          children: [
-                                            TextButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  Navigator.of(context).pop();
-                                                  pickedImagesList
-                                                      .remove(element);
-                                                });
-                                              },
-                                              child: Text('delete'),
-                                            ),
-                                            TextButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    Navigator.of(context).pop();
-                                                  });
-                                                },
-                                                child: Text('cancel'))
-                                          ],
+                                        return Container(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          height: 300,
+                                          child: Column(
+                                            children: [
+                                              SizedBox(height: 10),
+                                              //Delete button.
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(15),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      pickedImagesList
+                                                          .remove(element);
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                    padding: EdgeInsets.all(10),
+                                                    height: 60,
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8)),
+                                                    child: Row(
+                                                      children: [
+                                                        Icon(Icons.delete),
+                                                        SizedBox(width: 15),
+                                                        Text('Delete'),
+                                                        Spacer(),
+                                                        Icon(Icons.arrow_right),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(height: 20),
+                                              // Chose from Gallery button.
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(15),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                    padding: EdgeInsets.all(10),
+                                                    height: 60,
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8)),
+                                                    child: Row(
+                                                      children: [
+                                                        Icon(Icons.cancel),
+                                                        SizedBox(width: 15),
+                                                        Text('Cancel'),
+                                                        Spacer(),
+                                                        Icon(Icons.arrow_right),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         );
                                       },
                                     );
+                                    // showDialog(
+                                    //   context: context,
+                                    //   builder: (context) {
+                                    //     return SimpleDialog(
+                                    //       children: [
+                                    //         TextButton(
+                                    //           onPressed: () {
+                                    //             setState(() {
+                                    //               Navigator.of(context).pop();
+                                    //               pickedImagesList
+                                    //                   .remove(element);
+                                    //             });
+                                    //           },
+                                    //           child: Text('delete'),
+                                    //         ),
+                                    //         TextButton(
+                                    //             onPressed: () {
+                                    //               setState(() {
+                                    //                 Navigator.of(context).pop();
+                                    //               });
+                                    //             },
+                                    //             child: Text('cancel'))
+                                    //       ],
+                                    //     );
+                                    //   },
+                                    // );
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),

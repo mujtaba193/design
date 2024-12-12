@@ -1,3 +1,4 @@
+import 'package:design/appconfig.dart';
 import 'package:flutter/material.dart';
 
 import 'show_tickets_application.dart';
@@ -11,37 +12,107 @@ class TicketsAllPages extends StatefulWidget {
   State<TicketsAllPages> createState() => _TicketsAllPagesState();
 }
 
-class _TicketsAllPagesState extends State<TicketsAllPages> {
+class _TicketsAllPagesState extends State<TicketsAllPages>
+    with TickerProviderStateMixin {
+  late TabController _controller;
+  int _selectedTabIndex = 0;
+  @override
+  void initState() {
+    _controller =
+        TabController(length: 3, vsync: this, initialIndex: _selectedTabIndex);
+    _controller.addListener(() {
+      setState(() {
+        _selectedTabIndex = _controller.index;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      initialIndex: _selectedTabIndex,
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          bottom: TabBar(
-            tabs: [
-              Tab(
-                icon: Icon(
-                  Icons.airplane_ticket,
-                  color: Color.fromARGB(255, 70, 91, 109),
+            bottom: PreferredSize(
+          preferredSize: Size.fromHeight(kToolbarHeight),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white, // Set the background color to red
+              borderRadius: BorderRadius.circular(10), // Set the border radius
+            ),
+            padding: EdgeInsets.all(8), // Add padding
+            child: TabBar(
+              controller: _controller,
+              labelPadding: EdgeInsets.all(0),
+              dividerColor: Colors.transparent,
+              indicatorColor: Colors.transparent,
+              padding: EdgeInsets.all(8),
+              splashBorderRadius: BorderRadius.circular(8),
+              labelColor: AppConfic.fontColor,
+              unselectedLabelColor: AppConfic.fontColor2,
+              tabs: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _controller.index = 0;
+                      _selectedTabIndex = 0;
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: _selectedTabIndex == 0
+                            ? AppConfic.tabActiveColoar
+                            : null),
+                    height: 40,
+                    child: Center(
+                      child: Text(
+                        'Applications(2/3)',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              Tab(
-                icon: Icon(
-                  Icons.airplane_ticket_sharp,
-                  color: Color.fromARGB(255, 59, 101, 138),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _controller.index = 1;
+                      _selectedTabIndex = 1;
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: _selectedTabIndex == 1
+                            ? AppConfic.tabActiveColoar
+                            : null),
+                    height: 40,
+                    child: Center(child: Text('Booking')),
+                  ),
                 ),
-              ),
-              Tab(
-                icon: Icon(
-                  Icons.airplane_ticket_outlined,
-                  color: Color.fromARGB(255, 37, 90, 114),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _controller.index = 2;
+                      _selectedTabIndex = 2;
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: _selectedTabIndex == 2
+                            ? AppConfic.tabActiveColoar
+                            : null),
+                    height: 40,
+                    child: Center(child: Text('Archive')),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+        )),
         body: TabBarView(
+          controller: _controller,
           children: [
             ShowTicketsApplication(),
             // TicketsToday(),

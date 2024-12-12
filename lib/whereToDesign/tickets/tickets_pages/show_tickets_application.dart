@@ -1,3 +1,4 @@
+import 'package:design/appconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -76,33 +77,38 @@ class _ShowTicketsApplicationState
                                   icon: SvgPicture.asset('assets/Heart 2.svg')),
                             ),
                             Positioned(
-                                left: 10,
-                                top: 10,
-                                child: Container(
-                                  // width: 180,
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    color: ticketsHolder
+                              left: 10,
+                              top: 10,
+                              child: Container(
+                                // width: 180,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  color:
+                                      ticketsHolder.ticketList![index].status ==
+                                              'Confirmed'
+                                          ? Color(0XFF19AE7A)
+                                          : Color(0xff2296B7),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 10),
+                                    child: ticketsHolder
                                                 .ticketList![index].status ==
                                             'Confirmed'
-                                        ? Color(0XFF19AE7A)
-                                        : Color(0xff2296B7),
-                                    borderRadius: BorderRadius.circular(8),
+                                        ? Text(
+                                            'Approved! Prepayment expected',
+                                            style: TextStyle(fontSize: 12),
+                                          )
+                                        : Text(
+                                            'Waiting a response in 5 mint',
+                                            style: TextStyle(fontSize: 12),
+                                          ),
                                   ),
-                                  child: Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10, right: 10),
-                                      child: ticketsHolder
-                                                  .ticketList![index].status ==
-                                              'Confirmed'
-                                          ? Text(
-                                              'Approved! Prepayment expected')
-                                          : Text(
-                                              'Waiting a response in 5 mint '),
-                                    ),
-                                  ),
-                                ))
+                                ),
+                              ),
+                            )
                           ],
                         ),
                         Padding(
@@ -111,7 +117,12 @@ class _ShowTicketsApplicationState
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                  'ID  ${ticketsHolder.ticketList![index].id}'),
+                                'ID  ${ticketsHolder.ticketList![index].id}',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w300,
+                                    color: AppConfic.fontColor2),
+                              ),
                               SizedBox(
                                 height: 10,
                               ),
@@ -119,7 +130,10 @@ class _ShowTicketsApplicationState
                                 children: [
                                   Text(
                                     '${ticketsHolder.ticketList![index].name}',
-                                    style: TextStyle(fontSize: 25),
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppConfic.fontColor),
                                   ),
                                   Spacer(),
                                   Icon(
@@ -140,27 +154,39 @@ class _ShowTicketsApplicationState
                                   // guest Icon.
                                   SvgPicture.asset('assets/Group 3.svg'),
                                   SizedBox(
-                                    width: 10,
+                                    width: 16,
                                   ),
                                   Text(
-                                      ' Up to ${ticketsHolder.ticketList![index].guests} '),
+                                    ' Up to ${ticketsHolder.ticketList![index].guests} ',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w300,
+                                        color: AppConfic.fontColor2),
+                                  ),
                                   Text(
-                                      '${ticketsHolder.ticketList![index].guests < 2 ? 'guest' : 'guests'}'),
+                                    '${ticketsHolder.ticketList![index].guests < 2 ? 'guest' : 'guests'}',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w300,
+                                        color: AppConfic.fontColor2),
+                                  ),
                                   SizedBox(
-                                    width: 20,
+                                    width: 16,
                                   ),
-                                  IconButton(
-                                    onPressed: () {},
-                                    // like Icon.
-                                    icon: SvgPicture.asset('assets/Like.svg'),
+
+                                  // like Icon.
+                                  SvgPicture.asset('assets/Star.svg'),
+                                  SizedBox(
+                                    width: 16,
                                   ),
+
                                   Text(
                                       '${ticketsHolder.ticketList![index].rating}'),
                                   SizedBox(
-                                    width: 20,
+                                    width: 16,
                                   ),
-                                  IconButton(
-                                    onPressed: () {
+                                  GestureDetector(
+                                    onTap: () {
                                       List<ReviewssModel> reviewsList = [];
                                       reviewHolder.whenData((e) {
                                         // Filter the boat reviews based on the boatId
@@ -191,8 +217,11 @@ class _ShowTicketsApplicationState
                                       );
                                     },
                                     // Review Icon.
-                                    icon: SvgPicture.asset(
+                                    child: SvgPicture.asset(
                                         'assets/Message 29.svg'),
+                                  ),
+                                  SizedBox(
+                                    width: 16,
                                   ),
                                   Consumer(
                                     builder: (BuildContext context, ref, _) {
@@ -222,10 +251,11 @@ class _ShowTicketsApplicationState
                                   ),
                                 ],
                               ),
+                              SizedBox(height: 10),
+                              Divider(),
                               SizedBox(
                                 height: 10,
                               ),
-                              Divider(),
                               Row(
                                 children: [
                                   // location Icon.
@@ -234,7 +264,12 @@ class _ShowTicketsApplicationState
                                     width: 15,
                                   ),
                                   Text(
-                                      '${ticketsHolder.ticketList![index].startAddress.name}'),
+                                    '${ticketsHolder.ticketList![index].startAddress.name}',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w300,
+                                        color: AppConfic.fontColor),
+                                  ),
                                   Spacer(),
                                   if (ticketsHolder.ticketList![index]
                                           .startAddress.name ==
@@ -265,14 +300,22 @@ class _ShowTicketsApplicationState
                                               width: 15,
                                             ),
                                             Text(
-                                                '${ticketsHolder.ticketList![index].destination.name}')
+                                              '${ticketsHolder.ticketList![index].destination.name}',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w300,
+                                                  color: AppConfic.fontColor),
+                                            )
                                           ],
                                         ),
                                       ],
                                     ),
+                              SizedBox(
+                                height: 10,
+                              ),
                               Divider(),
                               SizedBox(
-                                height: 20,
+                                height: 10,
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -283,10 +326,13 @@ class _ShowTicketsApplicationState
                                       SvgPicture.asset(
                                           'assets/Clock Circle.svg'),
                                       SizedBox(
-                                        width: 15,
+                                        width: 16,
                                       ),
                                       Text(
                                         '${ticketsHolder.ticketList![index].startTime.day < 10 ? '0${ticketsHolder.ticketList![index].startTime.day}' : ticketsHolder.ticketList![index].startTime.day}.${ticketsHolder.ticketList![index].startTime.month < 10 ? '0${ticketsHolder.ticketList![index].startTime.month}' : ticketsHolder.ticketList![index].startTime.month} ${ticketsHolder.ticketList![index].startTime.hour < 10 ? '0 ${ticketsHolder.ticketList![index].startTime.hour}' : ticketsHolder.ticketList![index].startTime.hour}:${ticketsHolder.ticketList![index].startTime.minute < 10 ? '0${ticketsHolder.ticketList![index].startTime.minute}' : ticketsHolder.ticketList![index].startTime.minute} - ${ticketsHolder.ticketList![index].endTime.day < 10 ? '0${ticketsHolder.ticketList![index].endTime.day}' : ticketsHolder.ticketList![index].endTime.day}.${ticketsHolder.ticketList![index].endTime.month < 10 ? '0${ticketsHolder.ticketList![index].endTime.month}' : ticketsHolder.ticketList![index].endTime.month} ${ticketsHolder.ticketList![index].endTime.hour < 10 ? '0 ${ticketsHolder.ticketList![index].endTime.hour}' : ticketsHolder.ticketList![index].endTime.hour}:${ticketsHolder.ticketList![index].endTime.minute < 10 ? '0${ticketsHolder.ticketList![index].endTime.minute}' : ticketsHolder.ticketList![index].endTime.minute}',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w300),
                                       ),
                                     ],
                                   ),
@@ -298,12 +344,21 @@ class _ShowTicketsApplicationState
                                       Text(
                                         '${ticketsHolder.ticketList![index].price} R',
                                         style: TextStyle(
-                                          fontSize: 18,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
                                           color: const Color(0xff19AE7A),
                                         ),
                                       ),
-                                      Text(' /  2 hour'),
+                                      Text(
+                                        ' /  2 hour',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w300),
+                                      ),
                                     ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(
@@ -324,8 +379,8 @@ class _ShowTicketsApplicationState
                                                         .ticketList![index]
                                                         .status ==
                                                     'Confirmed'
-                                                ? Color(0XFF19AE7A)
-                                                : Colors.grey),
+                                                ? AppConfic.iconColor2
+                                                : AppConfic.fontColor2),
                                         child: Center(
                                           child: ticketsHolder
                                                       .ticketList![index]
@@ -335,8 +390,20 @@ class _ShowTicketsApplicationState
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                   children: [
-                                                    Text('Booking '),
-                                                    Text('('),
+                                                    Text(
+                                                      'Booking ',
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
+                                                    Text(
+                                                      '(',
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
                                                     TimerCountdown(
                                                       spacerWidth: 5,
                                                       endTime: DateTime.now()
@@ -349,10 +416,19 @@ class _ShowTicketsApplicationState
                                                     Text(')')
                                                   ],
                                                 )
-                                              : Text('Waiting confirmation'),
+                                              : Text(
+                                                  'Waiting confirmation',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
                                         ),
                                       ),
                                     ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
                                   )
                                 ],
                               )
@@ -438,11 +514,11 @@ class _ImageSliderViewState extends State<ImageSliderView> {
       children: [
         for (int i = 0; i < widget.imagesPath.length; i++)
           Container(
-            width: 8.0,
-            height: 8.0,
+            width: 18.0,
+            height: 2.0,
             margin: const EdgeInsets.symmetric(horizontal: 4.0),
             decoration: BoxDecoration(
-              shape: BoxShape.circle,
+              shape: BoxShape.rectangle,
               color: _current == i ? Colors.blue : Colors.grey,
             ),
           ),
@@ -459,8 +535,8 @@ class _ImageSliderViewState extends State<ImageSliderView> {
                 controller: _pageController,
                 itemBuilder: (context, index) => ClipRRect(
                       borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10)),
+                          topLeft: Radius.circular(8),
+                          topRight: Radius.circular(8)),
                       child: Image.network(
                         widget.imagesPath[index],
                         fit: BoxFit.cover,

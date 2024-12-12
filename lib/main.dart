@@ -145,8 +145,8 @@ class _MyappState extends ConsumerState<Myapp> {
     //final darkModeCheck = ref.watch(darkModProvider);
     return MaterialApp.router(
       routerConfig: router,
-      themeMode: ThemeMode.dark,
-      theme: ThemeData.dark(),
+      // themeMode: ThemeMode.dark,
+      // theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
     );
   }

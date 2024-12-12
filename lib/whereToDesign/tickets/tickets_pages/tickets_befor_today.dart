@@ -1,3 +1,4 @@
+import 'package:design/appconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -54,45 +55,19 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                     children: [
                                       Stack(
                                         children: [
-                                          CardItemView(items: element.photos),
+                                          CardItemView(
+                                            items: element.photos,
+                                          ),
                                           Positioned(
                                             right: 10,
                                             top: 10,
                                             child: IconButton(
-                                                onPressed: () {},
-                                                // the Icon of favorite button.
-                                                icon: SvgPicture.asset(
-                                                    'assets/Heart 2.svg')),
+                                              onPressed: () {},
+                                              // the Icon of favorite button.
+                                              icon: SvgPicture.asset(
+                                                  'assets/Heart 2.svg'),
+                                            ),
                                           ),
-                                          Positioned(
-                                              left: 10,
-                                              top: 10,
-                                              child: Container(
-                                                // width: 180,
-                                                height: 30,
-                                                decoration: BoxDecoration(
-                                                  color: element.status ==
-                                                          'Confirmed'
-                                                      ? Color(0XFF19AE7A)
-                                                      : Color(0xff2296B7),
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                ),
-                                                child: Center(
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 10,
-                                                            right: 10),
-                                                    child: element.status ==
-                                                            'Confirmed'
-                                                        ? Text(
-                                                            'Approved! Prepayment expected')
-                                                        : Text(
-                                                            'Waiting a response in 5 mint '),
-                                                  ),
-                                                ),
-                                              ))
                                         ],
                                       ),
                                       Padding(
@@ -101,7 +76,10 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text('ID  ${element.id}'),
+                                            Text(
+                                              'ID  ${element.id}',
+                                              style: TextStyle(fontSize: 14),
+                                            ),
                                             SizedBox(
                                               height: 10,
                                             ),
@@ -109,8 +87,10 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                               children: [
                                                 Text(
                                                   '${element.name}',
-                                                  style:
-                                                      TextStyle(fontSize: 25),
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w600),
                                                 ),
                                                 Spacer(),
                                                 Icon(
@@ -134,9 +114,19 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                   width: 10,
                                                 ),
                                                 Text(
-                                                    ' Up to ${element.guests} '),
+                                                  ' Up to ${element.guests} ',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w300),
+                                                ),
                                                 Text(
-                                                    '${element.guests < 2 ? 'guest' : 'guests'}'),
+                                                  '${element.guests < 2 ? 'guest' : 'guests'}',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w300),
+                                                ),
                                                 SizedBox(
                                                   width: 20,
                                                 ),
@@ -144,9 +134,15 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                   onPressed: () {},
                                                   // like Icon.
                                                   icon: SvgPicture.asset(
-                                                      'assets/Like.svg'),
+                                                      'assets/Star.svg'),
                                                 ),
-                                                Text('${element.rating}'),
+                                                Text(
+                                                  '${element.rating == null ? '0' : element.rating}',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w300),
+                                                ),
                                                 SizedBox(
                                                   width: 20,
                                                 ),
@@ -211,9 +207,14 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                             .expand((element) =>
                                                                 element.reviews)
                                                             .toList();
-                                                    return Text(reviewValue
-                                                        .length
-                                                        .toString());
+                                                    return Text(
+                                                      reviewValue.length
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w300),
+                                                    );
                                                   }, error: (Object error,
                                                       StackTrace stackTrace) {
                                                     return SizedBox();
@@ -236,7 +237,12 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                   width: 15,
                                                 ),
                                                 Text(
-                                                    '${element.startAddress.name}'),
+                                                  '${element.startAddress.name}',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w300),
+                                                ),
                                                 Spacer(),
                                                 if (element.startAddress.name ==
                                                     element.destination.name)
@@ -266,7 +272,13 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                             width: 15,
                                                           ),
                                                           Text(
-                                                              '${element.destination.name}')
+                                                            '${element.destination.name}',
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300),
+                                                          )
                                                         ],
                                                       ),
                                                     ],
@@ -289,6 +301,10 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                     ),
                                                     Text(
                                                       '${element.startTime.day < 10 ? '0${element.startTime.day}' : element.startTime.day}.${element.startTime.month < 10 ? '0${element.startTime.month}' : element.startTime.month} ${element.startTime.hour < 10 ? '0 ${element.startTime.hour}' : element.startTime.hour}:${element.startTime.minute < 10 ? '0${element.startTime.minute}' : element.startTime.minute} - ${element.endTime.day < 10 ? '0${element.endTime.day}' : element.endTime.day}.${element.endTime.month < 10 ? '0${element.endTime.month}' : element.endTime.month} ${element.endTime.hour < 10 ? '0 ${element.endTime.hour}' : element.endTime.hour}:${element.endTime.minute < 10 ? '0${element.endTime.minute}' : element.endTime.minute}',
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w300),
                                                     ),
                                                   ],
                                                 ),
@@ -300,12 +316,20 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                     Text(
                                                       '${element.price} R',
                                                       style: TextStyle(
-                                                        fontSize: 18,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w600,
                                                         color: const Color(
                                                             0xff19AE7A),
                                                       ),
                                                     ),
-                                                    Text(' /  2 hour'),
+                                                    Text(
+                                                      ' /  2 hour',
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
                                                   ],
                                                 ),
                                                 SizedBox(
@@ -342,7 +366,14 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                                     0XFF19AE7A)),
                                                             child: Center(
                                                               child: Text(
-                                                                  'Leave feedback '),
+                                                                'Leave feedback ',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        14,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600),
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
@@ -379,9 +410,8 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                               //  height: 152,
                                                               decoration:
                                                                   BoxDecoration(
-                                                                color: Colors
-                                                                    .grey
-                                                                    .shade700,
+                                                                color: AppConfic
+                                                                    .backGroundColor,
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .circular(
@@ -400,7 +430,11 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                                     Row(
                                                                       children: [
                                                                         Text(
-                                                                            'Your review'),
+                                                                          'Your review',
+                                                                          style: TextStyle(
+                                                                              fontSize: 14,
+                                                                              fontWeight: FontWeight.w300),
+                                                                        ),
                                                                         Spacer(),
                                                                         SvgPicture.asset(
                                                                             'assets/Vector.svg')
@@ -427,6 +461,11 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                                       lessStyle:
                                                                           TextStyle(
                                                                               color: Colors.blue),
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight:
+                                                                              FontWeight.w300),
                                                                     ),
                                                                     SizedBox(
                                                                       height:
@@ -440,18 +479,48 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                                           CrossAxisAlignment
                                                                               .start,
                                                                       children: [
+                                                                        // ...List.generate(
+                                                                        //     reviewValue
+                                                                        //         .first.rating,
+                                                                        //     (index) =>
+                                                                        //         SvgPicture.asset('assets/Star.svg')),
                                                                         ...List
                                                                             .generate(
                                                                           reviewValue
                                                                               .first
-                                                                              .rating,
+                                                                              .rating
+                                                                              .floor(), // Full stars based on the integer part of the rating
                                                                           (index) =>
                                                                               Icon(
                                                                             size:
-                                                                                15,
+                                                                                20,
                                                                             Icons.star,
                                                                             color:
-                                                                                Colors.yellow,
+                                                                                Colors.red,
+                                                                          ),
+                                                                        ),
+                                                                        // Half star if there's a decimal part (e.g., 2.5)
+                                                                        if (reviewValue.first.rating -
+                                                                                reviewValue.first.rating.floor() >=
+                                                                            0.5)
+                                                                          Icon(
+                                                                            size:
+                                                                                20,
+                                                                            Icons.star_half,
+                                                                            color:
+                                                                                Colors.red,
+                                                                          ),
+                                                                        // Empty stars for the remaining
+                                                                        ...List
+                                                                            .generate(
+                                                                          5 - reviewValue.first.rating.ceil(), // Remaining empty stars
+                                                                          (index) =>
+                                                                              Icon(
+                                                                            size:
+                                                                                20,
+                                                                            Icons.star_border,
+                                                                            color:
+                                                                                Colors.red,
                                                                           ),
                                                                         ),
                                                                       ],
@@ -626,6 +695,7 @@ class _ImageSliderViewState extends State<ImageSliderView> {
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10)),
                       child: Image.network(
+                        height: 180,
                         widget.imagesPath[index],
                         fit: BoxFit.cover,
                         alignment: Alignment.topCenter,

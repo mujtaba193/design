@@ -1,8 +1,9 @@
+import 'package:design/appconfig.dart';
 import 'package:design/whereToDesign/models/boat_model.dart';
 import 'package:design/whereToDesign/providers/city_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../providers/filter/search_filter_provider.dart';
 import '../translation/search_filter_translation.dart';
@@ -61,12 +62,10 @@ class _SearchFilterChangeNotifierState
     super.initState();
   }
 
-  dateTimePicker() async {
-    final searchFilterState = ref.watch(searchFilterProvider);
-    final cityHolder = ref.read(cityProvider);
+  datePicker() async {
     DateTime? dateTime = await showDatePicker(
         context: context,
-        initialDate: date,
+        initialDate: timeNow1 ?? date,
         firstDate: DateTime.now(),
         lastDate: DateTime(3030));
     setState(() {
@@ -74,6 +73,12 @@ class _SearchFilterChangeNotifierState
         timeNow1 = dateTime;
       }
     });
+  }
+
+  timePicker() async {
+    final searchFilterState = ref.watch(searchFilterProvider);
+    final cityHolder = ref.read(cityProvider);
+    timeNow1 = DateTime(timeNow1.year, timeNow1.month, timeNow1.day);
 
     TimeOfDay? timeOfDay =
         await showTimePicker(context: context, initialTime: TimeOfDay.now());
@@ -107,20 +112,35 @@ class _SearchFilterChangeNotifierState
                   return Container(
                     width: MediaQuery.of(context).size.width,
                     child: Column(children: [
+                      SizedBox(
+                        height: 20,
+                      ),
                       ...cityHolder.cityList!.cities.map((e) => Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: GestureDetector(
-                                onTap: () {
-                                  setState(() {});
-                                  // here we are set value to the variable "selectedCityName"
-                                  cityHolder.selectedCityName = e.cityName;
+                              onTap: () {
+                                setState(() {});
+                                // here we are set value to the variable "selectedCityName"
+                                cityHolder.selectedCityName = e.cityName;
 
-                                  //  cityHolder.getCity(e.cityName);
-                                  //
-                                  cityHolder.getEvents();
-                                  Navigator.pop(context);
-                                },
-                                child: Text(e.cityName)),
+                                //  cityHolder.getCity(e.cityName);
+                                //
+                                cityHolder.getEvents();
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                height: 50,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: AppConfic.fontColor2
+                                          .withOpacity(0.25)),
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Color(0xffF5F6FA),
+                                ),
+                                child: Center(child: Text(e.cityName)),
+                              ),
+                            ),
                           ))
                     ]),
                   );
@@ -137,9 +157,7 @@ class _SearchFilterChangeNotifierState
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
-          floatingActionButton:
+          bottomNavigationBar:
               Consumer(builder: (BuildContext context, ref, _) {
             final cityHolder = ref.read(cityProvider);
             return GestureDetector(
@@ -158,43 +176,53 @@ class _SearchFilterChangeNotifierState
                 Navigator.pop(context);
                 //setState(() {});
               },
-              child: Container(
-                height: 50,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [
-                      Color(0xFF8942BC),
-                      Color(0xFF5831F7),
-                      Color(0xFF5731F8),
-                      Color(0xFF00C2C2),
-                    ],
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
+                child: Container(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: AppConfic.iconColor2,
+                    // gradient: const LinearGradient(
+                    //   colors: [
+                    //     Color(0xFF8942BC),
+                    //     Color(0xFF5831F7),
+                    //     Color(0xFF5731F8),
+                    //     Color(0xFF00C2C2),
+                    //   ],
+                    // ),
+                    // border: GradientBoxBorder(
+                    //   width: 2,
+                    //   gradient: LinearGradient(
+                    //     colors: [
+                    //       Color(0xFF8942BC),
+                    //       Color(0xFF5831F7),
+                    //       Color(0xFF5731F8),
+                    //       Color(0xFF00C2C2),
+                    //     ],
+                    //   ),
+                    // ),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  border: GradientBoxBorder(
-                    width: 2,
-                    gradient: LinearGradient(
-                      colors: [
-                        Color(0xFF8942BC),
-                        Color(0xFF5831F7),
-                        Color(0xFF5731F8),
-                        Color(0xFF00C2C2),
-                      ],
-                    ),
-                  ),
-                  borderRadius: BorderRadius.circular(8),
+                  child: Center(
+                      child: Text(
+                    SearchFilterTranslation.confirm,
+                    style: TextStyle(color: Colors.white),
+                  )),
                 ),
-                child: Center(
-                    child: Text(
-                  SearchFilterTranslation.apply,
-                  style: TextStyle(),
-                )),
               ),
             );
           }),
           appBar: AppBar(
             automaticallyImplyLeading: false,
-            title: Text(SearchFilterTranslation.filter),
-            centerTitle: true,
+            title: Text(
+              SearchFilterTranslation.filter,
+              style: TextStyle(
+                  fontSize: 18,
+                  color: AppConfic.fontColor,
+                  fontWeight: FontWeight.w700),
+            ),
+            //centerTitle: true,
             leading: Consumer(builder: (BuildContext context, ref, _) {
               return IconButton(
                   onPressed: () async {
@@ -230,13 +258,19 @@ class _SearchFilterChangeNotifierState
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.location_city_outlined),
+                        SvgPicture.asset(
+                          'assets/Location.svg',
+                          width: 14.58,
+                          height: 18.75,
+                        ),
                         SizedBox(
-                          width: 20,
+                          width: 10,
                         ),
                         GestureDetector(
                           child: Text(
-                              '  ${(cityHolder.selectedCityName != null) ? '${cityHolder.selectedCityName}' : SearchFilterTranslation.city}'),
+                            '  ${(cityHolder.selectedCityName != null) ? '${cityHolder.selectedCityName}' : SearchFilterTranslation.city}',
+                            style: TextStyle(fontSize: 16),
+                          ),
                           onTap: () {
                             getCity();
                           },
@@ -252,16 +286,18 @@ class _SearchFilterChangeNotifierState
                             return SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  ...cityHolder.cityEvents!.map((element) =>
-                                      Stack(
-                                        children: [
-                                          Column(
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(4.0),
-                                                child: GestureDetector(
+                                  ...cityHolder.cityEvents!.map(
+                                    (element) => Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Container(
+                                        color: AppConfic.cardColor,
+                                        child: Stack(
+                                          children: [
+                                            Column(
+                                              children: [
+                                                GestureDetector(
                                                   onTap: () async {
                                                     setState(() {});
                                                     await cityHolder
@@ -294,10 +330,13 @@ class _SearchFilterChangeNotifierState
                                                                 .selectedevent ==
                                                             element.eventName
                                                         ? BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
+                                                            borderRadius: BorderRadius.only(
+                                                                topLeft: Radius
                                                                     .circular(
-                                                                        5),
+                                                                        8),
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        8)),
                                                             border: Border.all(
                                                                 width: 2,
                                                                 color: Colors
@@ -306,11 +345,14 @@ class _SearchFilterChangeNotifierState
                                                         : null,
                                                     child: ClipRRect(
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
+                                                          BorderRadius.only(
+                                                              topLeft: Radius
+                                                                  .circular(8),
+                                                              topRight: Radius
+                                                                  .circular(8)),
                                                       child: Image.network(
-                                                        height: 100,
-                                                        width: 100,
+                                                        height: 150,
+                                                        width: 150,
                                                         element
                                                             .eventPhotos.first
                                                             .toString(),
@@ -321,29 +363,38 @@ class _SearchFilterChangeNotifierState
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                              SizedBox(
-                                                width: 100,
-                                                child: Text(
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    element.eventName),
-                                              )
-                                            ],
-                                          ),
-                                          cityHolder.selectedevent ==
-                                                  element.eventName
-                                              ? Positioned(
-                                                  child: Icon(
-                                                    Icons.check_circle_outline,
-                                                    color: Colors.green,
+                                                SizedBox(
+                                                  width: 150,
+                                                  height: 50,
+                                                  child: Center(
+                                                    child: Text(
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      element.eventName,
+                                                      style: TextStyle(
+                                                          fontSize: 14),
+                                                    ),
                                                   ),
-                                                  right: 8,
-                                                  top: 8,
                                                 )
-                                              : SizedBox(),
-                                        ],
-                                      ))
+                                              ],
+                                            ),
+                                            cityHolder.selectedevent ==
+                                                    element.eventName
+                                                ? Positioned(
+                                                    child: SvgPicture.asset(
+                                                      'assets/Group 27.svg',
+                                                      width: 20,
+                                                      height: 20,
+                                                    ),
+                                                    right: 8,
+                                                    top: 8,
+                                                  )
+                                                : SizedBox(),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  )
                                 ],
                               ),
                             );
@@ -351,367 +402,611 @@ class _SearchFilterChangeNotifierState
                     SizedBox(
                       height: 10,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              captain = true;
-                            });
-                          },
-                          child: Container(
-                            height: 30,
-                            width: MediaQuery.of(context).size.width * 0.45,
-                            decoration: BoxDecoration(
-                              border: Border.all(width: 2),
-                              borderRadius: BorderRadius.circular(5),
-                              color: captain == true ? Colors.green : null,
+                    Container(
+                      color: AppConfic.cardColor,
+                      child: Container(
+                        height: 56,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  captain = true;
+                                });
+                              },
+                              child: Container(
+                                height: 40,
+                                width: MediaQuery.of(context).size.width * 0.45,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: captain == true
+                                      ? Color(0xffF5F6FA)
+                                      : null,
+                                ),
+                                child: Center(
+                                  child:
+                                      Text(SearchFilterTranslation.withCaptain),
+                                ),
+                              ),
                             ),
-                            child: Center(
-                              child: Text(SearchFilterTranslation.withCaptain),
-                            ),
-                          ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  captain = false;
+                                });
+                              },
+                              child: Container(
+                                height: 40,
+                                width: MediaQuery.of(context).size.width * 0.45,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: captain == false
+                                      ? Color(0xffF5F6FA)
+                                      : null,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                      SearchFilterTranslation.withoutCaptain),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              captain = false;
-                            });
-                          },
-                          child: Container(
-                            height: 30,
-                            width: MediaQuery.of(context).size.width * 0.45,
-                            decoration: BoxDecoration(
-                              border: Border.all(width: 2),
-                              borderRadius: BorderRadius.circular(5),
-                              color: captain == false ? Colors.green : null,
-                            ),
-                            child: Center(
-                              child:
-                                  Text(SearchFilterTranslation.withoutCaptain),
-                            ),
-                          ),
-                        )
-                      ],
+                      ),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     captain == false
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                        ? Column(
                             children: [
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    rights = true;
-                                  });
-                                },
-                                child: Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.45,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                              Container(
+                                color: AppConfic.cardColor,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      rights == true
-                                          ? Icon(Icons
-                                              .radio_button_checked_rounded)
-                                          : Icon(Icons.circle_outlined),
-                                      SizedBox(
-                                        width: 5,
+                                      Text(
+                                        'Availability of rights',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: AppConfic.fontColor2,
+                                            fontWeight: FontWeight.w300),
                                       ),
-                                      Text(SearchFilterTranslation
-                                          .withoutLicense)
+                                      SizedBox(height: 10),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            rights = true;
+                                          });
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Text(SearchFilterTranslation
+                                                .norights),
+                                            Spacer(),
+                                            rights == true
+                                                ? SvgPicture.asset(
+                                                    'assets/Ellipse 83.svg',
+                                                    color: Color(0xff19AE7A),
+                                                  )
+                                                : SvgPicture.asset(
+                                                    'assets/Ellipse 83.svg',
+                                                    color: Color(0xff808080)
+                                                        .withOpacity(0.25),
+                                                  ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Divider(),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            rights = false;
+                                          });
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Text(SearchFilterTranslation
+                                                .havegimsrights),
+                                            Spacer(),
+                                            rights == false
+                                                ? SvgPicture.asset(
+                                                    'assets/Ellipse 83.svg',
+                                                    color: Color(0xff19AE7A),
+                                                  )
+                                                : SvgPicture.asset(
+                                                    'assets/Ellipse 83.svg',
+                                                    color: Color(0xff808080)
+                                                        .withOpacity(0.25),
+                                                  ),
+                                          ],
+                                        ),
+                                      )
                                     ],
                                   ),
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    rights = false;
-                                  });
-                                },
-                                child: Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.45,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      rights == false
-                                          ? Icon(Icons
-                                              .radio_button_checked_rounded)
-                                          : Icon(Icons.circle_outlined),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(SearchFilterTranslation.withLicense)
-                                    ],
-                                  ),
-                                ),
+                              SizedBox(
+                                height: 10,
                               )
                             ],
                           )
                         : SizedBox(),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      SearchFilterTranslation.selectDT,
-                      style: TextStyle(
-                        fontSize: 20,
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: AppConfic.cardColor,
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Consumer(builder: (context, ref, _) {
-                      final searchFilterState = ref.watch(searchFilterProvider);
-                      return GestureDetector(
-                        onTap: () {
-                          dateTimePicker();
-                        },
-                        child: Text(
-                          "${timeNow1.day < 10 ? '0${timeNow1.day}' : timeNow1.day} - ${timeNow1.month < 10 ? '0${timeNow1.month}' : timeNow1.month} - ${timeNow1.year} (${timeNow1.hour < 10 ? '0${timeNow1.hour}' : timeNow1.hour}:${timeNow1.minute < 10 ? '0${timeNow1.minute}' : timeNow1.minute})",
-                          style: TextStyle(),
-                        ),
-                      );
-                    }),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            SearchFilterTranslation.duration,
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
-                        Consumer(
-                            builder: (BuildContext context, WidgetRef ref, _) {
-                          final searchFilterState =
-                              ref.watch(searchFilterProvider);
-                          final cityHolder = ref.read(cityProvider);
-                          return IconButton(
-                            onPressed: () {
-                              //here we are checking if the
-                              if (cityHolder.selectedevent == null) {
-                                if (searchFilterState.timeValue2 > 1.0) {
-                                  ref
-                                      .read(searchFilterProvider.notifier)
-                                      .subtractTime();
-                                  timeNow2 = timeNow2.subtract(
-                                    Duration(minutes: 30),
-                                  );
-                                }
-
-                                // timeNow2 = timeNow2.add(
-                                //   Duration(minutes: 30),
-                                // );
-                              } else {
-                                //this is a condition in order to not decrease les than event time.
-                                if (searchFilterState.timeValue2 >
-                                    cityHolder.selectedeventMinHour!) {
-                                  ref
-                                      .read(searchFilterProvider.notifier)
-                                      .subtractTime();
-                                  timeNow2 = timeNow2.subtract(
-                                    Duration(minutes: 30),
-                                  );
-                                }
-                              }
-                              setState(() {});
-                            },
-                            icon: Icon(
-                              Icons.remove,
-                              //color: Colors.black,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              SearchFilterTranslation.selectDT,
+                              style: TextStyle(
+                                  fontSize: 14, color: AppConfic.fontColor2),
                             ),
-                          );
-                        }),
-                        Consumer(
-                            builder: (BuildContext context, WidgetRef ref, _) {
-                          final searchFilterState =
-                              ref.watch(searchFilterProvider);
-                          return Text(
-                            // cityHolder.selectedeventMinHour == null
-                            //     ? " ${searchFilterState.timeValue2} "
-                            //     : cityHolder.selectedeventMinHour.toString(),
-                            " ${searchFilterState.timeValue2} ",
-                            style: TextStyle(fontSize: 20),
-                          );
-                        }),
-                        Consumer(
-                            builder: (BuildContext context, WidgetRef ref, _) {
-                          final searchFilterState =
-                              ref.watch(searchFilterProvider);
-                          return IconButton(
-                            onPressed: () {
-                              // this is a condition to make the maximum increasing 23 hours.
-                              if (searchFilterState.timeValue2 < 23.0) {
-                                ref
-                                    .watch(searchFilterProvider.notifier)
-                                    .addTime();
-
-                                timeNow2 = timeNow2.add(
-                                  Duration(minutes: 30),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'Date',
+                              style: TextStyle(
+                                  fontSize: 14, color: AppConfic.fontColor2),
+                            ),
+                            SizedBox(height: 10),
+                            Consumer(
+                              builder: (context, ref, _) {
+                                final searchFilterState =
+                                    ref.watch(searchFilterProvider);
+                                return GestureDetector(
+                                  onTap: () {
+                                    datePicker();
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "${timeNow1.day < 10 ? '0${timeNow1.day}' : timeNow1.day} - ${timeNow1.month < 10 ? '0${timeNow1.month}' : timeNow1.month} - ${timeNow1.year} ",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: AppConfic.fontColor),
+                                      ),
+                                      Spacer(),
+                                      SvgPicture.asset(
+                                        'assets/Calendar.svg',
+                                        width: 20,
+                                        height: 20,
+                                      ),
+                                    ],
+                                  ),
                                 );
-                                setState(() {});
-                              }
-                            },
-                            icon: Icon(
-                              Icons.add,
+                              },
                             ),
-                          );
-                        })
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Consumer(builder: (context, ref, _) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            SearchFilterTranslation.from,
-                            style: TextStyle(
-                                //color: Colors.black,
+                            Divider(),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'Start time',
+                              style: TextStyle(
+                                  fontSize: 14, color: AppConfic.fontColor2),
+                            ),
+                            SizedBox(height: 10),
+                            GestureDetector(
+                              onTap: () {
+                                timePicker();
+                              },
+                              child: Row(
+                                children: [
+                                  Text(
+                                    '${timeNow1.hour < 10 ? '0${timeNow1.hour}' : timeNow1.hour}:${timeNow1.minute < 10 ? '0${timeNow1.minute}' : timeNow1.minute}',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: AppConfic.fontColor),
+                                  ),
+                                  Spacer(),
+                                  SvgPicture.asset(
+                                    'assets/Pen.svg',
+                                    width: 20,
+                                    height: 20,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Divider(),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    SearchFilterTranslation.duration,
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: AppConfic.fontColor2),
+                                  ),
                                 ),
-                          ),
-                          Text(
-                            '    ${timeNow1.hour < 10 ? '0${timeNow1.hour}' : timeNow1.hour}:${timeNow1.minute < 10 ? '0${timeNow1.minute}' : timeNow1.minute}',
-                            style: TextStyle(),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 20,
-                          ),
-                          Text(
-                            SearchFilterTranslation.to,
-                            style: TextStyle(),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 20,
-                          ), //userTimeNow2
-                          Text(
-                            '    ${timeNow2.hour < 10 ? '0${timeNow2.hour}' : timeNow2.hour}:${timeNow2.minute < 10 ? '0${timeNow2.minute}' : timeNow2.minute}',
-                            style: TextStyle(),
-                          ),
-                        ],
-                      );
-                    }),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      SearchFilterTranslation.guests,
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Text(SearchFilterTranslation.adults),
-                        Spacer(),
-                        IconButton(
-                          onPressed: () {
-                            if (boatListHolder.adultsNumber > 1) {
-                              boatListHolder.adultsNumber =
-                                  boatListHolder.adultsNumber - 1;
-                            }
-                            setState(() {});
-                          },
-                          icon: Icon(Icons.remove),
-                        ),
-                        Text(' ${boatListHolder.adultsNumber} '),
-                        IconButton(
-                          onPressed: () {
-                            boatListHolder.adultsNumber =
-                                boatListHolder.adultsNumber + 1;
-                            setState(() {});
-                          },
-                          icon: Icon(Icons.add),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Text(SearchFilterTranslation.children),
-                        Spacer(),
-                        IconButton(
-                          onPressed: () {
-                            if (boatListHolder.childrenNumber > 0) {
-                              boatListHolder.childrenNumber =
-                                  boatListHolder.childrenNumber - 1;
-                            }
-                            setState(() {});
-                          },
-                          icon: Icon(Icons.remove),
-                        ),
-                        Text(' ${boatListHolder.childrenNumber} '),
-                        IconButton(
-                          onPressed: () {
-                            boatListHolder.childrenNumber =
-                                boatListHolder.childrenNumber + 1;
-                            setState(() {});
-                          },
-                          icon: Icon(Icons.add),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          pets = !pets;
-                        });
-                      },
-                      child: Row(
-                        children: [
-                          Text(
-                            SearchFilterTranslation.pets,
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          Spacer(),
-                          pets == true
-                              ? Icon(Icons.check_box)
-                              : Icon(Icons.check_box_outline_blank)
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          disabilities = !disabilities;
-                        });
-                      },
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              SearchFilterTranslation.disabilities,
-                              style: TextStyle(fontSize: 20),
+                              ],
                             ),
-                          ),
-                          // Spacer(),
-                          disabilities == true
-                              ? Icon(Icons.check_box)
-                              : Icon(Icons.check_box_outline_blank)
-                        ],
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Consumer(builder: (context, ref, _) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    SearchFilterTranslation.from,
+                                    style: TextStyle(
+                                        color: AppConfic.fontColor,
+                                        fontSize: 16),
+                                  ),
+                                  Text(
+                                    '    ${timeNow1.hour < 10 ? '0${timeNow1.hour}' : timeNow1.hour}:${timeNow1.minute < 10 ? '0${timeNow1.minute}' : timeNow1.minute}',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: AppConfic.fontColor),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    SearchFilterTranslation.to,
+                                    style: TextStyle(),
+                                  ),
+                                  //userTimeNow2
+                                  Text(
+                                    '    ${timeNow2.hour < 10 ? '0${timeNow2.hour}' : timeNow2.hour}:${timeNow2.minute < 10 ? '0${timeNow2.minute}' : timeNow2.minute}',
+                                    style: TextStyle(),
+                                  ),
+                                  Spacer(),
+                                  Consumer(
+                                    builder: (BuildContext context,
+                                        WidgetRef ref, _) {
+                                      final searchFilterState =
+                                          ref.watch(searchFilterProvider);
+                                      final cityHolder = ref.read(cityProvider);
+                                      return IconButton(
+                                        onPressed: () {
+                                          //here we are checking if the
+                                          if (cityHolder.selectedevent ==
+                                              null) {
+                                            if (searchFilterState.timeValue2 >
+                                                1.0) {
+                                              ref
+                                                  .read(searchFilterProvider
+                                                      .notifier)
+                                                  .subtractTime();
+                                              timeNow2 = timeNow2.subtract(
+                                                Duration(minutes: 30),
+                                              );
+                                            }
+                                          } else {
+                                            //this is a condition in order to not decrease les than event time.
+                                            if (searchFilterState.timeValue2 >
+                                                cityHolder
+                                                    .selectedeventMinHour!) {
+                                              ref
+                                                  .read(searchFilterProvider
+                                                      .notifier)
+                                                  .subtractTime();
+                                              timeNow2 = timeNow2.subtract(
+                                                Duration(minutes: 30),
+                                              );
+                                            }
+                                          }
+                                          setState(() {});
+                                        },
+                                        icon: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(4),
+                                              color: AppConfic.iconColor),
+                                          height: 32,
+                                          width: 32,
+                                          child: Center(
+                                            child: Icon(
+                                              Icons.remove,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+
+                                  // here is decrease time button
+                                  Consumer(
+                                    builder: (BuildContext context,
+                                        WidgetRef ref, _) {
+                                      final searchFilterState =
+                                          ref.watch(searchFilterProvider);
+                                      return Text(
+                                        // cityHolder.selectedeventMinHour == null
+                                        //     ? " ${searchFilterState.timeValue2} "
+                                        //     : cityHolder.selectedeventMinHour.toString(),
+                                        "${searchFilterState.timeValue2}",
+                                        style: TextStyle(fontSize: 16),
+                                      );
+                                    },
+                                  ),
+                                  // here is increase time button
+                                  Consumer(builder:
+                                      (BuildContext context, WidgetRef ref, _) {
+                                    final searchFilterState =
+                                        ref.watch(searchFilterProvider);
+                                    return IconButton(
+                                      onPressed: () {
+                                        // this is a condition to make the maximum increasing 23 hours.
+                                        if (searchFilterState.timeValue2 <
+                                            23.0) {
+                                          ref
+                                              .watch(
+                                                  searchFilterProvider.notifier)
+                                              .addTime();
+
+                                          timeNow2 = timeNow2.add(
+                                            Duration(minutes: 30),
+                                          );
+                                          setState(() {});
+                                        }
+                                      },
+                                      icon: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            color: AppConfic.iconColor),
+                                        height: 32,
+                                        width: 32,
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.add,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  })
+                                ],
+                              );
+                            }),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    SizedBox(
-                      height: 300,
+                    SizedBox(height: 10),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: AppConfic.cardColor,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              SearchFilterTranslation.guests,
+                              style: TextStyle(
+                                  fontSize: 14, color: AppConfic.fontColor2),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  SearchFilterTranslation.adults,
+                                  style: TextStyle(
+                                      color: AppConfic.fontColor, fontSize: 16),
+                                ),
+                                Spacer(),
+                                IconButton(
+                                  onPressed: () {
+                                    if (boatListHolder.adultsNumber > 1) {
+                                      boatListHolder.adultsNumber =
+                                          boatListHolder.adultsNumber - 1;
+                                    }
+                                    setState(() {});
+                                  },
+                                  icon: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(4),
+                                        color: AppConfic.iconColor),
+                                    height: 32,
+                                    width: 32,
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.remove,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(' ${boatListHolder.adultsNumber} '),
+                                IconButton(
+                                  onPressed: () {
+                                    boatListHolder.adultsNumber =
+                                        boatListHolder.adultsNumber + 1;
+                                    setState(() {});
+                                  },
+                                  icon: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(4),
+                                        color: AppConfic.iconColor),
+                                    height: 32,
+                                    width: 32,
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  SearchFilterTranslation.children,
+                                  style: TextStyle(
+                                      color: AppConfic.fontColor, fontSize: 16),
+                                ),
+                                Spacer(),
+                                IconButton(
+                                  onPressed: () {
+                                    if (boatListHolder.childrenNumber > 0) {
+                                      boatListHolder.childrenNumber =
+                                          boatListHolder.childrenNumber - 1;
+                                    }
+                                    setState(() {});
+                                  },
+                                  icon: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(4),
+                                        color: AppConfic.iconColor),
+                                    height: 32,
+                                    width: 32,
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.remove,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(' ${boatListHolder.childrenNumber} '),
+                                IconButton(
+                                  onPressed: () {
+                                    boatListHolder.childrenNumber =
+                                        boatListHolder.childrenNumber + 1;
+                                    setState(() {});
+                                  },
+                                  icon: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(4),
+                                        color: AppConfic.iconColor),
+                                    height: 32,
+                                    width: 32,
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(color: AppConfic.cardColor),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Other options',
+                              style: TextStyle(
+                                  fontSize: 14, color: AppConfic.fontColor2),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  pets = !pets;
+                                });
+                              },
+                              child: Row(
+                                children: [
+                                  Text(
+                                    SearchFilterTranslation.pets,
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                  Spacer(),
+                                  pets == true
+                                      ? SvgPicture.asset(
+                                          'assets/greenbuttom.svg',
+                                          width: 22,
+                                          height: 22,
+                                        )
+                                      : SvgPicture.asset(
+                                          'assets/outlinebutton.svg',
+                                          width: 22,
+                                          height: 22,
+                                        )
+                                ],
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  disabilities = !disabilities;
+                                });
+                              },
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      SearchFilterTranslation.disabilities,
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  ),
+                                  // Spacer(),
+                                  disabilities == true
+                                      ? SvgPicture.asset(
+                                          'assets/greenbuttom.svg',
+                                          width: 22,
+                                          height: 22,
+                                        )
+                                      : SvgPicture.asset(
+                                          'assets/outlinebutton.svg',
+                                          width: 22,
+                                          height: 22,
+                                        )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
