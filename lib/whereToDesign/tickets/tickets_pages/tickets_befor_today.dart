@@ -42,157 +42,124 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                       ...list
                           .map(
                             (element) => Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Card(
-                                elevation: 5,
-                                shadowColor: Colors.grey,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Stack(
+                              padding: const EdgeInsets.all(8),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppConfic.cardColor,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Stack(
+                                      children: [
+                                        CardItemView(
+                                          items: element.photos,
+                                        ),
+                                        Positioned(
+                                          right: 10,
+                                          top: 10,
+                                          child: IconButton(
+                                            onPressed: () {},
+                                            // the Icon of favorite button.
+                                            icon: SvgPicture.asset(
+                                                'assets/Heart 2.svg'),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(16),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          CardItemView(
-                                            items: element.photos,
+                                          Text(
+                                            'ID  ${element.id}',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w300,
+                                                color: AppConfic.fontColor2),
                                           ),
-                                          Positioned(
-                                            right: 10,
-                                            top: 10,
-                                            child: IconButton(
-                                              onPressed: () {},
-                                              // the Icon of favorite button.
-                                              icon: SvgPicture.asset(
-                                                  'assets/Heart 2.svg'),
-                                            ),
+                                          SizedBox(
+                                            height: 10,
                                           ),
-                                        ],
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'ID  ${element.id}',
-                                              style: TextStyle(fontSize: 14),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  '${element.name}',
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                                Spacer(),
-                                                Icon(
-                                                  Icons.circle,
-                                                  color: element.status ==
-                                                          'Confirmed'
-                                                      ? Color(0XFF19AE7A)
-                                                      : Colors.yellow,
-                                                )
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Row(
-                                              children: [
-                                                // guest Icon.
-                                                SvgPicture.asset(
-                                                    'assets/Group 3.svg'),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Text(
-                                                  ' Up to ${element.guests} ',
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w300),
-                                                ),
-                                                Text(
-                                                  '${element.guests < 2 ? 'guest' : 'guests'}',
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w300),
-                                                ),
-                                                SizedBox(
-                                                  width: 20,
-                                                ),
-                                                IconButton(
-                                                  onPressed: () {},
-                                                  // like Icon.
-                                                  icon: SvgPicture.asset(
-                                                      'assets/Star.svg'),
-                                                ),
-                                                Text(
-                                                  '${element.rating == null ? '0' : element.rating}',
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w300),
-                                                ),
-                                                SizedBox(
-                                                  width: 20,
-                                                ),
-                                                IconButton(
-                                                  onPressed: () {
-                                                    List<ReviewssModel>
-                                                        reviewsList = [];
-                                                    reviewHolder.whenData((e) {
-                                                      // Filter the boat reviews based on the boatId
-                                                      var filteredBoatReviews =
-                                                          e
-                                                              .boatReviews
-                                                              .where((boat) =>
-                                                                  boat.boatId ==
-                                                                  element
-                                                                      .boatId)
-                                                              .toList();
-                                                      // Extract the reviews and make sure they are of the correct type (ReviewssModel)
-                                                      List<ReviewssModel>
-                                                          reviewValue =
-                                                          filteredBoatReviews
-                                                              .expand((element) =>
-                                                                  element
-                                                                      .reviews)
-                                                              .toList();
-
-                                                      // Add the reviews to the reviewsList
-                                                      reviewsList
-                                                          .addAll(reviewValue);
-                                                    });
-                                                    Navigator.of(context).push(
-                                                      MaterialPageRoute(
-                                                        builder: (context) {
-                                                          return ShowAllReviews(
-                                                            reviewsList:
-                                                                reviewsList,
-                                                          );
-                                                        },
-                                                      ),
-                                                    );
-                                                  },
-                                                  // Review Icon.
-                                                  icon: SvgPicture.asset(
-                                                      'assets/Message 29.svg'),
-                                                ),
-                                                Consumer(builder:
-                                                    (BuildContext context, ref,
-                                                        _) {
-                                                  return reviewHolder.when(data:
-                                                      (e) {
+                                          Row(
+                                            children: [
+                                              Text(
+                                                '${element.name}',
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: AppConfic.fontColor),
+                                              ),
+                                              Spacer(),
+                                              Icon(
+                                                size: 10,
+                                                Icons.circle,
+                                                color: element.status ==
+                                                        'Confirmed'
+                                                    ? Color(0XFF19AE7A)
+                                                    : Colors.yellow,
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            children: [
+                                              // guest Icon.
+                                              SvgPicture.asset(
+                                                  'assets/Group 3.svg'),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(
+                                                ' Up to ${element.guests} ',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w300,
+                                                    color:
+                                                        AppConfic.fontColor2),
+                                              ),
+                                              Text(
+                                                '${element.guests < 2 ? 'guest' : 'guests'}',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w300,
+                                                    color:
+                                                        AppConfic.fontColor2),
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              GestureDetector(
+                                                onTap: () {},
+                                                // like Icon.
+                                                child: SvgPicture.asset(
+                                                    'assets/Star.svg'),
+                                              ),
+                                              SizedBox(
+                                                width: 16,
+                                              ),
+                                              Text(
+                                                '${element.rating == null ? '0' : element.rating}',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w300,
+                                                    color:
+                                                        AppConfic.fontColor2),
+                                              ),
+                                              SizedBox(
+                                                width: 16,
+                                              ),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  List<ReviewssModel>
+                                                      reviewsList = [];
+                                                  reviewHolder.whenData((e) {
                                                     // Filter the boat reviews based on the boatId
                                                     var filteredBoatReviews = e
                                                         .boatReviews
@@ -207,383 +174,441 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                             .expand((element) =>
                                                                 element.reviews)
                                                             .toList();
-                                                    return Text(
-                                                      reviewValue.length
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w300),
-                                                    );
-                                                  }, error: (Object error,
-                                                      StackTrace stackTrace) {
-                                                    return SizedBox();
-                                                  }, loading: () {
-                                                    return CircularProgressIndicator();
+
+                                                    // Add the reviews to the reviewsList
+                                                    reviewsList
+                                                        .addAll(reviewValue);
                                                   });
-                                                })
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Divider(),
-                                            Row(
-                                              children: [
-                                                // location Icon.
-                                                SvgPicture.asset(
-                                                    'assets/Ellipse 83.svg'),
-                                                SizedBox(
-                                                  width: 15,
-                                                ),
-                                                Text(
-                                                  '${element.startAddress.name}',
-                                                  style: TextStyle(
+                                                  Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                      builder: (context) {
+                                                        return ShowAllReviews(
+                                                          reviewsList:
+                                                              reviewsList,
+                                                        );
+                                                      },
+                                                    ),
+                                                  );
+                                                },
+                                                // Review Icon.
+                                                child: SvgPicture.asset(
+                                                    'assets/Message 29.svg'),
+                                              ),
+                                              SizedBox(
+                                                width: 16,
+                                              ),
+                                              Consumer(builder:
+                                                  (BuildContext context, ref,
+                                                      _) {
+                                                return reviewHolder.when(
+                                                    data: (e) {
+                                                  // Filter the boat reviews based on the boatId
+                                                  var filteredBoatReviews = e
+                                                      .boatReviews
+                                                      .where((boat) =>
+                                                          boat.boatId ==
+                                                          element.boatId)
+                                                      .toList();
+                                                  // Extract the reviews and make sure they are of the correct type (ReviewssModel)
+                                                  List<ReviewssModel>
+                                                      reviewValue =
+                                                      filteredBoatReviews
+                                                          .expand((element) =>
+                                                              element.reviews)
+                                                          .toList();
+                                                  return Text(
+                                                    reviewValue.length
+                                                        .toString(),
+                                                    style: TextStyle(
                                                       fontSize: 14,
                                                       fontWeight:
-                                                          FontWeight.w300),
+                                                          FontWeight.w300,
+                                                      decoration: TextDecoration
+                                                          .underline,
+                                                      color:
+                                                          AppConfic.fontColor2,
+                                                    ),
+                                                  );
+                                                }, error: (Object error,
+                                                        StackTrace stackTrace) {
+                                                  return SizedBox();
+                                                }, loading: () {
+                                                  return CircularProgressIndicator();
+                                                });
+                                              })
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Divider(),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            children: [
+                                              // location Icon.
+                                              SvgPicture.asset(
+                                                  'assets/Ellipse 83.svg'),
+                                              SizedBox(
+                                                width: 15,
+                                              ),
+                                              Text(
+                                                '${element.startAddress.name}',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w300,
+                                                    color: AppConfic.fontColor),
+                                              ),
+                                              Spacer(),
+                                              if (element.startAddress.name ==
+                                                  element.destination.name)
+                                                Icon(
+                                                  Icons.refresh,
+                                                  color:
+                                                      const Color(0xff2296B7),
+                                                )
+                                            ],
+                                          ),
+                                          element.startAddress.name ==
+                                                  element.destination.name
+                                              ? SizedBox()
+                                              : Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                        'assets/Frame 31.svg'),
+                                                    Row(
+                                                      children: [
+                                                        //destination Icon.
+                                                        SvgPicture.asset(
+                                                            'assets/Ellipse 83.svg'),
+                                                        SizedBox(
+                                                          width: 15,
+                                                        ),
+                                                        Text(
+                                                          '${element.destination.name}',
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w300,
+                                                              color: AppConfic
+                                                                  .fontColor),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ],
                                                 ),
-                                                Spacer(),
-                                                if (element.startAddress.name ==
-                                                    element.destination.name)
-                                                  Icon(
-                                                    Icons.refresh,
-                                                    color:
-                                                        const Color(0xff2296B7),
-                                                  )
-                                              ],
-                                            ),
-                                            element.startAddress.name ==
-                                                    element.destination.name
-                                                ? SizedBox()
-                                                : Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      SvgPicture.asset(
-                                                          'assets/Frame 31.svg'),
-                                                      Row(
-                                                        children: [
-                                                          //destination Icon.
-                                                          SvgPicture.asset(
-                                                              'assets/Ellipse 83.svg'),
-                                                          SizedBox(
-                                                            width: 15,
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Divider(),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  //Clock Icon.
+                                                  SvgPicture.asset(
+                                                      'assets/Clock Circle.svg'),
+                                                  SizedBox(
+                                                    width: 16,
+                                                  ),
+                                                  Text(
+                                                    '${element.startTime.day < 10 ? '0${element.startTime.day}' : element.startTime.day}.${element.startTime.month < 10 ? '0${element.startTime.month}' : element.startTime.month} ${element.startTime.hour < 10 ? '0 ${element.startTime.hour}' : element.startTime.hour}:${element.startTime.minute < 10 ? '0${element.startTime.minute}' : element.startTime.minute} - ${element.endTime.day < 10 ? '0${element.endTime.day}' : element.endTime.day}.${element.endTime.month < 10 ? '0${element.endTime.month}' : element.endTime.month} ${element.endTime.hour < 10 ? '0 ${element.endTime.hour}' : element.endTime.hour}:${element.endTime.minute < 10 ? '0${element.endTime.minute}' : element.endTime.minute}',
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w300,
+                                                        color: AppConfic
+                                                            .fontColor),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    '${element.price} R',
+                                                    style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color:
+                                                          AppConfic.iconColor2,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    ' /  2 hour',
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: AppConfic
+                                                            .fontColor),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              element.rating == null
+                                                  ? GestureDetector(
+                                                      onTap: () {
+                                                        Navigator.of(context)
+                                                            .push(
+                                                          MaterialPageRoute(
+                                                            builder: (context) {
+                                                              return TicketsReviewPage();
+                                                            },
                                                           ),
-                                                          Text(
-                                                            '${element.destination.name}',
+                                                        );
+                                                      },
+                                                      child: Container(
+                                                        width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
+                                                        height: 48,
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8),
+                                                            color: Color(
+                                                                0XFF19AE7A)),
+                                                        child: Center(
+                                                          child: Text(
+                                                            'Leave feedback ',
                                                             style: TextStyle(
                                                                 fontSize: 14,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .w300),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                            Divider(),
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    //Clock Icon.
-                                                    SvgPicture.asset(
-                                                        'assets/Clock Circle.svg'),
-                                                    SizedBox(
-                                                      width: 15,
-                                                    ),
-                                                    Text(
-                                                      '${element.startTime.day < 10 ? '0${element.startTime.day}' : element.startTime.day}.${element.startTime.month < 10 ? '0${element.startTime.month}' : element.startTime.month} ${element.startTime.hour < 10 ? '0 ${element.startTime.hour}' : element.startTime.hour}:${element.startTime.minute < 10 ? '0${element.startTime.minute}' : element.startTime.minute} - ${element.endTime.day < 10 ? '0${element.endTime.day}' : element.endTime.day}.${element.endTime.month < 10 ? '0${element.endTime.month}' : element.endTime.month} ${element.endTime.hour < 10 ? '0 ${element.endTime.hour}' : element.endTime.hour}:${element.endTime.minute < 10 ? '0${element.endTime.minute}' : element.endTime.minute}',
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w300),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      '${element.price} R',
-                                                      style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: const Color(
-                                                            0xff19AE7A),
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      ' /  2 hour',
-                                                      style: TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                element.rating == null
-                                                    ? Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                                left: 10,
-                                                                right: 10),
-                                                        child: GestureDetector(
-                                                          onTap: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .push(
-                                                              MaterialPageRoute(
-                                                                builder:
-                                                                    (context) {
-                                                                  return TicketsReviewPage();
-                                                                },
-                                                              ),
-                                                            );
-                                                          },
-                                                          child: Container(
-                                                            height: 46,
-                                                            decoration: BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            6),
-                                                                color: Color(
-                                                                    0XFF19AE7A)),
-                                                            child: Center(
-                                                              child: Text(
-                                                                'Leave feedback ',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600),
-                                                              ),
-                                                            ),
+                                                                        .w600,
+                                                                color: AppConfic
+                                                                    .fontColor),
                                                           ),
                                                         ),
-                                                      )
-                                                    : Consumer(
-                                                        builder: (BuildContext
-                                                                context,
-                                                            ref,
-                                                            _) {
-                                                          return reviewHolder
-                                                              .when(data: (e) {
-                                                            // Filter the boat reviews based on the boatId
-                                                            var filteredBoatReviews = e
-                                                                .boatReviews
-                                                                .where((boat) =>
-                                                                    boat.boatId ==
-                                                                    element
-                                                                        .boatId)
-                                                                .toList();
-                                                            // Extract the reviews and make sure they are of the correct type (ReviewssModel)
-                                                            List<ReviewssModel>
-                                                                reviewValue =
-                                                                filteredBoatReviews
-                                                                    .expand((element) =>
-                                                                        element
-                                                                            .reviews)
-                                                                    .toList();
-                                                            return Container(
-                                                              width:
-                                                                  MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width,
-                                                              //  height: 152,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: AppConfic
-                                                                    .backGroundColor,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            8),
-                                                              ),
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(
-                                                                        8.0),
-                                                                child: Column(
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Row(
-                                                                      children: [
-                                                                        Text(
-                                                                          'Your review',
-                                                                          style: TextStyle(
-                                                                              fontSize: 14,
-                                                                              fontWeight: FontWeight.w300),
-                                                                        ),
-                                                                        Spacer(),
-                                                                        SvgPicture.asset(
-                                                                            'assets/Vector.svg')
-                                                                      ],
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height:
-                                                                          10,
-                                                                    ),
-                                                                    ReadMoreText(
-                                                                      '${reviewValue.first.reviewDescription}',
-                                                                      trimLines:
-                                                                          3,
-                                                                      trimMode:
-                                                                          TrimMode
-                                                                              .Line,
-                                                                      trimCollapsedText:
-                                                                          'ReadMore',
-                                                                      trimExpandedText:
-                                                                          'Readless',
-                                                                      moreStyle:
-                                                                          TextStyle(
-                                                                              color: Colors.blue),
-                                                                      lessStyle:
-                                                                          TextStyle(
-                                                                              color: Colors.blue),
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              14,
-                                                                          fontWeight:
-                                                                              FontWeight.w300),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height:
-                                                                          10,
-                                                                    ),
-                                                                    Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .start,
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .start,
-                                                                      children: [
-                                                                        // ...List.generate(
-                                                                        //     reviewValue
-                                                                        //         .first.rating,
-                                                                        //     (index) =>
-                                                                        //         SvgPicture.asset('assets/Star.svg')),
-                                                                        ...List
-                                                                            .generate(
-                                                                          reviewValue
-                                                                              .first
-                                                                              .rating
-                                                                              .floor(), // Full stars based on the integer part of the rating
-                                                                          (index) =>
-                                                                              Icon(
-                                                                            size:
-                                                                                20,
-                                                                            Icons.star,
-                                                                            color:
-                                                                                Colors.red,
-                                                                          ),
-                                                                        ),
-                                                                        // Half star if there's a decimal part (e.g., 2.5)
-                                                                        if (reviewValue.first.rating -
-                                                                                reviewValue.first.rating.floor() >=
-                                                                            0.5)
-                                                                          Icon(
-                                                                            size:
-                                                                                20,
-                                                                            Icons.star_half,
-                                                                            color:
-                                                                                Colors.red,
-                                                                          ),
-                                                                        // Empty stars for the remaining
-                                                                        ...List
-                                                                            .generate(
-                                                                          5 - reviewValue.first.rating.ceil(), // Remaining empty stars
-                                                                          (index) =>
-                                                                              Icon(
-                                                                            size:
-                                                                                20,
-                                                                            Icons.star_border,
-                                                                            color:
-                                                                                Colors.red,
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            );
-                                                            // Text(reviewValue
-                                                            //     .first
-                                                            //     .reviewDescription);
-                                                          }, error: (Object
-                                                                      error,
-                                                                  StackTrace
-                                                                      stackTrace) {
-                                                            return SizedBox();
-                                                          }, loading: () {
-                                                            return CircularProgressIndicator();
-                                                          });
-                                                        },
                                                       ),
-                                                //  Container(
-                                                //     width: MediaQuery.of(
-                                                //             context)
-                                                //         .size
-                                                //         .width,
-                                                //     height: 152,
-                                                //     decoration:
-                                                //         BoxDecoration(
-                                                //       color:
-                                                //           Color(0XFFF5F6FA),
-                                                //       borderRadius:
-                                                //           BorderRadius
-                                                //               .circular(8),
-                                                //     ),
-                                                //     child: Column(
-                                                //       children: [
-                                                //         ReadMoreText(
-                                                //           '${widget.boatinfo!.description}',
-                                                //           trimLines: 4,
-                                                //           trimMode:
-                                                //               TrimMode.Line,
-                                                //           trimCollapsedText:
-                                                //               'Readmore',
-                                                //           trimExpandedText:
-                                                //               'Readless',
-                                                //           moreStyle: TextStyle(
-                                                //               color: Colors
-                                                //                   .blue),
-                                                //           lessStyle: TextStyle(
-                                                //               color: Colors
-                                                //                   .blue),
-                                                //         ),
-                                                //       ],
-                                                //     ),
-                                                //   )
-                                              ],
-                                            )
-                                          ],
-                                        ),
+                                                    )
+                                                  : Consumer(
+                                                      builder:
+                                                          (BuildContext context,
+                                                              ref, _) {
+                                                        return reviewHolder
+                                                            .when(data: (e) {
+                                                          // Filter the boat reviews based on the boatId
+                                                          var filteredBoatReviews = e
+                                                              .boatReviews
+                                                              .where((boat) =>
+                                                                  boat.boatId ==
+                                                                  element
+                                                                      .boatId)
+                                                              .toList();
+                                                          // Extract the reviews and make sure they are of the correct type (ReviewssModel)
+                                                          List<ReviewssModel>
+                                                              reviewValue =
+                                                              filteredBoatReviews
+                                                                  .expand((element) =>
+                                                                      element
+                                                                          .reviews)
+                                                                  .toList();
+                                                          return Container(
+                                                            width:
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width,
+                                                            //  height: 152,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: AppConfic
+                                                                  .backGroundColor,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8),
+                                                            ),
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Row(
+                                                                    children: [
+                                                                      Text(
+                                                                        'Your review',
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                14,
+                                                                            fontWeight:
+                                                                                FontWeight.w300,
+                                                                            color: AppConfic.fontColor2),
+                                                                      ),
+                                                                      Spacer(),
+                                                                      SvgPicture
+                                                                          .asset(
+                                                                              'assets/Vector.svg')
+                                                                    ],
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height: 10,
+                                                                  ),
+                                                                  ReadMoreText(
+                                                                    '${reviewValue.first.reviewDescription}',
+                                                                    trimLines:
+                                                                        3,
+                                                                    trimMode:
+                                                                        TrimMode
+                                                                            .Line,
+                                                                    trimCollapsedText:
+                                                                        'ReadMore',
+                                                                    trimExpandedText:
+                                                                        'Readless',
+                                                                    moreStyle: TextStyle(
+                                                                        color: Colors
+                                                                            .blue),
+                                                                    lessStyle: TextStyle(
+                                                                        color: Colors
+                                                                            .blue),
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            14,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w300,
+                                                                        color: AppConfic
+                                                                            .fontColor),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height: 10,
+                                                                  ),
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .start,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      // ...List.generate(
+                                                                      //     reviewValue
+                                                                      //         .first.rating,
+                                                                      //     (index) =>
+                                                                      //         SvgPicture.asset('assets/Star.svg')),
+                                                                      ...List
+                                                                          .generate(
+                                                                        reviewValue
+                                                                            .first
+                                                                            .rating
+                                                                            .floor(), // Full stars based on the integer part of the rating
+                                                                        (index) =>
+                                                                            Icon(
+                                                                          size:
+                                                                              20,
+                                                                          Icons
+                                                                              .star,
+                                                                          color:
+                                                                              Colors.red,
+                                                                        ),
+                                                                      ),
+                                                                      // Half star if there's a decimal part (e.g., 2.5)
+                                                                      if (reviewValue.first.rating -
+                                                                              reviewValue.first.rating.floor() >=
+                                                                          0.5)
+                                                                        Icon(
+                                                                          size:
+                                                                              20,
+                                                                          Icons
+                                                                              .star_half,
+                                                                          color:
+                                                                              Colors.red,
+                                                                        ),
+                                                                      // Empty stars for the remaining
+                                                                      ...List
+                                                                          .generate(
+                                                                        5 - reviewValue.first.rating.ceil(), // Remaining empty stars
+                                                                        (index) =>
+                                                                            Icon(
+                                                                          size:
+                                                                              20,
+                                                                          Icons
+                                                                              .star_border,
+                                                                          color:
+                                                                              Colors.red,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          );
+                                                          // Text(reviewValue
+                                                          //     .first
+                                                          //     .reviewDescription);
+                                                        }, error: (Object error,
+                                                                StackTrace
+                                                                    stackTrace) {
+                                                          return SizedBox();
+                                                        }, loading: () {
+                                                          return CircularProgressIndicator();
+                                                        });
+                                                      },
+                                                    ),
+                                              //  Container(
+                                              //     width: MediaQuery.of(
+                                              //             context)
+                                              //         .size
+                                              //         .width,
+                                              //     height: 152,
+                                              //     decoration:
+                                              //         BoxDecoration(
+                                              //       color:
+                                              //           Color(0XFFF5F6FA),
+                                              //       borderRadius:
+                                              //           BorderRadius
+                                              //               .circular(8),
+                                              //     ),
+                                              //     child: Column(
+                                              //       children: [
+                                              //         ReadMoreText(
+                                              //           '${widget.boatinfo!.description}',
+                                              //           trimLines: 4,
+                                              //           trimMode:
+                                              //               TrimMode.Line,
+                                              //           trimCollapsedText:
+                                              //               'Readmore',
+                                              //           trimExpandedText:
+                                              //               'Readless',
+                                              //           moreStyle: TextStyle(
+                                              //               color: Colors
+                                              //                   .blue),
+                                              //           lessStyle: TextStyle(
+                                              //               color: Colors
+                                              //                   .blue),
+                                              //         ),
+                                              //       ],
+                                              //     ),
+                                              //   )
+                                            ],
+                                          )
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -695,6 +720,7 @@ class _ImageSliderViewState extends State<ImageSliderView> {
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10)),
                       child: Image.network(
+                        width: MediaQuery.of(context).size.width,
                         height: 180,
                         widget.imagesPath[index],
                         fit: BoxFit.cover,

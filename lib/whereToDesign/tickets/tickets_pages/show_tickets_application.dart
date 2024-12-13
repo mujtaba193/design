@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../models/all_reviews_model.dart';
 import '../../providers/all_reviews_provider.dart';
 import '../../show_all_reviews.dart';
-import '../tickets_provider_folder/tickets_application_provider.dart';
+import '../tickets_provider_folder/tickets_application_future_provider.dart';
 import '../timer/timer.dart';
 
 class ShowTicketsApplication extends ConsumerStatefulWidget {
@@ -30,420 +30,863 @@ class _ShowTicketsApplicationState
 
   @override
   Widget build(BuildContext context) {
-    final ticketsHolder = ref.read(ticketApplicationProvider);
-    final reviewHolder = ref.watch(allReviewsProvider);
+    // final ticketsHolder = ref.watch(ticketApplicationProvider);
+
     return Scaffold(
-      body: FutureBuilder(
-        future: ticketsHolder.readJsonDataApp(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          } else if (snapshot.hasError) {
-            // Handle the error state
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData ||
-              ticketsHolder.ticketList == null ||
-              ticketsHolder.ticketList!.isEmpty) {
-            // Handle the empty data state
-            return Center(
-              child: Text('No tickets found.'),
-            );
-          } else {
-            return ListView.builder(
-              shrinkWrap: true,
-              // physics: NeverScrollableScrollPhysics(),
-              itemCount: ticketsHolder.ticketList!.length,
-              itemBuilder: (_, index) => GestureDetector(
-                onTap: () {},
-                child: Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: Card(
-                    elevation: 5,
-                    shadowColor: Colors.grey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
+      body: Consumer(
+        builder: (context, ref, _) {
+          final ticketsHolder = ref.watch(ticketApplicationFutureProvider);
+          final reviewHolder = ref.watch(allReviewsProvider);
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                ticketsHolder.when(
+                  data: (list) {
+                    return Column(
                       children: [
-                        Stack(
-                          children: [
-                            CardItemView(
-                                items: ticketsHolder.ticketList![index].photos),
-                            Positioned(
-                              right: 10,
-                              top: 10,
-                              child: IconButton(
-                                  onPressed: () {},
-                                  // the Icon of favorite button.
-                                  icon: SvgPicture.asset('assets/Heart 2.svg')),
-                            ),
-                            Positioned(
-                              left: 10,
-                              top: 10,
-                              child: Container(
-                                // width: 180,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  color:
-                                      ticketsHolder.ticketList![index].status ==
-                                              'Confirmed'
-                                          ? Color(0XFF19AE7A)
-                                          : Color(0xff2296B7),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, right: 10),
-                                    child: ticketsHolder
-                                                .ticketList![index].status ==
-                                            'Confirmed'
-                                        ? Text(
-                                            'Approved! Prepayment expected',
-                                            style: TextStyle(fontSize: 12),
-                                          )
-                                        : Text(
-                                            'Waiting a response in 5 mint',
-                                            style: TextStyle(fontSize: 12),
+                        ...list.map(
+                          (element) => Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: AppConfic.cardColor,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Stack(
+                                    children: [
+                                      CardItemView(items: element.photos),
+                                      Positioned(
+                                        right: 10,
+                                        top: 10,
+                                        child: IconButton(
+                                            onPressed: () {},
+                                            // the Icon of favorite button.
+                                            icon: SvgPicture.asset(
+                                                'assets/Heart 2.svg')),
+                                      ),
+                                      Positioned(
+                                        left: 10,
+                                        top: 10,
+                                        child: Container(
+                                          // width: 180,
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                            color: element.status == 'Confirmed'
+                                                ? Color(0XFF19AE7A)
+                                                : Color(0xff2296B7),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
                                           ),
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'ID  ${ticketsHolder.ticketList![index].id}',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w300,
-                                    color: AppConfic.fontColor2),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    '${ticketsHolder.ticketList![index].name}',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        color: AppConfic.fontColor),
-                                  ),
-                                  Spacer(),
-                                  Icon(
-                                    Icons.circle,
-                                    color: ticketsHolder
-                                                .ticketList![index].status ==
-                                            'Confirmed'
-                                        ? Color(0XFF19AE7A)
-                                        : Colors.yellow,
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  // guest Icon.
-                                  SvgPicture.asset('assets/Group 3.svg'),
-                                  SizedBox(
-                                    width: 16,
-                                  ),
-                                  Text(
-                                    ' Up to ${ticketsHolder.ticketList![index].guests} ',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w300,
-                                        color: AppConfic.fontColor2),
-                                  ),
-                                  Text(
-                                    '${ticketsHolder.ticketList![index].guests < 2 ? 'guest' : 'guests'}',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w300,
-                                        color: AppConfic.fontColor2),
-                                  ),
-                                  SizedBox(
-                                    width: 16,
-                                  ),
-
-                                  // like Icon.
-                                  SvgPicture.asset('assets/Star.svg'),
-                                  SizedBox(
-                                    width: 16,
-                                  ),
-
-                                  Text(
-                                      '${ticketsHolder.ticketList![index].rating}'),
-                                  SizedBox(
-                                    width: 16,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      List<ReviewssModel> reviewsList = [];
-                                      reviewHolder.whenData((e) {
-                                        // Filter the boat reviews based on the boatId
-                                        var filteredBoatReviews = e.boatReviews
-                                            .where((boat) =>
-                                                boat.boatId ==
-                                                ticketsHolder
-                                                    .ticketList![index].boatId)
-                                            .toList();
-                                        // Extract the reviews and make sure they are of the correct type (ReviewssModel)
-                                        List<ReviewssModel> reviewValue =
-                                            filteredBoatReviews
-                                                .expand((element) =>
-                                                    element.reviews)
-                                                .toList();
-
-                                        // Add the reviews to the reviewsList
-                                        reviewsList.addAll(reviewValue);
-                                      });
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return ShowAllReviews(
-                                              reviewsList: reviewsList,
-                                            );
-                                          },
+                                          child: Center(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10, right: 10),
+                                              child:
+                                                  element.status == 'Confirmed'
+                                                      ? Text(
+                                                          'Approved! Prepayment expected',
+                                                          style: TextStyle(
+                                                              fontSize: 12),
+                                                        )
+                                                      : Text(
+                                                          'Waiting a response in 5 mint',
+                                                          style: TextStyle(
+                                                              fontSize: 12),
+                                                        ),
+                                            ),
+                                          ),
                                         ),
-                                      );
-                                    },
-                                    // Review Icon.
-                                    child: SvgPicture.asset(
-                                        'assets/Message 29.svg'),
+                                      )
+                                    ],
                                   ),
-                                  SizedBox(
-                                    width: 16,
-                                  ),
-                                  Consumer(
-                                    builder: (BuildContext context, ref, _) {
-                                      return reviewHolder.when(data: (e) {
-                                        // Filter the boat reviews based on the boatId
-                                        var filteredBoatReviews = e.boatReviews
-                                            .where((boat) =>
-                                                boat.boatId ==
-                                                ticketsHolder
-                                                    .ticketList![index].boatId)
-                                            .toList();
-                                        // Extract the reviews and make sure they are of the correct type (ReviewssModel)
-                                        List<ReviewssModel> reviewValue =
-                                            filteredBoatReviews
-                                                .expand((element) =>
-                                                    element.reviews)
-                                                .toList();
-                                        return Text(
-                                            reviewValue.length.toString());
-                                      }, error: (Object error,
-                                          StackTrace stackTrace) {
-                                        return SizedBox();
-                                      }, loading: () {
-                                        return CircularProgressIndicator();
-                                      });
-                                    },
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              Divider(),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  // location Icon.
-                                  SvgPicture.asset('assets/Ellipse 83.svg'),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Text(
-                                    '${ticketsHolder.ticketList![index].startAddress.name}',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w300,
-                                        color: AppConfic.fontColor),
-                                  ),
-                                  Spacer(),
-                                  if (ticketsHolder.ticketList![index]
-                                          .startAddress.name ==
-                                      ticketsHolder
-                                          .ticketList![index].destination.name)
-                                    Icon(
-                                      Icons.refresh,
-                                      color: const Color(0xff2296B7),
-                                    )
-                                ],
-                              ),
-                              ticketsHolder.ticketList![index].startAddress
-                                          .name ==
-                                      ticketsHolder
-                                          .ticketList![index].destination.name
-                                  ? SizedBox()
-                                  : Column(
+                                  Padding(
+                                    padding: const EdgeInsets.all(16),
+                                    child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        SvgPicture.asset('assets/Frame 31.svg'),
+                                        Text(
+                                          'ID  ${element.id}',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w300,
+                                              color: AppConfic.fontColor2),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
                                         Row(
                                           children: [
-                                            //destination Icon.
+                                            Text(
+                                              '${element.name}',
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: AppConfic.fontColor),
+                                            ),
+                                            Spacer(),
+                                            Icon(
+                                              size: 10,
+                                              Icons.circle,
+                                              color:
+                                                  element.status == 'Confirmed'
+                                                      ? Color(0XFF19AE7A)
+                                                      : Colors.yellow,
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          children: [
+                                            // guest Icon.
+                                            SvgPicture.asset(
+                                                'assets/Group 3.svg'),
+                                            SizedBox(
+                                              width: 16,
+                                            ),
+                                            Text(
+                                              ' Up to ${element.guests} ',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w300,
+                                                  color: AppConfic.fontColor2),
+                                            ),
+                                            Text(
+                                              '${element.guests < 2 ? 'guest' : 'guests'}',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w300,
+                                                  color: AppConfic.fontColor2),
+                                            ),
+                                            SizedBox(
+                                              width: 16,
+                                            ),
+
+                                            // like Icon.
+                                            SvgPicture.asset('assets/Star.svg'),
+                                            SizedBox(
+                                              width: 16,
+                                            ),
+
+                                            Text(
+                                              '${element.rating}',
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w300,
+                                                color: AppConfic.fontColor2,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 16,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                List<ReviewssModel>
+                                                    reviewsList = [];
+                                                reviewHolder.whenData((e) {
+                                                  // Filter the boat reviews based on the boatId
+                                                  var filteredBoatReviews = e
+                                                      .boatReviews
+                                                      .where((boat) =>
+                                                          boat.boatId ==
+                                                          element.boatId)
+                                                      .toList();
+                                                  // Extract the reviews and make sure they are of the correct type (ReviewssModel)
+                                                  List<ReviewssModel>
+                                                      reviewValue =
+                                                      filteredBoatReviews
+                                                          .expand((element) =>
+                                                              element.reviews)
+                                                          .toList();
+
+                                                  // Add the reviews to the reviewsList
+                                                  reviewsList
+                                                      .addAll(reviewValue);
+                                                });
+                                                Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                    builder: (context) {
+                                                      return ShowAllReviews(
+                                                        reviewsList:
+                                                            reviewsList,
+                                                      );
+                                                    },
+                                                  ),
+                                                );
+                                              },
+                                              // Review Icon.
+                                              child: SvgPicture.asset(
+                                                  'assets/Message 29.svg'),
+                                            ),
+                                            SizedBox(
+                                              width: 16,
+                                            ),
+                                            Consumer(
+                                              builder: (BuildContext context,
+                                                  ref, _) {
+                                                return reviewHolder.when(
+                                                    data: (e) {
+                                                  // Filter the boat reviews based on the boatId
+                                                  var filteredBoatReviews = e
+                                                      .boatReviews
+                                                      .where((boat) =>
+                                                          boat.boatId ==
+                                                          element.boatId)
+                                                      .toList();
+                                                  // Extract the reviews and make sure they are of the correct type (ReviewssModel)
+                                                  List<ReviewssModel>
+                                                      reviewValue =
+                                                      filteredBoatReviews
+                                                          .expand((element) =>
+                                                              element.reviews)
+                                                          .toList();
+                                                  return Text(
+                                                    reviewValue.length
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w300,
+                                                        color: AppConfic
+                                                            .fontColor2,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .underline),
+                                                  );
+                                                }, error: (Object error,
+                                                        StackTrace stackTrace) {
+                                                  return SizedBox();
+                                                }, loading: () {
+                                                  return CircularProgressIndicator();
+                                                });
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 10),
+                                        Divider(),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          children: [
+                                            // location Icon.
                                             SvgPicture.asset(
                                                 'assets/Ellipse 83.svg'),
                                             SizedBox(
                                               width: 15,
                                             ),
                                             Text(
-                                              '${ticketsHolder.ticketList![index].destination.name}',
+                                              '${element.startAddress.name}',
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w300,
                                                   color: AppConfic.fontColor),
-                                            )
+                                            ),
+                                            Spacer(),
+                                            if (element.startAddress.name ==
+                                                element.destination.name)
+                                              Icon(
+                                                Icons.refresh,
+                                                color: const Color(0xff2296B7),
+                                              )
                                           ],
                                         ),
-                                      ],
-                                    ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Divider(),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      //Clock Icon.
-                                      SvgPicture.asset(
-                                          'assets/Clock Circle.svg'),
-                                      SizedBox(
-                                        width: 16,
-                                      ),
-                                      Text(
-                                        '${ticketsHolder.ticketList![index].startTime.day < 10 ? '0${ticketsHolder.ticketList![index].startTime.day}' : ticketsHolder.ticketList![index].startTime.day}.${ticketsHolder.ticketList![index].startTime.month < 10 ? '0${ticketsHolder.ticketList![index].startTime.month}' : ticketsHolder.ticketList![index].startTime.month} ${ticketsHolder.ticketList![index].startTime.hour < 10 ? '0 ${ticketsHolder.ticketList![index].startTime.hour}' : ticketsHolder.ticketList![index].startTime.hour}:${ticketsHolder.ticketList![index].startTime.minute < 10 ? '0${ticketsHolder.ticketList![index].startTime.minute}' : ticketsHolder.ticketList![index].startTime.minute} - ${ticketsHolder.ticketList![index].endTime.day < 10 ? '0${ticketsHolder.ticketList![index].endTime.day}' : ticketsHolder.ticketList![index].endTime.day}.${ticketsHolder.ticketList![index].endTime.month < 10 ? '0${ticketsHolder.ticketList![index].endTime.month}' : ticketsHolder.ticketList![index].endTime.month} ${ticketsHolder.ticketList![index].endTime.hour < 10 ? '0 ${ticketsHolder.ticketList![index].endTime.hour}' : ticketsHolder.ticketList![index].endTime.hour}:${ticketsHolder.ticketList![index].endTime.minute < 10 ? '0${ticketsHolder.ticketList![index].endTime.minute}' : ticketsHolder.ticketList![index].endTime.minute}',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w300),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        '${ticketsHolder.ticketList![index].price} R',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                          color: const Color(0xff19AE7A),
+                                        element.startAddress.name ==
+                                                element.destination.name
+                                            ? SizedBox()
+                                            : Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  SvgPicture.asset(
+                                                      'assets/Frame 31.svg'),
+                                                  Row(
+                                                    children: [
+                                                      //destination Icon.
+                                                      SvgPicture.asset(
+                                                          'assets/Ellipse 83.svg'),
+                                                      SizedBox(
+                                                        width: 15,
+                                                      ),
+                                                      Text(
+                                                        '${element.destination.name}',
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.w300,
+                                                            color: AppConfic
+                                                                .fontColor),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                        SizedBox(
+                                          height: 10,
                                         ),
-                                      ),
-                                      Text(
-                                        ' /  2 hour',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w300),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, right: 10),
-                                    child: GestureDetector(
-                                      // onTap: () {
-                                      //   if (counter.value < 1) {
-                                      //     timetFunction();
-                                      //   }
-                                      // },
-                                      onTapCancel: () {},
-                                      child: Container(
-                                        height: 46,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                            color: ticketsHolder
-                                                        .ticketList![index]
-                                                        .status ==
-                                                    'Confirmed'
-                                                ? AppConfic.iconColor2
-                                                : AppConfic.fontColor2),
-                                        child: Center(
-                                          child: ticketsHolder
-                                                      .ticketList![index]
-                                                      .status ==
-                                                  'Confirmed'
-                                              ? Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      'Booking ',
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                    Text(
-                                                      '(',
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                    TimerCountdown(
-                                                      spacerWidth: 5,
-                                                      endTime: DateTime.now()
-                                                          .add(Duration(
-                                                              minutes: 15)),
-                                                      format:
-                                                          CountDownTimerFormat
-                                                              .minutesSeconds,
-                                                    ),
-                                                    Text(')')
-                                                  ],
-                                                )
-                                              : Text(
-                                                  'Waiting confirmation',
+                                        Divider(),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                //Clock Icon.
+                                                SvgPicture.asset(
+                                                    'assets/Clock Circle.svg'),
+                                                SizedBox(
+                                                  width: 16,
+                                                ),
+                                                Text(
+                                                  '${element.startTime.day < 10 ? '0${element.startTime.day}' : element.startTime.day}.${element.startTime.month < 10 ? '0${element.startTime.month}' : element.startTime.month} ${element.startTime.hour < 10 ? '0 ${element.startTime.hour}' : element.startTime.hour}:${element.startTime.minute < 10 ? '0${element.startTime.minute}' : element.startTime.minute} - ${element.endTime.day < 10 ? '0${element.endTime.day}' : element.endTime.day}.${element.endTime.month < 10 ? '0${element.endTime.month}' : element.endTime.month} ${element.endTime.hour < 10 ? '0 ${element.endTime.hour}' : element.endTime.hour}:${element.endTime.minute < 10 ? '0${element.endTime.minute}' : element.endTime.minute}',
                                                   style: TextStyle(
                                                       fontSize: 14,
                                                       fontWeight:
-                                                          FontWeight.w600),
+                                                          FontWeight.w300),
                                                 ),
-                                        ),
-                                      ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  '${element.price} R',
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w600,
+                                                    color:
+                                                        const Color(0xff19AE7A),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  ' /  2 hour',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w300),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            GestureDetector(
+                                              // onTap: () {
+                                              //   if (counter.value < 1) {
+                                              //     timetFunction();
+                                              //   }
+                                              // },
+                                              onTapCancel: () {},
+                                              child: Container(
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                height: 48,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    color: element.status ==
+                                                            'Confirmed'
+                                                        ? AppConfic.iconColor2
+                                                        : AppConfic.fontColor2),
+                                                child: Center(
+                                                  child: element.status ==
+                                                          'Confirmed'
+                                                      ? Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text(
+                                                              'Booking ',
+                                                              style: TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                            ),
+                                                            Text(
+                                                              '(',
+                                                              style: TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                            ),
+                                                            TimerCountdown(
+                                                              spacerWidth: 5,
+                                                              endTime: DateTime
+                                                                      .now()
+                                                                  .add(Duration(
+                                                                      minutes:
+                                                                          15)),
+                                                              format: CountDownTimerFormat
+                                                                  .minutesSeconds,
+                                                            ),
+                                                            Text(')')
+                                                          ],
+                                                        )
+                                                      : Text(
+                                                          'Waiting confirmation',
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600),
+                                                        ),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                          ],
+                                        )
+                                      ],
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
                                   )
                                 ],
-                              )
-                            ],
+                              ),
+                            ),
                           ),
-                        )
+                        ),
                       ],
-                    ),
+                    );
+                  },
+                  error: (context, _) => SizedBox(),
+                  loading: () => Center(
+                    child: CircularProgressIndicator(),
                   ),
                 ),
-              ),
-            );
-          }
+              ],
+            ),
+          );
         },
       ),
+      // FutureBuilder(
+      //   future: ticketsHolder.readJsonDataApp(),
+      //   builder: (context, snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       return const CircularProgressIndicator();
+      //     } else if (snapshot.hasError) {
+      //       // Handle the error state
+      //       return Center(child: Text('Error: ${snapshot.error}'));
+      //     } else if (!snapshot.hasData ||
+      //         ticketsHolder.ticketList == null ||
+      //         ticketsHolder.ticketList!.isEmpty) {
+      //       // Handle the empty data state
+      //       return Center(
+      //         child: Text('No tickets found.'),
+      //       );
+      //     } else {
+      //       return ListView.builder(
+      //         shrinkWrap: true,
+      //         // physics: NeverScrollableScrollPhysics(),
+      //         itemCount: ticketsHolder.ticketList!.length,
+      //         itemBuilder: (_, index) => GestureDetector(
+      //           onTap: () {},
+      //           child: Padding(
+      //             padding: const EdgeInsets.all(3.0),
+      //             child: Card(
+      //               elevation: 5,
+      //               shadowColor: Colors.grey,
+      //               child: Column(
+      //                 crossAxisAlignment: CrossAxisAlignment.start,
+      //                 mainAxisAlignment: MainAxisAlignment.start,
+      //                 children: [
+      //                   Stack(
+      //                     children: [
+      //                       CardItemView(
+      //                           items: ticketsHolder.ticketList![index].photos),
+      //                       Positioned(
+      //                         right: 10,
+      //                         top: 10,
+      //                         child: IconButton(
+      //                             onPressed: () {},
+      //                             // the Icon of favorite button.
+      //                             icon: SvgPicture.asset('assets/Heart 2.svg')),
+      //                       ),
+      //                       Positioned(
+      //                         left: 10,
+      //                         top: 10,
+      //                         child: Container(
+      //                           // width: 180,
+      //                           height: 30,
+      //                           decoration: BoxDecoration(
+      //                             color:
+      //                                 ticketsHolder.ticketList![index].status ==
+      //                                         'Confirmed'
+      //                                     ? Color(0XFF19AE7A)
+      //                                     : Color(0xff2296B7),
+      //                             borderRadius: BorderRadius.circular(8),
+      //                           ),
+      //                           child: Center(
+      //                             child: Padding(
+      //                               padding: const EdgeInsets.only(
+      //                                   left: 10, right: 10),
+      //                               child: ticketsHolder
+      //                                           .ticketList![index].status ==
+      //                                       'Confirmed'
+      //                                   ? Text(
+      //                                       'Approved! Prepayment expected',
+      //                                       style: TextStyle(fontSize: 12),
+      //                                     )
+      //                                   : Text(
+      //                                       'Waiting a response in 5 mint',
+      //                                       style: TextStyle(fontSize: 12),
+      //                                     ),
+      //                             ),
+      //                           ),
+      //                         ),
+      //                       )
+      //                     ],
+      //                   ),
+      //                   Padding(
+      //                     padding: const EdgeInsets.all(8.0),
+      //                     child: Column(
+      //                       crossAxisAlignment: CrossAxisAlignment.start,
+      //                       children: [
+      //                         Text(
+      //                           'ID  ${ticketsHolder.ticketList![index].id}',
+      //                           style: TextStyle(
+      //                               fontSize: 14,
+      //                               fontWeight: FontWeight.w300,
+      //                               color: AppConfic.fontColor2),
+      //                         ),
+      //                         SizedBox(
+      //                           height: 10,
+      //                         ),
+      //                         Row(
+      //                           children: [
+      //                             Text(
+      //                               '${ticketsHolder.ticketList![index].name}',
+      //                               style: TextStyle(
+      //                                   fontSize: 16,
+      //                                   fontWeight: FontWeight.w600,
+      //                                   color: AppConfic.fontColor),
+      //                             ),
+      //                             Spacer(),
+      //                             Icon(
+      //                               Icons.circle,
+      //                               color: ticketsHolder
+      //                                           .ticketList![index].status ==
+      //                                       'Confirmed'
+      //                                   ? Color(0XFF19AE7A)
+      //                                   : Colors.yellow,
+      //                             )
+      //                           ],
+      //                         ),
+      //                         SizedBox(
+      //                           height: 10,
+      //                         ),
+      //                         Row(
+      //                           children: [
+      //                             // guest Icon.
+      //                             SvgPicture.asset('assets/Group 3.svg'),
+      //                             SizedBox(
+      //                               width: 16,
+      //                             ),
+      //                             Text(
+      //                               ' Up to ${ticketsHolder.ticketList![index].guests} ',
+      //                               style: TextStyle(
+      //                                   fontSize: 14,
+      //                                   fontWeight: FontWeight.w300,
+      //                                   color: AppConfic.fontColor2),
+      //                             ),
+      //                             Text(
+      //                               '${ticketsHolder.ticketList![index].guests < 2 ? 'guest' : 'guests'}',
+      //                               style: TextStyle(
+      //                                   fontSize: 14,
+      //                                   fontWeight: FontWeight.w300,
+      //                                   color: AppConfic.fontColor2),
+      //                             ),
+      //                             SizedBox(
+      //                               width: 16,
+      //                             ),
+
+      //                             // like Icon.
+      //                             SvgPicture.asset('assets/Star.svg'),
+      //                             SizedBox(
+      //                               width: 16,
+      //                             ),
+
+      //                             Text(
+      //                                 '${ticketsHolder.ticketList![index].rating}'),
+      //                             SizedBox(
+      //                               width: 16,
+      //                             ),
+      //                             GestureDetector(
+      //                               onTap: () {
+      //                                 List<ReviewssModel> reviewsList = [];
+      //                                 reviewHolder.whenData((e) {
+      //                                   // Filter the boat reviews based on the boatId
+      //                                   var filteredBoatReviews = e.boatReviews
+      //                                       .where((boat) =>
+      //                                           boat.boatId ==
+      //                                           ticketsHolder
+      //                                               .ticketList![index].boatId)
+      //                                       .toList();
+      //                                   // Extract the reviews and make sure they are of the correct type (ReviewssModel)
+      //                                   List<ReviewssModel> reviewValue =
+      //                                       filteredBoatReviews
+      //                                           .expand((element) =>
+      //                                               element.reviews)
+      //                                           .toList();
+
+      //                                   // Add the reviews to the reviewsList
+      //                                   reviewsList.addAll(reviewValue);
+      //                                 });
+      //                                 Navigator.of(context).push(
+      //                                   MaterialPageRoute(
+      //                                     builder: (context) {
+      //                                       return ShowAllReviews(
+      //                                         reviewsList: reviewsList,
+      //                                       );
+      //                                     },
+      //                                   ),
+      //                                 );
+      //                               },
+      //                               // Review Icon.
+      //                               child: SvgPicture.asset(
+      //                                   'assets/Message 29.svg'),
+      //                             ),
+      //                             SizedBox(
+      //                               width: 16,
+      //                             ),
+      //                             Consumer(
+      //                               builder: (BuildContext context, ref, _) {
+      //                                 return reviewHolder.when(data: (e) {
+      //                                   // Filter the boat reviews based on the boatId
+      //                                   var filteredBoatReviews = e.boatReviews
+      //                                       .where((boat) =>
+      //                                           boat.boatId ==
+      //                                           ticketsHolder
+      //                                               .ticketList![index].boatId)
+      //                                       .toList();
+      //                                   // Extract the reviews and make sure they are of the correct type (ReviewssModel)
+      //                                   List<ReviewssModel> reviewValue =
+      //                                       filteredBoatReviews
+      //                                           .expand((element) =>
+      //                                               element.reviews)
+      //                                           .toList();
+      //                                   return Text(
+      //                                       reviewValue.length.toString());
+      //                                 }, error: (Object error,
+      //                                     StackTrace stackTrace) {
+      //                                   return SizedBox();
+      //                                 }, loading: () {
+      //                                   return CircularProgressIndicator();
+      //                                 });
+      //                               },
+      //                             ),
+      //                           ],
+      //                         ),
+      //                         SizedBox(height: 10),
+      //                         Divider(),
+      //                         SizedBox(
+      //                           height: 10,
+      //                         ),
+      //                         Row(
+      //                           children: [
+      //                             // location Icon.
+      //                             SvgPicture.asset('assets/Ellipse 83.svg'),
+      //                             SizedBox(
+      //                               width: 15,
+      //                             ),
+      //                             Text(
+      //                               '${ticketsHolder.ticketList![index].startAddress.name}',
+      //                               style: TextStyle(
+      //                                   fontSize: 14,
+      //                                   fontWeight: FontWeight.w300,
+      //                                   color: AppConfic.fontColor),
+      //                             ),
+      //                             Spacer(),
+      //                             if (ticketsHolder.ticketList![index]
+      //                                     .startAddress.name ==
+      //                                 ticketsHolder
+      //                                     .ticketList![index].destination.name)
+      //                               Icon(
+      //                                 Icons.refresh,
+      //                                 color: const Color(0xff2296B7),
+      //                               )
+      //                           ],
+      //                         ),
+      //                         ticketsHolder.ticketList![index].startAddress
+      //                                     .name ==
+      //                                 ticketsHolder
+      //                                     .ticketList![index].destination.name
+      //                             ? SizedBox()
+      //                             : Column(
+      //                                 crossAxisAlignment:
+      //                                     CrossAxisAlignment.start,
+      //                                 children: [
+      //                                   SvgPicture.asset('assets/Frame 31.svg'),
+      //                                   Row(
+      //                                     children: [
+      //                                       //destination Icon.
+      //                                       SvgPicture.asset(
+      //                                           'assets/Ellipse 83.svg'),
+      //                                       SizedBox(
+      //                                         width: 15,
+      //                                       ),
+      //                                       Text(
+      //                                         '${ticketsHolder.ticketList![index].destination.name}',
+      //                                         style: TextStyle(
+      //                                             fontSize: 14,
+      //                                             fontWeight: FontWeight.w300,
+      //                                             color: AppConfic.fontColor),
+      //                                       )
+      //                                     ],
+      //                                   ),
+      //                                 ],
+      //                               ),
+      //                         SizedBox(
+      //                           height: 10,
+      //                         ),
+      //                         Divider(),
+      //                         SizedBox(
+      //                           height: 10,
+      //                         ),
+      //                         Column(
+      //                           crossAxisAlignment: CrossAxisAlignment.start,
+      //                           children: [
+      //                             Row(
+      //                               children: [
+      //                                 //Clock Icon.
+      //                                 SvgPicture.asset(
+      //                                     'assets/Clock Circle.svg'),
+      //                                 SizedBox(
+      //                                   width: 16,
+      //                                 ),
+      //                                 Text(
+      //                                   '${ticketsHolder.ticketList![index].startTime.day < 10 ? '0${ticketsHolder.ticketList![index].startTime.day}' : ticketsHolder.ticketList![index].startTime.day}.${ticketsHolder.ticketList![index].startTime.month < 10 ? '0${ticketsHolder.ticketList![index].startTime.month}' : ticketsHolder.ticketList![index].startTime.month} ${ticketsHolder.ticketList![index].startTime.hour < 10 ? '0 ${ticketsHolder.ticketList![index].startTime.hour}' : ticketsHolder.ticketList![index].startTime.hour}:${ticketsHolder.ticketList![index].startTime.minute < 10 ? '0${ticketsHolder.ticketList![index].startTime.minute}' : ticketsHolder.ticketList![index].startTime.minute} - ${ticketsHolder.ticketList![index].endTime.day < 10 ? '0${ticketsHolder.ticketList![index].endTime.day}' : ticketsHolder.ticketList![index].endTime.day}.${ticketsHolder.ticketList![index].endTime.month < 10 ? '0${ticketsHolder.ticketList![index].endTime.month}' : ticketsHolder.ticketList![index].endTime.month} ${ticketsHolder.ticketList![index].endTime.hour < 10 ? '0 ${ticketsHolder.ticketList![index].endTime.hour}' : ticketsHolder.ticketList![index].endTime.hour}:${ticketsHolder.ticketList![index].endTime.minute < 10 ? '0${ticketsHolder.ticketList![index].endTime.minute}' : ticketsHolder.ticketList![index].endTime.minute}',
+      //                                   style: TextStyle(
+      //                                       fontSize: 14,
+      //                                       fontWeight: FontWeight.w300),
+      //                                 ),
+      //                               ],
+      //                             ),
+      //                             SizedBox(
+      //                               height: 10,
+      //                             ),
+      //                             Row(
+      //                               children: [
+      //                                 Text(
+      //                                   '${ticketsHolder.ticketList![index].price} R',
+      //                                   style: TextStyle(
+      //                                     fontSize: 16,
+      //                                     fontWeight: FontWeight.w600,
+      //                                     color: const Color(0xff19AE7A),
+      //                                   ),
+      //                                 ),
+      //                                 Text(
+      //                                   ' /  2 hour',
+      //                                   style: TextStyle(
+      //                                       fontSize: 14,
+      //                                       fontWeight: FontWeight.w300),
+      //                                 ),
+      //                               ],
+      //                             ),
+      //                             SizedBox(
+      //                               height: 10,
+      //                             ),
+      //                             Padding(
+      //                               padding: const EdgeInsets.only(
+      //                                   left: 10, right: 10),
+      //                               child: GestureDetector(
+      //                                 // onTap: () {
+      //                                 //   if (counter.value < 1) {
+      //                                 //     timetFunction();
+      //                                 //   }
+      //                                 // },
+      //                                 onTapCancel: () {},
+      //                                 child: Container(
+      //                                   height: 46,
+      //                                   decoration: BoxDecoration(
+      //                                       borderRadius:
+      //                                           BorderRadius.circular(6),
+      //                                       color: ticketsHolder
+      //                                                   .ticketList![index]
+      //                                                   .status ==
+      //                                               'Confirmed'
+      //                                           ? AppConfic.iconColor2
+      //                                           : AppConfic.fontColor2),
+      //                                   child: Center(
+      //                                     child: ticketsHolder
+      //                                                 .ticketList![index]
+      //                                                 .status ==
+      //                                             'Confirmed'
+      //                                         ? Row(
+      //                                             mainAxisAlignment:
+      //                                                 MainAxisAlignment.center,
+      //                                             children: [
+      //                                               Text(
+      //                                                 'Booking ',
+      //                                                 style: TextStyle(
+      //                                                     fontSize: 14,
+      //                                                     fontWeight:
+      //                                                         FontWeight.w600),
+      //                                               ),
+      //                                               Text(
+      //                                                 '(',
+      //                                                 style: TextStyle(
+      //                                                     fontSize: 14,
+      //                                                     fontWeight:
+      //                                                         FontWeight.w600),
+      //                                               ),
+      //                                               TimerCountdown(
+      //                                                 spacerWidth: 5,
+      //                                                 endTime: DateTime.now()
+      //                                                     .add(Duration(
+      //                                                         minutes: 15)),
+      //                                                 format:
+      //                                                     CountDownTimerFormat
+      //                                                         .minutesSeconds,
+      //                                               ),
+      //                                               Text(')')
+      //                                             ],
+      //                                           )
+      //                                         : Text(
+      //                                             'Waiting confirmation',
+      //                                             style: TextStyle(
+      //                                                 fontSize: 14,
+      //                                                 fontWeight:
+      //                                                     FontWeight.w600),
+      //                                           ),
+      //                                   ),
+      //                                 ),
+      //                               ),
+      //                             ),
+      //                             SizedBox(
+      //                               height: 10,
+      //                             )
+      //                           ],
+      //                         )
+      //                       ],
+      //                     ),
+      //                   )
+      //                 ],
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //       );
+      //     }
+      //   },
+      // ),
     );
   }
 }
