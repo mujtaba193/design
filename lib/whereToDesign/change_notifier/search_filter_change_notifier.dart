@@ -157,6 +157,7 @@ class _SearchFilterChangeNotifierState
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+          backgroundColor: AppConfic.backGroundColor,
           bottomNavigationBar:
               Consumer(builder: (BuildContext context, ref, _) {
             final cityHolder = ref.read(cityProvider);
@@ -177,43 +178,28 @@ class _SearchFilterChangeNotifierState
                 //setState(() {});
               },
               child: Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
+                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 16),
                 child: Container(
                   height: 50,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     color: AppConfic.iconColor2,
-                    // gradient: const LinearGradient(
-                    //   colors: [
-                    //     Color(0xFF8942BC),
-                    //     Color(0xFF5831F7),
-                    //     Color(0xFF5731F8),
-                    //     Color(0xFF00C2C2),
-                    //   ],
-                    // ),
-                    // border: GradientBoxBorder(
-                    //   width: 2,
-                    //   gradient: LinearGradient(
-                    //     colors: [
-                    //       Color(0xFF8942BC),
-                    //       Color(0xFF5831F7),
-                    //       Color(0xFF5731F8),
-                    //       Color(0xFF00C2C2),
-                    //     ],
-                    //   ),
-                    // ),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Center(
                       child: Text(
                     SearchFilterTranslation.confirm,
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                        color: AppConfic.cardColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600),
                   )),
                 ),
               ),
             );
           }),
           appBar: AppBar(
+            backgroundColor: AppConfic.backGroundColor,
             automaticallyImplyLeading: false,
             title: Text(
               SearchFilterTranslation.filter,
@@ -222,26 +208,9 @@ class _SearchFilterChangeNotifierState
                   color: AppConfic.fontColor,
                   fontWeight: FontWeight.w700),
             ),
-            //centerTitle: true,
             leading: Consumer(builder: (BuildContext context, ref, _) {
               return IconButton(
                   onPressed: () async {
-                    // if (ref.read(boatProviderChangeNotifier).filterList !=
-                    //     null) {
-                    //   ref.read(boatProviderChangeNotifier).filterList!.clear();
-                    // }
-                    //
-                    //
-                    // if (ref.read(cityProvider).selectedCityName != null) {
-                    //   ref.read(cityProvider).selectedCityName = null;
-                    // }
-                    // if (ref.read(cityProvider).cityEvents != null) {
-                    //   ref.read(cityProvider).cityEvents = null;
-                    // }
-                    // if (ref.read(boatProviderChangeNotifier).selectedCityV !=
-                    //     null) {
-                    //   ref.read(boatProviderChangeNotifier).selectedCityV = null;
-                    // }
                     Navigator.pop(context);
                   },
                   icon: Icon(Icons.arrow_back_rounded));
@@ -252,7 +221,7 @@ class _SearchFilterChangeNotifierState
             final boatListHolder = ref.watch(boatProviderChangeNotifier);
             return SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -264,18 +233,24 @@ class _SearchFilterChangeNotifierState
                           height: 18.75,
                         ),
                         SizedBox(
-                          width: 10,
+                          width: 9,
                         ),
                         GestureDetector(
                           child: Text(
                             '  ${(cityHolder.selectedCityName != null) ? '${cityHolder.selectedCityName}' : SearchFilterTranslation.city}',
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: AppConfic.fontColor),
                           ),
                           onTap: () {
                             getCity();
                           },
                         )
                       ],
+                    ),
+                    SizedBox(
+                      height: 16,
                     ),
                     cityHolder.cityEvents == null
                         ? SizedBox()
@@ -290,9 +265,15 @@ class _SearchFilterChangeNotifierState
                                 children: [
                                   ...cityHolder.cityEvents!.map(
                                     (element) => Padding(
-                                      padding: const EdgeInsets.all(4.0),
+                                      padding: const EdgeInsets.only(right: 10),
                                       child: Container(
-                                        color: AppConfic.cardColor,
+                                        width: 150,
+                                        decoration: BoxDecoration(
+                                          color: AppConfic.cardColor,
+                                          //  color: Colors.red,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
                                         child: Stack(
                                           children: [
                                             Column(
@@ -364,18 +345,20 @@ class _SearchFilterChangeNotifierState
                                                   ),
                                                 ),
                                                 SizedBox(
-                                                  width: 150,
-                                                  height: 50,
-                                                  child: Center(
-                                                    child: Text(
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      element.eventName,
-                                                      style: TextStyle(
-                                                          fontSize: 14),
-                                                    ),
+                                                  height: 10,
+                                                ),
+                                                Center(
+                                                  child: Text(
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    element.eventName,
+                                                    style:
+                                                        TextStyle(fontSize: 14),
                                                   ),
-                                                )
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
                                               ],
                                             ),
                                             cityHolder.selectedevent ==
@@ -400,69 +383,72 @@ class _SearchFilterChangeNotifierState
                             );
                           }),
                     SizedBox(
-                      height: 10,
+                      height: 16,
                     ),
                     Container(
-                      color: AppConfic.cardColor,
-                      child: Container(
-                        height: 56,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  captain = true;
-                                });
-                              },
-                              child: Container(
-                                height: 40,
-                                width: MediaQuery.of(context).size.width * 0.45,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: captain == true
-                                      ? Color(0xffF5F6FA)
-                                      : null,
-                                ),
-                                child: Center(
-                                  child:
-                                      Text(SearchFilterTranslation.withCaptain),
-                                ),
+                      padding: EdgeInsets.all(8),
+                      height: 56,
+                      decoration: BoxDecoration(
+                          color: AppConfic.cardColor,
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                captain = true;
+                              });
+                            },
+                            child: Container(
+                              height: 40,
+                              width: MediaQuery.of(context).size.width * 0.44,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color:
+                                    captain == true ? Color(0xffF5F6FA) : null,
+                              ),
+                              child: Center(
+                                child:
+                                    Text(SearchFilterTranslation.withCaptain),
                               ),
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  captain = false;
-                                });
-                              },
-                              child: Container(
-                                height: 40,
-                                width: MediaQuery.of(context).size.width * 0.45,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: captain == false
-                                      ? Color(0xffF5F6FA)
-                                      : null,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                      SearchFilterTranslation.withoutCaptain),
-                                ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                captain = false;
+                              });
+                            },
+                            child: Container(
+                              height: 40,
+                              width: MediaQuery.of(context).size.width * 0.44,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color:
+                                    captain == false ? Color(0xffF5F6FA) : null,
                               ),
-                            )
-                          ],
-                        ),
+                              child: Center(
+                                child: Text(
+                                    SearchFilterTranslation.withoutCaptain),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 16,
                     ),
                     captain == false
                         ? Column(
                             children: [
                               Container(
-                                color: AppConfic.cardColor,
+                                decoration: BoxDecoration(
+                                  color: AppConfic.cardColor,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
@@ -536,7 +522,7 @@ class _SearchFilterChangeNotifierState
                                 ),
                               ),
                               SizedBox(
-                                height: 10,
+                                height: 16,
                               )
                             ],
                           )
@@ -789,7 +775,7 @@ class _SearchFilterChangeNotifierState
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 16),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
@@ -928,10 +914,12 @@ class _SearchFilterChangeNotifierState
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 16,
                     ),
                     Container(
-                      decoration: BoxDecoration(color: AppConfic.cardColor),
+                      decoration: BoxDecoration(
+                          color: AppConfic.cardColor,
+                          borderRadius: BorderRadius.circular(8)),
                       child: Padding(
                         padding: const EdgeInsets.all(10),
                         child: Column(
@@ -1008,6 +996,9 @@ class _SearchFilterChangeNotifierState
                         ),
                       ),
                     ),
+                    SizedBox(
+                      height: 16,
+                    )
                   ],
                 ),
               ),
