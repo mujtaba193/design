@@ -133,7 +133,7 @@ class _SearchFilterChangeNotifierState
                                 width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                      color: AppConfic.fontColor2
+                                      color: AppConfig.fontColor2
                                           .withOpacity(0.25)),
                                   borderRadius: BorderRadius.circular(8),
                                   color: Color(0xffF5F6FA),
@@ -157,7 +157,7 @@ class _SearchFilterChangeNotifierState
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          backgroundColor: AppConfic.backGroundColor,
+          backgroundColor: AppConfig.backGroundColor,
           bottomNavigationBar:
               Consumer(builder: (BuildContext context, ref, _) {
             final cityHolder = ref.read(cityProvider);
@@ -183,14 +183,14 @@ class _SearchFilterChangeNotifierState
                   height: 50,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                    color: AppConfic.iconColor2,
+                    color: AppConfig.iconColor2,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Center(
                       child: Text(
                     SearchFilterTranslation.confirm,
                     style: TextStyle(
-                        color: AppConfic.cardColor,
+                        color: AppConfig.cardColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w600),
                   )),
@@ -199,13 +199,13 @@ class _SearchFilterChangeNotifierState
             );
           }),
           appBar: AppBar(
-            backgroundColor: AppConfic.backGroundColor,
+            backgroundColor: AppConfig.backGroundColor,
             automaticallyImplyLeading: false,
             title: Text(
               SearchFilterTranslation.filter,
               style: TextStyle(
                   fontSize: 18,
-                  color: AppConfic.fontColor,
+                  color: AppConfig.fontColor,
                   fontWeight: FontWeight.w700),
             ),
             leading: Consumer(builder: (BuildContext context, ref, _) {
@@ -241,7 +241,7 @@ class _SearchFilterChangeNotifierState
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                color: AppConfic.fontColor),
+                                color: AppConfig.fontColor),
                           ),
                           onTap: () {
                             getCity();
@@ -269,7 +269,7 @@ class _SearchFilterChangeNotifierState
                                       child: Container(
                                         width: 150,
                                         decoration: BoxDecoration(
-                                          color: AppConfic.cardColor,
+                                          color: AppConfig.cardColor,
                                           //  color: Colors.red,
                                           borderRadius:
                                               BorderRadius.circular(8),
@@ -389,7 +389,7 @@ class _SearchFilterChangeNotifierState
                       padding: EdgeInsets.all(8),
                       height: 56,
                       decoration: BoxDecoration(
-                          color: AppConfic.cardColor,
+                          color: AppConfig.cardColor,
                           borderRadius: BorderRadius.circular(8)),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
@@ -446,7 +446,7 @@ class _SearchFilterChangeNotifierState
                             children: [
                               Container(
                                 decoration: BoxDecoration(
-                                  color: AppConfic.cardColor,
+                                  color: AppConfig.cardColor,
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Padding(
@@ -459,7 +459,7 @@ class _SearchFilterChangeNotifierState
                                         'Availability of rights',
                                         style: TextStyle(
                                             fontSize: 14,
-                                            color: AppConfic.fontColor2,
+                                            color: AppConfig.fontColor2,
                                             fontWeight: FontWeight.w300),
                                       ),
                                       SizedBox(height: 10),
@@ -530,7 +530,7 @@ class _SearchFilterChangeNotifierState
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: AppConfic.cardColor,
+                        color: AppConfig.cardColor,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(10),
@@ -540,7 +540,7 @@ class _SearchFilterChangeNotifierState
                             Text(
                               SearchFilterTranslation.selectDT,
                               style: TextStyle(
-                                  fontSize: 14, color: AppConfic.fontColor2),
+                                  fontSize: 14, color: AppConfig.fontColor2),
                             ),
                             SizedBox(
                               height: 10,
@@ -548,7 +548,7 @@ class _SearchFilterChangeNotifierState
                             Text(
                               'Date',
                               style: TextStyle(
-                                  fontSize: 14, color: AppConfic.fontColor2),
+                                  fontSize: 14, color: AppConfig.fontColor2),
                             ),
                             SizedBox(height: 10),
                             Consumer(
@@ -565,7 +565,7 @@ class _SearchFilterChangeNotifierState
                                         "${timeNow1.day < 10 ? '0${timeNow1.day}' : timeNow1.day} - ${timeNow1.month < 10 ? '0${timeNow1.month}' : timeNow1.month} - ${timeNow1.year} ",
                                         style: TextStyle(
                                             fontSize: 16,
-                                            color: AppConfic.fontColor),
+                                            color: AppConfig.fontColor),
                                       ),
                                       Spacer(),
                                       SvgPicture.asset(
@@ -585,7 +585,7 @@ class _SearchFilterChangeNotifierState
                             Text(
                               'Start time',
                               style: TextStyle(
-                                  fontSize: 14, color: AppConfic.fontColor2),
+                                  fontSize: 14, color: AppConfig.fontColor2),
                             ),
                             SizedBox(height: 10),
                             GestureDetector(
@@ -598,7 +598,7 @@ class _SearchFilterChangeNotifierState
                                     '${timeNow1.hour < 10 ? '0${timeNow1.hour}' : timeNow1.hour}:${timeNow1.minute < 10 ? '0${timeNow1.minute}' : timeNow1.minute}',
                                     style: TextStyle(
                                         fontSize: 16,
-                                        color: AppConfic.fontColor),
+                                        color: AppConfig.fontColor),
                                   ),
                                   Spacer(),
                                   SvgPicture.asset(
@@ -623,7 +623,7 @@ class _SearchFilterChangeNotifierState
                                     SearchFilterTranslation.duration,
                                     style: TextStyle(
                                         fontSize: 16,
-                                        color: AppConfic.fontColor2),
+                                        color: AppConfig.fontColor2),
                                   ),
                                 ),
                               ],
@@ -638,14 +638,14 @@ class _SearchFilterChangeNotifierState
                                   Text(
                                     SearchFilterTranslation.from,
                                     style: TextStyle(
-                                        color: AppConfic.fontColor,
+                                        color: AppConfig.fontColor,
                                         fontSize: 16),
                                   ),
                                   Text(
                                     '    ${timeNow1.hour < 10 ? '0${timeNow1.hour}' : timeNow1.hour}:${timeNow1.minute < 10 ? '0${timeNow1.minute}' : timeNow1.minute}',
                                     style: TextStyle(
                                         fontSize: 16,
-                                        color: AppConfic.fontColor),
+                                        color: AppConfig.fontColor),
                                   ),
                                   SizedBox(width: 10),
                                   Text(
@@ -699,7 +699,7 @@ class _SearchFilterChangeNotifierState
                                           decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(4),
-                                              color: AppConfic.iconColor),
+                                              color: AppConfig.iconColor),
                                           height: 32,
                                           width: 32,
                                           child: Center(
@@ -753,7 +753,7 @@ class _SearchFilterChangeNotifierState
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(4),
-                                            color: AppConfic.iconColor),
+                                            color: AppConfig.iconColor),
                                         height: 32,
                                         width: 32,
                                         child: Center(
@@ -779,7 +779,7 @@ class _SearchFilterChangeNotifierState
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: AppConfic.cardColor,
+                        color: AppConfig.cardColor,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(10),
@@ -789,7 +789,7 @@ class _SearchFilterChangeNotifierState
                             Text(
                               SearchFilterTranslation.guests,
                               style: TextStyle(
-                                  fontSize: 14, color: AppConfic.fontColor2),
+                                  fontSize: 14, color: AppConfig.fontColor2),
                             ),
                             const SizedBox(
                               height: 10,
@@ -799,7 +799,7 @@ class _SearchFilterChangeNotifierState
                                 Text(
                                   SearchFilterTranslation.adults,
                                   style: TextStyle(
-                                      color: AppConfic.fontColor, fontSize: 16),
+                                      color: AppConfig.fontColor, fontSize: 16),
                                 ),
                                 Spacer(),
                                 IconButton(
@@ -813,7 +813,7 @@ class _SearchFilterChangeNotifierState
                                   icon: Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(4),
-                                        color: AppConfic.iconColor),
+                                        color: AppConfig.iconColor),
                                     height: 32,
                                     width: 32,
                                     child: Center(
@@ -837,7 +837,7 @@ class _SearchFilterChangeNotifierState
                                   icon: Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(4),
-                                        color: AppConfic.iconColor),
+                                        color: AppConfig.iconColor),
                                     height: 32,
                                     width: 32,
                                     child: Center(
@@ -858,7 +858,7 @@ class _SearchFilterChangeNotifierState
                                 Text(
                                   SearchFilterTranslation.children,
                                   style: TextStyle(
-                                      color: AppConfic.fontColor, fontSize: 16),
+                                      color: AppConfig.fontColor, fontSize: 16),
                                 ),
                                 Spacer(),
                                 IconButton(
@@ -872,7 +872,7 @@ class _SearchFilterChangeNotifierState
                                   icon: Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(4),
-                                        color: AppConfic.iconColor),
+                                        color: AppConfig.iconColor),
                                     height: 32,
                                     width: 32,
                                     child: Center(
@@ -896,7 +896,7 @@ class _SearchFilterChangeNotifierState
                                   icon: Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(4),
-                                        color: AppConfic.iconColor),
+                                        color: AppConfig.iconColor),
                                     height: 32,
                                     width: 32,
                                     child: Center(
@@ -918,7 +918,7 @@ class _SearchFilterChangeNotifierState
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          color: AppConfic.cardColor,
+                          color: AppConfig.cardColor,
                           borderRadius: BorderRadius.circular(8)),
                       child: Padding(
                         padding: const EdgeInsets.all(10),
@@ -928,7 +928,7 @@ class _SearchFilterChangeNotifierState
                             Text(
                               'Other options',
                               style: TextStyle(
-                                  fontSize: 14, color: AppConfic.fontColor2),
+                                  fontSize: 14, color: AppConfig.fontColor2),
                             ),
                             GestureDetector(
                               onTap: () {

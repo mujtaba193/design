@@ -45,7 +45,7 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                               padding: const EdgeInsets.all(8),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: AppConfic.cardColor,
+                                  color: AppConfig.cardColor,
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Column(
@@ -80,7 +80,7 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                             style: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w300,
-                                                color: AppConfic.fontColor2),
+                                                color: AppConfig.fontColor2),
                                           ),
                                           SizedBox(
                                             height: 10,
@@ -92,7 +92,7 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                 style: TextStyle(
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w600,
-                                                    color: AppConfic.fontColor),
+                                                    color: AppConfig.fontColor),
                                               ),
                                               Spacer(),
                                               Icon(
@@ -122,7 +122,7 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w300,
                                                     color:
-                                                        AppConfic.fontColor2),
+                                                        AppConfig.fontColor2),
                                               ),
                                               Text(
                                                 '${element.guests < 2 ? 'guest' : 'guests'}',
@@ -130,7 +130,7 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w300,
                                                     color:
-                                                        AppConfic.fontColor2),
+                                                        AppConfig.fontColor2),
                                               ),
                                               SizedBox(
                                                 width: 20,
@@ -150,7 +150,7 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w300,
                                                     color:
-                                                        AppConfic.fontColor2),
+                                                        AppConfig.fontColor2),
                                               ),
                                               SizedBox(
                                                 width: 16,
@@ -226,7 +226,7 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                       decoration: TextDecoration
                                                           .underline,
                                                       color:
-                                                          AppConfic.fontColor2,
+                                                          AppConfig.fontColor2,
                                                     ),
                                                   );
                                                 }, error: (Object error,
@@ -241,7 +241,10 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                           SizedBox(
                                             height: 10,
                                           ),
-                                          Divider(),
+                                          Divider(
+                                            color: AppConfig.fontColor2
+                                                .withOpacity(0.25),
+                                          ),
                                           SizedBox(
                                             height: 10,
                                           ),
@@ -258,7 +261,7 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w300,
-                                                    color: AppConfic.fontColor),
+                                                    color: AppConfig.fontColor),
                                               ),
                                               Spacer(),
                                               if (element.startAddress.name ==
@@ -294,7 +297,7 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w300,
-                                                              color: AppConfic
+                                                              color: AppConfig
                                                                   .fontColor),
                                                         )
                                                       ],
@@ -304,7 +307,10 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                           SizedBox(
                                             height: 10,
                                           ),
-                                          Divider(),
+                                          Divider(
+                                            color: AppConfig.fontColor2
+                                                .withOpacity(0.25),
+                                          ),
                                           SizedBox(
                                             height: 10,
                                           ),
@@ -326,7 +332,7 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                         fontSize: 14,
                                                         fontWeight:
                                                             FontWeight.w300,
-                                                        color: AppConfic
+                                                        color: AppConfig
                                                             .fontColor),
                                                   ),
                                                 ],
@@ -343,7 +349,7 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                       fontWeight:
                                                           FontWeight.w600,
                                                       color:
-                                                          AppConfic.iconColor2,
+                                                          AppConfig.iconColor2,
                                                     ),
                                                   ),
                                                   Text(
@@ -352,7 +358,7 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                         fontSize: 16,
                                                         fontWeight:
                                                             FontWeight.w600,
-                                                        color: AppConfic
+                                                        color: AppConfig
                                                             .fontColor),
                                                   ),
                                                 ],
@@ -393,8 +399,8 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w600,
-                                                                color: AppConfic
-                                                                    .fontColor),
+                                                                color: AppConfig
+                                                                    .cardColor),
                                                           ),
                                                         ),
                                                       ),
@@ -430,7 +436,7 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                             //  height: 152,
                                                             decoration:
                                                                 BoxDecoration(
-                                                              color: AppConfic
+                                                              color: AppConfig
                                                                   .backGroundColor,
                                                               borderRadius:
                                                                   BorderRadius
@@ -455,7 +461,7 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                                                 14,
                                                                             fontWeight:
                                                                                 FontWeight.w300,
-                                                                            color: AppConfic.fontColor2),
+                                                                            color: AppConfig.fontColor2),
                                                                       ),
                                                                       Spacer(),
                                                                       SvgPicture
@@ -489,7 +495,7 @@ class _TicketBeforTodayState extends ConsumerState<TicketBeforeToday> {
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w300,
-                                                                        color: AppConfic
+                                                                        color: AppConfig
                                                                             .fontColor),
                                                                   ),
                                                                   SizedBox(

@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-class AppConfic {
-  AppConfic._();
-  static Color cardColor = Color(0xffFFFFFF);
+class AppConfig {
+  AppConfig._();
+  static Color cardColor = Color(0XFFFFFFFF);
   static Color iconColor = Color(0XFF2296B7);
   static Color fontColor = Color(0XFF000000);
   static Color fontColor2 = Color(0XFF808080);

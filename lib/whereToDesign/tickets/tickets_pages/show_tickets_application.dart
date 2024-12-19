@@ -49,7 +49,7 @@ class _ShowTicketsApplicationState
                             padding: const EdgeInsets.all(10),
                             child: Container(
                               decoration: BoxDecoration(
-                                color: AppConfic.cardColor,
+                                color: AppConfig.cardColor,
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Column(
@@ -85,18 +85,26 @@ class _ShowTicketsApplicationState
                                             child: Padding(
                                               padding: const EdgeInsets.only(
                                                   left: 10, right: 10),
-                                              child:
-                                                  element.status == 'Confirmed'
-                                                      ? Text(
-                                                          'Approved! Prepayment expected',
-                                                          style: TextStyle(
-                                                              fontSize: 12),
-                                                        )
-                                                      : Text(
-                                                          'Waiting a response in 5 mint',
-                                                          style: TextStyle(
-                                                              fontSize: 12),
-                                                        ),
+                                              child: element.status ==
+                                                      'Confirmed'
+                                                  ? Text(
+                                                      'Approved! Prepayment expected',
+                                                      style: TextStyle(
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: AppConfig
+                                                              .cardColor),
+                                                    )
+                                                  : Text(
+                                                      'Waiting a response in 5 mint',
+                                                      style: TextStyle(
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: AppConfig
+                                                              .cardColor),
+                                                    ),
                                             ),
                                           ),
                                         ),
@@ -114,7 +122,7 @@ class _ShowTicketsApplicationState
                                           style: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w300,
-                                              color: AppConfic.fontColor2),
+                                              color: AppConfig.fontColor2),
                                         ),
                                         SizedBox(
                                           height: 10,
@@ -126,9 +134,10 @@ class _ShowTicketsApplicationState
                                               style: TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w600,
-                                                  color: AppConfic.fontColor),
+                                                  color: AppConfig.fontColor),
                                             ),
                                             Spacer(),
+                                            // Icon of online.
                                             Icon(
                                               size: 10,
                                               Icons.circle,
@@ -155,14 +164,14 @@ class _ShowTicketsApplicationState
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w300,
-                                                  color: AppConfic.fontColor2),
+                                                  color: AppConfig.fontColor2),
                                             ),
                                             Text(
                                               '${element.guests < 2 ? 'guest' : 'guests'}',
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w300,
-                                                  color: AppConfic.fontColor2),
+                                                  color: AppConfig.fontColor2),
                                             ),
                                             SizedBox(
                                               width: 16,
@@ -179,7 +188,7 @@ class _ShowTicketsApplicationState
                                               style: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w300,
-                                                color: AppConfic.fontColor2,
+                                                color: AppConfig.fontColor2,
                                               ),
                                             ),
                                             SizedBox(
@@ -253,7 +262,7 @@ class _ShowTicketsApplicationState
                                                         fontSize: 14,
                                                         fontWeight:
                                                             FontWeight.w300,
-                                                        color: AppConfic
+                                                        color: AppConfig
                                                             .fontColor2,
                                                         decoration:
                                                             TextDecoration
@@ -270,7 +279,10 @@ class _ShowTicketsApplicationState
                                           ],
                                         ),
                                         SizedBox(height: 10),
-                                        Divider(),
+                                        Divider(
+                                          color: AppConfig.fontColor2
+                                              .withOpacity(0.25),
+                                        ),
                                         SizedBox(
                                           height: 10,
                                         ),
@@ -287,7 +299,7 @@ class _ShowTicketsApplicationState
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w300,
-                                                  color: AppConfic.fontColor),
+                                                  color: AppConfig.fontColor),
                                             ),
                                             Spacer(),
                                             if (element.startAddress.name ==
@@ -321,7 +333,7 @@ class _ShowTicketsApplicationState
                                                             fontSize: 14,
                                                             fontWeight:
                                                                 FontWeight.w300,
-                                                            color: AppConfic
+                                                            color: AppConfig
                                                                 .fontColor),
                                                       )
                                                     ],
@@ -331,7 +343,10 @@ class _ShowTicketsApplicationState
                                         SizedBox(
                                           height: 10,
                                         ),
-                                        Divider(),
+                                        Divider(
+                                          color: AppConfig.fontColor2
+                                              .withOpacity(0.25),
+                                        ),
                                         SizedBox(
                                           height: 10,
                                         ),
@@ -400,8 +415,8 @@ class _ShowTicketsApplicationState
                                                             8),
                                                     color: element.status ==
                                                             'Confirmed'
-                                                        ? AppConfic.iconColor2
-                                                        : AppConfic.fontColor2),
+                                                        ? AppConfig.iconColor2
+                                                        : AppConfig.fontColor2),
                                                 child: Center(
                                                   child: element.status ==
                                                           'Confirmed'
@@ -416,7 +431,9 @@ class _ShowTicketsApplicationState
                                                                   fontSize: 14,
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .w600),
+                                                                          .w600,
+                                                                  color: AppConfig
+                                                                      .cardColor),
                                                             ),
                                                             Text(
                                                               '(',
@@ -424,9 +441,33 @@ class _ShowTicketsApplicationState
                                                                   fontSize: 14,
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .w600),
+                                                                          .w600,
+                                                                  color: AppConfig
+                                                                      .cardColor),
                                                             ),
+                                                            // >>>>>>>>>>>>>>>>>>>>>>>> here we are show the timer inside the button <Booking>.
                                                             TimerCountdown(
+                                                              timeTextStyle: TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  color: AppConfig
+                                                                      .cardColor),
+                                                              descriptionTextStyle: TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  color: AppConfig
+                                                                      .cardColor),
+                                                              colonsTextStyle: TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  color: AppConfig
+                                                                      .cardColor),
                                                               spacerWidth: 5,
                                                               endTime: DateTime
                                                                       .now()
@@ -436,7 +477,16 @@ class _ShowTicketsApplicationState
                                                               format: CountDownTimerFormat
                                                                   .minutesSeconds,
                                                             ),
-                                                            Text(')')
+                                                            Text(
+                                                              ')',
+                                                              style: TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  color: AppConfig
+                                                                      .cardColor),
+                                                            )
                                                           ],
                                                         )
                                                       : Text(
@@ -445,7 +495,9 @@ class _ShowTicketsApplicationState
                                                               fontSize: 14,
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .w600),
+                                                                      .w600,
+                                                              color: AppConfig
+                                                                  .cardColor),
                                                         ),
                                                 ),
                                               ),
